@@ -2,13 +2,14 @@
 import { usePathname } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import ButtonComp from "./Button";
-import Card from "./Card";
 import Divider from "./Divider";
 import Heading from "./Heading";
 import Paragraph from "./Paragraph";
 import SelectField from "./SelectField";
 import SwiperComp from "./SwiperComp";
 import TextField from "./TextField";
+import Container from "./Container";
+import ImageComp from "./ImageComp";
 
 const RenderField = ({ ele, index }) => {
   const path = usePathname();
@@ -26,10 +27,12 @@ const RenderField = ({ ele, index }) => {
       return <Divider ele={ele} path={path} />;
     } else if (ele?.type == "heading") {
       return <Heading ele={ele} path={path} />;
-    } else if (ele?.type == "card") {
-      return <Card ele={ele} path={path} index={index} />;
+    } else if (ele?.type == "container") {
+      return <Container ele={ele} path={path} index={index} />;
+    } else if (ele?.type == "image") {
+      return <ImageComp ele={ele} path={path} index={index} />;
     } else if (ele?.type == "slider") {
-      return <SwiperComp ele={ele} path={path} index={index} />;
+      return <SwiperComp ele={ele} path={path} />;
     }
   };
 

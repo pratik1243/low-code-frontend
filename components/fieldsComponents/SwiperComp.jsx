@@ -1,17 +1,17 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay } from "swiper/modules";
+import { Navigation, Autoplay, Pagination } from "swiper/modules";
 import { Card } from "react-bootstrap";
 
 const SwiperComp = ({ ele, path }) => {
   return (
     <Swiper
-      modules={[Navigation, Autoplay]}
+      modules={[Navigation, Autoplay, Pagination]}
       spaceBetween={ele?.props?.spaceBetweenSlides}
-      slidesPerView={ele?.props?.slidesPerView?.value}
+      slidesPerView={ele?.props?.slidesPerView?.value || 1}
       navigation={path.includes("web-page") ? ele?.props?.navigation : false}
       loop={ele?.props?.loop}
-      {...(ele?.props?.delay?.value && path.includes("web-page") && { autoplay: {delay: ele?.props?.delay?.value } })}
-     
+      pagination={{ clickable: true }}
+      {...(ele?.props?.delay?.value && path.includes("web-page") && { autoplay: {delay: ele?.props?.delay?.value } })}     
     >
       {ele?.slides?.map((el, i) => {
         return (

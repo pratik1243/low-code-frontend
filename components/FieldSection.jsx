@@ -7,7 +7,7 @@ const FieldSection = () => {
 
   const onClickAddFields = (items) => {
     const updatedForms = forms.map((el, i) => {
-      if (containerId === i && currentElement?.type == "card") {
+      if (containerId === i && currentElement?.type == "container") {
         return {
           ...el,
           content: [
@@ -19,7 +19,7 @@ const FieldSection = () => {
       return el;
     });
 
-    if (currentElement?.type === "card") {
+    if (currentElement?.type === "container") {
       setForms(updatedForms);
     } else {
       setForms([...forms, { ...items, id: generateId(4) }]);
@@ -34,7 +34,7 @@ const FieldSection = () => {
             key={index}
             className="field-option"
             onClick={() => onClickAddFields(ele)}
-            style={{ pointerEvents: currentElement?.type === "card" && ele.type == "card" ? "none" : "unset"}}
+            style={{ pointerEvents: currentElement?.type === "container" && ele.type == "container" ? "none" : "unset"}}
           >
             {ele?.label_text}
           </div>

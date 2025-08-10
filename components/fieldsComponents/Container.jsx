@@ -7,7 +7,7 @@ import RenderField from "./RenderField";
 import { MdOutlineDragIndicator } from "react-icons/md";
 import { useState } from "react";
 
-const Card = ({ ele, path, index }) => {
+const Container = ({ ele, path, index }) => {
   const {
     forms,
     setForms,
@@ -27,7 +27,7 @@ const Card = ({ ele, path, index }) => {
   const deleteNestedItem = (e, id, ind) => {
     e.stopPropagation();
     const updateData = forms.map((el, i) => {
-      if (ind === i && el?.type === "card") {
+      if (ind === i && el?.type === "container") {
         return {
           ...el,
           content: [...el?.content]?.filter((ele) => ele?.id !== id),
@@ -80,7 +80,7 @@ const Card = ({ ele, path, index }) => {
 
   return (
     <div
-      className={`card-sec ${path.includes("web-page") ? "is-web-page" : "card-border"}`}
+      className={`card-sec ${path.includes("web-page") ? "is-web-page" : ""}`}
     >
       {ele?.content?.length == 0 && (
         <h5 className="no-data">Select card to add elements here</h5>
@@ -123,7 +123,7 @@ const Card = ({ ele, path, index }) => {
               <>
                 <div
                   className={
-                    el?.type !== "card" && !path.includes("web-page")
+                    el?.type !== "container" && !path.includes("web-page")
                       ? "field-render"
                       : ""
                   }
@@ -148,4 +148,4 @@ const Card = ({ ele, path, index }) => {
   );
 };
 
-export default Card;
+export default Container;

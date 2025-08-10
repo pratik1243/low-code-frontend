@@ -1,3 +1,6 @@
+
+import { Readable } from 'stream';
+
 export function generateId(length) {
   let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let result = "";
@@ -109,13 +112,25 @@ export const fieldsData = [
     },
   },
   {
-    type: "card",
-    label_text: "Card",
+    type: "container",
+    label_text: "Container",
     column_width: 100,
     content: [],
     props: {
       hidden: false,
       width: 100,
+    },
+  },
+  {
+    type: "image",
+    label_text: "Image",
+    column_width: 100,
+    props: {
+      hidden: false,
+      url: "",
+      height: 0,
+      width: 0,
+      style: {},
     },
   },
   {
@@ -235,9 +250,92 @@ export const alignmentOptions = [
   { label: "Left", value: "Left" },
 ];
 
+export const sliderPerViewOptions = [
+  {
+    label: "1",
+    value: "1",
+  },
+  {
+    label: "2",
+    value: "2",
+  },
+  {
+    label: "3",
+    value: "3",
+  },
+  {
+    label: "4",
+    value: "4",
+  },
+  {
+    label: "5",
+    value: "5",
+  },
+  {
+    label: "6",
+    value: "6",
+  },
+];
+
+export const autoplayDelayOptions = [
+  {
+    label: "1000",
+    value: "1000",
+  },
+  {
+    label: "2000",
+    value: "2000",
+  },
+  {
+    label: "3000",
+    value: "3000",
+  },
+  {
+    label: "4000",
+    value: "4000",
+  },
+  {
+    label: "5000",
+    value: "5000",
+  },
+  {
+    label: "6000",
+    value: "6000",
+  },
+];
+
+export const animationDelayOptions = [
+  { label: "100", value: "100" },
+  { label: "200", value: "200" },
+  { label: "300", value: "300" },
+  { label: "400", value: "400" },
+  { label: "500", value: "500" },
+  { label: "600", value: "600" },
+  { label: "700", value: "700" },
+  { label: "800", value: "800" },
+  { label: "900", value: "900" },
+  { label: "1000", value: "1000" },
+  { label: "1100", value: "1100" },
+  { label: "1200", value: "1200" },
+  { label: "1300", value: "1300" },
+  { label: "1400", value: "1400" },
+  { label: "1500", value: "1500" },
+];
+
+export const buttonColorOptions = [
+  { label: "primary", value: "primary" },
+  { label: "secondary", value: "secondary" },
+  { label: "success", value: "success" },
+  { label: "warning", value: "warning" },
+  { label: "danger", value: "danger" },
+  { label: "info", value: "info" },
+  { label: "light", value: "light" },
+  { label: "dark", value: "dark" },
+  { label: "link", value: "link" },
+];
+
 export const errorMessageFunc = (el, value) => {
   const storedRegex = new RegExp(el?.form?.regex?.value);
-
   if (el?.props?.required && !value) {
     return "This field is required";
   } else if (el?.props?.required && value.length == 0) {
@@ -273,3 +371,40 @@ export const addPixel = (styles) => {
   }
   return obj;
 };
+
+export async function parseMultipartRequest(request) {
+  const { default: Busboy } = await import('busboy');
+
+  const contentType = request.headers.get("content-type");
+  const busboy = Busboy({ headers: { 'content-type': contentType } });
+
+  const fields = {};
+  const files = [];
+
+  busboy.on("file", (fieldname, stream, info) => {
+    const chunks = [];
+    stream.on("data", chunk => chunks.push(chunk));
+    stream.on("end", () => {
+      files.push({
+        fieldname,
+        filename: info.filename,
+        mimeType: info.mimeType,
+        buffer: Buffer.concat(chunks),
+      });
+    });
+  });
+
+  busboy.on("field", (name, value) => {
+    fields[name] = value;
+  });
+
+  const nodeStream = Readable.fromWeb(request.body);
+  nodeStream.pipe(busboy);
+
+  await new Promise((resolve, reject) => {
+    busboy.on("finish", resolve);
+    busboy.on("error", reject);
+  });
+
+  return { fields, files };
+}

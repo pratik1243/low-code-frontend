@@ -47,7 +47,7 @@ const FormTemplate = () => {
   };
 
   const onClickElement = (ele, index) => {
-    if (ele.type == "card") {
+    if (ele.type == "container") {
       setContainerId(index);
     } else {
       setContainerId();
@@ -76,7 +76,7 @@ const FormTemplate = () => {
               className={`position-relative element-column column_${ele?.id} ${
                 currentElement?.id === ele?.id
                   ? `selected ${
-                      currentElement.type == "card" ? "selected-card" : ""
+                      currentElement.type == "container" ? "selected-card" : ""
                     }`
                   : ""
               } ${ele?.props?.hidden ? "hidden" : ""}`}
@@ -88,12 +88,12 @@ const FormTemplate = () => {
               onDragStart={(e) => onDragStart(e, index)}
               onDrop={(e) => onDropItem(e, index)}
             >
-              {!pathname.includes("web-page") && ele?.type == "card" && (
+              {!pathname.includes("web-page") && ele?.type == "container" && (
                 <div className="d-flex justify-content-center w-100 drag-indicator mb-1">
                   <MdOutlineDragIndicator />
                 </div>
               )}
-              <div className={ele?.type !== "card" ? "field-render" : ""}>
+              <div className={ele?.type !== "container" ? "field-render" : ""}>
                 <RenderField ele={ele} index={index} />
               </div>
 

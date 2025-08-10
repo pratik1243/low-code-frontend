@@ -1,22 +1,28 @@
 "use client";
 import Select from "react-select";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { IoAddSharp } from "react-icons/io5";
 import { Col, Row } from "react-bootstrap";
 import { FiMinusCircle } from "react-icons/fi";
 import {
   alignmentOptions,
+  animationDelayOptions,
   animationOptions,
+  autoplayDelayOptions,
+  buttonColorOptions,
   headingVariantOptions,
+  sliderPerViewOptions,
   validations,
 } from "../utils/utilFunctions";
 import { FormContext } from "./FormCreate";
 import { useMemo } from "react";
+import axios from "axios";
 
 const FieldCustomizeSection = () => {
   const { forms, setForms, currentElement, containerId, pagesList } =
     useContext(FormContext);
   const [optionValue, setOptionValue] = useState("");
+  const [uploadedFile, setUploadedFile] = useState(null);
 
   const onCustomizeElement = (
     e,
@@ -30,6 +36,7 @@ const FieldCustomizeSection = () => {
       select: e || "",
       input: e?.target?.value,
       checkbox: e?.target?.checked,
+      image: e || "",
     };
 
     const updateForms = forms?.map((el, i) => {
@@ -146,11 +153,24 @@ const FieldCustomizeSection = () => {
       (el) => el?.id === currentelement?.id
     )[0];
     if (form?.[containerid]?.content?.length > 0) {
-      return currentelement?.type == "card"
+      return currentelement?.type == "container"
         ? form?.[containerid]
         : nestedFields;
     } else {
       return fields;
+    }
+  };
+
+  const uploadImage = async (e) => {
+    try {
+      const formData = new FormData();
+      formData.append("image", e.target.files[0]);
+      const response = await axios.post("http://localhost:8000/upload-image", formData);
+      if (response.status == 200) {
+        onCustomizeElement(response?.data?.imageUrl, "url", "image", forms);
+      }
+    } catch (error) {
+      alert(error);
     }
   };
 
@@ -191,22 +211,23 @@ const FieldCustomizeSection = () => {
             onCustomizeElement(e, "column_width", "input", forms);
           }}
         />
-        {currentField?.type !== "divider" && (
-          <div className="mt-2">
-            <label>
-              {currentField?.type} Width ({currentField?.props?.width}%)
-            </label>
-            <input
-              type={"range"}
-              min={0}
-              max={100}
-              value={currentField?.props?.width || ""}
-              onChange={(e) => {
-                onCustomizeElement(e, "width", "input", forms);
-              }}
-            />
-          </div>
-        )}
+        {currentField?.type !== "divider" &&
+          (currentField?.type !== "image" && (
+            <div className="mt-2">
+              <label>
+                {currentField?.type} Width ({currentField?.props?.width}%)
+              </label>
+              <input
+                type={"range"}
+                min={0}
+                max={100}
+                value={currentField?.props?.width || ""}
+                onChange={(e) => {
+                  onCustomizeElement(e, "width", "input", forms);
+                }}
+              />
+            </div>
+          ))}
       </div>
 
       <hr />
@@ -231,23 +252,43 @@ const FieldCustomizeSection = () => {
             </div>
           </Col>
 
+          {currentField?.type === "image" && (
+            <Col lg={12} md={12} sm={12} xs={12}>
+              <input
+                type="file"
+                name="image-upload"
+                className="mt-4"
+                onChange={(e) => uploadImage(e)}
+              />
+            </Col>
+          )}
           {currentField?.type === "slider" && (
             <>
+              {currentField?.slides.length >
+                currentField?.props?.slidesPerView?.value && (
+                <Col lg={6} md={6} sm={12} xs={12}>
+                  <div className="d-flex">
+                    <input
+                      type="checkbox"
+                      id="checkbox-loop"
+                      checked={currentField?.props?.loop || ""}
+                      onChange={(e) => {
+                        onCustomizeElement(e, "loop", "checkbox", forms);
+                      }}
+                    />
+                    <label htmlFor="checkbox-loop">Loop</label>
+                  </div>
+                </Col>
+              )}
               <Col lg={6} md={6} sm={12} xs={12}>
-                <div className="d-flex">
-                  <input
-                    type="checkbox"
-                    id="checkbox-loop"
-                    checked={currentField?.props?.loop || ""}
-                    onChange={(e) => {
-                      onCustomizeElement(e, "loop", "checkbox", forms);
-                    }}
-                  />
-                  <label htmlFor="checkbox-loop">Loop</label>
-                </div>
-              </Col>
-              <Col lg={6} md={6} sm={12} xs={12}>
-                <div className="d-flex mt-3">
+                <div
+                  className={`d-flex ${
+                    currentField?.slides.length >
+                    currentField?.props?.slidesPerView?.value
+                      ? "mt-3"
+                      : ""
+                  }`}
+                >
                   <input
                     type="checkbox"
                     id="checkbox-navigation"
@@ -257,6 +298,40 @@ const FieldCustomizeSection = () => {
                     }}
                   />
                   <label htmlFor="checkbox-navigation">Navigation</label>
+                </div>
+              </Col>
+            </>
+          )}
+
+          {currentField?.type === "image" && (
+            <>
+              <Col lg={6} md={6} sm={12} xs={12}>
+                <div className="customize-prop-sec">
+                  <label>Height</label>
+                  <input
+                    type="number"
+                    min={0}
+                    value={currentField?.props?.height || 0}
+                    className="customize-input"
+                    onChange={(e) => {
+                      onCustomizeElement(e, "height", "input", forms);
+                    }}
+                  />
+                </div>
+              </Col>
+
+              <Col lg={6} md={6} sm={12} xs={12}>
+                <div className="customize-prop-sec">
+                  <label>Width</label>
+                  <input
+                    type="number"
+                    min={0}
+                    value={currentField?.props?.width || 0}
+                    className="customize-input"
+                    onChange={(e) => {
+                      onCustomizeElement(e, "width", "input", forms);
+                    }}
+                  />
                 </div>
               </Col>
             </>
@@ -299,32 +374,7 @@ const FieldCustomizeSection = () => {
             <Select
               isClearable
               placeholder={"Select view"}
-              options={[
-                {
-                  label: "1",
-                  value: "1",
-                },
-                {
-                  label: "2",
-                  value: "2",
-                },
-                {
-                  label: "3",
-                  value: "3",
-                },
-                {
-                  label: "4",
-                  value: "4",
-                },
-                {
-                  label: "5",
-                  value: "5",
-                },
-                {
-                  label: "6",
-                  value: "6",
-                },
-              ]}
+              options={sliderPerViewOptions}
               value={currentField?.props?.slidesPerView || ""}
               onChange={(e) => {
                 onCustomizeElement(e, "slidesPerView", "select", forms);
@@ -337,32 +387,7 @@ const FieldCustomizeSection = () => {
             <Select
               isClearable
               placeholder={"Select delay"}
-              options={[
-                {
-                  label: "1000",
-                  value: "1000",
-                },
-                {
-                  label: "2000",
-                  value: "2000",
-                },
-                {
-                  label: "3000",
-                  value: "3000",
-                },
-                {
-                  label: "4000",
-                  value: "4000",
-                },
-                {
-                  label: "5000",
-                  value: "5000",
-                },
-                {
-                  label: "6000",
-                  value: "6000",
-                },
-              ]}
+              options={autoplayDelayOptions}
               value={currentField?.props?.delay || ""}
               onChange={(e) => {
                 onCustomizeElement(e, "delay", "select", forms);
@@ -408,17 +433,7 @@ const FieldCustomizeSection = () => {
             <Select
               isClearable
               placeholder={"Select color"}
-              options={[
-                { label: "primary", value: "primary" },
-                { label: "secondary", value: "secondary" },
-                { label: "success", value: "success" },
-                { label: "warning", value: "warning" },
-                { label: "danger", value: "danger" },
-                { label: "info", value: "info" },
-                { label: "light", value: "light" },
-                { label: "dark", value: "dark" },
-                { label: "link", value: "link" },
-              ]}
+              options={buttonColorOptions}
               value={currentField?.props?.color || ""}
               onChange={(e) => {
                 onCustomizeElement(e, "color", "select", forms);
@@ -466,8 +481,9 @@ const FieldCustomizeSection = () => {
               />
             </div>
           ) : currentField?.type !== "divider" &&
-            currentField?.type !== "card" &&
-            currentField?.type !== "slider" ? (
+            currentField?.type !== "container" &&
+            currentField?.type !== "slider" &&
+            currentField?.type !== "image" ? (
             <>
               <div className="customize-checkbox">
                 <Row>
@@ -708,23 +724,7 @@ const FieldCustomizeSection = () => {
           <Select
             isClearable
             placeholder={"Select seconds"}
-            options={[
-              { label: "100", value: "100" },
-              { label: "200", value: "200" },
-              { label: "300", value: "300" },
-              { label: "400", value: "400" },
-              { label: "500", value: "500" },
-              { label: "600", value: "600" },
-              { label: "700", value: "700" },
-              { label: "800", value: "800" },
-              { label: "900", value: "900" },
-              { label: "1000", value: "1000" },
-              { label: "1100", value: "1100" },
-              { label: "1200", value: "1200" },
-              { label: "1300", value: "1300" },
-              { label: "1400", value: "1400" },
-              { label: "1500", value: "1500" },
-            ]}
+            options={animationDelayOptions}
             value={currentField?.props?.animation_delay || ""}
             onChange={(e) => {
               onCustomizeElement(e, "animation_delay", "select", forms);
