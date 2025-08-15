@@ -89,7 +89,7 @@ const Container = ({ ele, path, index }) => {
         return (
           <div
             key={i}
-            draggable
+            draggable={!path.includes("web-page")}
             className={`position-relative element-column column_${el?.id} ${
               (path.includes("web-page") &&
                 alignment[el?.props?.align?.value]) ||

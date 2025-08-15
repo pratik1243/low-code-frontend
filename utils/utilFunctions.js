@@ -153,57 +153,75 @@ export const fieldsData = [
 export const validations = [
   {
     label: "Email",
-    value: "^[^s@]+@[^s@]+.[^s@]+$",
+    value: "Email",
   },
   {
     label: "Phone",
-    value: "^+?[1-9]d{9,14}$",
+    value: "Phone",
   },
   {
     label: "Password",
-    value: "^(?=.*[A-Za-z])(?=.*d)[A-Za-zd@$!%*?&]{8,}$",
+    value: "Password",
   },
   {
     label: "Only Letters",
-    value: "^[A-Za-z]+$",
+    value: "Only Letters",
   },
   {
     label: "Only Numbers",
-    value: "^d+$",
+    value: "Only Numbers",
   },
   {
     label: "Alphanumeric",
-    value: "^[A-Za-z0-9]+$",
+    value: "Alphanumeric",
   },
   {
     label: "Url",
-    value: "^(https?://)?([w-]+(.[w-]+)+)([/w .-]*)*/?$",
+    value: "Url",
   },
   {
     label: "Aadhar Number",
-    value: "^d{4}s?d{4}s?d{4}$",
+    value: "Aadhar Number",
   },
   {
     label: "PAN Number",
-    value: "^[A-Z]{5}[0-9]{4}[A-Z]$",
+    value: "PAN Number",
   },
   {
     label: "Account Number",
-    value: "^d{9,18}$",
+    value: "Account Number",
   },
   {
     label: "Card Number",
-    value: "^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13})$",
+    value: "Card Number",
   },
   {
     label: "IFSC",
-    value: "^[A-Z]{4}0[A-Z0-9]{6}$",
+    value: "IFSC",
   },
   {
     label: "CVV",
-    value: "^[0-9]{3,4}$",
+    value: "IFSC",
   },
 ];
+
+export const validationsRegex = {
+  "Email": /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  "Phone": /^[6-9]\d{9}$/,
+  "Password": /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/,
+  "Only Letters": /^[A-Za-z]+$/,
+  "Only Numbers": /^\d+$/,
+  "Alphanumeric": /^[A-Za-z0-9]+$/,
+  "Url": /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)([/\w .-]*)*\/?$/,
+  "Aadhar Number": /^\d{4}\s?\d{4}\s?\d{4}$/,
+  "PAN Number": /^[A-Z]{5}[0-9]{4}[A-Z]$/,
+  "Account Number": /^\d{9,18}$/,
+  "Card Number": /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13})$/,
+  "IFSC": /^[A-Z]{4}0[A-Z0-9]{6}$/,
+  "CVV": /^[0-9]{3,4}$/,
+};
+
+
 
 export const headingVariantOptions = [
   { label: "H1", value: "H1" },
@@ -335,17 +353,11 @@ export const buttonColorOptions = [
 ];
 
 export const errorMessageFunc = (el, value) => {
-  const storedRegex = new RegExp(el?.form?.regex?.value);
   if (el?.props?.required && !value) {
     return "This field is required";
   } else if (el?.props?.required && value.length == 0) {
     return "This field is required";
-  } else if (
-    storedRegex &&
-    el?.props?.required &&
-    !storedRegex?.test(value) &&
-    value
-  ) {
+  } else if (el?.props?.required && !validationsRegex[el?.form?.regex?.value]?.test(value)) {
     return "This field is invalid";
   } else {
     return "";
