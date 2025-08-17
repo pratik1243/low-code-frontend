@@ -10,8 +10,10 @@ import {
   animationOptions,
   autoplayDelayOptions,
   buttonColorOptions,
+  containerOptions,
   headingVariantOptions,
   sliderPerViewOptions,
+  updateforms,
   validations,
 } from "../utils/utilFunctions";
 import { FormContext } from "./FormCreate";
@@ -22,7 +24,6 @@ const FieldCustomizeSection = () => {
   const { forms, setForms, currentElement, containerId, pagesList } =
     useContext(FormContext);
   const [optionValue, setOptionValue] = useState("");
-  const [uploadedFile, setUploadedFile] = useState(null);
 
   const onCustomizeElement = (
     e,
@@ -63,43 +64,6 @@ const FieldCustomizeSection = () => {
       }
     });
     setForms(updateForms);
-  };
-
-  const updateforms = (e, el, attribute, value, optionIndex, style) => {
-    const options = el?.props?.options?.map((ele, ind) => {
-      if (optionIndex === ind) {
-        return { ...ele, label: value, value: value };
-      }
-      return ele;
-    });
-    return {
-      ...el,
-      ...(attribute == "column_width" && {
-        column_width: Number(e.target.value),
-      }),
-      ...(attribute == "regex"
-        ? {
-            form: {
-              ...el.form,
-              regex: value,
-            },
-          }
-        : {
-            props: {
-              ...el.props,
-              ...(style
-                ? {
-                    style: {
-                      ...el.props.style,
-                      [attribute]: value,
-                    },
-                  }
-                : {
-                    [attribute]: attribute == "options" ? options : value,
-                  }),
-            },
-          }),
-    };
   };
 
   const addSelectOptions = () => {
@@ -165,7 +129,10 @@ const FieldCustomizeSection = () => {
     try {
       const formData = new FormData();
       formData.append("image", e.target.files[0]);
-      const response = await axios.post("http://localhost:8000/upload-image", formData);
+      const response = await axios.post(
+        "http://localhost:8000/upload-image",
+        formData
+      );
       if (response.status == 200) {
         onCustomizeElement(response?.data?.imageUrl, "url", "image", forms);
       }
@@ -173,8 +140,6 @@ const FieldCustomizeSection = () => {
       alert(error);
     }
   };
-
-  const currentField = renderCurrentField(forms, currentElement, containerId);
 
   const removeOption = (value) => {
     const updateForms = forms?.map((el, i) => {
@@ -192,9 +157,35 @@ const FieldCustomizeSection = () => {
     setForms(updateForms);
   };
 
+  const getFields = (element) => {
+    let fields = [];
+    let types = ["input", "select", "country"];
+    for (let i = 0; i < element?.length; i++) {
+      for (let j = 0; j < element[i]?.content?.length; j++) {
+        if (
+          types?.includes(element[i]?.content[j]?.type) ||
+          types?.includes(element[i]?.type)
+        ) {
+          fields.push({
+            value: element[i]?.content[j]
+              ? element[i]?.content[j]?.props?.name
+              : element[i]?.props?.name,
+            label: element[i]?.content[j]
+              ? element[i]?.content[j]?.props?.name
+              : element[i]?.props?.name,
+          });
+        }
+      }
+    }
+    return fields;
+  };
+
   const animationList = useMemo(() => {
     return animationOptions;
   }, []);
+
+  const fieldOptions = useMemo(() => getFields(forms), [forms]);
+  const currentField = renderCurrentField(forms, currentElement, containerId);
 
   return (
     <div className="field-customize-sec">
@@ -211,23 +202,22 @@ const FieldCustomizeSection = () => {
             onCustomizeElement(e, "column_width", "input", forms);
           }}
         />
-        {currentField?.type !== "divider" &&
-          (currentField?.type !== "image" && (
-            <div className="mt-2">
-              <label>
-                {currentField?.type} Width ({currentField?.props?.width}%)
-              </label>
-              <input
-                type={"range"}
-                min={0}
-                max={100}
-                value={currentField?.props?.width || ""}
-                onChange={(e) => {
-                  onCustomizeElement(e, "width", "input", forms);
-                }}
-              />
-            </div>
-          ))}
+        {!["divider", "image"].includes(currentField?.type) && (
+          <div className="mt-2">
+            <label>
+              {currentField?.type} Width ({currentField?.props?.width}%)
+            </label>
+            <input
+              type={"range"}
+              min={0}
+              max={100}
+              value={currentField?.props?.width || ""}
+              onChange={(e) => {
+                onCustomizeElement(e, "width", "input", forms);
+              }}
+            />
+          </div>
+        )}
       </div>
 
       <hr />
@@ -251,6 +241,68 @@ const FieldCustomizeSection = () => {
               <label htmlFor="checkbox-hidden">Hidden</label>
             </div>
           </Col>
+
+          {["input", "select", "country"].includes(currentField?.type) && (
+            <>
+              <Col lg={6} md={6} sm={12} xs={12}>
+                <div className="d-flex">
+                  <input
+                    type="checkbox"
+                    id="checkbox-required"
+                    checked={currentField?.props?.required || ""}
+                    onChange={(e) => {
+                      onCustomizeElement(e, "required", "checkbox", forms);
+                    }}
+                  />
+                  <label htmlFor="checkbox-required">Required</label>
+                </div>
+              </Col>
+
+              <Col lg={6} md={6} sm={12} xs={12}>
+                <div className="d-flex mt-3">
+                  <input
+                    type="checkbox"
+                    id="checkbox-float"
+                    checked={currentField?.props?.floatLabel || ""}
+                    onChange={(e) => {
+                      onCustomizeElement(e, "floatLabel", "checkbox", forms);
+                    }}
+                  />
+                  <label htmlFor="checkbox-float">Float Label</label>
+                </div>
+              </Col>
+
+              <Col lg={6} md={6} sm={12} xs={12}>
+                <div className="d-flex mt-3">
+                  <input
+                    type="checkbox"
+                    id="checkbox-standard"
+                    checked={currentField?.props?.standard || ""}
+                    onChange={(e) => {
+                      onCustomizeElement(e, "standard", "checkbox", forms);
+                    }}
+                  />
+                  <label htmlFor="checkbox-standard">Standard</label>
+                </div>
+              </Col>
+            </>
+          )}
+
+          {currentField?.type === "select" && (
+            <Col lg={6} md={6} sm={12} xs={12}>
+              <div className="d-flex mt-3">
+                <input
+                  type="checkbox"
+                  id="checkbox-multiple"
+                  checked={currentField?.props?.multiple || ""}
+                  onChange={(e) => {
+                    onCustomizeElement(e, "multiple", "checkbox", forms);
+                  }}
+                />
+                <label htmlFor="checkbox-multiple">Multiple</label>
+              </div>
+            </Col>
+          )}
 
           {currentField?.type === "image" && (
             <Col lg={12} md={12} sm={12} xs={12}>
@@ -440,6 +492,19 @@ const FieldCustomizeSection = () => {
               }}
             />
           </div>
+          <div className="customize-prop-sec">
+            <label>Submit Validation fields</label>
+            <Select
+              isClearable
+              isMulti
+              placeholder={"Select fields"}
+              options={fieldOptions}
+              value={currentField?.props?.fields || ""}
+              onChange={(e) => {
+                onCustomizeElement(e, "fields", "select", forms);
+              }}
+            />
+          </div>
         </div>
       ) : (
         <>
@@ -458,8 +523,7 @@ const FieldCustomizeSection = () => {
             </div>
           )}
 
-          {currentField?.type === "paragraph" ||
-          currentField?.type === "heading" ? (
+          {["paragraph", "heading"].includes(currentField?.type) ? (
             <div className="customize-prop-sec">
               <label>
                 {currentField?.type === "paragraph"
@@ -480,50 +544,10 @@ const FieldCustomizeSection = () => {
                 {...(currentField?.type === "paragraph" && { rows: 7 })}
               />
             </div>
-          ) : currentField?.type !== "divider" &&
-            currentField?.type !== "container" &&
-            currentField?.type !== "slider" &&
-            currentField?.type !== "image" ? (
+          ) : !["divider", "container", "slider", "image", "country"].includes(
+              currentField?.type
+            ) ? (
             <>
-              <div className="customize-checkbox">
-                <Row>
-                  <Col lg={6} md={6} sm={12} xs={12}>
-                    <div className="d-flex">
-                      <input
-                        type="checkbox"
-                        id="checkbox-required"
-                        checked={currentField?.props?.required || ""}
-                        onChange={(e) => {
-                          onCustomizeElement(e, "required", "checkbox", forms);
-                        }}
-                      />
-                      <label htmlFor="checkbox-required">Required</label>
-                    </div>
-                  </Col>
-
-                  {currentField?.type === "select" && (
-                    <Col lg={6} md={6} sm={12} xs={12}>
-                      <div className="d-flex">
-                        <input
-                          type="checkbox"
-                          id="checkbox-multiple"
-                          checked={currentField?.props?.multiple || ""}
-                          onChange={(e) => {
-                            onCustomizeElement(
-                              e,
-                              "multiple",
-                              "checkbox",
-                              forms
-                            );
-                          }}
-                        />
-                        <label htmlFor="checkbox-multiple">Multiple</label>
-                      </div>
-                    </Col>
-                  )}
-                </Row>
-              </div>
-
               <div className="customize-prop-sec">
                 <label>Label</label>
                 <input
@@ -537,15 +561,45 @@ const FieldCustomizeSection = () => {
                 />
               </div>
 
+              {currentField?.type !== "checkbox" && (
+                <>
+                  <div className="customize-prop-sec">
+                    <label>Placeholder</label>
+                    <input
+                      type="text"
+                      value={currentField?.props?.placeholder || ""}
+                      placeholder="Enter placeholder"
+                      className="customize-input"
+                      onChange={(e) => {
+                        onCustomizeElement(e, "placeholder", "input", forms);
+                      }}
+                    />
+                  </div>
+
+                  <div className="customize-prop-sec">
+                    <label>Max length</label>
+                    <input
+                      type="number"
+                      value={currentField?.props?.maxLength || ""}
+                      placeholder="Enter maxlength"
+                      className="customize-input"
+                      onChange={(e) => {
+                        onCustomizeElement(e, "maxLength", "input", forms);
+                      }}
+                    />
+                  </div>
+                </>
+              )}
+
               <div className="customize-prop-sec">
-                <label>Placeholder</label>
+                <label>Name</label>
                 <input
                   type="text"
-                  value={currentField?.props?.placeholder || ""}
-                  placeholder="Enter placeholder"
+                  value={currentField?.props?.name || ""}
+                  placeholder="Enter name"
                   className="customize-input"
                   onChange={(e) => {
-                    onCustomizeElement(e, "placeholder", "input", forms);
+                    onCustomizeElement(e, "name", "input", forms);
                   }}
                 />
               </div>
@@ -597,7 +651,7 @@ const FieldCustomizeSection = () => {
                     })}
                   </div>
                 </div>
-              ) : (
+              ) : currentField?.type !== "checkbox" ? (
                 <div className="customize-prop-sec">
                   <label>Add Validation</label>
                   <Select
@@ -610,10 +664,25 @@ const FieldCustomizeSection = () => {
                     }}
                   />
                 </div>
-              )}
+              ) : null}
             </>
           ) : null}
         </>
+      )}
+
+      {currentField?.type == "container" && (
+        <div className="customize-prop-sec">
+          <label>Container Template</label>
+          <Select
+            isClearable
+            placeholder={"Select template"}
+            options={containerOptions}
+            value={currentField?.props?.containerTemplate || ""}
+            onChange={(e) => {
+              onCustomizeElement(e, "containerTemplate", "select", forms);
+            }}
+          />
+        </div>
       )}
 
       {currentField?.type !== "divider" && (

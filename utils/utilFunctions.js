@@ -21,11 +21,15 @@ export const fieldsData = [
       required: false,
       hidden: false,
       placeholder: "",
+      maxLength: "",
+      name: "",
       align: "",
       width: 100,
       style: {},
       animation: "",
       animation_delay: "",
+      floatLabel: false,
+      standard: false,
     },
     form: {
       regex: "",
@@ -42,6 +46,7 @@ export const fieldsData = [
       required: false,
       hidden: false,
       placeholder: "",
+      name: "",
       multiple: false,
       options: [],
       width: 100,
@@ -49,10 +54,10 @@ export const fieldsData = [
       style: {},
       animation: "",
       animation_delay: "",
+      floatLabel: false,
+      standard: false,
     },
     form: {
-      regex: "",
-      validation_type: "",
       error_message: "",
     },
   },
@@ -98,6 +103,7 @@ export const fieldsData = [
       width: 100,
       style: {},
       animation: "",
+      fields: [],
       animation_delay: "",
     },
   },
@@ -119,6 +125,7 @@ export const fieldsData = [
     props: {
       hidden: false,
       width: 100,
+      containerTemplate: ""
     },
   },
   {
@@ -146,6 +153,48 @@ export const fieldsData = [
       delay: "",
       navigation: false,
       loop: false,
+    },
+  },
+  {
+    label_text: "Country Field",
+    type: "country",
+    column_width: 100,
+    props: {
+      value: "",
+      required: false,
+      hidden: false,
+      placeholder: "",
+      name: "",
+      width: 100,
+      align: "",
+      style: {},
+      animation: "",
+      animation_delay: "",
+      floatLabel: false,
+      standard: false,
+    },
+    form: {
+      error_message: "",
+    },
+  },
+  {
+    label_text: "Checkbox",
+    type: "checkbox",
+    column_width: 100,
+    props: {
+      label: "",
+      value: "",
+      required: false,
+      hidden: false,
+      name: "",
+      align: "",
+      width: 100,
+      style: {},
+      animation: "",
+      animation_delay: "",
+    },
+    form: {
+      error_message: "",
     },
   },
 ];
@@ -220,8 +269,6 @@ export const validationsRegex = {
   "IFSC": /^[A-Z]{4}0[A-Z0-9]{6}$/,
   "CVV": /^[0-9]{3,4}$/,
 };
-
-
 
 export const headingVariantOptions = [
   { label: "H1", value: "H1" },
@@ -322,6 +369,13 @@ export const autoplayDelayOptions = [
   },
 ];
 
+export const containerOptions =[
+  { label: "Shadow Card", value: "Shadow Card" },
+  { label: "Border Card", value: "Border Card" },
+  { label: "Border Shadow Card", value: "Border Shadow Card" },
+  { label: "None", value: "None" },
+]
+
 export const animationDelayOptions = [
   { label: "100", value: "100" },
   { label: "200", value: "200" },
@@ -353,12 +407,13 @@ export const buttonColorOptions = [
 ];
 
 export const errorMessageFunc = (el, value) => {
+  let field_name = el?.props?.label?.slice(0, 1).toUpperCase() + el?.props?.label?.slice(1).toLowerCase();
   if (el?.props?.required && !value) {
     return "This field is required";
   } else if (el?.props?.required && value.length == 0) {
     return "This field is required";
-  } else if (el?.props?.required && !validationsRegex[el?.form?.regex?.value]?.test(value)) {
-    return "This field is invalid";
+  } else if (el?.form?.regex && el?.props?.required && !validationsRegex[el?.form?.regex?.value]?.test(value)) {
+    return `${field_name} is invalid`;
   } else {
     return "";
   }
@@ -382,6 +437,43 @@ export const addPixel = (styles) => {
     }
   }
   return obj;
+};
+
+export const updateforms = (e, el, attribute, value, optionIndex, style) => {
+  const options = el?.props?.options?.map((ele, ind) => {
+    if (optionIndex === ind) {
+      return { ...ele, label: value, value: value };
+    }
+    return ele;
+  });
+  return {
+    ...el,
+    ...(attribute == "column_width" && {
+      column_width: Number(e.target.value),
+    }),
+    ...(attribute == "regex"
+      ? {
+          form: {
+            ...el.form,
+            regex: value,
+          },
+        }
+      : {
+          props: {
+            ...el.props,
+            ...(style
+              ? {
+                  style: {
+                    ...el.props.style,
+                    [attribute]: value,
+                  },
+                }
+              : {
+                  [attribute]: attribute == "options" ? options : value,
+                }),
+          },
+        }),
+  };
 };
 
 export async function parseMultipartRequest(request) {

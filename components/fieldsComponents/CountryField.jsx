@@ -1,13 +1,28 @@
-import React, { useContext } from "react";
+import axios from "axios";
+import React, { useState, useEffect, useContext } from "react";
 import Select from "react-select";
-import { errorMessageFunc, setElementWidth } from "../../utils/utilFunctions";
-import { FormContext } from "../FormCreate";
 import { PageContext } from "../WebPage";
+import { FormContext } from "../FormCreate";
+import { errorMessageFunc } from "../../utils/utilFunctions";
 
-const SelectField = ({ ele, path }) => {
-  const { forms, setForms, currentElement } = useContext(
+const CountryField = ({ ele, path }) => {
+  const { forms, setForms } = useContext(
     path.includes("web-page") ? PageContext : FormContext
   );
+  const [countriesList, setCountriesList] = useState([]);
+
+  const getCountries = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/countries-list");
+      if (response.status == 200) {
+        setCountriesList(response?.data?.responseData);
+      } else {
+        setCountriesList([]);
+      }
+    } catch (error) {
+      setCountriesList([]);
+    }
+  };
 
   const setValidations = (data) => {
     const updateForms = forms.map((el, i) => {
@@ -55,20 +70,22 @@ const SelectField = ({ ele, path }) => {
     setForms(updateForms);
   };
 
+  useEffect(() => {
+    getCountries();
+  }, []);
+
   return (
     <div className={`element-input-field ${ele?.props?.floatLabel && path.includes("web-page") ? 'float-label' : ''} mb-3`}>
       <label>
-        {ele?.props?.label || "Enter label"}{" "}
-        {ele?.props?.required && <span className="required">*</span>}
+        Country {ele?.props?.required && <span className="required">*</span>}
       </label>
       <Select
         isClearable
         defaultValue={ele?.props?.value}
         name={ele?.name}
         className={ele?.name}
-        isMulti={ele?.props?.multiple}
         placeholder={ele?.props?.placeholder || "Enter placeholder"}
-        options={ele?.props?.options}
+        options={countriesList}
         onChange={(e) => {
           setValidations(e);
         }}
@@ -80,4 +97,4 @@ const SelectField = ({ ele, path }) => {
   );
 };
 
-export default SelectField;
+export default CountryField;

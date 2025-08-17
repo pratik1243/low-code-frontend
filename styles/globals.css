@@ -17,8 +17,12 @@ body:has(.main-content-sec) p {
   margin-bottom: 0 !important;
 }
 
-body:has(.main-content-sec) .swiper-pagination{
- display: none;
+p {
+  word-break: break-all;
+}
+
+body:has(.main-content-sec) .swiper-pagination {
+  display: none;
 }
 
 input {
@@ -30,6 +34,8 @@ input {
   border: 1px solid var(--grey-color);
   padding: 20px;
   border-radius: 4px;
+  height: 85vh;
+  overflow: hidden auto;
 }
 
 .field-option-sec .field-option {
@@ -59,7 +65,7 @@ input {
   padding-bottom: 120px !important;
 }
 
-.card-border{
+.card-border {
   border: 1px solid var(--grey-color);
 }
 
@@ -94,14 +100,14 @@ input {
   background-color: #f8f8f8;
   border: 1px solid var(--grey-color);
   border-radius: 4px;
-  height: 87vh;
+  height: 85vh;
   overflow-y: auto;
   overflow-x: hidden;
   position: relative;
 }
 
 .main-content-sec.scrollable {
-  max-height: 550px;
+  height: 85vh;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -136,6 +142,7 @@ input {
   display: block;
   margin-bottom: 7px;
   text-transform: capitalize;
+  font-size: 15px;
 }
 
 .field-customize-sec .customize-prop-sec {
@@ -155,18 +162,91 @@ input {
   border: 1px solid var(--grey-color);
 }
 
+.element-input-field {
+  position: relative;
+}
+
+.element-input-field.standard-input input {
+  border: none;
+  border-bottom: 1px solid var(--grey-color) !important;
+  border-radius: 0px !important;
+  padding: 10px 0px !important;
+}
+
+.element-input-field.standard-input label {
+  left: 0px !important;
+}
+
+.element-input-field.standard-input::before {
+  content: "";
+  display: block;
+  height: 2px;
+  width: 0%;
+  background-color: #000;
+  position: absolute;
+  bottom: -1px;
+  transition: all 0.4s;
+}
+
+.element-input-field.standard-input input::placeholder {
+  font-size: 15px;
+}
+
+.element-input-field.standard-input:has(input:focus)::before {
+  width: 100%;
+}
+
+.element-input-field.standard-input:has(input:valid) label,
+.element-input-field.standard-input:has(input:focus) label {
+  top: -18px !important;
+}
+
+.element-input-field.float-label {
+  margin-top: 15px;
+}
+
+.element-input-field.float-label label {
+  position: absolute;
+  left: 14px;
+  top: 11px;
+  transition: all 0.4s;
+  background-color: white;
+}
+
+.element-input-field.float-label input::placeholder {
+  color: white;
+}
+
+.element-input-field.float-label input:focus::placeholder {
+  color: #a5a4a5;
+  transition: all 0.4s;
+}
+
+.element-input-field.float-label:has(input:valid) label,
+.element-input-field.float-label:has(input:focus) label {
+  left: 0px;
+  top: -29px;
+}
+
 .element-input-field label {
   margin-bottom: 6px;
   display: block;
+  font-size: 15.5px;
 }
 
 .element-input-field input {
   background-color: var(--white-color);
   width: 100%;
-  padding: 8px 10px;
+  padding: 11px;
   border-radius: 4px;
   outline: none;
   border: 1px solid var(--grey-color);
+  transition: all 0.4s;
+  /* color: #5b5a5a; */
+}
+
+.css-19bb58m {
+  margin: 6px !important;
 }
 
 .field-render {
@@ -408,7 +488,31 @@ hr {
   cursor: auto !important;
 }
 
-.img-border{
+.img-border {
   border: 1px solid #8080804a;
   width: fit-content;
+}
+
+.shadow-card {
+  box-shadow: 0 0 5px 2px #80808042;
+}
+
+.border-card {
+  border: 1px solid #8080804a;
+}
+
+.border-shadow-card {
+  box-shadow: 0 0 5px 2px #80808042;
+  border: 1px solid #8080804a;
+}
+
+.check-box-section input {
+  transform: scale(1.5);
+  margin-right: 10px;
+  margin-left: 3px;
+}
+
+.check-box-section label {
+  font-size: 15px;
+  text-transform: capitalize;
 }

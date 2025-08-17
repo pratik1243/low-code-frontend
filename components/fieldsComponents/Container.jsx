@@ -8,13 +8,8 @@ import { MdOutlineDragIndicator } from "react-icons/md";
 import { useState } from "react";
 
 const Container = ({ ele, path, index }) => {
-  const {
-    forms,
-    setForms,
-    setContainerId,
-    setCurrentElement,
-    currentElement
-  } = useContext(path.includes("web-page") ? PageContext : FormContext);
+  const { forms, setForms, setContainerId, setCurrentElement, currentElement } =
+    useContext(path.includes("web-page") ? PageContext : FormContext);
 
   const onClickElement = (e, el) => {
     e.stopPropagation();
@@ -78,12 +73,22 @@ const Container = ({ ele, path, index }) => {
     Left: "text-left",
   };
 
+  const containerClasses = {
+    "Shadow Card": "shadow-card",
+    "Border Card": "border-card",
+    "Border Shadow Card" : "border-shadow-card"
+  };
+
   return (
     <div
-      className={`card-sec ${path.includes("web-page") ? "is-web-page" : ""}`}
+      className={`card-sec ${
+        path.includes("web-page")
+          ? `is-web-page ${containerClasses[ele?.props?.containerTemplate?.value] || ""}`
+          : ""
+      }`}
     >
       {ele?.content?.length == 0 && (
-        <h5 className="no-data">Select card to add elements here</h5>
+        <h5 className="no-data">Select container to add elements here</h5>
       )}
       {ele?.content?.map((el, i) => {
         return (

@@ -10,6 +10,8 @@ import SwiperComp from "./SwiperComp";
 import TextField from "./TextField";
 import Container from "./Container";
 import ImageComp from "./ImageComp";
+import CountryField from "./CountryField";
+import Checkbox from "./Checkbox";
 
 const RenderField = ({ ele, index }) => {
   const path = usePathname();
@@ -33,6 +35,12 @@ const RenderField = ({ ele, index }) => {
       return <ImageComp ele={ele} path={path} index={index} />;
     } else if (ele?.type == "slider") {
       return <SwiperComp ele={ele} path={path} />;
+    } else if (ele?.type == "country") {
+      return <CountryField ele={ele} path={path} index={index} />;
+    } else if (ele?.type == "checkbox") {
+      return <Checkbox ele={ele} path={path} index={index} />;
+    } else {
+      return null;
     }
   };
 

@@ -156,19 +156,34 @@ const FormCreate = () => {
           >
             <Row>
               <Col lg={12} md={12} sm={12} xs={12} className="mb-3">
-                <Row>
+                <Row className="align-items-center">
                   <Col lg={3} md={3} sm={12} xs={12}>
                     <h4>{data?.page_name}</h4>
                   </Col>
                   <Col
-                    lg={currentElement ? 7 : 8}
-                    md={currentElement ? 7 : 8}
+                    lg={7}
+                    md={7}
                     sm={12}
                     xs={12}
                   >
                     <p className="mb-0">
                       Abjust columns width to fit elements in row
                     </p>
+                  </Col>
+                  <Col lg={2} md={2} sm={12} xs={12}>
+                    <div className="publish-btn-sec">
+                      <button
+                        onClick={() => {
+                          if (params.id !== "create") {
+                            editPage();
+                          } else {
+                            savePage();
+                          }
+                        }}
+                      >
+                        <IoSaveOutline /> Publish Page
+                      </button>
+                    </div>
                   </Col>
                 </Row>
               </Col>
@@ -183,7 +198,6 @@ const FormCreate = () => {
                 sm={12}
                 xs={12}
               >
-                {/* <p>Abjust column width to fit items in row</p> */}
                 <FormTemplate />
               </Col>
               <Col
@@ -192,19 +206,6 @@ const FormCreate = () => {
                 sm={12}
                 xs={12}
               >
-                <div className="publish-btn-sec mb-4">
-                  <button
-                    onClick={() => {
-                      if (params.id !== "create") {
-                        editPage();
-                      } else {
-                        savePage();
-                      }
-                    }}
-                  >
-                    <IoSaveOutline /> Publish Page
-                  </button>
-                </div>
                 <FieldSection />
               </Col>
             </Row>
