@@ -1,11 +1,9 @@
 import React, { useContext } from "react";
-import { MdDeleteOutline } from "react-icons/md";
-import { addPixel, generateId } from "../../utils/utilFunctions";
+import { addPixel } from "../../utils/utilFunctions";
 import { FormContext } from "../FormCreate";
 import { PageContext } from "../WebPage";
 import RenderField from "./RenderField";
-import { MdOutlineDragIndicator } from "react-icons/md";
-import { useState } from "react";
+import ElementActions from "../commonComponents/ElementActions";
 
 const Container = ({ ele, path, index }) => {
   const { forms, setForms, setContainerId, setCurrentElement, currentElement } =
@@ -76,14 +74,16 @@ const Container = ({ ele, path, index }) => {
   const containerClasses = {
     "Shadow Card": "shadow-card",
     "Border Card": "border-card",
-    "Border Shadow Card" : "border-shadow-card"
+    "Border Shadow Card": "border-shadow-card",
   };
 
   return (
     <div
       className={`card-sec ${
         path.includes("web-page")
-          ? `is-web-page ${containerClasses[ele?.props?.containerTemplate?.value] || ""}`
+          ? `is-web-page ${
+              containerClasses[ele?.props?.containerTemplate?.value] || ""
+            }`
           : ""
       }`}
     >
@@ -136,11 +136,11 @@ const Container = ({ ele, path, index }) => {
                   <RenderField ele={el} index={i} />
                 </div>
 
-                <div
-                  className="delete-element-btn2"
-                  onClick={(e) => deleteNestedItem(e, el.id, index)}
-                >
-                  <MdDeleteOutline />
+                <div className="delete-element-btn2">
+                  <ElementActions
+                    data={el}
+                    deleteFunction={(e) => deleteNestedItem(e, el.id, index)}
+                  />
                 </div>
               </>
             ) : (

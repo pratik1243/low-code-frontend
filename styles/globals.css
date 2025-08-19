@@ -153,7 +153,9 @@ input {
   padding: 4px 0px !important;
 }
 
-.field-customize-sec .customize-prop-sec .customize-input {
+.field-customize-sec .customize-prop-sec .customize-input,
+.modal-dialog-customize .customize-input
+{
   background-color: var(--white-color);
   width: 100%;
   padding: 10px;
@@ -171,6 +173,10 @@ input {
   border-bottom: 1px solid var(--grey-color) !important;
   border-radius: 0px !important;
   padding: 10px 0px !important;
+}
+
+.element-input-field input::placeholder {
+  color: #aaa9a9;
 }
 
 .element-input-field.standard-input label {
@@ -198,7 +204,7 @@ input {
 
 .element-input-field.standard-input:has(input:valid) label,
 .element-input-field.standard-input:has(input:focus) label {
-  top: -18px !important;
+  top: -15px !important;
 }
 
 .element-input-field.float-label {
@@ -209,40 +215,44 @@ input {
   position: absolute;
   left: 14px;
   top: 11px;
-  transition: all 0.4s;
+  transition: all 0.3s;
   background-color: white;
+  z-index: -1;
 }
 
 .element-input-field.float-label input::placeholder {
-  color: white;
+  color: transparent;
+  font-size: 15px;
 }
 
 .element-input-field.float-label input:focus::placeholder {
-  color: #a5a4a5;
+  color: #aaa9a9;
   transition: all 0.4s;
 }
 
-.element-input-field.float-label:has(input:valid) label,
-.element-input-field.float-label:has(input:focus) label {
-  left: 0px;
-  top: -29px;
+.element-input-field:not(.standard-input).float-label:has(input:valid) label,
+.element-input-field:not(.standard-input).float-label:has(input:focus) label {
+  top: -9px;
+  left: 8px;
+  font-size: 12.5px;
+  padding: 0px 4px;
+  z-index: 1 !important;
 }
 
 .element-input-field label {
   margin-bottom: 6px;
   display: block;
-  font-size: 15.5px;
+  font-size: 15px;
 }
 
 .element-input-field input {
-  background-color: var(--white-color);
+  background-color: transparent;
   width: 100%;
   padding: 11px;
   border-radius: 4px;
   outline: none;
   border: 1px solid var(--grey-color);
   transition: all 0.4s;
-  /* color: #5b5a5a; */
 }
 
 .css-19bb58m {
@@ -324,13 +334,13 @@ input {
   margin-bottom: 12px;
 }
 
-.add-option {
+.modal-dialog-customize .add-option {
   background-color: var(--white-color);
   border: 1px solid #a3a3a3;
   border-radius: 4px;
   outline: none;
   align-items: center;
-  margin-top: 31px;
+  /* margin-top: 24px; */
   margin-left: 15px;
   padding: 0px 8px;
   display: flex;
@@ -427,7 +437,7 @@ input {
   position: absolute;
   top: 0;
   right: 0;
-  padding: 0px 3px 3px 3px;
+  padding: 6px;
   background-color: var(--white-color);
   border-left: 1px solid var(--grey-color);
   border-bottom: 1px solid var(--grey-color);
@@ -435,9 +445,41 @@ input {
   border-top-right-radius: 4px;
   border-bottom-left-radius: 4px;
   display: none;
-  font-size: 23px;
-  color: red;
   cursor: pointer !important;
+  transition: all 0.4s;
+  width: 33px;
+  overflow: hidden;
+}
+
+.delete-element-btn .inner-btn-sec,
+.delete-element-btn2 .inner-btn-sec {
+  width: 78px;
+  position: relative;
+}
+
+.delete-element-btn .inner-btn-sec::after,
+.delete-element-btn2 .inner-btn-sec::after {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  transition: all 0.5s;
+}
+
+.delete-element-btn .inner-btn-sec svg,
+.delete-element-btn2 .inner-btn-sec svg {
+  margin-right: 7px;
+}
+
+.delete-element-btn:hover,
+.delete-element-btn2:hover {
+  width: 86px;
+}
+
+.delete-element-btn:hover .inner-btn-sec::after,
+.delete-element-btn2:hover .inner-btn-sec::after {
+  z-index: -1;
 }
 
 .fw-bold {
@@ -456,7 +498,6 @@ hr {
   border-radius: 6px;
   display: flex;
   flex-wrap: wrap;
-  /* padding: 10px; */
 }
 
 .is-web-page {
@@ -473,7 +514,6 @@ hr {
 .drag-indicator svg {
   transform: rotate(90deg);
   font-size: 21px;
-  /* margin-top: -14px; */
 }
 
 .pointer-none {
@@ -515,4 +555,121 @@ hr {
 .check-box-section label {
   font-size: 15px;
   text-transform: capitalize;
+}
+
+.stepper-sec {
+  position: relative;
+  margin-top: 8px;
+  overflow: hidden;  
+}
+
+.indicator-line {
+  position: absolute;
+  height: 3.2px;
+  left: 0px;
+  right: 0px;
+  top: 13px;
+  background-color: #e0dddd;
+  z-index: -1;
+}
+
+.active-indicator-line {
+  position: absolute;
+  height: 3.2px;
+  left: 0px;
+  top: 13px;
+  right: 0px;
+  background-color: #223cc5;
+  z-index: -1;
+  width: 0%;
+  /* transition: all 0.1s; */
+}
+
+.current-line {
+  width: 50%;
+}
+
+.previous-line {
+  width: 100%;
+}
+
+.progress-stepper-sec {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.mobile-stepper-sec {
+  display: none;
+}
+
+.progress-inner-step {
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+  position: relative;
+  text-align: center;
+  flex: 1;
+}
+
+.progress-inner-step:first-child::after {
+  content: "";
+  display: block;
+  width: 50%;
+  background-color: var(--white-color);
+  height: 30px;
+  position: absolute;
+  left: 0px;
+}
+
+.progress-inner-step:last-child::after {
+  content: "";
+  display: block;
+  width: 50%;
+  background-color: var(--white-color);
+  height: 30px;
+  position: absolute;
+  right: 0px;
+}
+
+.pointer-sec {
+  height: 30px;
+  width: 30px;
+  background-color: #d0cdcd;
+  border-radius: 50%;
+  box-sizing: border-box;
+  margin-bottom: 5px;
+  display: grid;
+  color: #fff;
+  place-items: center;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  font-size: 14px;
+  transition: all 0.4s;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.step-active {
+  background-color: #223cc5 !important;
+}
+
+.step-txt {
+  color: #9a9999;
+  font-weight: 500;
+  font-size: 15px;
+  margin: 0px 7px;
+}
+
+.step-txt-active {
+  color: #223cc5 !important;
+}
+
+.step-txt-completed {
+  color: #000 !important;
+}
+
+.step-completed {
+  background-color: #223cc5 !important;
 }

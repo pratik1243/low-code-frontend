@@ -1,10 +1,10 @@
 import React from "react";
-import { generateId } from "../utils/utilFunctions";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import RenderField from "./fieldsComponents/RenderField";
-import { MdDeleteOutline, MdOutlineDragIndicator } from "react-icons/md";
+import { MdOutlineDragIndicator } from "react-icons/md";
 import { FormContext } from "./FormCreate";
 import { usePathname } from "next/navigation";
+import ElementActions from "./commonComponents/ElementActions";
 
 const FormTemplate = () => {
   const {
@@ -97,11 +97,11 @@ const FormTemplate = () => {
                 <RenderField ele={ele} index={index} />
               </div>
 
-              <div
-                onClick={(e) => deleteItem(e, ele?.id)}
-                className="delete-element-btn"
-              >
-                <MdDeleteOutline />
+              <div className="delete-element-btn">
+                <ElementActions
+                  data={ele}
+                  deleteFunction={(e) => deleteItem(e, ele?.id)}
+                />
               </div>
             </div>
           );

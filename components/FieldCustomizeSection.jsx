@@ -2,7 +2,7 @@
 import Select from "react-select";
 import React, { useContext, useState } from "react";
 import { IoAddSharp } from "react-icons/io5";
-import { Col, Row } from "react-bootstrap";
+import { Button, Col, Modal, Row } from "react-bootstrap";
 import { FiMinusCircle } from "react-icons/fi";
 import {
   alignmentOptions,
@@ -66,7 +66,7 @@ const FieldCustomizeSection = () => {
     setForms(updateForms);
   };
 
-  const addSelectOptions = () => {
+  const addSelectOptions = (type) => {
     const updateForms = forms.map((el, i) => {
       const nestedForm = el?.content?.map((ele, id) => {
         if (ele.id === currentElement?.id) {
@@ -74,10 +74,12 @@ const FieldCustomizeSection = () => {
             ...ele,
             props: {
               ...ele?.props,
-              options: [
-                ...ele?.props?.options,
+              [type]: [
+                ...ele?.props?.[type],
                 {
-                  label: optionValue,
+                  ...(type == "stepContent"
+                    ? { content: [] }
+                    : { label: optionValue }),
                   value: optionValue,
                 },
               ],
@@ -95,10 +97,12 @@ const FieldCustomizeSection = () => {
           ...el,
           props: {
             ...el?.props,
-            options: [
-              ...el?.props?.options,
+            [type]: [
+              ...el?.props?.[type],
               {
-                label: optionValue,
+                ...(type == "stepContent"
+                  ? { content: [] }
+                  : { label: optionValue }),
                 value: optionValue,
               },
             ],
@@ -141,14 +145,14 @@ const FieldCustomizeSection = () => {
     }
   };
 
-  const removeOption = (value) => {
+  const removeOption = (value, type) => {
     const updateForms = forms?.map((el, i) => {
       if (el.id === currentElement?.id) {
         return {
           ...el,
           props: {
             ...el.props,
-            options: el?.props?.options.filter((el) => el?.value !== value),
+            [type]: el?.props?.[type]?.filter((el) => el?.value !== value),
           },
         };
       }
@@ -186,6 +190,14 @@ const FieldCustomizeSection = () => {
 
   const fieldOptions = useMemo(() => getFields(forms), [forms]);
   const currentField = renderCurrentField(forms, currentElement, containerId);
+  const addContent = currentField?.type === "stepper" ? "stepContent" : "options";
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  console.log('addContent', currentField?.props?.[addContent]);
 
   return (
     <div className="field-customize-sec">
@@ -544,9 +556,14 @@ const FieldCustomizeSection = () => {
                 {...(currentField?.type === "paragraph" && { rows: 7 })}
               />
             </div>
-          ) : !["divider", "container", "slider", "image", "country"].includes(
-              currentField?.type
-            ) ? (
+          ) : ![
+              "divider",
+              "container",
+              "slider",
+              "image",
+              "country",
+              "stepper",
+            ].includes(currentField?.type) ? (
             <>
               <div className="customize-prop-sec">
                 <label>Label</label>
@@ -603,72 +620,31 @@ const FieldCustomizeSection = () => {
                   }}
                 />
               </div>
-
-              {currentField?.type === "select" ? (
-                <div className="customize-prop-sec">
-                  <div className="d-flex">
-                    <div className="w-100">
-                      <label>Add Option</label>
-                      <input
-                        type="text"
-                        placeholder="Enter option value"
-                        className="customize-input"
-                        value={optionValue}
-                        onChange={(e) => setOptionValue(e.target.value)}
-                      />
-                    </div>
-                    <button
-                      disabled={!optionValue}
-                      className="add-option"
-                      onClick={() => addSelectOptions()}
-                    >
-                      <IoAddSharp />
-                    </button>
-                  </div>
-                  <div className="customize-option-sec mt-4">
-                    {currentField?.props?.options?.map((ele, i) => {
-                      return (
-                        <div key={i} className="option-input">
-                          <input
-                            type="text"
-                            value={ele.value}
-                            onChange={(e) =>
-                              onCustomizeElement(
-                                e,
-                                "options",
-                                "input",
-                                forms,
-                                "",
-                                i
-                              )
-                            }
-                          />
-                          <FiMinusCircle
-                            onClick={() => removeOption(ele.value)}
-                          />
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              ) : currentField?.type !== "checkbox" ? (
-                <div className="customize-prop-sec">
-                  <label>Add Validation</label>
-                  <Select
-                    isClearable
-                    placeholder={"Select validation type"}
-                    options={validations}
-                    value={currentField?.form?.regex || ""}
-                    onChange={(e) => {
-                      onCustomizeElement(e, "regex", "select", forms);
-                    }}
-                  />
-                </div>
-              ) : null}
             </>
           ) : null}
         </>
       )}
+
+      {["stepper", "select"].includes(currentField?.type) && (
+        <Button onClick={handleShow} className="mb-4 mt-2">
+          {currentField?.type == "stepper" ? "Add Steps" : "Add Option"}
+        </Button>
+      )}
+
+      {currentField?.type !== "checkbox" ? (
+        <div className="customize-prop-sec">
+          <label>Add Validation</label>
+          <Select
+            isClearable
+            placeholder={"Select validation type"}
+            options={validations}
+            value={currentField?.form?.regex || ""}
+            onChange={(e) => {
+              onCustomizeElement(e, "regex", "select", forms);
+            }}
+          />
+        </div>
+      ) : null}
 
       {currentField?.type == "container" && (
         <div className="customize-prop-sec">
@@ -801,6 +777,57 @@ const FieldCustomizeSection = () => {
           />
         </div>
       </div>
+
+      <Modal show={show} onHide={handleClose} className="modal-dialog-customize">
+        <Modal.Header closeButton>
+          <Modal.Title>
+            {currentField?.type == "stepper" ? "Add Steps" : "Add Option"}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="customize-prop-sec">
+            <div className="d-flex mt-2">
+              <div className="w-100">             
+                <input
+                  type="text"
+                  placeholder={`Enter ${currentField?.type == "stepper" ? 'step' : 'option'} value`}
+                  className="customize-input"
+                  value={optionValue}
+                  onChange={(e) => setOptionValue(e.target.value)}
+                />
+              </div>
+              <button
+                disabled={!optionValue}
+                className="add-option"
+                onClick={() => addSelectOptions(addContent)}
+              >
+                <IoAddSharp />
+              </button>
+            </div>
+            <div className="customize-option-sec mt-4">
+              {currentField?.props?.[addContent]?.map((ele, i) => {
+                return (
+                  <div key={i} className="option-input">
+                    <input
+                      type="text"
+                      value={ele?.value}
+                      onChange={(e) =>
+                        onCustomizeElement(e, addContent, "input", forms, "", i)
+                      }
+                    />
+                    <FiMinusCircle onClick={() => removeOption(ele?.value, addContent)} />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>        
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

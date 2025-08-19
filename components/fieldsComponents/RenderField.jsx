@@ -12,6 +12,7 @@ import Container from "./Container";
 import ImageComp from "./ImageComp";
 import CountryField from "./CountryField";
 import Checkbox from "./Checkbox";
+import Stepper from "./Stepper";
 
 const RenderField = ({ ele, index }) => {
   const path = usePathname();
@@ -39,6 +40,8 @@ const RenderField = ({ ele, index }) => {
       return <CountryField ele={ele} path={path} index={index} />;
     } else if (ele?.type == "checkbox") {
       return <Checkbox ele={ele} path={path} index={index} />;
+    } else if (ele?.type == "stepper") {
+      return <Stepper ele={ele} path={path} index={index} />;
     } else {
       return null;
     }

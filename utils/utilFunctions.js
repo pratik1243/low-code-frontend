@@ -1,5 +1,4 @@
-
-import { Readable } from 'stream';
+import { Readable } from "stream";
 
 export function generateId(length) {
   let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -125,7 +124,7 @@ export const fieldsData = [
     props: {
       hidden: false,
       width: 100,
-      containerTemplate: ""
+      containerTemplate: "",
     },
   },
   {
@@ -197,6 +196,20 @@ export const fieldsData = [
       error_message: "",
     },
   },
+  {
+    label_text: "Stepper",
+    type: "stepper",
+    column_width: 100,
+    props: {
+      hidden: false,
+      align: "",
+      width: 100,
+      style: {},
+      stepContent: [],
+      animation: "",
+      animation_delay: "",
+    },
+  },
 ];
 
 export const validations = [
@@ -255,19 +268,19 @@ export const validations = [
 ];
 
 export const validationsRegex = {
-  "Email": /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-  "Phone": /^[6-9]\d{9}$/,
-  "Password": /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/,
+  Email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  Phone: /^[6-9]\d{9}$/,
+  Password: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/,
   "Only Letters": /^[A-Za-z]+$/,
   "Only Numbers": /^\d+$/,
-  "Alphanumeric": /^[A-Za-z0-9]+$/,
-  "Url": /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)([/\w .-]*)*\/?$/,
+  Alphanumeric: /^[A-Za-z0-9]+$/,
+  Url: /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)([/\w .-]*)*\/?$/,
   "Aadhar Number": /^\d{4}\s?\d{4}\s?\d{4}$/,
   "PAN Number": /^[A-Z]{5}[0-9]{4}[A-Z]$/,
   "Account Number": /^\d{9,18}$/,
   "Card Number": /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13})$/,
-  "IFSC": /^[A-Z]{4}0[A-Z0-9]{6}$/,
-  "CVV": /^[0-9]{3,4}$/,
+  IFSC: /^[A-Z]{4}0[A-Z0-9]{6}$/,
+  CVV: /^[0-9]{3,4}$/,
 };
 
 export const headingVariantOptions = [
@@ -369,12 +382,12 @@ export const autoplayDelayOptions = [
   },
 ];
 
-export const containerOptions =[
+export const containerOptions = [
   { label: "Shadow Card", value: "Shadow Card" },
   { label: "Border Card", value: "Border Card" },
   { label: "Border Shadow Card", value: "Border Shadow Card" },
   { label: "None", value: "None" },
-]
+];
 
 export const animationDelayOptions = [
   { label: "100", value: "100" },
@@ -407,12 +420,18 @@ export const buttonColorOptions = [
 ];
 
 export const errorMessageFunc = (el, value) => {
-  let field_name = el?.props?.label?.slice(0, 1).toUpperCase() + el?.props?.label?.slice(1).toLowerCase();
+  let field_name =
+    el?.props?.label?.slice(0, 1).toUpperCase() +
+    el?.props?.label?.slice(1).toLowerCase();
   if (el?.props?.required && !value) {
     return "This field is required";
   } else if (el?.props?.required && value.length == 0) {
     return "This field is required";
-  } else if (el?.form?.regex && el?.props?.required && !validationsRegex[el?.form?.regex?.value]?.test(value)) {
+  } else if (
+    el?.form?.regex &&
+    el?.props?.required &&
+    !validationsRegex[el?.form?.regex?.value]?.test(value)
+  ) {
     return `${field_name} is invalid`;
   } else {
     return "";
@@ -439,13 +458,21 @@ export const addPixel = (styles) => {
   return obj;
 };
 
-export const updateforms = (e, el, attribute, value, optionIndex, style) => {
-  const options = el?.props?.options?.map((ele, ind) => {
+const options = (el, value, attribute, optionIndex) => {
+  const values = el?.props?.[attribute]?.map((ele, ind) => {
     if (optionIndex === ind) {
-      return { ...ele, label: value, value: value };
+      return {
+        ...ele,
+        ...(attribute == "stepContent" ? { content: [] } : { label: value }),
+        value: value,
+      };
     }
     return ele;
   });
+  return values;
+};
+
+export const updateforms = (e, el, attribute, value, optionIndex, style) => {
   return {
     ...el,
     ...(attribute == "column_width" && {
@@ -469,25 +496,64 @@ export const updateforms = (e, el, attribute, value, optionIndex, style) => {
                   },
                 }
               : {
-                  [attribute]: attribute == "options" ? options : value,
+                  [attribute]:
+                    attribute == "options" || attribute == "stepContent"
+                      ? options(el, value, attribute, optionIndex)
+                      : value,
                 }),
           },
         }),
   };
 };
 
+export const copyItems = (e, ele) => {
+  e.stopPropagation();
+  navigator.clipboard.writeText(JSON.stringify(ele)).then((data) => {
+    try {
+      console.log("Copied JSON:");
+    } catch (err) {
+      console.error("Not valid JSON:");
+    }
+  });
+};
+
+export const pasteItems = (e, ele, forms, setForms) => {
+  e.stopPropagation();
+  navigator.clipboard.readText().then((data) => {
+    try {
+      const json = JSON.parse(data);
+      const { id, ...newJsonData } = json;
+      const updateData = forms.map((el, i) => {
+        if (ele?.id === el?.id && el?.type === "container") {
+          return {
+            ...el,
+            content: [
+              ...el?.content,
+              { ...newJsonData, id: generateId(4), isContainer: true },
+            ],
+          };
+        }
+        return el;
+      });
+      setForms(updateData);
+    } catch (err) {
+      console.error("Not valid JSON:", err);
+    }
+  });
+};
+
 export async function parseMultipartRequest(request) {
-  const { default: Busboy } = await import('busboy');
+  const { default: Busboy } = await import("busboy");
 
   const contentType = request.headers.get("content-type");
-  const busboy = Busboy({ headers: { 'content-type': contentType } });
+  const busboy = Busboy({ headers: { "content-type": contentType } });
 
   const fields = {};
   const files = [];
 
   busboy.on("file", (fieldname, stream, info) => {
     const chunks = [];
-    stream.on("data", chunk => chunks.push(chunk));
+    stream.on("data", (chunk) => chunks.push(chunk));
     stream.on("end", () => {
       files.push({
         fieldname,
