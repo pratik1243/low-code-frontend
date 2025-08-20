@@ -463,7 +463,7 @@ const options = (el, value, attribute, optionIndex) => {
     if (optionIndex === ind) {
       return {
         ...ele,
-        ...(attribute == "stepContent" ? { content: [] } : { label: value }),
+        ...(attribute !== "stepContent" && { label: value }),
         value: value,
       };
     }

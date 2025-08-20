@@ -22,7 +22,8 @@ const FormCreate = () => {
   const [height, setHeight] = useState(false);
   const [containerId, setContainerId] = useState();
   const [containerItemDrag, setContainerItemDrag] = useState();
-  const [pagesList, setPagesList] = useState("");
+  const [pagesList, setPagesList] = useState([]);
+  const [pagesItemList, setPagesItemList] = useState([]);
 
   const savePage = async () => {
     try {
@@ -105,20 +106,32 @@ const FormCreate = () => {
 
       if (response.status == 200) {
         let page_list = [];
+        let page_items = [];
         let data = response?.data?.responseData;
         for (let index = 0; index < data?.length; index++) {
-          page_list.push({
-            value: `/web-page/${data[index]?.page_route}`,
-            label: data[index]?.page_name,
-          });
+          if (data[index]?.page_route) {
+            page_list.push({
+              value: `/web-page/${data[index]?.page_route}`,
+              label: data[index]?.page_name,
+            });
+          } else {
+            page_items.push({
+              label: data[index]?.page_name,
+              value: data[index]?.page_data,
+              url: `/page/${data[index]?.page_id}`,
+            });
+          }
         }
         setPagesList(page_list);
+        setPagesItemList(page_items);
       } else {
         setPagesList([]);
+        setPagesItemList([]);
       }
     } catch (error) {
       setLoader(false);
       setPagesList([]);
+      setPagesItemList([]);
     }
   };
 
@@ -151,6 +164,7 @@ const FormCreate = () => {
               setContainerId,
               setCurrentElement,
               containerItemDrag,
+              pagesItemList,
               setContainerItemDrag,
             }}
           >
@@ -160,12 +174,7 @@ const FormCreate = () => {
                   <Col lg={3} md={3} sm={12} xs={12}>
                     <h4>{data?.page_name}</h4>
                   </Col>
-                  <Col
-                    lg={7}
-                    md={7}
-                    sm={12}
-                    xs={12}
-                  >
+                  <Col lg={7} md={7} sm={12} xs={12}>
                     <p className="mb-0">
                       Abjust columns width to fit elements in row
                     </p>

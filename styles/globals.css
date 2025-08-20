@@ -107,7 +107,7 @@ input {
 }
 
 .main-content-sec.scrollable {
-  height: 85vh;
+  height: auto;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -154,8 +154,7 @@ input {
 }
 
 .field-customize-sec .customize-prop-sec .customize-input,
-.modal-dialog-customize .customize-input
-{
+.modal-dialog-customize .customize-input {
   background-color: var(--white-color);
   width: 100%;
   padding: 10px;
@@ -340,23 +339,41 @@ input {
   border-radius: 4px;
   outline: none;
   align-items: center;
-  /* margin-top: 24px; */
   margin-left: 15px;
   padding: 0px 8px;
   display: flex;
   font-size: 22px;
 }
 
+.stepper-mt {
+  margin-top: 28px;
+}
+
 .customize-option-sec .option-input {
   position: relative;
 }
 
-.customize-option-sec .option-input svg {
-  position: absolute;
-  top: 11px;
-  right: 10px;
+.customize-option-sec svg {
   cursor: pointer;
   color: red;
+  margin-top: 7.5px;
+  margin-left: -10px;
+  font-size: 20px;
+}
+
+.customize-option-sec .page-item-link {
+  width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+
+.customize-option-sec .redirect-page {
+  color: #0d6efd !important;
+  margin-right: 9px !important;
+  margin-top: 0px !important;
+  margin-left: 2px;
 }
 
 .customize-option-sec .option-input input {
@@ -560,7 +577,7 @@ hr {
 .stepper-sec {
   position: relative;
   margin-top: 8px;
-  overflow: hidden;  
+  overflow: hidden;
 }
 
 .indicator-line {
@@ -672,4 +689,17 @@ hr {
 
 .step-completed {
   background-color: #223cc5 !important;
+}
+
+.stepper-content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ml-3 {
+  margin-left: 24px;
+}
+
+.page-item-link {
+  text-decoration: none;
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import RenderField from "./RenderField";
 
 const Stepper = ({ ele, path }) => {
   const [stepsArr, setStepsArr] = useState([]);
@@ -62,7 +63,23 @@ const Stepper = ({ ele, path }) => {
               })}
             </div>
           </div>
-          <div>{ele?.props?.stepContent[currentStep]?.content}</div>
+          <div className="stepper-content">
+            {ele?.props?.stepContent[currentStep]?.content.map((el, i) => {
+              return (
+                <div
+                  key={i}
+                  style={{
+                    ...(el?.column_width && {
+                      width: `${el?.column_width}%`,
+                    }),
+                  }}
+                >
+                  {" "}
+                  <RenderField ele={el} index={i} />{" "}
+                </div>
+              );
+            })}
+          </div>
           <div className="d-flex justify-content-between">
             <button onClick={() => setCurrentStep(currentStep - 1)}>
               Previous

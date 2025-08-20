@@ -19,11 +19,21 @@ import {
 import { FormContext } from "./FormCreate";
 import { useMemo } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { LuExternalLink } from "react-icons/lu";
 
 const FieldCustomizeSection = () => {
-  const { forms, setForms, currentElement, containerId, pagesList } =
-    useContext(FormContext);
+  const {
+    forms,
+    setForms,
+    currentElement,
+    containerId,
+    pagesList,
+    pagesItemList,
+  } = useContext(FormContext);
+  const router = useRouter();
   const [optionValue, setOptionValue] = useState("");
+  const [pageItem, setPageItem] = useState();
 
   const onCustomizeElement = (
     e,
@@ -78,7 +88,11 @@ const FieldCustomizeSection = () => {
                 ...ele?.props?.[type],
                 {
                   ...(type == "stepContent"
-                    ? { content: [] }
+                    ? {
+                        content: pageItem?.value,
+                        url: pageItem?.url,
+                        label: pageItem?.label,
+                      }
                     : { label: optionValue }),
                   value: optionValue,
                 },
@@ -101,7 +115,11 @@ const FieldCustomizeSection = () => {
               ...el?.props?.[type],
               {
                 ...(type == "stepContent"
-                  ? { content: [] }
+                  ? {
+                      content: pageItem?.value,
+                      url: pageItem?.url,
+                      label: pageItem?.label,
+                    }
                   : { label: optionValue }),
                 value: optionValue,
               },
@@ -113,6 +131,7 @@ const FieldCustomizeSection = () => {
     });
     setForms(updateForms);
     setOptionValue("");
+    setPageItem();
   };
 
   const renderCurrentField = (form, currentelement, containerid) => {
@@ -190,14 +209,12 @@ const FieldCustomizeSection = () => {
 
   const fieldOptions = useMemo(() => getFields(forms), [forms]);
   const currentField = renderCurrentField(forms, currentElement, containerId);
-  const addContent = currentField?.type === "stepper" ? "stepContent" : "options";
+  const addContent =
+    currentField?.type === "stepper" ? "stepContent" : "options";
 
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  console.log('addContent', currentField?.props?.[addContent]);
 
   return (
     <div className="field-customize-sec">
@@ -778,7 +795,12 @@ const FieldCustomizeSection = () => {
         </div>
       </div>
 
-      <Modal show={show} onHide={handleClose} className="modal-dialog-customize">
+      <Modal
+        show={show}
+        onHide={handleClose}
+        size="lg"
+        className="modal-dialog-customize"
+      >
         <Modal.Header closeButton>
           <Modal.Title>
             {currentField?.type == "stepper" ? "Add Steps" : "Add Option"}
@@ -786,37 +808,91 @@ const FieldCustomizeSection = () => {
         </Modal.Header>
         <Modal.Body>
           <div className="customize-prop-sec">
-            <div className="d-flex mt-2">
-              <div className="w-100">             
+            <div className="d-flex mt-2 mb-4">
+              <div className="w-100">
+                {currentField?.type == "stepper" && (
+                  <label className="mb-1">Stepper Label</label>
+                )}
                 <input
                   type="text"
-                  placeholder={`Enter ${currentField?.type == "stepper" ? 'step' : 'option'} value`}
+                  placeholder={`Enter ${
+                    currentField?.type == "stepper" ? "step" : "option"
+                  } value`}
                   className="customize-input"
                   value={optionValue}
                   onChange={(e) => setOptionValue(e.target.value)}
                 />
               </div>
+              {currentField?.type == "stepper" && (
+                <div className="w-100 ml-3">
+                  <label className="mb-1">Workflow Item</label>
+                  <Select
+                    isClearable
+                    placeholder={"Select workflow"}
+                    options={pagesItemList || ""}
+                    value={pageItem}
+                    onChange={(e) => setPageItem(e)}
+                  />
+                </div>
+              )}
               <button
                 disabled={!optionValue}
-                className="add-option"
+                className={`${
+                  currentField?.type == "stepper" ? "stepper-mt" : ""
+                } add-option`}
                 onClick={() => addSelectOptions(addContent)}
               >
                 <IoAddSharp />
               </button>
             </div>
+            <hr />
             <div className="customize-option-sec mt-4">
               {currentField?.props?.[addContent]?.map((ele, i) => {
                 return (
-                  <div key={i} className="option-input">
-                    <input
-                      type="text"
-                      value={ele?.value}
-                      onChange={(e) =>
-                        onCustomizeElement(e, addContent, "input", forms, "", i)
-                      }
-                    />
-                    <FiMinusCircle onClick={() => removeOption(ele?.value, addContent)} />
-                  </div>
+                  <Row key={i} className="mb-2">
+                    <Col
+                      lg={currentField?.type !== "stepper" ? 11 : 6}
+                      md={currentField?.type !== "stepper" ? 11 : 6}
+                      sm={12}
+                      xs={12}
+                    >
+                      <div className="option-input">
+                        <input
+                          type="text"
+                          value={ele?.value}
+                          onChange={(e) =>
+                            onCustomizeElement(
+                              e,
+                              addContent,
+                              "input",
+                              forms,
+                              "",
+                              i
+                            )
+                          }
+                        />
+                      </div>
+                    </Col>
+                    {currentField?.type == "stepper" && (
+                      <Col lg={5} md={5} sm={12} xs={12}>
+                        <div className="d-flex align-items-center mt-1">
+                          <LuExternalLink className="redirect-page" />{" "}
+                          <a
+                            href={ele?.url}
+                            target="_blank"
+                            className="page-item-link"
+                          >
+                            {ele?.label}
+                          </a>
+                        </div>
+                      </Col>
+                    )}
+                    <Col lg={1} md={1} sm={12} xs={12}>
+                      <FiMinusCircle
+                        onClick={() => removeOption(ele?.value, addContent)}
+                      />
+                    </Col>
+                  </Row>
                 );
               })}
             </div>
@@ -825,7 +901,7 @@ const FieldCustomizeSection = () => {
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
-          </Button>        
+          </Button>
         </Modal.Footer>
       </Modal>
     </div>

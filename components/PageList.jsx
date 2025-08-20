@@ -121,7 +121,7 @@ const PageList = () => {
           </Button>
           <Button
             variant="primary"
-            disabled={formData.page_link && formData.page_name ? false : true}
+            disabled={formData.page_name ? false : true}
             onClick={onPageCreate}
           >
             Create
