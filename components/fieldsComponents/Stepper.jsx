@@ -1,7 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import {
+  addPixel,
+  alignment,
+  errorMessageFunc,
+  textAlign,
+} from "../../utils/utilFunctions";
+import { FormContext } from "../FormCreate";
+import { PageContext } from "../WebPage";
 import RenderField from "./RenderField";
 
 const Stepper = ({ ele, path }) => {
+  const { forms, setForms } = useContext(
+    path.includes("web-page") ? PageContext : FormContext
+  );
+
   const [stepsArr, setStepsArr] = useState([]);
   const [prevArr, setPrevArr] = useState([]);
   const [currentStep, setCurrentStep] = useState(0);
@@ -17,6 +29,57 @@ const Stepper = ({ ele, path }) => {
       }
     }
   }, [currentStep]);
+
+  const nextStep = () => {
+    let isFieldsInvalid = false;
+
+    const validateForms = forms.map((el, i) => {
+      const stepContentForm = el?.props?.stepContent?.map((data, id) => {
+        const updatedForms = data?.content?.map((datas, ind) => {
+          const nestedForm = datas?.content?.map((eles, i) => {
+            if (errorMessageFunc(eles, eles?.props?.value) !== "") {
+              isFieldsInvalid = true;
+            }
+            return {
+              ...eles,
+              form: {
+                ...eles?.form,
+                error_message: errorMessageFunc(eles, eles?.props?.value),
+              },
+            };
+          });
+
+          if (datas?.content) {
+            return { ...datas, content: nestedForm };
+          } else {
+            if (errorMessageFunc(datas, datas?.props?.value) !== "") {
+              isFieldsInvalid = true;
+            }
+            return {
+              ...datas,
+              form: {
+                ...datas?.form,
+                error_message: errorMessageFunc(datas, datas?.props?.value),
+              },
+            };
+          }
+        });
+        if (id === currentStep) {
+          return { ...data, content: updatedForms };
+        }
+        return data;
+      });
+
+      if (el?.type === "stepper") {
+        return { ...el, props: { ...el.props, stepContent: stepContentForm } };
+      }
+      return el;
+    });
+    setForms(validateForms);
+    if (!isFieldsInvalid) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
 
   return (
     <>
@@ -68,25 +131,32 @@ const Stepper = ({ ele, path }) => {
               return (
                 <div
                   key={i}
+                  className={`position-relative element-column column_${
+                    el?.id
+                  } ${alignment[el?.props?.align?.value] || ""} ${
+                    el?.props?.hidden
+                      ? "hide"
+                      : el?.props?.hidden
+                      ? "hidden"
+                      : ""
+                  } ${textAlign[el?.props?.align?.value] || ""} d-flex`}
                   style={{
-                    ...(el?.column_width && {
-                      width: `${el?.column_width}%`,
-                    }),
+                    ...(el?.column_width && { width: `${el?.column_width}%` }),
+                    ...(el?.props?.style && addPixel(el?.props?.style)),
                   }}
                 >
                   {" "}
-                  <RenderField ele={el} index={i} />{" "}
+                  <RenderField ele={el} index={i} currentStep={currentStep} />{" "}
                 </div>
               );
             })}
           </div>
+
           <div className="d-flex justify-content-between">
             <button onClick={() => setCurrentStep(currentStep - 1)}>
               Previous
             </button>
-            <button onClick={() => setCurrentStep(currentStep + 1)}>
-              Next
-            </button>
+            <button onClick={nextStep}>Next</button>
           </div>
         </>
       )}

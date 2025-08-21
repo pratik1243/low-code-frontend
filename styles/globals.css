@@ -518,7 +518,7 @@ hr {
 }
 
 .is-web-page {
-  padding: 20px;
+  /* padding: 20px; */
   /* box-shadow: 0 0 5px 2px #80808042; */
 }
 
@@ -551,14 +551,17 @@ hr {
 }
 
 .shadow-card {
+  padding: 20px;
   box-shadow: 0 0 5px 2px #80808042;
 }
 
 .border-card {
+  padding: 20px;
   border: 1px solid #8080804a;
 }
 
 .border-shadow-card {
+  padding: 20px;
   box-shadow: 0 0 5px 2px #80808042;
   border: 1px solid #8080804a;
 }

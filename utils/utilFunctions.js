@@ -419,6 +419,25 @@ export const buttonColorOptions = [
   { label: "link", value: "link" },
 ];
 
+export const alignment = {
+  Center: "justify-content-center",
+  Right: "justify-content-end",
+  left: "justify-content-start",
+};
+
+export const textAlign = {
+  Center: "text-center",
+  Right: "text-right",
+  Left: "text-left",
+};
+
+
+export const containerClasses = {
+  "Shadow Card": "shadow-card",
+  "Border Card": "border-card",
+  "Border Shadow Card": "border-shadow-card",
+};
+
 export const errorMessageFunc = (el, value) => {
   let field_name =
     el?.props?.label?.slice(0, 1).toUpperCase() +

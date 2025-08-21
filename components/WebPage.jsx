@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { commonPostApiFunction } from "../services/commonApiFunc";
 import RenderField from "./fieldsComponents/RenderField";
 import Loader from "./commonComponents/Loader";
-import { addPixel } from "../utils/utilFunctions";
+import { addPixel, alignment, textAlign } from "../utils/utilFunctions";
 import Aos from "aos";
 
 export const PageContext = createContext();
@@ -34,17 +34,17 @@ const WebPage = () => {
     }
   };
 
-  const alignment = {
-    Center: "justify-content-center",
-    Right: "justify-content-end",
-    left: "justify-content-start",
-  };
+  // const alignment = {
+  //   Center: "justify-content-center",
+  //   Right: "justify-content-end",
+  //   left: "justify-content-start",
+  // };
 
-  const textAlign = {
-    Center: "text-center",
-    Right: "text-right",
-    Left: "text-left",
-  };
+  // const textAlign = {
+  //   Center: "text-center",
+  //   Right: "text-right",
+  //   Left: "text-left",
+  // };
 
   useEffect(() => {
     Aos.init({
@@ -71,13 +71,7 @@ const WebPage = () => {
             return (
               <div
                 key={index}
-                className={`d-flex ${
-                  alignment[ele?.props?.align?.value] || ""
-                } ${ele?.props?.hidden ? "hide" : ""} ${
-                  ele?.type == "heading" || ele?.type == "paragraph"
-                    ? (textAlign[ele?.props?.align?.value] || "")
-                    : ""
-                }`}
+                className={`d-flex ${alignment[ele?.props?.align?.value] || ""} ${ele?.props?.hidden ? "hide" : ""} ${ele?.type == "heading" || ele?.type == "paragraph" ? (textAlign[ele?.props?.align?.value] || "") : ""}`}
                 style={{
                   ...(ele?.column_width && { width: `${ele?.column_width}%` }),
                   ...(ele?.props?.style && addPixel(ele?.props?.style)),

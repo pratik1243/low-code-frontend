@@ -73,13 +73,7 @@ const FormTemplate = () => {
             <div
               key={index}
               draggable
-              className={`position-relative element-column column_${ele?.id} ${
-                currentElement?.id === ele?.id
-                  ? `selected ${
-                      currentElement.type == "container" ? "selected-card" : ""
-                    }`
-                  : ""
-              } ${ele?.props?.hidden ? "hidden" : ""}`}
+              className={`position-relative element-column column_${ele?.id} ${currentElement?.id === ele?.id ? `selected ${currentElement.type == "container" ? "selected-card" : ""}` : ""} ${ele?.props?.hidden ? "hidden" : ""}`}
               style={{
                 ...(ele?.column_width && { width: `${ele?.column_width}%` }),
               }}

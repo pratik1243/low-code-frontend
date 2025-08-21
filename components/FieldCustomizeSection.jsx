@@ -209,8 +209,7 @@ const FieldCustomizeSection = () => {
 
   const fieldOptions = useMemo(() => getFields(forms), [forms]);
   const currentField = renderCurrentField(forms, currentElement, containerId);
-  const addContent =
-    currentField?.type === "stepper" ? "stepContent" : "options";
+  const addContent = currentField?.type === "stepper" ? "stepContent" : "options";
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -648,7 +647,7 @@ const FieldCustomizeSection = () => {
         </Button>
       )}
 
-      {currentField?.type !== "checkbox" ? (
+      {['input', 'select'].includes(currentField?.type) ? (
         <div className="customize-prop-sec">
           <label>Add Validation</label>
           <Select
@@ -829,8 +828,8 @@ const FieldCustomizeSection = () => {
                   <Select
                     isClearable
                     placeholder={"Select workflow"}
-                    options={pagesItemList || ""}
-                    value={pageItem}
+                    options={pagesItemList}
+                    value={pageItem || ""}
                     onChange={(e) => setPageItem(e)}
                   />
                 </div>
@@ -899,7 +898,7 @@ const FieldCustomizeSection = () => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="primary" onClick={handleClose}>
             Close
           </Button>
         </Modal.Footer>

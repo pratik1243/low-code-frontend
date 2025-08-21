@@ -14,12 +14,12 @@ import CountryField from "./CountryField";
 import Checkbox from "./Checkbox";
 import Stepper from "./Stepper";
 
-const RenderField = ({ ele, index }) => {
+const RenderField = ({ ele, index, currentStep = null }) => {
   const path = usePathname();
 
   const getFields = () => {
     if (ele?.type == "input") {
-      return <TextField ele={ele} path={path} />;
+      return <TextField ele={ele} path={path} currentStep={currentStep} />;
     } else if (ele?.type == "select") {
       return <SelectField ele={ele} path={path} />;
     } else if (ele?.type == "paragraph") {

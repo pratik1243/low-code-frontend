@@ -3,7 +3,7 @@ import { errorMessageFunc, setElementWidth } from "../../utils/utilFunctions";
 import { FormContext } from "../FormCreate";
 import { PageContext } from "../WebPage";
 
-const TextField = ({ ele, path, index }) => {
+const TextField = ({ ele, path, currentStep = null }) => {
   const { forms, setForms, currentElement } = useContext(
     path.includes("web-page") ? PageContext : FormContext
   );
@@ -27,6 +27,50 @@ const TextField = ({ ele, path, index }) => {
         return eles;
       });
 
+      const stepContentForm = el?.props?.stepContent?.map((data, id) => {
+        const updatedForms = data?.content?.map((datas, ind) => {
+          const nestedForm = datas?.content?.map((eles, i) => {
+            if (eles.id === ele.id) {
+              console.log('jkkjk', eles.id, ele.id)
+              return {
+                ...eles,
+                props: {
+                  ...eles?.props,
+                  value: e.target.value,
+                },
+                form: {
+                  ...eles?.form,
+                  error_message: errorMessageFunc(eles, e.target.value),
+                },
+              };
+            }
+            return eles;
+          });
+
+          if (datas?.content) {
+            return { ...datas, content: nestedForm };
+          } else if (datas.id === ele.id) {
+            return {
+              ...datas,
+              props: {
+                ...datas?.props,
+                value: e.target.value,
+              },
+              form: {
+                ...datas?.form,
+                error_message: errorMessageFunc(datas, e.target.value),
+              },
+            };
+          } else {
+            return datas;
+          }
+        });
+        if (id === currentStep) {
+          return { ...data, content: updatedForms };
+        }
+        return data;
+      });
+
       if (el.id === ele.id) {
         return {
           ...el,
@@ -41,6 +85,8 @@ const TextField = ({ ele, path, index }) => {
         };
       } else if (el?.content) {
         return { ...el, content: nestedForm };
+      } else if (el?.type === "stepper") {
+        return { ...el, props: { ...el.props, stepContent: stepContentForm } };
       } else {
         return el;
       }
@@ -53,8 +99,14 @@ const TextField = ({ ele, path, index }) => {
       <div
         className={`element-input-field ${
           (ele?.props?.floatLabel || ele?.props?.standard) &&
-          path.includes("web-page") ? "float-label" : ""
-        } ${ele?.props?.standard && path.includes("web-page") ? "standard-input" : ""} mb-1`}
+          path.includes("web-page")
+            ? "float-label"
+            : ""
+        } ${
+          ele?.props?.standard && path.includes("web-page")
+            ? "standard-input"
+            : ""
+        } mb-1`}
       >
         {" "}
         <label>
