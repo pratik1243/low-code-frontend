@@ -1,62 +1,25 @@
 import React, { useContext } from "react";
 import Select from "react-select";
-import { errorMessageFunc, setElementWidth } from "../../utils/utilFunctions";
+import {updateNestedForms } from "../../utils/utilFunctions";
 import { FormContext } from "../FormCreate";
 import { PageContext } from "../WebPage";
 
-const SelectField = ({ ele, path }) => {
+const SelectField = ({ ele, path, currentStep = null }) => {
   const { forms, setForms, currentElement } = useContext(
     path.includes("web-page") ? PageContext : FormContext
   );
 
   const setValidations = (data) => {
-    const updateForms = forms.map((el, i) => {
-      const nestedForm = el?.content?.map((eles, id) => {
-        if (eles?.id === ele?.id) {
-          return {
-            ...eles,
-            props: {
-              ...eles?.props,
-              value: typeof data == "object" ? data : data?.value || "",
-            },
-            form: {
-              ...eles?.form,
-              error_message: errorMessageFunc(
-                eles,
-                typeof data == "object" ? data : data?.value || ""
-              ),
-            },
-          };
-        }
-        return eles;
-      });
-
-      if (ele?.id === el?.id) {
-        return {
-          ...el,
-          props: {
-            ...el?.props,
-            value: typeof data == "object" ? data : data?.value || "",
-          },
-          form: {
-            ...el?.form,
-            error_message: errorMessageFunc(
-              el,
-              typeof data == "object" ? data : data?.value || ""
-            ),
-          },
-        };
-      } else if (el?.content) {
-        return { ...el, content: nestedForm };
-      } else {
-        return el;
-      }
-    });
-    setForms(updateForms);
+    const value = typeof data == "object" ? data : data?.value || "";
+    setForms(updateNestedForms(forms, ele, value, currentStep));
   };
 
   return (
-    <div className={`element-input-field ${ele?.props?.floatLabel && path.includes("web-page") ? 'float-label' : ''} mb-3`}>
+    <div
+      className={`element-input-field ${
+        ele?.props?.floatLabel && path.includes("web-page") ? "float-label" : ""
+      } mb-3`}
+    >
       <label>
         {ele?.props?.label || "Enter label"}{" "}
         {ele?.props?.required && <span className="required">*</span>}

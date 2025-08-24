@@ -21,7 +21,7 @@ const RenderField = ({ ele, index, currentStep = null }) => {
     if (ele?.type == "input") {
       return <TextField ele={ele} path={path} currentStep={currentStep} />;
     } else if (ele?.type == "select") {
-      return <SelectField ele={ele} path={path} />;
+      return <SelectField ele={ele} path={path} currentStep={currentStep} />;
     } else if (ele?.type == "paragraph") {
       return <Paragraph ele={ele} path={path} />;
     } else if (ele?.type == "button") {
@@ -30,18 +30,39 @@ const RenderField = ({ ele, index, currentStep = null }) => {
       return <Divider ele={ele} path={path} />;
     } else if (ele?.type == "heading") {
       return <Heading ele={ele} path={path} />;
-    } else if (ele?.type == "container") {
-      return <Container ele={ele} path={path} index={index} />;
     } else if (ele?.type == "image") {
       return <ImageComp ele={ele} path={path} index={index} />;
     } else if (ele?.type == "slider") {
-      return <SwiperComp ele={ele} path={path} />;
-    } else if (ele?.type == "country") {
-      return <CountryField ele={ele} path={path} index={index} />;
+      return <SwiperComp ele={ele} path={path} currentStep={currentStep} />;
     } else if (ele?.type == "checkbox") {
       return <Checkbox ele={ele} path={path} index={index} />;
     } else if (ele?.type == "stepper") {
-      return <Stepper ele={ele} path={path} index={index} />;
+      return (
+        <Stepper
+          ele={ele}
+          path={path}
+          index={index}
+          currentStep={currentStep}
+        />
+      );
+    } else if (ele?.type == "container") {
+      return (
+        <Container
+          ele={ele}
+          path={path}
+          index={index}
+          currentStep={currentStep}
+        />
+      );
+    } else if (ele?.type == "country") {
+      return (
+        <CountryField
+          ele={ele}
+          path={path}
+          index={index}
+          currentStep={currentStep}
+        />
+      );
     } else {
       return null;
     }

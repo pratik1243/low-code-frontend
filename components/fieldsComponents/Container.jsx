@@ -5,7 +5,7 @@ import { PageContext } from "../WebPage";
 import RenderField from "./RenderField";
 import ElementActions from "../commonComponents/ElementActions";
 
-const Container = ({ ele, path, index }) => {
+const Container = ({ ele, path, index, currentStep = null }) => {
   const { forms, setForms, setContainerId, setCurrentElement, currentElement } =
     useContext(path.includes("web-page") ? PageContext : FormContext);
 
@@ -107,7 +107,7 @@ const Container = ({ ele, path, index }) => {
                 </div>
               </>
             ) : (
-              <RenderField ele={el} index={i} />
+              <RenderField ele={el} index={i} currentStep={currentStep} />
             )}
           </div>
         );

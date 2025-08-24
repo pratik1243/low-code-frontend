@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import Select from "react-select";
 import { PageContext } from "../WebPage";
 import { FormContext } from "../FormCreate";
-import { errorMessageFunc } from "../../utils/utilFunctions";
+import { updateNestedForms } from "../../utils/utilFunctions";
 
 const CountryField = ({ ele, path }) => {
   const { forms, setForms } = useContext(
@@ -25,49 +25,8 @@ const CountryField = ({ ele, path }) => {
   };
 
   const setValidations = (data) => {
-    const updateForms = forms.map((el, i) => {
-      const nestedForm = el?.content?.map((eles, id) => {
-        if (eles?.id === ele?.id) {
-          return {
-            ...eles,
-            props: {
-              ...eles?.props,
-              value: typeof data == "object" ? data : data?.value || "",
-            },
-            form: {
-              ...eles?.form,
-              error_message: errorMessageFunc(
-                eles,
-                typeof data == "object" ? data : data?.value || ""
-              ),
-            },
-          };
-        }
-        return eles;
-      });
-
-      if (ele?.id === el?.id) {
-        return {
-          ...el,
-          props: {
-            ...el?.props,
-            value: typeof data == "object" ? data : data?.value || "",
-          },
-          form: {
-            ...el?.form,
-            error_message: errorMessageFunc(
-              el,
-              typeof data == "object" ? data : data?.value || ""
-            ),
-          },
-        };
-      } else if (el?.content) {
-        return { ...el, content: nestedForm };
-      } else {
-        return el;
-      }
-    });
-    setForms(updateForms);
+    const value = typeof data == "object" ? data : data?.value || "";
+    setForms(updateNestedForms(forms, ele, value, currentStep));
   };
 
   useEffect(() => {

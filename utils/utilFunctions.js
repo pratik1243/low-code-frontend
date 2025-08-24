@@ -143,10 +143,10 @@ export const fieldsData = [
     type: "slider",
     label_text: "Slider",
     column_width: 100,
-    slides: ["slide 1", "slide 2", "slide 3", "slide 4"],
     props: {
       hidden: false,
       width: 100,
+      slides: [],
       spaceBetweenSlides: 10,
       slidesPerView: 1,
       delay: "",
@@ -206,6 +206,7 @@ export const fieldsData = [
       width: 100,
       style: {},
       stepContent: [],
+      containerType: "",
       animation: "",
       animation_delay: "",
     },
@@ -431,7 +432,6 @@ export const textAlign = {
   Left: "text-left",
 };
 
-
 export const containerClasses = {
   "Shadow Card": "shadow-card",
   "Border Card": "border-card",
@@ -439,18 +439,12 @@ export const containerClasses = {
 };
 
 export const errorMessageFunc = (el, value) => {
-  let field_name =
-    el?.props?.label?.slice(0, 1).toUpperCase() +
-    el?.props?.label?.slice(1).toLowerCase();
+  let field_name = el?.props?.label?.slice(0, 1).toUpperCase() + el?.props?.label?.slice(1).toLowerCase();
   if (el?.props?.required && !value) {
     return "This field is required";
   } else if (el?.props?.required && value.length == 0) {
     return "This field is required";
-  } else if (
-    el?.form?.regex &&
-    el?.props?.required &&
-    !validationsRegex[el?.form?.regex?.value]?.test(value)
-  ) {
+  } else if (el?.form?.regex && el?.props?.required && !validationsRegex[el?.form?.regex?.value]?.test(value)) {
     return `${field_name} is invalid`;
   } else {
     return "";
@@ -482,7 +476,7 @@ const options = (el, value, attribute, optionIndex) => {
     if (optionIndex === ind) {
       return {
         ...ele,
-        ...(attribute !== "stepContent" && { label: value }),
+        ...(attribute == "options" && { label: value }),
         value: value,
       };
     }
@@ -515,14 +509,66 @@ export const updateforms = (e, el, attribute, value, optionIndex, style) => {
                   },
                 }
               : {
-                  [attribute]:
-                    attribute == "options" || attribute == "stepContent"
-                      ? options(el, value, attribute, optionIndex)
-                      : value,
+                  [attribute]: ["options", "stepContent", "slides"].includes(attribute)
+                    ? options(el, value, attribute, optionIndex)
+                    : value,
                 }),
           },
         }),
   };
+};
+
+export const updateNestedForms = (forms, ele, value, currentStep = null) => {
+  const updateForms = forms.map((el, i) => {
+    const nestedForm = el?.content?.map((eles, id) => {
+      if (eles.id === ele.id) {
+        return {
+          ...eles,
+          props: {
+            ...eles?.props,
+            value: value,
+          },
+          form: {
+            ...eles?.form,
+            error_message: errorMessageFunc(eles, value),
+          },
+        };
+      } else {
+        return eles;
+      }
+    });
+
+    const stepContent = el?.props?.stepContent?.map((el, id) => {
+      if (id === currentStep) {
+        return {
+          ...el,
+          content: updateNestedForms(el?.content, ele, value),
+        };
+      }
+      return el;
+    });
+
+    if (el.type === "stepper") {
+      return { ...el, props: { ...el.props, stepContent: stepContent } };
+    } else if (ele?.isContainer) {
+      return { ...el, content: nestedForm };
+    } else if (el.id === ele.id) {
+      return {
+        ...el,
+        props: {
+          ...el?.props,
+          value: value,
+        },
+        form: {
+          ...el?.form,
+          error_message: errorMessageFunc(el, value),
+        },
+      };
+    } else {
+      return el;
+    }
+  });
+  return updateForms;
 };
 
 export const copyItems = (e, ele) => {

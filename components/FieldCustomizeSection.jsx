@@ -1,9 +1,7 @@
 "use client";
 import Select from "react-select";
 import React, { useContext, useState } from "react";
-import { IoAddSharp } from "react-icons/io5";
-import { Button, Col, Modal, Row } from "react-bootstrap";
-import { FiMinusCircle } from "react-icons/fi";
+import { Button, Col, Row } from "react-bootstrap";
 import {
   alignmentOptions,
   animationDelayOptions,
@@ -19,30 +17,29 @@ import {
 import { FormContext } from "./FormCreate";
 import { useMemo } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
-import { LuExternalLink } from "react-icons/lu";
+import AddContent from "./commonComponents/AddContent";
 
 const FieldCustomizeSection = () => {
-  const {
-    forms,
-    setForms,
-    currentElement,
-    containerId,
-    pagesList,
-    pagesItemList,
-  } = useContext(FormContext);
-  const router = useRouter();
-  const [optionValue, setOptionValue] = useState("");
-  const [pageItem, setPageItem] = useState();
+  const { forms, setForms, currentElement, containerId, pagesList } = useContext(FormContext);
 
-  const onCustomizeElement = (
-    e,
-    attribute,
-    type,
-    forms,
-    style = null,
-    optionIndex = null
-  ) => {
+  const addContent = {
+    stepper: "stepContent",
+    select: "options",
+    slider: "slides",
+  };
+
+  const addTextType = {
+    stepper: "Add Steps",
+    slider: "Add Slides",
+    select: "Add Options",
+  };
+
+  const notFields = ["divider", "container", "slider", "image", "country", "stepper"];
+  const fields = ["input", "select", "country"];
+  
+  const [show, setShow] = useState(false);
+
+  const onCustomizeElement = (e, attribute, type, forms, style = null, optionIndex = null) => {
     const value = {
       select: e || "",
       input: e?.target?.value,
@@ -76,73 +73,11 @@ const FieldCustomizeSection = () => {
     setForms(updateForms);
   };
 
-  const addSelectOptions = (type) => {
-    const updateForms = forms.map((el, i) => {
-      const nestedForm = el?.content?.map((ele, id) => {
-        if (ele.id === currentElement?.id) {
-          return {
-            ...ele,
-            props: {
-              ...ele?.props,
-              [type]: [
-                ...ele?.props?.[type],
-                {
-                  ...(type == "stepContent"
-                    ? {
-                        content: pageItem?.value,
-                        url: pageItem?.url,
-                        label: pageItem?.label,
-                      }
-                    : { label: optionValue }),
-                  value: optionValue,
-                },
-              ],
-            },
-          };
-        } else {
-          return ele;
-        }
-      });
-
-      if (currentElement?.isContainer) {
-        return { ...el, content: nestedForm };
-      } else if (el?.id === currentElement?.id) {
-        return {
-          ...el,
-          props: {
-            ...el?.props,
-            [type]: [
-              ...el?.props?.[type],
-              {
-                ...(type == "stepContent"
-                  ? {
-                      content: pageItem?.value,
-                      url: pageItem?.url,
-                      label: pageItem?.label,
-                    }
-                  : { label: optionValue }),
-                value: optionValue,
-              },
-            ],
-          },
-        };
-      }
-      return el;
-    });
-    setForms(updateForms);
-    setOptionValue("");
-    setPageItem();
-  };
-
   const renderCurrentField = (form, currentelement, containerid) => {
     const fields = form?.filter((el) => el?.id === currentelement?.id)[0];
-    const nestedFields = form?.[containerid]?.content?.filter(
-      (el) => el?.id === currentelement?.id
-    )[0];
+    const nestedFields = form?.[containerid]?.content?.filter((el) => el?.id === currentelement?.id)[0];
     if (form?.[containerid]?.content?.length > 0) {
-      return currentelement?.type == "container"
-        ? form?.[containerid]
-        : nestedFields;
+      return currentelement?.type == "container" ? form?.[containerid] : nestedFields;
     } else {
       return fields;
     }
@@ -152,10 +87,7 @@ const FieldCustomizeSection = () => {
     try {
       const formData = new FormData();
       formData.append("image", e.target.files[0]);
-      const response = await axios.post(
-        "http://localhost:8000/upload-image",
-        formData
-      );
+      const response = await axios.post("http://localhost:8000/upload-image", formData);
       if (response.status == 200) {
         onCustomizeElement(response?.data?.imageUrl, "url", "image", forms);
       }
@@ -164,38 +96,15 @@ const FieldCustomizeSection = () => {
     }
   };
 
-  const removeOption = (value, type) => {
-    const updateForms = forms?.map((el, i) => {
-      if (el.id === currentElement?.id) {
-        return {
-          ...el,
-          props: {
-            ...el.props,
-            [type]: el?.props?.[type]?.filter((el) => el?.value !== value),
-          },
-        };
-      }
-      return el;
-    });
-    setForms(updateForms);
-  };
-
   const getFields = (element) => {
     let fields = [];
     let types = ["input", "select", "country"];
     for (let i = 0; i < element?.length; i++) {
       for (let j = 0; j < element[i]?.content?.length; j++) {
-        if (
-          types?.includes(element[i]?.content[j]?.type) ||
-          types?.includes(element[i]?.type)
-        ) {
+        if (types?.includes(element[i]?.content[j]?.type) || types?.includes(element[i]?.type)) {
           fields.push({
-            value: element[i]?.content[j]
-              ? element[i]?.content[j]?.props?.name
-              : element[i]?.props?.name,
-            label: element[i]?.content[j]
-              ? element[i]?.content[j]?.props?.name
-              : element[i]?.props?.name,
+            value: element[i]?.content[j] ? element[i]?.content[j]?.props?.name : element[i]?.props?.name,
+            label: element[i]?.content[j] ? element[i]?.content[j]?.props?.name : element[i]?.props?.name,
           });
         }
       }
@@ -209,9 +118,7 @@ const FieldCustomizeSection = () => {
 
   const fieldOptions = useMemo(() => getFields(forms), [forms]);
   const currentField = renderCurrentField(forms, currentElement, containerId);
-  const addContent = currentField?.type === "stepper" ? "stepContent" : "options";
-
-  const [show, setShow] = useState(false);
+  
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -270,7 +177,7 @@ const FieldCustomizeSection = () => {
             </div>
           </Col>
 
-          {["input", "select", "country"].includes(currentField?.type) && (
+          {fields.includes(currentField?.type) && (
             <>
               <Col lg={6} md={6} sm={12} xs={12}>
                 <div className="d-flex">
@@ -344,7 +251,7 @@ const FieldCustomizeSection = () => {
           )}
           {currentField?.type === "slider" && (
             <>
-              {currentField?.slides.length >
+              {currentField?.props?.slides.length >
                 currentField?.props?.slidesPerView?.value && (
                 <Col lg={6} md={6} sm={12} xs={12}>
                   <div className="d-flex">
@@ -362,12 +269,7 @@ const FieldCustomizeSection = () => {
               )}
               <Col lg={6} md={6} sm={12} xs={12}>
                 <div
-                  className={`d-flex ${
-                    currentField?.slides.length >
-                    currentField?.props?.slidesPerView?.value
-                      ? "mt-3"
-                      : ""
-                  }`}
+                  className={`d-flex ${currentField?.props?.slides.length > currentField?.props?.slidesPerView?.value ? "mt-3" : ""}`}
                 >
                   <input
                     type="checkbox"
@@ -554,17 +456,11 @@ const FieldCustomizeSection = () => {
           {["paragraph", "heading"].includes(currentField?.type) ? (
             <div className="customize-prop-sec">
               <label>
-                {currentField?.type === "paragraph"
-                  ? "Paragraph Text"
-                  : "Heading Text"}
+                {currentField?.type === "paragraph" ? "Paragraph Text" : "Heading Text"}
               </label>
               <textarea
                 value={currentField?.props?.text || ""}
-                placeholder={
-                  currentField?.type === "paragraph"
-                    ? "Enter paragraph"
-                    : "Enter heading"
-                }
+                placeholder={currentField?.type === "paragraph" ? "Enter paragraph" : "Enter heading"}
                 className="customize-input"
                 onChange={(e) => {
                   onCustomizeElement(e, "text", "input", forms);
@@ -572,14 +468,7 @@ const FieldCustomizeSection = () => {
                 {...(currentField?.type === "paragraph" && { rows: 7 })}
               />
             </div>
-          ) : ![
-              "divider",
-              "container",
-              "slider",
-              "image",
-              "country",
-              "stepper",
-            ].includes(currentField?.type) ? (
+          ) : !notFields.includes(currentField?.type) ? (
             <>
               <div className="customize-prop-sec">
                 <label>Label</label>
@@ -641,13 +530,13 @@ const FieldCustomizeSection = () => {
         </>
       )}
 
-      {["stepper", "select"].includes(currentField?.type) && (
+      {["stepper", "select", "slider"].includes(currentField?.type) && (
         <Button onClick={handleShow} className="mb-4 mt-2">
-          {currentField?.type == "stepper" ? "Add Steps" : "Add Option"}
+          {addTextType[currentField?.type]}
         </Button>
       )}
 
-      {['input', 'select'].includes(currentField?.type) ? (
+      {["input", "select"].includes(currentField?.type) ? (
         <div className="customize-prop-sec">
           <label>Add Validation</label>
           <Select
@@ -672,6 +561,21 @@ const FieldCustomizeSection = () => {
             value={currentField?.props?.containerTemplate || ""}
             onChange={(e) => {
               onCustomizeElement(e, "containerTemplate", "select", forms);
+            }}
+          />
+        </div>
+      )}
+
+      {currentField?.type == "stepper" && (
+        <div className="customize-prop-sec">
+          <label>Stepper Container Template</label>
+          <Select
+            isClearable
+            placeholder={"Select template"}
+            options={containerOptions}
+            value={currentField?.props?.containerType || ""}
+            onChange={(e) => {
+              onCustomizeElement(e, "containerType", "select", forms);
             }}
           />
         </div>
@@ -794,115 +698,13 @@ const FieldCustomizeSection = () => {
         </div>
       </div>
 
-      <Modal
-        show={show}
-        onHide={handleClose}
-        size="lg"
-        className="modal-dialog-customize"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>
-            {currentField?.type == "stepper" ? "Add Steps" : "Add Option"}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="customize-prop-sec">
-            <div className="d-flex mt-2 mb-4">
-              <div className="w-100">
-                {currentField?.type == "stepper" && (
-                  <label className="mb-1">Stepper Label</label>
-                )}
-                <input
-                  type="text"
-                  placeholder={`Enter ${
-                    currentField?.type == "stepper" ? "step" : "option"
-                  } value`}
-                  className="customize-input"
-                  value={optionValue}
-                  onChange={(e) => setOptionValue(e.target.value)}
-                />
-              </div>
-              {currentField?.type == "stepper" && (
-                <div className="w-100 ml-3">
-                  <label className="mb-1">Workflow Item</label>
-                  <Select
-                    isClearable
-                    placeholder={"Select workflow"}
-                    options={pagesItemList}
-                    value={pageItem || ""}
-                    onChange={(e) => setPageItem(e)}
-                  />
-                </div>
-              )}
-              <button
-                disabled={!optionValue}
-                className={`${
-                  currentField?.type == "stepper" ? "stepper-mt" : ""
-                } add-option`}
-                onClick={() => addSelectOptions(addContent)}
-              >
-                <IoAddSharp />
-              </button>
-            </div>
-            <hr />
-            <div className="customize-option-sec mt-4">
-              {currentField?.props?.[addContent]?.map((ele, i) => {
-                return (
-                  <Row key={i} className="mb-2">
-                    <Col
-                      lg={currentField?.type !== "stepper" ? 11 : 6}
-                      md={currentField?.type !== "stepper" ? 11 : 6}
-                      sm={12}
-                      xs={12}
-                    >
-                      <div className="option-input">
-                        <input
-                          type="text"
-                          value={ele?.value}
-                          onChange={(e) =>
-                            onCustomizeElement(
-                              e,
-                              addContent,
-                              "input",
-                              forms,
-                              "",
-                              i
-                            )
-                          }
-                        />
-                      </div>
-                    </Col>
-                    {currentField?.type == "stepper" && (
-                      <Col lg={5} md={5} sm={12} xs={12}>
-                        <div className="d-flex align-items-center mt-1">
-                          <LuExternalLink className="redirect-page" />{" "}
-                          <a
-                            href={ele?.url}
-                            target="_blank"
-                            className="page-item-link"
-                          >
-                            {ele?.label}
-                          </a>
-                        </div>
-                      </Col>
-                    )}
-                    <Col lg={1} md={1} sm={12} xs={12}>
-                      <FiMinusCircle
-                        onClick={() => removeOption(ele?.value, addContent)}
-                      />
-                    </Col>
-                  </Row>
-                );
-              })}
-            </div>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <AddContent
+        open={show}
+        handleClose={handleClose}
+        addContentType={addContent[currentField?.type]}
+        currentField={currentField}
+        onCustomizeElement={onCustomizeElement}
+      />
     </div>
   );
 };

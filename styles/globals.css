@@ -353,16 +353,12 @@ input {
   position: relative;
 }
 
-.customize-option-sec svg {
-  cursor: pointer;
-  color: red;
-  margin-top: 7.5px;
-  margin-left: -10px;
-  font-size: 20px;
+.customize-option-sec .delete-content-btn {
+  width: 90%;
 }
 
 .customize-option-sec .page-item-link {
-  width: 90%;
+  width: 110px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -371,9 +367,10 @@ input {
 
 .customize-option-sec .redirect-page {
   color: #0d6efd !important;
-  margin-right: 9px !important;
-  margin-top: 0px !important;
+  margin-right: 7px !important;
+  margin-top: -2px !important;
   margin-left: 2px;
+  font-size: 22px;
 }
 
 .customize-option-sec .option-input input {
@@ -517,11 +514,6 @@ hr {
   flex-wrap: wrap;
 }
 
-.is-web-page {
-  /* padding: 20px; */
-  /* box-shadow: 0 0 5px 2px #80808042; */
-}
-
 .card-sec .no-data {
   margin: 50px 0px !important;
   flex: 100%;
@@ -553,17 +545,20 @@ hr {
 .shadow-card {
   padding: 20px;
   box-shadow: 0 0 5px 2px #80808042;
+  border-radius: 10px;
 }
 
 .border-card {
   padding: 20px;
   border: 1px solid #8080804a;
+  border-radius: 10px;
 }
 
 .border-shadow-card {
   padding: 20px;
   box-shadow: 0 0 5px 2px #80808042;
   border: 1px solid #8080804a;
+  border-radius: 10px;
 }
 
 .check-box-section input {
@@ -705,4 +700,43 @@ hr {
 
 .page-item-link {
   text-decoration: none;
+}
+
+.swiper {
+  padding: 0px 10px !important;
+}
+
+.swiper-wrapper {
+  padding-top: 10px !important;
+}
+
+.swiper-pagination {
+  position: relative !important;
+  margin-top: 15px;
+}
+
+.customize-content-table table thead th{
+  font-weight: 500 !important;
+  border-bottom: 1px solid var(--grey-color);
+}
+
+.customize-content-table table{
+  margin-bottom: 0px !important;  
+}
+
+.customize-content-table thead{
+  position: sticky;
+  z-index: 100;
+  top: -1px;
+}
+
+.customize-content-table{
+  height: 270px;
+  overflow-y: auto;
+  border-top: 1px solid var(--grey-color);
+  border-bottom: 1px solid var(--grey-color);
+}
+
+.customize-content-table tbody tr{
+  cursor: grab;
 }

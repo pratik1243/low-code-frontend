@@ -1,7 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useRef } from "react";
+import { Button } from "react-bootstrap";
 import {
   addPixel,
   alignment,
+  containerClasses,
   errorMessageFunc,
   textAlign,
 } from "../../utils/utilFunctions";
@@ -13,7 +16,6 @@ const Stepper = ({ ele, path }) => {
   const { forms, setForms } = useContext(
     path.includes("web-page") ? PageContext : FormContext
   );
-
   const [stepsArr, setStepsArr] = useState([]);
   const [prevArr, setPrevArr] = useState([]);
   const [currentStep, setCurrentStep] = useState(0);
@@ -31,15 +33,11 @@ const Stepper = ({ ele, path }) => {
   }, [currentStep]);
 
   const nextStep = () => {
-    let isFieldsInvalid = false;
-
+    let isFormInvalid = false;
     const validateForms = forms.map((el, i) => {
       const stepContentForm = el?.props?.stepContent?.map((data, id) => {
         const updatedForms = data?.content?.map((datas, ind) => {
           const nestedForm = datas?.content?.map((eles, i) => {
-            if (errorMessageFunc(eles, eles?.props?.value) !== "") {
-              isFieldsInvalid = true;
-            }
             return {
               ...eles,
               form: {
@@ -52,9 +50,6 @@ const Stepper = ({ ele, path }) => {
           if (datas?.content) {
             return { ...datas, content: nestedForm };
           } else {
-            if (errorMessageFunc(datas, datas?.props?.value) !== "") {
-              isFieldsInvalid = true;
-            }
             return {
               ...datas,
               form: {
@@ -75,10 +70,12 @@ const Stepper = ({ ele, path }) => {
       }
       return el;
     });
-    setForms(validateForms);
-    if (!isFieldsInvalid) {
+    setForms(validateForms);   
+    
+
+    if(!isFormInvalid){
       setCurrentStep(currentStep + 1);
-    }
+    }    
   };
 
   return (
@@ -86,8 +83,8 @@ const Stepper = ({ ele, path }) => {
       {!path.includes("web-page") ? (
         <div>Stepper Form</div>
       ) : (
-        <>
-          <div className="stepper-sec">
+        <div className={`${containerClasses[ele?.props?.containerType?.value] || ""}`}>
+          <div className={"stepper-sec mb-4"}>
             <div className="indicator-line"></div>
             <div className="progress-stepper-sec">
               {ele?.props?.stepContent?.map((el, index) => {
@@ -146,19 +143,40 @@ const Stepper = ({ ele, path }) => {
                   }}
                 >
                   {" "}
-                  <RenderField ele={el} index={i} currentStep={currentStep} />{" "}
+                  <RenderField
+                    ele={el}
+                    index={i}
+                    currentStep={currentStep}
+                  />{" "}
                 </div>
               );
             })}
           </div>
 
-          <div className="d-flex justify-content-between">
-            <button onClick={() => setCurrentStep(currentStep - 1)}>
-              Previous
-            </button>
-            <button onClick={nextStep}>Next</button>
+          <div className="d-flex justify-content-between mt-4">
+            {currentStep !== 0 ? (
+              <Button
+                variant="primary"
+                className="prev-btn"
+                onClick={() => setCurrentStep(currentStep - 1)}
+              >
+                Back
+              </Button>
+            ) : (
+              <div></div>
+            )}
+            <Button
+              variant="primary"
+              className="next-btn"
+              disabled={ele?.props?.stepContent?.length - 1 === currentStep}
+              onClick={nextStep}
+            >
+              {ele?.props?.stepContent?.length - 1 === currentStep
+                ? "Submit"
+                : "Save & Continue"}
+            </Button>
           </div>
-        </>
+        </div>
       )}
     </>
   );
