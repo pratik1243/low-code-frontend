@@ -23,7 +23,6 @@ const FormCreate = () => {
   const [containerId, setContainerId] = useState();
   const [containerItemDrag, setContainerItemDrag] = useState();
   const [pagesList, setPagesList] = useState([]);
-  const [pagesItemList, setPagesItemList] = useState([]);
 
   const savePage = async () => {
     try {
@@ -103,35 +102,24 @@ const FormCreate = () => {
       };
       const response = await commonPostApiFunction(requestData);
       setLoader(false);
-
       if (response.status == 200) {
         let page_list = [];
-        let page_items = [];
         let data = response?.data?.responseData;
         for (let index = 0; index < data?.length; index++) {
-          if (data[index]?.page_route) {
-            page_list.push({
-              value: `/web-page/${data[index]?.page_route}`,
-              label: data[index]?.page_name,
-            });
-          } else {
-            page_items.push({
-              label: data[index]?.page_name,
-              value: data[index]?.page_data,
-              url: `/page/${data[index]?.page_id}`,
-            });
-          }
+          page_list.push({
+            page_route: data[index]?.page_route ? `/web-page/${data[index]?.page_route}` : null,
+            page_name: data[index]?.page_name,
+            page_data: data[index]?.page_data,
+            page_item_url: `/page/${data[index]?.page_id}`,
+          });
         }
         setPagesList(page_list);
-        setPagesItemList(page_items);
       } else {
         setPagesList([]);
-        setPagesItemList([]);
       }
     } catch (error) {
       setLoader(false);
       setPagesList([]);
-      setPagesItemList([]);
     }
   };
 
@@ -164,7 +152,6 @@ const FormCreate = () => {
               setContainerId,
               setCurrentElement,
               containerItemDrag,
-              pagesItemList,
               setContainerItemDrag,
             }}
           >

@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useRef } from "react";
 import { Button } from "react-bootstrap";
 import {
   addPixel,
@@ -32,8 +31,12 @@ const Stepper = ({ ele, path }) => {
     }
   }, [currentStep]);
 
-  const nextStep = () => {
-    let isFormInvalid = false;
+  const checkErrorMessages = (data) => {    
+    const isValid = data.every((el) => el?.content ? checkErrorMessages(el?.content) : (el?.props?.value !== "" && el?.form?.error_message == "") );
+    return isValid;
+  };
+
+  const nextStep = () => {    
     const validateForms = forms.map((el, i) => {
       const stepContentForm = el?.props?.stepContent?.map((data, id) => {
         const updatedForms = data?.content?.map((datas, ind) => {
@@ -70,12 +73,11 @@ const Stepper = ({ ele, path }) => {
       }
       return el;
     });
-    setForms(validateForms);   
-    
+    setForms(validateForms);
 
-    if(!isFormInvalid){
+    if (checkErrorMessages(ele?.props?.stepContent[currentStep]?.content)) {
       setCurrentStep(currentStep + 1);
-    }    
+    }
   };
 
   return (
@@ -83,7 +85,11 @@ const Stepper = ({ ele, path }) => {
       {!path.includes("web-page") ? (
         <div>Stepper Form</div>
       ) : (
-        <div className={`${containerClasses[ele?.props?.containerType?.value] || ""}`}>
+        <div
+          className={`${
+            containerClasses[ele?.props?.containerType?.value] || ""
+          }`}
+        >
           <div className={"stepper-sec mb-4"}>
             <div className="indicator-line"></div>
             <div className="progress-stepper-sec">

@@ -5,7 +5,7 @@ import { PageContext } from "../WebPage";
 import { FormContext } from "../FormCreate";
 import { updateNestedForms } from "../../utils/utilFunctions";
 
-const CountryField = ({ ele, path }) => {
+const CountryField = ({ ele, path, currentStep = null }) => {
   const { forms, setForms } = useContext(
     path.includes("web-page") ? PageContext : FormContext
   );
@@ -34,7 +34,7 @@ const CountryField = ({ ele, path }) => {
   }, []);
 
   return (
-    <div className={`element-input-field ${ele?.props?.floatLabel && path.includes("web-page") ? 'float-label' : ''} mb-3`}>
+    <div className={`element-select-field ${ele?.props?.floatLabel && path.includes("web-page") ? 'float-label' : ''} mb-3`}>
       <label>
         Country {ele?.props?.required && <span className="required">*</span>}
       </label>

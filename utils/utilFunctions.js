@@ -269,19 +269,19 @@ export const validations = [
 ];
 
 export const validationsRegex = {
-  Email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-  Phone: /^[6-9]\d{9}$/,
-  Password: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/,
+  "Email": /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  "Phone": /^[6-9]\d{9}$/,
+  "Password": /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/,
   "Only Letters": /^[A-Za-z]+$/,
   "Only Numbers": /^\d+$/,
-  Alphanumeric: /^[A-Za-z0-9]+$/,
-  Url: /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)([/\w .-]*)*\/?$/,
+  "Alphanumeric": /^[A-Za-z0-9]+$/,
+  "Url": /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)([/\w .-]*)*\/?$/,
   "Aadhar Number": /^\d{4}\s?\d{4}\s?\d{4}$/,
   "PAN Number": /^[A-Z]{5}[0-9]{4}[A-Z]$/,
   "Account Number": /^\d{9,18}$/,
   "Card Number": /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13})$/,
-  IFSC: /^[A-Z]{4}0[A-Z0-9]{6}$/,
-  CVV: /^[0-9]{3,4}$/,
+  "IFSC": /^[A-Z]{4}0[A-Z0-9]{6}$/,
+  "CVV": /^[0-9]{3,4}$/,
 };
 
 export const headingVariantOptions = [
@@ -485,6 +485,63 @@ const options = (el, value, attribute, optionIndex) => {
   return values;
 };
 
+export const nestedStructure = (
+  data,
+  forms,
+  currentElement,
+  property,
+  properType
+) => {
+  const updateForms = forms?.map((el, i) => {
+    const nestedForm = el?.content?.map((ele, id) => {
+      if (ele.id === currentElement?.id) {
+        return {
+          ...ele,
+          ...(properType == "addContent"
+            ? { ...property(ele, data?.type, data?.pageItem, data?.optionValue) }
+            : { ...property(data?.e, ele, data?.attribute, data?.value[data?.type], data?.optionIndex, data?.style) }),
+        };
+      } else {
+        return ele;
+      }
+    });
+
+    if (currentElement?.isContainer) {
+      return { ...el, content: nestedForm };
+    } else if (el.id === currentElement?.id) {
+      return {
+        ...el,
+        ...(properType == "addContent"
+          ? { ...property(el, data?.type, data?.pageItem, data?.optionValue) }
+          : { ...property(data?.e, el, data?.attribute, data?.value[data?.type], data?.optionIndex, data?.style) }),
+      };
+    } else {
+      return el;
+    }
+  });
+  return updateForms;
+};
+
+export const addContentProps = (el, type, pageItem, optionValue) => {
+  return {
+    props: {
+      ...el?.props,
+      [type]: [
+        ...el?.props?.[type],
+        {
+          ...(["stepContent", "slides"].includes(type)
+            ? { content: pageItem?.page_data,
+                url: pageItem?.page_item_url,
+                label: pageItem?.page_name,
+              }
+            : { label: optionValue }),
+          value: optionValue,
+        },
+      ],
+    },
+  };
+};
+
 export const updateforms = (e, el, attribute, value, optionIndex, style) => {
   return {
     ...el,
@@ -510,8 +567,7 @@ export const updateforms = (e, el, attribute, value, optionIndex, style) => {
                 }
               : {
                   [attribute]: ["options", "stepContent", "slides"].includes(attribute)
-                    ? options(el, value, attribute, optionIndex)
-                    : value,
+                    ? options(el, value, attribute, optionIndex) : value,
                 }),
           },
         }),
@@ -548,7 +604,7 @@ export const updateNestedForms = (forms, ele, value, currentStep = null) => {
       return el;
     });
 
-    if (el.type === "stepper") {
+    if (el.type === "stepper" && currentStep !== null) {
       return { ...el, props: { ...el.props, stepContent: stepContent } };
     } else if (ele?.isContainer) {
       return { ...el, content: nestedForm };

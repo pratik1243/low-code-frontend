@@ -5,6 +5,7 @@ import React, { useContext, useState } from "react";
 import { Button, Modal, Table } from "react-bootstrap";
 import { FormContext } from "../FormCreate";
 import { LuExternalLink } from "react-icons/lu";
+import { addContentProps, nestedStructure } from "../../utils/utilFunctions";
 
 const AddContent = ({
   open,
@@ -13,7 +14,8 @@ const AddContent = ({
   addContentType,
   onCustomizeElement,
 }) => {
-  const { forms, setForms, currentElement, pagesItemList } = useContext(FormContext);
+
+  const { forms, setForms, currentElement, pagesList } = useContext(FormContext);
   const [optionValue, setOptionValue] = useState("");
   const [pageItem, setPageItem] = useState();
   const stepList = ["stepper", "slider"];
@@ -59,60 +61,13 @@ const AddContent = ({
     e.preventDefault();
   };
 
-  const addSelectOptions = (type) => {
-    const updateForms = forms?.map((el, i) => {
-      const nestedForm = el?.content?.map((ele, id) => {
-        if (ele.id === currentElement?.id) {
-          return {
-            ...ele,
-            props: {
-              ...ele?.props,
-              [type]: [
-                ...ele?.props?.[type],
-                {
-                  ...(["stepContent", "slides"].includes(type)
-                    ? {
-                        content: pageItem?.value,
-                        url: pageItem?.url,
-                        label: pageItem?.label,
-                      }
-                    : { label: optionValue }),
-                  value: optionValue,
-                },
-              ],
-            },
-          };
-        } else {
-          return ele;
-        }
-      });
-
-      if (currentElement?.isContainer) {
-        return { ...el, content: nestedForm };
-      } else if (el?.id === currentElement?.id) {
-        return {
-          ...el,
-          props: {
-            ...el?.props,
-            [type]: [
-              ...el?.props?.[type],
-              {
-                ...(["stepContent", "slides"].includes(type)
-                  ? {
-                      content: pageItem?.value,
-                      url: pageItem?.url,
-                      label: pageItem?.label,
-                    }
-                  : { label: optionValue }),
-                value: optionValue,
-              },
-            ],
-          },
-        };
-      }
-      return el;
-    });
-    setForms(updateForms);
+  const addSelectOptions = (type) => {    
+    const addContentObj = {
+      type: type,
+      pageItem: pageItem,
+      optionValue: optionValue
+    };
+    setForms(nestedStructure(addContentObj, forms, currentElement, addContentProps, "addContent"));
     setOptionValue("");
     setPageItem();
   };
@@ -136,6 +91,7 @@ const AddContent = ({
   return (
     <Modal
       show={open}
+      fullscreen={currentField?.type !== "select"}
       onHide={handleClose}
       size={currentField?.type == "select" ? "lg" : "xl"}
       className="modal-dialog-customize"
@@ -166,7 +122,9 @@ const AddContent = ({
                 <Select
                   isClearable
                   placeholder={"Select page item"}
-                  options={pagesItemList}
+                  options={pagesList}
+                  getOptionLabel={(e) => e.page_name}
+                  getOptionValue={(e) => e.page_data}
                   value={pageItem || ""}
                   onChange={(e) => setPageItem(e)}
                 />
@@ -215,7 +173,6 @@ const AddContent = ({
                       onDragOver={(e) => onDragOver(e)}
                       onDragStart={(e) => onDragStart(e, i)}
                       onDrop={(e) => onDropItem(e, i)}
-                      
                     >
                       <td>
                         <div className="option-input m-2">
@@ -268,11 +225,11 @@ const AddContent = ({
           </div>
         </div>
       </Modal.Body>
-      <Modal.Footer>
+      {/* <Modal.Footer>
         <Button variant="primary" onClick={handleClose}>
           Close
         </Button>
-      </Modal.Footer>
+      </Modal.Footer> */}
     </Modal>
   );
 };

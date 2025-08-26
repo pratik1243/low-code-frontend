@@ -163,7 +163,8 @@ input {
   border: 1px solid var(--grey-color);
 }
 
-.element-input-field {
+.element-input-field,
+.element-select-field {
   position: relative;
 }
 
@@ -206,11 +207,13 @@ input {
   top: -15px !important;
 }
 
-.element-input-field.float-label {
+.element-input-field.float-label,
+.element-select-field.float-label {
   margin-top: 15px;
 }
 
-.element-input-field.float-label label {
+.element-input-field.float-label label,
+.element-select-field.float-label label {
   position: absolute;
   left: 14px;
   top: 11px;
@@ -219,18 +222,27 @@ input {
   z-index: -1;
 }
 
-.element-input-field.float-label input::placeholder {
+.element-input-field.float-label input::placeholder,
+.element-select-field.float-label .css-1jqq78o-placeholder {
   color: transparent;
   font-size: 15px;
 }
 
-.element-input-field.float-label input:focus::placeholder {
+.element-input-field.float-label input:focus::placeholder,
+.element-select-field.float-label:has(.css-t3ipsp-control)
+  .css-1jqq78o-placeholder {
   color: #aaa9a9;
   transition: all 0.4s;
 }
 
 .element-input-field:not(.standard-input).float-label:has(input:valid) label,
-.element-input-field:not(.standard-input).float-label:has(input:focus) label {
+.element-input-field:not(.standard-input).float-label:has(input:focus) label,
+.element-select-field:not(.standard-input).float-label:has(
+    .css-1dimb5e-singleValue
+  )
+  label,
+.element-select-field:not(.standard-input).float-label:has(.css-t3ipsp-control)
+  label {
   top: -9px;
   left: 8px;
   font-size: 12.5px;
@@ -238,7 +250,8 @@ input {
   z-index: 1 !important;
 }
 
-.element-input-field label {
+.element-input-field label,
+.element-select-field label {
   margin-bottom: 6px;
   display: block;
   font-size: 15px;
@@ -358,9 +371,6 @@ input {
 }
 
 .customize-option-sec .page-item-link {
-  width: 110px;
-  overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
   display: block;
 }
@@ -380,6 +390,7 @@ input {
 .error-message {
   color: red;
   font-size: 14px;
+  display: block;
 }
 
 .page-list-sec .page-section-tab {
@@ -715,28 +726,35 @@ hr {
   margin-top: 15px;
 }
 
-.customize-content-table table thead th{
+.customize-content-table table thead th {
   font-weight: 500 !important;
   border-bottom: 1px solid var(--grey-color);
 }
 
-.customize-content-table table{
-  margin-bottom: 0px !important;  
+.customize-content-table table {
+  margin-bottom: 0px !important;
 }
 
-.customize-content-table thead{
+.customize-content-table thead {
   position: sticky;
   z-index: 100;
   top: -1px;
 }
 
-.customize-content-table{
-  height: 270px;
+.customize-content-table {
+  height: 65vh;
   overflow-y: auto;
-  border-top: 1px solid var(--grey-color);
-  border-bottom: 1px solid var(--grey-color);
+  border: 1px solid var(--grey-color);
 }
 
-.customize-content-table tbody tr{
+.customize-content-table tbody tr {
   cursor: grab;
+}
+
+.css-1nmdiq5-menu {
+  z-index: 120 !important;
+}
+
+.element-select-field .css-13cymwt-control {
+  background-color: transparent !important;
 }

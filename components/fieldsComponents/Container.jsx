@@ -6,8 +6,7 @@ import RenderField from "./RenderField";
 import ElementActions from "../commonComponents/ElementActions";
 
 const Container = ({ ele, path, index, currentStep = null }) => {
-  const { forms, setForms, setContainerId, setCurrentElement, currentElement } =
-    useContext(path.includes("web-page") ? PageContext : FormContext);
+  const { forms, setForms, setContainerId, setCurrentElement, currentElement } = useContext(path.includes("web-page") ? PageContext : FormContext);
 
   const onClickElement = (e, el) => {
     e.stopPropagation();

@@ -20,10 +20,7 @@ const ButtonComp = ({ ele, path }) => {
     const validateForms = forms.map((el, i) => {
       const nestedForm = el?.content?.map((eles, id) => {
         if (fieldArray.includes(eles?.props?.name)) {
-          formData[eles?.props?.name] =
-            typeof eles?.props?.value == "object"
-              ? eles?.props?.value?.map((e) => e?.value)
-              : eles?.props?.value;
+          formData[eles?.props?.name] = typeof eles?.props?.value == "object" ? eles?.props?.value?.map((e) => e?.value) : eles?.props?.value;
           if (errorMessageFunc(eles, eles?.props?.value) !== "") {
             isFieldsInvalid = true;
           }
@@ -42,10 +39,7 @@ const ButtonComp = ({ ele, path }) => {
         return { ...el, content: nestedForm };
       } else {
         if (fieldArray.includes(el?.props?.name)) {
-          formData[el?.props?.name] =
-            typeof el?.props?.value == "object"
-              ? el?.props?.value?.map((e) => e?.value)
-              : el?.props?.value;
+          formData[el?.props?.name] = typeof el?.props?.value == "object" ? el?.props?.value?.map((e) => e?.value) : el?.props?.value;
           if (errorMessageFunc(el, el?.props?.value) !== "") {
             isFieldsInvalid = true;
           }
@@ -60,8 +54,8 @@ const ButtonComp = ({ ele, path }) => {
       }
       return el;
     });
-    if (ele?.props?.redirectUrl?.value) {
-      router.push(ele?.props?.redirectUrl?.value);
+    if (ele?.props?.redirectUrl?.page_route) {
+      router.push(ele?.props?.redirectUrl?.page_route);
     }
     if (fieldArray.length > 0) {
       setForms(validateForms);

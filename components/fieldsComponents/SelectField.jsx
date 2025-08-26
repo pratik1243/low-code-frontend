@@ -5,7 +5,7 @@ import { FormContext } from "../FormCreate";
 import { PageContext } from "../WebPage";
 
 const SelectField = ({ ele, path, currentStep = null }) => {
-  const { forms, setForms, currentElement } = useContext(
+  const { forms, setForms } = useContext(
     path.includes("web-page") ? PageContext : FormContext
   );
 
@@ -16,7 +16,7 @@ const SelectField = ({ ele, path, currentStep = null }) => {
 
   return (
     <div
-      className={`element-input-field ${
+      className={`element-select-field ${
         ele?.props?.floatLabel && path.includes("web-page") ? "float-label" : ""
       } mb-3`}
     >
@@ -28,6 +28,7 @@ const SelectField = ({ ele, path, currentStep = null }) => {
         isClearable
         defaultValue={ele?.props?.value}
         name={ele?.name}
+        required
         className={ele?.name}
         isMulti={ele?.props?.multiple}
         placeholder={ele?.props?.placeholder || "Enter placeholder"}
@@ -37,7 +38,7 @@ const SelectField = ({ ele, path, currentStep = null }) => {
         }}
       />
       {ele?.form?.error_message && (
-        <span className="error-message">{ele?.form?.error_message}</span>
+        <span className="error-message mt-1">{ele?.form?.error_message}</span>
       )}
     </div>
   );

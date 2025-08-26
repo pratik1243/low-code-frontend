@@ -10,6 +10,7 @@ import {
   buttonColorOptions,
   containerOptions,
   headingVariantOptions,
+  nestedStructure,
   sliderPerViewOptions,
   updateforms,
   validations,
@@ -34,43 +35,41 @@ const FieldCustomizeSection = () => {
     select: "Add Options",
   };
 
-  const notFields = ["divider", "container", "slider", "image", "country", "stepper"];
+  const notFields = [
+    "divider",
+    "container",
+    "slider",
+    "image",
+    "country",
+    "stepper",
+  ];
   const fields = ["input", "select", "country"];
-  
+
   const [show, setShow] = useState(false);
 
-  const onCustomizeElement = (e, attribute, type, forms, style = null, optionIndex = null) => {
+  const onCustomizeElement = (
+    e,
+    attribute,
+    type,
+    forms,
+    style = null,
+    optionIndex = null
+  ) => {
     const value = {
       select: e || "",
       input: e?.target?.value,
       checkbox: e?.target?.checked,
       image: e || "",
     };
-
-    const updateForms = forms?.map((el, i) => {
-      const nestedForm = el?.content?.map((ele, id) => {
-        if (ele.id === currentElement?.id) {
-          return {
-            ...ele,
-            ...updateforms(e, ele, attribute, value[type], optionIndex, style),
-          };
-        } else {
-          return ele;
-        }
-      });
-
-      if (currentElement?.isContainer) {
-        return { ...el, content: nestedForm };
-      } else if (el.id === currentElement?.id) {
-        return {
-          ...el,
-          ...updateforms(e, el, attribute, value[type], optionIndex, style),
-        };
-      } else {
-        return el;
-      }
-    });
-    setForms(updateForms);
+    const customizeFieldObj = {
+      e: e,
+      type: type,
+      value: value,
+      attribute: attribute,
+      style: style,
+      optionIndex: optionIndex,
+    };
+    setForms(nestedStructure(customizeFieldObj, forms, currentElement, updateforms, "customizeField"));
   };
 
   const renderCurrentField = (form, currentelement, containerid) => {
@@ -87,7 +86,10 @@ const FieldCustomizeSection = () => {
     try {
       const formData = new FormData();
       formData.append("image", e.target.files[0]);
-      const response = await axios.post("http://localhost:8000/upload-image", formData);
+      const response = await axios.post(
+        "http://localhost:8000/upload-image",
+        formData
+      );
       if (response.status == 200) {
         onCustomizeElement(response?.data?.imageUrl, "url", "image", forms);
       }
@@ -101,10 +103,17 @@ const FieldCustomizeSection = () => {
     let types = ["input", "select", "country"];
     for (let i = 0; i < element?.length; i++) {
       for (let j = 0; j < element[i]?.content?.length; j++) {
-        if (types?.includes(element[i]?.content[j]?.type) || types?.includes(element[i]?.type)) {
+        if (
+          types?.includes(element[i]?.content[j]?.type) ||
+          types?.includes(element[i]?.type)
+        ) {
           fields.push({
-            value: element[i]?.content[j] ? element[i]?.content[j]?.props?.name : element[i]?.props?.name,
-            label: element[i]?.content[j] ? element[i]?.content[j]?.props?.name : element[i]?.props?.name,
+            value: element[i]?.content[j]
+              ? element[i]?.content[j]?.props?.name
+              : element[i]?.props?.name,
+            label: element[i]?.content[j]
+              ? element[i]?.content[j]?.props?.name
+              : element[i]?.props?.name,
           });
         }
       }
@@ -118,7 +127,7 @@ const FieldCustomizeSection = () => {
 
   const fieldOptions = useMemo(() => getFields(forms), [forms]);
   const currentField = renderCurrentField(forms, currentElement, containerId);
-  
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -269,7 +278,12 @@ const FieldCustomizeSection = () => {
               )}
               <Col lg={6} md={6} sm={12} xs={12}>
                 <div
-                  className={`d-flex ${currentField?.props?.slides.length > currentField?.props?.slidesPerView?.value ? "mt-3" : ""}`}
+                  className={`d-flex ${
+                    currentField?.props?.slides.length >
+                    currentField?.props?.slidesPerView?.value
+                      ? "mt-3"
+                      : ""
+                  }`}
                 >
                   <input
                     type="checkbox"
@@ -402,8 +416,8 @@ const FieldCustomizeSection = () => {
               isClearable
               placeholder={"Select page"}
               options={pagesList}
-              getOptionLabel={(e) => e.label}
-              getOptionValue={(e) => e.value}
+              getOptionLabel={(e) => e.page_name}
+              getOptionValue={(e) => e.page_route}
               value={currentField?.props?.redirectUrl || ""}
               onChange={(e) => {
                 onCustomizeElement(e, "redirectUrl", "select", forms);
@@ -456,11 +470,17 @@ const FieldCustomizeSection = () => {
           {["paragraph", "heading"].includes(currentField?.type) ? (
             <div className="customize-prop-sec">
               <label>
-                {currentField?.type === "paragraph" ? "Paragraph Text" : "Heading Text"}
+                {currentField?.type === "paragraph"
+                  ? "Paragraph Text"
+                  : "Heading Text"}
               </label>
               <textarea
                 value={currentField?.props?.text || ""}
-                placeholder={currentField?.type === "paragraph" ? "Enter paragraph" : "Enter heading"}
+                placeholder={
+                  currentField?.type === "paragraph"
+                    ? "Enter paragraph"
+                    : "Enter heading"
+                }
                 className="customize-input"
                 onChange={(e) => {
                   onCustomizeElement(e, "text", "input", forms);
