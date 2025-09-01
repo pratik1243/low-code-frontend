@@ -34,7 +34,15 @@ const CountryField = ({ ele, path, currentStep = null }) => {
   }, []);
 
   return (
-    <div className={`element-select-field ${ele?.props?.floatLabel && path.includes("web-page") ? 'float-label' : ''} mb-3`}>
+    <div
+      className={`element-select-field ${
+        ele?.props?.floatLabel && path.includes("web-page") ? "float-label" : ""
+      } ${
+        ele?.props?.standard && path.includes("web-page")
+          ? "standard-input"
+          : ""
+      } mb-3`}
+    >
       <label>
         Country {ele?.props?.required && <span className="required">*</span>}
       </label>
@@ -49,8 +57,9 @@ const CountryField = ({ ele, path, currentStep = null }) => {
           setValidations(e);
         }}
       />
+      {ele?.props?.standard && path.includes("web-page") && <div className="standard-line"></div>}
       {ele?.form?.error_message && (
-        <span className="error-message">{ele?.form?.error_message}</span>
+        <span className="error-message mt-1">{ele?.form?.error_message}</span>
       )}
     </div>
   );

@@ -6,6 +6,7 @@ import { Button, Modal, Table } from "react-bootstrap";
 import { FormContext } from "../FormCreate";
 import { LuExternalLink } from "react-icons/lu";
 import { addContentProps, nestedStructure } from "../../utils/utilFunctions";
+import { useEffect } from "react";
 
 const AddContent = ({
   open,
@@ -17,7 +18,7 @@ const AddContent = ({
 
   const { forms, setForms, currentElement, pagesList } = useContext(FormContext);
   const [optionValue, setOptionValue] = useState("");
-  const [pageItem, setPageItem] = useState();
+  const [pageItem, setPageItem] = useState("");
   const stepList = ["stepper", "slider"];
 
   const addTextType = {
@@ -69,7 +70,7 @@ const AddContent = ({
     };
     setForms(nestedStructure(addContentObj, forms, currentElement, addContentProps, "addContent"));
     setOptionValue("");
-    setPageItem();
+    setPageItem("");
   };
 
   const removeOption = (value, type) => {
@@ -100,7 +101,7 @@ const AddContent = ({
         <Modal.Title>{addTextType[currentField?.type]}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div className="customize-prop-sec">
+        <div className="customize-prop-sec p-2">
           <div className="d-flex mt-2 mb-4">
             <div className="w-100">
               {stepList.includes(currentField?.type) && (
@@ -131,7 +132,7 @@ const AddContent = ({
               </div>
             )}
             <button
-              disabled={!optionValue && pageItem}
+              disabled={!optionValue && !pageItem}
               className={`${
                 stepList.includes(currentField?.type) ? "stepper-mt" : ""
               } add-option`}

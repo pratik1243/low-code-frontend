@@ -1,63 +1,56 @@
 "use client";
+import Aos from "aos";
 import React, { createContext, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { commonPostApiFunction } from "../services/commonApiFunc";
 import RenderField from "./fieldsComponents/RenderField";
-import Loader from "./commonComponents/Loader";
 import { addPixel, alignment, textAlign } from "../utils/utilFunctions";
-import Aos from "aos";
+import LayoutComp from "./commonComponents/LayoutComp";
+import { setLoader } from "../redux/slices/loaderSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export const PageContext = createContext();
 
 const WebPage = () => {
   const params = useParams();
+  const dispatch = useDispatch();
   const [forms, setForms] = useState([]);
-  const [loader, setLoader] = useState(true);
   const [currentElement, setCurrentElement] = useState();
+
+  const token = useSelector((user) => user.auth.authDetails.token);
+  const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
 
   const fetchPage = async () => {
     try {
-      setLoader(true);
+      dispatch(setLoader(true));
       const requestData = {
         key: "hfgftrj",
-        payload: { page_route: params.id },
+        ...(params.id && {
+          payload: { page_route: params.id, request_user_id: requestUserId },
+        }),
       };
-      const response = await commonPostApiFunction(requestData);
-      setLoader(false);
-      if (response.status == 200) {
+      const response = await commonPostApiFunction(requestData, token);
+      dispatch(setLoader(false));
+      if (response.status == 200 && params.id) {
         setForms(response?.data?.responseData[0]?.page_data);
       } else {
-        alert(response.data.message);
+        setForms([]);
       }
     } catch (error) {
-      alert(error);
+      setForms([]);
+      setPagesList([]);
     }
   };
-
-  // const alignment = {
-  //   Center: "justify-content-center",
-  //   Right: "justify-content-end",
-  //   left: "justify-content-start",
-  // };
-
-  // const textAlign = {
-  //   Center: "text-center",
-  //   Right: "text-right",
-  //   Left: "text-left",
-  // };
 
   useEffect(() => {
     Aos.init({
       duration: 1000,
-      // once: true,
     });
-
     fetchPage();
   }, []);
 
   return (
-    <div className="d-flex web-div">
-      <Loader loader={loader} />
+    <div>
       <PageContext
         value={{
           forms,
@@ -66,21 +59,33 @@ const WebPage = () => {
           setCurrentElement,
         }}
       >
-        {forms?.length > 0 &&
-          forms?.map((ele, index) => {
-            return (
-              <div
-                key={index}
-                className={`d-flex ${alignment[ele?.props?.align?.value] || ""} ${ele?.props?.hidden ? "hide" : ""} ${ele?.type == "heading" || ele?.type == "paragraph" ? (textAlign[ele?.props?.align?.value] || "") : ""}`}
-                style={{
-                  ...(ele?.column_width && { width: `${ele?.column_width}%` }),
-                  ...(ele?.props?.style && addPixel(ele?.props?.style)),
-                }}
-              >
-                <RenderField ele={ele} index={index} />
-              </div>
-            );
-          })}
+        <LayoutComp>
+          <div className="d-flex web-div">
+            {forms?.length > 0 &&
+              forms?.map((ele, index) => {
+                return (
+                  <div
+                    key={index}
+                    className={`d-flex ${
+                      alignment[ele?.props?.align?.value] || ""
+                    } ${ele?.props?.hidden ? "hide" : ""} ${
+                      ele?.type == "heading" || ele?.type == "paragraph"
+                        ? textAlign[ele?.props?.align?.value] || ""
+                        : ""
+                    }`}
+                    style={{
+                      ...(ele?.column_width && {
+                        width: `${ele?.column_width}%`,
+                      }),
+                      ...(ele?.props?.style && addPixel(ele?.props?.style)),
+                    }}
+                  >
+                    <RenderField ele={ele} index={index} />
+                  </div>
+                );
+              })}
+          </div>
+        </LayoutComp>
       </PageContext>
     </div>
   );

@@ -1,7 +1,10 @@
+'use client'
 import React from "react";
 import { Spinner } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
-const Loader = ({ loader }) => {
+const Loader = () => {
+  const loader = useSelector((state) => state.loader.open);
   return (
     <>
       {loader ? (

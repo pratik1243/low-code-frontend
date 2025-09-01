@@ -1,5 +1,10 @@
-import Image from "next/image";
+"use client";
+import Login from "../../components/Login";
 
 export default function Home() {
-  return <div>Home Page</div>;
+  return (
+    <div>
+      <Login />
+    </div>
+  );
 }

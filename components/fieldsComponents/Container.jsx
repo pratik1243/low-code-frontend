@@ -1,12 +1,23 @@
 import React, { useContext } from "react";
-import { addPixel, alignment, textAlign, containerClasses } from "../../utils/utilFunctions";
+import {
+  addPixel,
+  alignment,
+  textAlign,
+  containerClasses,
+} from "../../utils/utilFunctions";
 import { FormContext } from "../FormCreate";
 import { PageContext } from "../WebPage";
 import RenderField from "./RenderField";
 import ElementActions from "../commonComponents/ElementActions";
 
 const Container = ({ ele, path, index, currentStep = null }) => {
-  const { forms, setForms, setContainerId, setCurrentElement, currentElement } = useContext(path.includes("web-page") ? PageContext : FormContext);
+  const {
+    forms,
+    setForms,
+    setContainerId,
+    setCurrentElement,
+    currentElement
+  } = useContext(path.includes("web-page") ? PageContext : FormContext);
 
   const onClickElement = (e, el) => {
     e.stopPropagation();
@@ -76,10 +87,27 @@ const Container = ({ ele, path, index, currentStep = null }) => {
           <div
             key={i}
             draggable={!path.includes("web-page")}
-            className={`position-relative element-column column_${el?.id} ${(path.includes("web-page") && alignment[el?.props?.align?.value]) || ""} ${currentElement?.id === el?.id ? "selected" : ""} ${el?.props?.hidden && path.includes("web-page") ? "hide" : el?.props?.hidden ? "hidden" : ""} ${(path.includes("web-page") && el?.type == "heading") || (path.includes("web-page") && el?.type == "paragraph") ? textAlign[el?.props?.align?.value] || "" : ""} ${path.includes("web-page") ? "d-flex" : ""}`}
+            className={`position-relative element-column column_${el?.id} ${
+              (path.includes("web-page") &&
+                alignment[el?.props?.align?.value]) ||
+              ""
+            } ${currentElement?.id === el?.id ? "selected" : ""} ${
+              el?.props?.hidden && path.includes("web-page")
+                ? "hide"
+                : el?.props?.hidden
+                ? "hidden"
+                : ""
+            } ${
+              (path.includes("web-page") && el?.type == "heading") ||
+              (path.includes("web-page") && el?.type == "paragraph")
+                ? textAlign[el?.props?.align?.value] || ""
+                : ""
+            } ${path.includes("web-page") ? "d-flex" : ""}`}
             style={{
               ...(el?.column_width && { width: `${el?.column_width}%` }),
-              ...(el?.props?.style && path.includes("web-page") && addPixel(el?.props?.style)),
+              ...(el?.props?.style &&
+                path.includes("web-page") &&
+                addPixel(el?.props?.style)),
             }}
             onClick={(e) => onClickElement(e, el)}
             onDragOver={(e) => onDragOver(e)}

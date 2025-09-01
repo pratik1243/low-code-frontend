@@ -13,7 +13,7 @@ const TextField = ({ ele, path, currentStep = null }) => {
   };
 
   return (
-    <div className="mb-3">
+    <div className="mb-3 position-relative">
       <div
         className={`element-input-field ${
           (ele?.props?.floatLabel || ele?.props?.standard) &&
@@ -24,7 +24,7 @@ const TextField = ({ ele, path, currentStep = null }) => {
           ele?.props?.standard && path.includes("web-page")
             ? "standard-input"
             : ""
-        } mb-1`}
+        }`}
       >
         {" "}
         <label>
@@ -43,8 +43,9 @@ const TextField = ({ ele, path, currentStep = null }) => {
           required
         />
       </div>
+      {ele?.props?.standard && path.includes("web-page") && <div className="standard-line"></div>}
       {ele?.form?.error_message && (
-        <span className="error-message">{ele?.form?.error_message}</span>
+        <span className="error-message mt-1">{ele?.form?.error_message}</span>
       )}
     </div>
   );

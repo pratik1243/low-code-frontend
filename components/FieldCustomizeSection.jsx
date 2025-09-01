@@ -69,14 +69,26 @@ const FieldCustomizeSection = () => {
       style: style,
       optionIndex: optionIndex,
     };
-    setForms(nestedStructure(customizeFieldObj, forms, currentElement, updateforms, "customizeField"));
+    setForms(
+      nestedStructure(
+        customizeFieldObj,
+        forms,
+        currentElement,
+        updateforms,
+        "customizeField"
+      )
+    );
   };
 
   const renderCurrentField = (form, currentelement, containerid) => {
     const fields = form?.filter((el) => el?.id === currentelement?.id)[0];
-    const nestedFields = form?.[containerid]?.content?.filter((el) => el?.id === currentelement?.id)[0];
+    const nestedFields = form?.[containerid]?.content?.filter(
+      (el) => el?.id === currentelement?.id
+    )[0];
     if (form?.[containerid]?.content?.length > 0) {
-      return currentelement?.type == "container" ? form?.[containerid] : nestedFields;
+      return currentelement?.type == "container"
+        ? form?.[containerid]
+        : nestedFields;
     } else {
       return fields;
     }
@@ -94,7 +106,7 @@ const FieldCustomizeSection = () => {
         onCustomizeElement(response?.data?.imageUrl, "url", "image", forms);
       }
     } catch (error) {
-      alert(error);
+      dispatch(setLoader(false));
     }
   };
 
@@ -337,16 +349,32 @@ const FieldCustomizeSection = () => {
 
       {currentField?.type !== "divider" && (
         <div className="mb-3">
-          <label className="mb-2">Column Background Color</label>
-          <input
-            type="color"
-            id="color-picker"
-            className="w-100"
-            value={currentField?.props?.style?.background || ""}
-            onChange={(e) => {
-              onCustomizeElement(e, "background", "input", forms, "style");
-            }}
-          />
+          <Row>
+            <Col lg={9} md={9}>
+              <label className="mb-2">Column Background Color</label>
+              <input
+                type="color"
+                id="color-picker"
+                className="w-100"
+                value={currentField?.props?.style?.background || ""}
+                onChange={(e) => {
+                  onCustomizeElement(e, "background", "input", forms, "style");
+                }}
+              />
+            </Col>
+            <Col lg={3} md={3}>
+              <Button
+                variant={"primary"}
+                size="sm"
+                className="clear-background-btn"
+                onClick={() =>
+                  onCustomizeElement("", "background", "input", forms, "style")
+                }
+              >
+                Clear
+              </Button>
+            </Col>
+          </Row>
         </div>
       )}
 

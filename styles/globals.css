@@ -179,18 +179,18 @@ input {
   color: #aaa9a9;
 }
 
-.element-input-field.standard-input label {
+.element-input-field.standard-input label,
+.element-select-field.standard-input label {
   left: 0px !important;
 }
 
-.element-input-field.standard-input::before {
+.element-input-field.standard-input + .standard-line,
+.element-select-field.standard-input .standard-line {
   content: "";
   display: block;
   height: 2px;
   width: 0%;
   background-color: #000;
-  position: absolute;
-  bottom: -1px;
   transition: all 0.4s;
 }
 
@@ -198,13 +198,17 @@ input {
   font-size: 15px;
 }
 
-.element-input-field.standard-input:has(input:focus)::before {
+.element-input-field.standard-input:has(input:focus) + .standard-line,
+.element-select-field.standard-input:has(.css-t3ipsp-control) .standard-line {
   width: 100%;
 }
 
 .element-input-field.standard-input:has(input:valid) label,
-.element-input-field.standard-input:has(input:focus) label {
-  top: -15px !important;
+.element-input-field.standard-input:has(input:focus) label,
+.element-select-field.standard-input:has(.css-t3ipsp-control) label,
+.element-select-field.standard-input:has(.css-1p3m7a8-multiValue) label {
+  top: -12px !important;
+  font-size: 13px;
 }
 
 .element-input-field.float-label,
@@ -241,8 +245,11 @@ input {
     .css-1dimb5e-singleValue
   )
   label,
-.element-select-field:not(.standard-input).float-label:has(.css-t3ipsp-control)
-  label {
+.element-select-field:not(.standard-input).float-label:has(
+    .css-1p3m7a8-multiValue
+  )
+  label,
+.element-select-field.float-label:has(.css-t3ipsp-control) label {
   top: -9px;
   left: 8px;
   font-size: 12.5px;
@@ -265,6 +272,28 @@ input {
   outline: none;
   border: 1px solid var(--grey-color);
   transition: all 0.4s;
+}
+
+.element-select-field .css-13cymwt-control,
+.element-select-field .css-t3ipsp-control {
+  background-color: transparent !important;
+}
+
+.element-select-field.standard-input .css-t3ipsp-control,
+.element-select-field.standard-input .css-13cymwt-control {
+  border: none !important;
+  border-bottom: 1px solid var(--grey-color) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.element-select-field.standard-input .css-hlgwow,
+.element-select-field.standard-input .css-1dyz3mf {
+  padding-left: 0px !important;
+}
+
+.element-select-field.standard-input .css-1u9des2-indicatorSeparator {
+  display: none;
 }
 
 .css-19bb58m {
@@ -443,8 +472,8 @@ input {
   position: fixed;
   left: 0;
   right: 0;
-  background: #808080c2;
-  z-index: 1200;
+  background: #808080;
+  z-index: 1500;
   bottom: 0;
   top: 0;
   display: grid;
@@ -755,6 +784,176 @@ hr {
   z-index: 120 !important;
 }
 
-.element-select-field .css-13cymwt-control {
-  background-color: transparent !important;
+.clear-background-btn {
+  margin-top: 29px;
+}
+
+.navbar-section {
+  padding: 20px 30px;
+  box-shadow: 0 0 5px 2px #80808042;
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 1200;
+  top: 0;
+  background-color: var(--white-color);
+}
+
+.nav-link-sec {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.nav-link-sec a {
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.snack-bar-sec {
+  padding: 20px;
+  border-radius: 10px;
+  width: 380px;
+  text-align: center;
+  color: var(--white-color);
+  font-size: 16px;
+  position: fixed;
+  right: 30px;
+  top: 30px;
+  transition: all 0.5s;
+  transform: translateX(500px);
+  box-shadow: 0px 0px 5px 1px #8080807d;
+}
+
+.snack-bar-sec.open {
+  transform: translateX(0px);
+  /* animation: 0.5s linear snackBarHide forwards;
+  animation-delay: 3s; */
+}
+
+@keyframes snackBarHide {
+  0% {
+    transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(500px);
+  }
+}
+
+.danger {
+  background-color: rgb(248, 44, 44);
+}
+
+.success {
+  background-color: rgb(19, 199, 19);
+}
+
+.snack-bar-sec svg {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  cursor: pointer;
+}
+
+.login-sec {
+  box-shadow: 0 0 5px 2px #80808042;
+  padding: 60px 50px;
+  border-radius: 10px;
+  max-width: 1000px;
+  margin: 60px auto;
+}
+
+.register {
+  padding: 30px 50px !important;
+}
+
+.register .row-sec {
+  flex-direction: row-reverse;
+}
+
+.login-sec .input-field {
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.login-sec .input-field input {
+  background-color: transparent;
+  width: 100%;
+  padding: 11px;
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid var(--grey-color);
+}
+
+.login-sec h3 {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.login-sec button {
+  width: 100%;
+  padding: 8px;
+}
+
+.login-sec .text-sec {
+  margin-top: 41px;
+}
+
+.login-sec .text-sec p {
+  font-size: 14.5px;
+  margin-top: 11px;
+}
+
+.login-sec .text-sec a {
+  text-decoration: none;
+}
+
+.login-sec .input-field.float-label:has(input:valid) label,
+.login-sec .input-field.float-label:has(input:focus) label {
+  top: -9px;
+  left: 8px;
+  font-size: 13px;
+  padding: 0px 5px;
+  z-index: 1 !important;
+}
+
+.login-sec .input-field.float-label {
+  margin-top: 15px;
+}
+
+.login-sec .input-field.float-label label {
+  position: absolute;
+  left: 14px;
+  top: 11px;
+  transition: all 0.3s;
+  background-color: white;
+  z-index: -1;
+}
+
+.login-sec .input-field.float-label input::placeholder {
+  color: transparent;
+  font-size: 15px;
+}
+
+.login-sec .input-field.float-label input:focus::placeholder {
+  color: #aaa9a9;
+  transition: all 0.4s;
+}
+
+.logo-sec {
+  display: grid;
+  place-items: center;
+  height: 100%;
+}
+
+.login-sec .btn-primary {
+  background-color: #00b2aa !important;
+}
+
+.password-btn{
+  position: absolute;
+  right: 15px;
+  top: 8px;
+  cursor: pointer;
+  font-size: 20px;
 }

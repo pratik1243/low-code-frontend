@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Select from "react-select";
-import {updateNestedForms } from "../../utils/utilFunctions";
+import { updateNestedForms } from "../../utils/utilFunctions";
 import { FormContext } from "../FormCreate";
 import { PageContext } from "../WebPage";
 
@@ -18,6 +18,10 @@ const SelectField = ({ ele, path, currentStep = null }) => {
     <div
       className={`element-select-field ${
         ele?.props?.floatLabel && path.includes("web-page") ? "float-label" : ""
+      } ${
+        ele?.props?.standard && path.includes("web-page")
+          ? "standard-input"
+          : ""
       } mb-3`}
     >
       <label>
@@ -25,7 +29,7 @@ const SelectField = ({ ele, path, currentStep = null }) => {
         {ele?.props?.required && <span className="required">*</span>}
       </label>
       <Select
-        isClearable
+        isClearable={false}
         defaultValue={ele?.props?.value}
         name={ele?.name}
         required
@@ -37,6 +41,7 @@ const SelectField = ({ ele, path, currentStep = null }) => {
           setValidations(e);
         }}
       />
+      {ele?.props?.standard && path.includes("web-page") && <div className="standard-line"></div>}
       {ele?.form?.error_message && (
         <span className="error-message mt-1">{ele?.form?.error_message}</span>
       )}

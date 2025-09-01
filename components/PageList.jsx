@@ -2,19 +2,25 @@
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Modal, Row, Spinner } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { setAuthDetails } from "../redux/slices/authSlice";
+import { setLoader } from "../redux/slices/loaderSlice";
+import { setSnackbarProps } from "../redux/slices/snackbarSlice";
 import { commonPostApiFunction } from "../services/commonApiFunc";
 import { generateId } from "../utils/utilFunctions";
-import Loader from "./commonComponents/Loader";
 
 const PageList = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [pagesList, setPagesList] = useState([]);
-  const [loader, setLoader] = useState(true);
   const [show, setShow] = useState(false);
   const [formData, setFormData] = useState({
     page_name: "",
     page_link: "",
   });
+
+  const token = useSelector((user) => user.auth.authDetails.token);
+  const requestUserId = useSelector((user) => user.auth.authDetails?.request_user_id);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -27,20 +33,42 @@ const PageList = () => {
 
   const fetchPagesList = async () => {
     try {
-      setLoader(true);
+      dispatch(setLoader(true));
       const requestData = {
         key: "hfgftrj",
+        payload: { request_user_id: requestUserId },
       };
-      const response = await commonPostApiFunction(requestData);
-      setLoader(false);
+      const response = await commonPostApiFunction(requestData, token);
+      dispatch(setLoader(false));
 
       if (response.status == 200) {
         setPagesList(response.data.responseData);
         localStorage.setItem("page-data", null);
+        dispatch(
+          setSnackbarProps({
+            variant: "Success",
+            message: response?.data?.message,
+            open: true,
+          })
+        );
       } else {
+        dispatch(
+          setSnackbarProps({
+            variant: "Danger",
+            message: response?.data?.message,
+            open: false,
+          })
+        );
       }
     } catch (error) {
-      setLoader(false);
+      dispatch(setLoader(false));
+      dispatch(
+        setSnackbarProps({
+          variant: "Danger",
+          message: "Something Went Wrong!",
+          open: false,
+        })
+      );
     }
   };
   const formChange = (e) => {
@@ -48,13 +76,12 @@ const PageList = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  useEffect(() => {
+  useEffect(() => {   
     fetchPagesList();
   }, []);
 
   return (
     <div>
-     <Loader loader={loader} />
       <Container>
         <Row>
           <Col lg={9} md={9} sm={12} xs={12}></Col>
@@ -67,6 +94,22 @@ const PageList = () => {
               }}
             >
               Add Page
+            </Button>
+            <Button
+              variant={"primary"}
+              className={"mr-auto"}
+              onClick={() => {
+                dispatch(
+                  setAuthDetails({
+                    token: null,
+                    request_user_id: null,
+                    user_name: null,
+                  })
+                );
+                router.push('/login')
+              }}
+            >
+             Log Out
             </Button>
           </Col>
         </Row>

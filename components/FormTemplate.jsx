@@ -1,5 +1,4 @@
-import React from "react";
-import { useContext } from "react";
+import React, { useState, useContext } from "react";
 import RenderField from "./fieldsComponents/RenderField";
 import { MdOutlineDragIndicator } from "react-icons/md";
 import { FormContext } from "./FormCreate";
@@ -7,6 +6,7 @@ import { usePathname } from "next/navigation";
 import ElementActions from "./commonComponents/ElementActions";
 
 const FormTemplate = () => {
+
   const {
     forms,
     setForms,
@@ -17,7 +17,7 @@ const FormTemplate = () => {
   } = useContext(FormContext);
 
   const pathname = usePathname();
-
+  
   const onDropItem = (e, dropIndex) => {
     e.stopPropagation();
     setHeight(false);
@@ -31,8 +31,8 @@ const FormTemplate = () => {
     copiedItems.splice(dragIndex, 1);
     copiedItems.splice(dropIndex, 0, draggedItem);
     setForms(copiedItems);
-    dragIndex = null;
     conatinerIndex = null;
+    dragIndex = null;
   };
 
   const onDragStart = (e, index) => {
@@ -73,7 +73,13 @@ const FormTemplate = () => {
             <div
               key={index}
               draggable
-              className={`position-relative element-column column_${ele?.id} ${currentElement?.id === ele?.id ? `selected ${currentElement.type == "container" ? "selected-card" : ""}` : ""} ${ele?.props?.hidden ? "hidden" : ""}`}
+              className={`position-relative element-column column_${ele?.id} ${
+                currentElement?.id === ele?.id
+                  ? `selected ${
+                      currentElement.type == "container" ? "selected-card" : ""
+                    }`
+                  : ""
+              } ${ele?.props?.hidden ? "hidden" : ""}`}
               style={{
                 ...(ele?.column_width && { width: `${ele?.column_width}%` }),
               }}

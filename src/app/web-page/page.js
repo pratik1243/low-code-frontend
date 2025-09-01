@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import WebPage from "../../../components/WebPage";
 
-const WebPage = () => {
-  return (
-    <div>page</div>
-  )
-}
+const HomePage = () => {
+  return <WebPage />;
+};
 
-export default WebPage
+export default HomePage;
