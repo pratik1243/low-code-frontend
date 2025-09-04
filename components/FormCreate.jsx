@@ -4,11 +4,13 @@ import React, { createContext, useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { commonPostApiFunction } from "../services/commonApiFunc";
 import FieldCustomizeSection from "./FieldCustomizeSection";
+import { IoMdArrowBack } from "react-icons/io";
 import FieldSection from "./FieldSection";
 import FormTemplate from "./FormTemplate";
 import { IoSaveOutline } from "react-icons/io5";
 import { setLoader } from "../redux/slices/loaderSlice";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 export const FormContext = createContext();
 
@@ -23,7 +25,7 @@ const FormCreate = () => {
   const [height, setHeight] = useState(false);
   const [containerId, setContainerId] = useState();
   const [pagesList, setPagesList] = useState([]);
-
+  
   const token = useSelector((user) => user.auth.authDetails.token);
   const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
 
@@ -113,7 +115,9 @@ const FormCreate = () => {
         let data = response?.data?.responseData;
         for (let index = 0; index < data?.length; index++) {
           page_list.push({
-            page_route: data[index]?.page_route ? `/web-page/${data[index]?.page_route}` : null,
+            page_route: data[index]?.page_route
+              ? `/web-page/${data[index]?.page_route}`
+              : null,
             page_name: data[index]?.page_name,
             page_data: data[index]?.page_data,
             page_item_url: `/page/${data[index]?.page_id}`,
@@ -128,17 +132,6 @@ const FormCreate = () => {
       setPagesList([]);
     }
   };
-
-  // const fetchPaging = async () => {
-  //   const requestData = {
-  //     key: "bdgerty",
-  //     payload: {
-  //       collectionName: "Pages_Dats",
-  //     },
-  //   };
-  //   const response = await commonPostApiFunction(requestData);
-  //   console.log('response', response);
-  // };
 
   useEffect(() => {
     if (params.id !== "create") {
@@ -173,9 +166,20 @@ const FormCreate = () => {
                 <h4>{data?.page_name}</h4>
               </Col>
               <Col lg={7} md={7} sm={12} xs={12}>
-                <p className="mb-0">
-                  Abjust columns width to fit elements in row
-                </p>
+                <Row className="align-items-center">
+                  <Col lg={2} md={2} sm={12} xs={12}>
+                    <div className="publish-btn-sec">
+                      <button onClick={() => router.push("/page-list")}>
+                        <IoMdArrowBack /> Go Back
+                      </button>
+                    </div>
+                  </Col>
+                  <Col lg={6} md={6} sm={12} xs={12}>
+                    <p className="mb-0 text-right">
+                      Abjust columns width to fit elements in row
+                    </p>
+                  </Col>
+                </Row>
               </Col>
               <Col lg={2} md={2} sm={12} xs={12}>
                 <div className="publish-btn-sec">
@@ -194,22 +198,21 @@ const FormCreate = () => {
               </Col>
             </Row>
           </Col>
-          {currentElement && (
+         
             <Col lg={3} md={3} sm={12} xs={12}>
               <FieldCustomizeSection />
             </Col>
-          )}
           <Col
-            lg={currentElement ? 7 : 8}
-            md={currentElement ? 7 : 8}
+            lg={7}
+            md={7}
             sm={12}
             xs={12}
           >
             <FormTemplate />
           </Col>
           <Col
-            lg={currentElement ? 2 : 4}
-            md={currentElement ? 2 : 4}
+            lg={2}
+            md={2}
             sm={12}
             xs={12}
           >

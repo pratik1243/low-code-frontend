@@ -6,4 +6,5 @@ export const endPointsUrl = {
   bdgerty: "create-collection",
   cgdretl: "login",
   arqewtv: "register",
+  aeqwxfrt: "get-icons"
 };

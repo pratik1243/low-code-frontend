@@ -211,6 +211,20 @@ export const fieldsData = [
       animation_delay: "",
     },
   },
+  {
+    label_text: "Icon",
+    type: "icon",
+    column_width: 100,
+    props: {
+      hidden: false,
+      align: "",
+      iconName: "",
+      iconSize: 20,
+      style: {},
+      animation: "",
+      animation_delay: "",
+    },
+  },
 ];
 
 export const validations = [
@@ -451,13 +465,73 @@ export function errorMessageFunc(el, value) {
   }
 }
 
-export function setElementWidth(ele) {
-  return {
-    ...(ele?.props?.width && {
-      maxWidth: `${ele?.props?.width}%`,
-    }),
-  };
-}
+export const formAction = (currentform, setErrors, errors, onSubmit) => {
+  let obj = {};
+  let validField = true;
+  Object.keys(currentform).map((key) => {
+    if (typeof currentform[key] === "string") {
+      if (errors[key]?.optional) {
+        obj = { ...obj, [key]: { optional: true, message: "" } };
+      } else if (currentform[key] == "") {
+        obj[key] = "This is field required";
+      } else if (!errors[key]?.regex.test(currentform[key])) {
+        validField = false;
+        obj[key] = errors[key]?.message[1];
+      } else {
+        validField = true;
+      }
+    }
+  });
+  setErrors(obj);
+
+  if (!Object.values(obj).filter((el) => !el?.optional).length && validField) {
+    onSubmit(currentform);
+  }
+};
+
+export const LoginSchema = {
+  fields: {
+    values: {
+      email: "",
+      password: "",
+    },
+    errors: {
+      email: {
+        regex: /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/,
+        message: ["This field is required", "Email id is not valid"],
+      },
+      password: {
+        regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        message: ["This field is required", "Password is not valid"],
+      },
+    },
+  },
+};
+
+export const RegisterSchema = {
+  fields: {
+    values: {
+      full_name: "",
+      email: "",
+      password: "",
+    },
+    errors: {
+      full_name: {
+        regex: /^[A-Za-z ]{3,}$/,
+        message: ["This field is required", "First name is not valid"],
+      },
+      email: {
+        regex: /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/,
+        message: ["This field is required", "Email id is not valid"],
+      },
+      password: {
+        regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        message: ["This field is required", "Password is not valid"],
+      },
+    },
+  },
+};
+
 
 export function addPixel(styles) {
   let obj = {};
@@ -666,6 +740,16 @@ function containerData(json) {
   return data;
 }
 
+export function debounce(func, delay) {
+  let timeoutId;  
+  return function(...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+}
+
 export function pasteItems(e, ele, forms, setForms) {
   e.stopPropagation();
   navigator.clipboard.readText().then((data) => {
@@ -730,3 +814,4 @@ export async function parseMultipartRequest(request) {
 
   return { fields, files };
 }
+

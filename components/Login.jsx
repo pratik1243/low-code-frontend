@@ -10,31 +10,19 @@ import { setAuthDetails } from "../redux/slices/authSlice";
 import { setSnackbarProps } from "../redux/slices/snackbarSlice";
 import { Button, Col, Row } from "react-bootstrap";
 import lowCodeImg from "../public/low-code-img.png";
-import { FaEye } from "react-icons/fa";
-import { FaEyeSlash } from "react-icons/fa";
+import { formAction, LoginSchema } from "../utils/utilFunctions";
+import InputField from "./commonComponents/InputField";
 
 const Login = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const [loginDetails, setLoginDetails] = useState(LoginSchema.fields.values);
+  const [errors, setErrors] = useState(LoginSchema.fields);
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-  const [showPassword, setShowPassword] = useState(false);
-
-  const formChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const loginUser = async () => {
+  const loginUser = async (data) => {
     try {
       dispatch(setLoader(true));
-      const response = await axios.post(
-        `http://localhost:8000/login`,
-        formData
-      );
+      const response = await axios.post(`http://localhost:8000/login`, data);
       dispatch(setLoader(false));
       if (response.status == 200) {
         router.push("/page-list");
@@ -79,35 +67,41 @@ const Login = () => {
       <Row>
         <Col lg={6} md={6}>
           <h3>Log In</h3>
-          <div className="input-field float-label">
-            <label>Email Id</label>
-            <input
-              type="text"
-              name="email"
-              required
-              value={formData?.email}
-              placeholder="Enter email"
-              onChange={(e) => formChange(e)}
-            />
-            <span className="error-message"></span>
-          </div>
-          <div className="input-field float-label">
-            <label>Password</label>
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Enter password"
-              required
-              value={formData?.password}
-              onChange={(e) => formChange(e)}
-            />
-            <div role="button" className="password-btn" onClick={() => setShowPassword(!showPassword)}>
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </div>
-            <span className="error-message"></span>
-          </div>
+          <InputField
+            label={"Email Id"}
+            name={"email"}
+            placeholder={"Enter email"}
+            required
+            value={loginDetails?.email}
+            setValue={setLoginDetails}
+            errorProps={{ errors, setErrors }}
+            validationSchema={LoginSchema.fields}
+          />
+          <InputField
+            label={"Password"}
+            name={"password"}
+            placeholder={"Enter phone number"}
+            required
+            passwordBtn
+            value={loginDetails?.password}
+            setValue={setLoginDetails}
+            errorProps={{ errors, setErrors }}
+            validationSchema={LoginSchema.fields}
+          />
           <div className="text-sec text-center">
-            <Button variant="primary" onClick={loginUser}>
+            <Button
+              variant="primary"
+              onClick={() => {
+                formAction(
+                  loginDetails,
+                  setErrors,
+                  LoginSchema.fields.errors,
+                  (values) => {
+                    loginUser(values);
+                  }
+                );
+              }}
+            >
               Login
             </Button>
             <p className="mb-0">

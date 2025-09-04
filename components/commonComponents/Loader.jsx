@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import { Spinner } from "react-bootstrap";
 import { useSelector } from "react-redux";
@@ -12,7 +12,7 @@ const Loader = () => {
           <Spinner animation="border" role="status" variant="light">
             <span className="visually-hidden">Loading...</span>
           </Spinner>
-        </div>
+        </div>       
       ) : null}
     </>
   );

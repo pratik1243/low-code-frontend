@@ -1,5 +1,4 @@
 import React from "react";
-import { setElementWidth } from "../../utils/utilFunctions";
 
 const Heading = ({ ele }) => {
     

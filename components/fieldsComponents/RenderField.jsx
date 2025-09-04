@@ -13,6 +13,7 @@ import ImageComp from "./ImageComp";
 import CountryField from "./CountryField";
 import Checkbox from "./Checkbox";
 import Stepper from "./Stepper";
+import IconWrapper from "./IconWrapper";
 
 const RenderField = ({ ele, index, currentStep = null }) => {
   const path = usePathname();
@@ -36,6 +37,8 @@ const RenderField = ({ ele, index, currentStep = null }) => {
       return <SwiperComp ele={ele} path={path} currentStep={currentStep} />;
     } else if (ele?.type == "checkbox") {
       return <Checkbox ele={ele} path={path} index={index} />;
+    } else if (ele?.type == "icon") {
+      return <IconWrapper ele={ele} path={path} />;
     } else if (ele?.type == "stepper") {
       return (
         <Stepper

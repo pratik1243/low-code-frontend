@@ -7,6 +7,16 @@ body {
   overflow-x: hidden;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: #000 !important;
+  transition: background-color 5000s ease-in-out 0s;
+  box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+}
+
 body:has(.main-content-sec) h1,
 body:has(.main-content-sec) h2,
 body:has(.main-content-sec) h3,
@@ -883,6 +893,7 @@ hr {
   border-radius: 4px;
   outline: none;
   border: 1px solid var(--grey-color);
+  margin-bottom: 3px;
 }
 
 .login-sec h3 {
@@ -948,12 +959,78 @@ hr {
 
 .login-sec .btn-primary {
   background-color: #00b2aa !important;
+  border-color: #00b2aa !important;
 }
 
-.password-btn{
+.password-btn {
   position: absolute;
   right: 15px;
   top: 8px;
   cursor: pointer;
   font-size: 20px;
+}
+
+.icons-list {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 20px;
+  max-height: 370px;
+  overflow-y: auto;
+}
+
+.no-grid{
+  place-items: center;
+  grid-template-columns: unset !important;
+  height: 60%;
+}
+
+.icons-list .icon-sec {
+  border: 1px solid var(--grey-color);
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.icons-list .icon-sec svg {
+  font-size: 27px;
+  margin-bottom: 10px;
+}
+
+.icons-list .icon-sec .icon-text {
+  word-break: break-all;
+  text-align: center;
+  width: 170px;
+  display: block;
+  line-height: 21px;
+}
+
+.icon-search-input {
+  padding: 23px 0px;
+  background-color: var(--white-color);
+  border-bottom: 1px solid var(--grey-color);
+  top: 69px;
+}
+
+.icon-search-input input {
+  width: 100%;
+  background-color: transparent;
+  padding: 10px 15px;
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid var(--grey-color);
+}
+
+.icon-search-input button {
+  height: 45px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.icon-box .modal-body{
+  padding: 0px !important;
 }

@@ -6,7 +6,6 @@ import { Button, Modal, Table } from "react-bootstrap";
 import { FormContext } from "../FormCreate";
 import { LuExternalLink } from "react-icons/lu";
 import { addContentProps, nestedStructure } from "../../utils/utilFunctions";
-import { useEffect } from "react";
 
 const AddContent = ({
   open,
@@ -15,7 +14,6 @@ const AddContent = ({
   addContentType,
   onCustomizeElement,
 }) => {
-
   const { forms, setForms, currentElement, pagesList } = useContext(FormContext);
   const [optionValue, setOptionValue] = useState("");
   const [pageItem, setPageItem] = useState("");
@@ -39,11 +37,14 @@ const AddContent = ({
   const onDropItem = (e, dropIndex) => {
     e.stopPropagation();
     const updateForms = forms?.map((el, i) => {
-      if (["stepper", "slider", "select"].includes(el.type) && el.id === currentElement.id) {
+      if (
+        ["stepper", "slider", "select"].includes(el.type) &&
+        el.id === currentElement.id
+      ) {
         return {
           ...el,
           props: {
-            ...el.props,
+            ...el?.props,
             [addContentType]: orderContent(e, dropIndex, i),
           },
         };
@@ -62,13 +63,21 @@ const AddContent = ({
     e.preventDefault();
   };
 
-  const addSelectOptions = (type) => {    
+  const addSelectOptions = (type) => {
     const addContentObj = {
       type: type,
       pageItem: pageItem,
-      optionValue: optionValue
+      optionValue: optionValue,
     };
-    setForms(nestedStructure(addContentObj, forms, currentElement, addContentProps, "addContent"));
+    setForms(
+      nestedStructure(
+        addContentObj,
+        forms,
+        currentElement,
+        addContentProps,
+        "addContent"
+      )
+    );
     setOptionValue("");
     setPageItem("");
   };

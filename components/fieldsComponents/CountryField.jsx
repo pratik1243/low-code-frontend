@@ -4,16 +4,23 @@ import Select from "react-select";
 import { PageContext } from "../WebPage";
 import { FormContext } from "../FormCreate";
 import { updateNestedForms } from "../../utils/utilFunctions";
+import { useSelector } from "react-redux";
 
 const CountryField = ({ ele, path, currentStep = null }) => {
   const { forms, setForms } = useContext(
     path.includes("web-page") ? PageContext : FormContext
   );
+  const token = useSelector((user) => user.auth.authDetails.token);
   const [countriesList, setCountriesList] = useState([]);
 
   const getCountries = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/countries-list");
+      const response = await axios.get("http://localhost:8000/countries-list", {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      });
       if (response.status == 200) {
         setCountriesList(response?.data?.responseData);
       } else {
