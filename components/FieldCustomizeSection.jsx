@@ -203,6 +203,59 @@ const FieldCustomizeSection = () => {
                   <label htmlFor="checkbox-hidden">Hidden</label>
                 </div>
               </Col>
+              {["button"].includes(currentField?.type) && (
+                <Col lg={12} md={12} sm={12} xs={12}>
+                  <Row className="mt-3">
+                    <Col lg={6} md={6} sm={12} xs={12}>
+                      <div className="d-flex align-items-center">
+                        <input
+                          type="radio"
+                          id="checkbox-icon1"
+                          name="checkbox-icon"
+                          className="icon-radio-btn"
+                          value={"start"}
+                          checked={
+                            currentField?.props?.iconPosition == "start" || ""
+                          }
+                          onChange={(e) => {
+                            onCustomizeElement(
+                              e,
+                              "iconPosition",
+                              "input",
+                              forms
+                            );
+                          }}
+                        />
+                        <label htmlFor="checkbox-icon1">Start Icon</label>
+                      </div>
+                    </Col>
+
+                    <Col lg={6} md={6} sm={12} xs={12}>
+                      <div className="d-flex align-items-center">
+                        <input
+                          type="radio"
+                          id="checkbox-icon2"
+                          name="checkbox-icon"
+                          value={"end"}
+                          className="icon-radio-btn"
+                          checked={
+                            currentField?.props?.iconPosition == "end" || ""
+                          }
+                          onChange={(e) => {
+                            onCustomizeElement(
+                              e,
+                              "iconPosition",
+                              "input",
+                              forms
+                            );
+                          }}
+                        />
+                        <label htmlFor="checkbox-icon2">End Icon</label>
+                      </div>
+                    </Col>
+                  </Row>
+                </Col>
+              )}
 
               {fields.includes(currentField?.type) && (
                 <>
@@ -363,7 +416,7 @@ const FieldCustomizeSection = () => {
             </Row>
           </div>
 
-          {currentField?.type !== "divider" && (
+          {!["button", "divider"].includes(currentField?.type) && (
             <div className="mb-3">
               <Row>
                 <Col lg={9} md={9}>
@@ -405,6 +458,74 @@ const FieldCustomizeSection = () => {
               </Row>
             </div>
           )}
+
+          {currentField.type == "container" ? (
+            <div className="customize-prop-sec">
+              <label className="mb-2">Container Background Color</label>
+              <input
+                type="color"
+                id="color-picker3"
+                className="w-100"
+                value={currentField?.props?.containerBackground || ""}
+                onChange={(e) => {
+                  onCustomizeElement(e, "containerBackground", "input", forms);
+                }}
+              />
+            </div>
+          ) : currentField.type !== "icon" ? (
+            <>
+              <div className="customize-prop-sec">
+                <label className="mb-2">Text Color</label>
+                <input
+                  type="color"
+                  id="color-picker2"
+                  className="w-100"
+                  value={currentField?.props?.style?.color || ""}
+                  onChange={(e) => {
+                    onCustomizeElement(e, "color", "input", forms, "style");
+                  }}
+                />
+              </div>
+
+              <div className="customize-prop-sec">
+                <label className="mb-2">Border Color</label>
+                <input
+                  type="color"
+                  id="color-picker2"
+                  className="w-100"
+                  value={currentField?.props?.style?.borderColor || ""}
+                  onChange={(e) => {
+                    onCustomizeElement(
+                      e,
+                      "borderColor",
+                      "input",
+                      forms,
+                      "style"
+                    );
+                  }}
+                />
+              </div>
+            </>
+          ) : null}
+
+          <div className="customize-prop-sec">
+            <label className="mb-2">Button Color</label>
+            <input
+              type="color"
+              id="color-picker1"
+              className="w-100"
+              value={currentField?.props?.style?.backgroundColor || ""}
+              onChange={(e) => {
+                onCustomizeElement(
+                  e,
+                  "backgroundColor",
+                  "input",
+                  forms,
+                  "style"
+                );
+              }}
+            />
+          </div>
 
           {currentField?.type == "slider" && (
             <div>
@@ -477,18 +598,6 @@ const FieldCustomizeSection = () => {
                   value={currentField?.props?.redirectUrl || ""}
                   onChange={(e) => {
                     onCustomizeElement(e, "redirectUrl", "select", forms);
-                  }}
-                />
-              </div>
-              <div className="customize-prop-sec">
-                <label>Button Color</label>
-                <Select
-                  isClearable
-                  placeholder={"Select color"}
-                  options={buttonColorOptions}
-                  value={currentField?.props?.color || ""}
-                  onChange={(e) => {
-                    onCustomizeElement(e, "color", "select", forms);
                   }}
                 />
               </div>
@@ -617,7 +726,7 @@ const FieldCustomizeSection = () => {
             </Button>
           )}
 
-          {currentField?.type == "icon" && (
+          {["icon", "button"].includes(currentField?.type) && (
             <Button onClick={handleShow1} className="mb-4 mt-2">
               Add Icon
             </Button>
@@ -669,19 +778,50 @@ const FieldCustomizeSection = () => {
           )}
 
           {currentField?.type == "icon" && (
-            <div className="customize-prop-sec">
-              <label>Icon Size</label>
-              <input
-                type={"number"}
-                min={0}
-                max={100}
-                className="customize-input"
-                value={currentField?.props?.iconSize || ""}
-                onChange={(e) => {
-                  onCustomizeElement(e, "iconSize", "input", forms);
-                }}
-              />
-            </div>
+            <>
+              <div className="customize-prop-sec">
+                <label>Icon Size</label>
+                <input
+                  type={"number"}
+                  min={0}
+                  max={100}
+                  className="customize-input"
+                  value={currentField?.props?.iconSize || ""}
+                  onChange={(e) => {
+                    onCustomizeElement(e, "iconSize", "input", forms);
+                  }}
+                />
+              </div>
+
+              <div className="customize-prop-sec">
+                <Row>
+                  <Col lg={9} md={9}>
+                    <label>Icon Color</label>
+                    <input
+                      type={"color"}
+                      className="w-100"
+                      value={currentField?.props?.style?.color || ""}
+                      onChange={(e) => {
+                        onCustomizeElement(e, "color", "input", forms, "style");
+                      }}
+                    />
+                  </Col>
+
+                  <Col lg={2} md={2}>
+                    <Button
+                      variant={"primary"}
+                      size="sm"
+                      className="clear-background-btn"
+                      onClick={() =>
+                        onCustomizeElement("", "color", "input", forms, "style")
+                      }
+                    >
+                      Clear
+                    </Button>
+                  </Col>
+                </Row>
+              </div>
+            </>
           )}
 
           {currentField?.type !== "divider" && (
@@ -835,6 +975,7 @@ const FieldCustomizeSection = () => {
 
           <IconBox
             open={show1}
+            currentElement={currentElement}
             handleClose={handleClose1}
             onCustomizeElement={onCustomizeElement}
           />

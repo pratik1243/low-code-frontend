@@ -41,7 +41,7 @@ const SwiperComp = ({ ele, path, currentStep }) => {
                         ...(eles?.column_width && {
                           width: `${eles?.column_width}%`,
                         }),
-                        ...(eles?.props?.style && addPixel(eles?.props?.style)),
+                        ...(eles?.props?.style && addPixel(eles?.props?.style, eles)),
                       }}
                     >
                       {" "}

@@ -216,6 +216,7 @@ input {
 .element-input-field.standard-input:has(input:valid) label,
 .element-input-field.standard-input:has(input:focus) label,
 .element-select-field.standard-input:has(.css-t3ipsp-control) label,
+.element-select-field.standard-input:has(.css-1dimb5e-singleValue) label,
 .element-select-field.standard-input:has(.css-1p3m7a8-multiValue) label {
   top: -12px !important;
   font-size: 13px;
@@ -243,22 +244,15 @@ input {
 }
 
 .element-input-field.float-label input:focus::placeholder,
-.element-select-field.float-label:has(.css-t3ipsp-control)
-  .css-1jqq78o-placeholder {
+.element-select-field.float-label:has(.css-t3ipsp-control) .css-1jqq78o-placeholder {
   color: #aaa9a9;
   transition: all 0.4s;
 }
 
 .element-input-field:not(.standard-input).float-label:has(input:valid) label,
 .element-input-field:not(.standard-input).float-label:has(input:focus) label,
-.element-select-field:not(.standard-input).float-label:has(
-    .css-1dimb5e-singleValue
-  )
-  label,
-.element-select-field:not(.standard-input).float-label:has(
-    .css-1p3m7a8-multiValue
-  )
-  label,
+.element-select-field:not(.standard-input).float-label:has(.css-1dimb5e-singleValue) label,
+.element-select-field:not(.standard-input).float-label:has(.css-1p3m7a8-multiValue) label,
 .element-select-field.float-label:has(.css-t3ipsp-control) label {
   top: -9px;
   left: 8px;
@@ -559,7 +553,7 @@ hr {
 }
 
 .card-sec {
-  border-radius: 6px;
+  /* border-radius: 6px; */
   display: flex;
   flex-wrap: wrap;
 }
@@ -593,19 +587,19 @@ hr {
 }
 
 .shadow-card {
-  padding: 20px;
+  padding: 20px !important;
   box-shadow: 0 0 5px 2px #80808042;
   border-radius: 10px;
 }
 
 .border-card {
-  padding: 20px;
+  padding: 20px !important;
   border: 1px solid #8080804a;
   border-radius: 10px;
 }
 
 .border-shadow-card {
-  padding: 20px;
+  padding: 20px !important;
   box-shadow: 0 0 5px 2px #80808042;
   border: 1px solid #8080804a;
   border-radius: 10px;
@@ -837,8 +831,6 @@ hr {
 
 .snack-bar-sec.open {
   transform: translateX(0px);
-  /* animation: 0.5s linear snackBarHide forwards;
-  animation-delay: 3s; */
 }
 
 @keyframes snackBarHide {
@@ -1033,4 +1025,20 @@ hr {
 
 .icon-box .modal-body{
   padding: 0px !important;
+}
+
+.main-content-sec .element-column .btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+}
+
+.icon-radio-btn{
+  transform: scale(1.5);
+  margin-right: 9px;
+}
+
+.web-div .btn{
+  padding: 10px !important;
 }

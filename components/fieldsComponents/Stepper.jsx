@@ -145,7 +145,7 @@ const Stepper = ({ ele, path }) => {
                   } ${textAlign[el?.props?.align?.value] || ""} d-flex`}
                   style={{
                     ...(el?.column_width && { width: `${el?.column_width}%` }),
-                    ...(el?.props?.style && addPixel(el?.props?.style)),
+                    ...(el?.props?.style && addPixel(el?.props?.style, el)),
                   }}
                 >
                   {" "}

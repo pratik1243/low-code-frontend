@@ -45,6 +45,7 @@ const WebPage = () => {
   useEffect(() => {
     Aos.init({
       duration: 1000,
+      once: true
     });
     fetchPage();
   }, []);
@@ -77,7 +78,7 @@ const WebPage = () => {
                       ...(ele?.column_width && {
                         width: `${ele?.column_width}%`,
                       }),
-                      ...(ele?.props?.style && addPixel(ele?.props?.style)),
+                      ...(ele?.props?.style && addPixel(ele?.props?.style, ele))
                     }}
                   >
                     <RenderField ele={ele} index={index} />

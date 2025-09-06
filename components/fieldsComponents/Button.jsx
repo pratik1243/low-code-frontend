@@ -1,17 +1,27 @@
 import React from "react";
+import * as FaIcons from "react-icons/fa";
+import * as MdIcons from "react-icons/md";
+import * as HiIcons from "react-icons/hi";
+import * as AiIcons from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import Button from "react-bootstrap/Button";
 import { FormContext } from "../FormCreate";
 import { PageContext } from "../WebPage";
 import { useContext } from "react";
-import { errorMessageFunc } from "../../utils/utilFunctions";
+import { addPixel, errorMessageFunc } from "../../utils/utilFunctions";
 
 const ButtonComp = ({ ele, path }) => {
   const router = useRouter();
-  const { forms, setForms } = useContext(
-    path.includes("web-page") ? PageContext : FormContext
-  );
+  const { forms, setForms } = useContext(path.includes("web-page") ? PageContext : FormContext);
   const fieldArray = ele?.props?.fields.map((el) => el?.value);
+
+  const iconType = {
+    ...FaIcons,
+    ...MdIcons,
+    ...HiIcons,
+    ...AiIcons,
+  };
+  const IconComponent = iconType[ele?.props?.iconName];
 
   const events = () => {
     let isFieldsInvalid = false;
@@ -66,11 +76,14 @@ const ButtonComp = ({ ele, path }) => {
   };
   return (
     <Button
-      variant={`${ele?.props?.color?.value || "primary"}`}
+      variant={"primary"}
+      style={{ ...(ele?.props?.style && path.includes("web-page") && addPixel(ele?.props?.style, ele)) }}
       onClick={events}
       className="w-100"
     >
-      {ele?.props?.text || "Button"}
+      {ele?.props?.iconPosition == "start" && ele?.props?.iconName && <IconComponent />}{" "}
+      &nbsp;{ele?.props?.text || "Button"}{" "}&nbsp;
+      {ele?.props?.iconPosition == "end" && ele?.props?.iconName && <IconComponent />}
     </Button>
   );
 };

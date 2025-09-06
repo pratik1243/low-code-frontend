@@ -46,7 +46,7 @@ const FormCreate = () => {
       const response = await commonPostApiFunction(requestData, token);
       dispatch(setLoader(false));
       if (response.status == 200) {
-        router.push("/page-list");
+        // router.push("/page-list");
       } else {
         dispatch(setLoader(false));
       }
@@ -72,7 +72,7 @@ const FormCreate = () => {
       const response = await commonPostApiFunction(requestData, token);
       dispatch(setLoader(false));
       if (response.status == 200) {
-        router.push("/page-list");
+        // router.push("/page-list");
       } else {
         dispatch(setLoader(false));
       }

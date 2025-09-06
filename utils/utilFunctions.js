@@ -93,9 +93,10 @@ export const fieldsData = [
     column_width: 100,
     props: {
       text: "",
-      color: "",
       variant: "standard",
       hidden: false,
+      iconPosition: "start",
+      iconName: "",
       hover_color: "",
       align: "",
       redirectUrl: "",
@@ -125,6 +126,7 @@ export const fieldsData = [
       hidden: false,
       width: 100,
       containerTemplate: "",
+      containerBackground: "",
     },
   },
   {
@@ -533,7 +535,7 @@ export const RegisterSchema = {
 };
 
 
-export function addPixel(styles) {
+export function addPixel(styles, el) {
   let obj = {};
   for (const key in styles) {
     if (key.includes("padding")) {

@@ -12,7 +12,14 @@ const IconWrapper = ({ ele, path }) => {
     ...AiIcons,
   };
   const IconComponent = iconType[ele?.props?.iconName];
-  return ele?.props?.iconName ? <IconComponent size={path.includes("web-page") ? ele?.props?.iconSize : 20} /> : "Icon";
+  return ele?.props?.iconName && IconComponent ? (
+    <IconComponent
+      size={path.includes("web-page") ? ele?.props?.iconSize : 20}
+      color={ele?.props?.style?.color}
+    />
+  ) : (
+    "Icon"
+  );
 };
 
 export default IconWrapper;

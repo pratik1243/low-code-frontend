@@ -78,6 +78,7 @@ const Container = ({ ele, path, index, currentStep = null }) => {
             }`
           : ""
       }`}
+      style={{...(ele?.props?.containerBackground && path.includes("web-page") && { backgroundColor: ele?.props?.containerBackground })}}
     >
       {ele?.content?.length == 0 && (
         <h5 className="no-data">Select container to add elements here</h5>
@@ -105,9 +106,8 @@ const Container = ({ ele, path, index, currentStep = null }) => {
             } ${path.includes("web-page") ? "d-flex" : ""}`}
             style={{
               ...(el?.column_width && { width: `${el?.column_width}%` }),
-              ...(el?.props?.style &&
-                path.includes("web-page") &&
-                addPixel(el?.props?.style)),
+              ...((el?.props?.style && path.includes("web-page")) && addPixel(el?.props?.style, el)),
+              ...(el?.type == "button" && { backgroundColor: "transparent !important"})
             }}
             onClick={(e) => onClickElement(e, el)}
             onDragOver={(e) => onDragOver(e)}

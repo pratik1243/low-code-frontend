@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useContext } from "react";
 import * as FaIcons from "react-icons/fa";
 import * as MdIcons from "react-icons/md";
@@ -11,7 +11,7 @@ import { debounce } from "../../utils/utilFunctions";
 import { Col, Modal, Row, Spinner } from "react-bootstrap";
 import { commonPostApiFunction } from "../../services/commonApiFunc";
 
-const IconBox = ({ open, handleClose, onCustomizeElement }) => {
+const IconBox = ({ open, currentElement, handleClose, onCustomizeElement }) => {
   const { forms } = useContext(FormContext);
   const token = useSelector((user) => user.auth.authDetails.token);
   const [loader, setLoader] = useState(false);
