@@ -15,7 +15,7 @@ const IconWrapper = ({ ele, path }) => {
   return ele?.props?.iconName && IconComponent ? (
     <IconComponent
       size={path.includes("web-page") ? ele?.props?.iconSize : 20}
-      color={ele?.props?.style?.color}
+      color={path.includes("web-page") ? ele?.props?.style?.color : "#000"}
     />
   ) : (
     "Icon"

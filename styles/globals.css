@@ -11,10 +11,10 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-text-fill-color: #000 !important;
-  transition: background-color 5000s ease-in-out 0s;
-  box-shadow: 0 0 0px 1000px white inset !important;
-  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-text-fill-color: #aaa9a9 !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+  box-shadow: 0 0 0px 1000px transparent inset !important;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
 }
 
 body:has(.main-content-sec) h1,
@@ -108,11 +108,10 @@ input {
 .field-customize-sec {
   padding: 20px;
   background-color: #f8f8f8;
-  border: 1px solid var(--grey-color);
+  /* border: 1px solid var(--grey-color); */
   border-radius: 4px;
-  height: 85vh;
+  height: 460px;
   overflow-y: auto;
-  overflow-x: hidden;
   position: relative;
 }
 
@@ -176,11 +175,13 @@ input {
 .element-input-field,
 .element-select-field {
   position: relative;
+  z-index: 1;
+  color: #000;
 }
 
 .element-input-field.standard-input input {
   border: none;
-  border-bottom: 1px solid var(--grey-color) !important;
+  border-bottom: 1px solid var(--grey-color);
   border-radius: 0px !important;
   padding: 10px 0px !important;
 }
@@ -192,13 +193,14 @@ input {
 .element-input-field.standard-input label,
 .element-select-field.standard-input label {
   left: 0px !important;
+  padding: 0 !important;
 }
 
 .element-input-field.standard-input + .standard-line,
 .element-select-field.standard-input .standard-line {
   content: "";
   display: block;
-  height: 2px;
+  height: 1px;
   width: 0%;
   background-color: #000;
   transition: all 0.4s;
@@ -214,12 +216,22 @@ input {
 }
 
 .element-input-field.standard-input:has(input:valid) label,
-.element-input-field.standard-input:has(input:focus) label,
-.element-select-field.standard-input:has(.css-t3ipsp-control) label,
-.element-select-field.standard-input:has(.css-1dimb5e-singleValue) label,
-.element-select-field.standard-input:has(.css-1p3m7a8-multiValue) label {
+.element-input-field.standard-input:has(input:focus) label {
   top: -12px !important;
   font-size: 13px;
+}
+
+.float-select-label{
+  top: -9px !important;
+  left: 8px !important;
+  font-size: 12.5px !important;
+  padding: 0px 4px;
+  z-index: 1 !important;
+}
+
+.float-select-standard-label{
+  top: -12px !important;
+  font-size: 13px !important;
 }
 
 .element-input-field.float-label,
@@ -231,29 +243,25 @@ input {
 .element-select-field.float-label label {
   position: absolute;
   left: 14px;
-  top: 11px;
+  top: 12px;
   transition: all 0.3s;
   background-color: white;
   z-index: -1;
+  /* background-color: transparent; */
 }
 
-.element-input-field.float-label input::placeholder,
-.element-select-field.float-label .css-1jqq78o-placeholder {
+.element-input-field.float-label input::placeholder {
   color: transparent;
   font-size: 15px;
 }
 
-.element-input-field.float-label input:focus::placeholder,
-.element-select-field.float-label:has(.css-t3ipsp-control) .css-1jqq78o-placeholder {
+.element-input-field.float-label input:focus::placeholder {
   color: #aaa9a9;
   transition: all 0.4s;
 }
 
 .element-input-field:not(.standard-input).float-label:has(input:valid) label,
-.element-input-field:not(.standard-input).float-label:has(input:focus) label,
-.element-select-field:not(.standard-input).float-label:has(.css-1dimb5e-singleValue) label,
-.element-select-field:not(.standard-input).float-label:has(.css-1p3m7a8-multiValue) label,
-.element-select-field.float-label:has(.css-t3ipsp-control) label {
+.element-input-field:not(.standard-input).float-label:has(input:focus) label {
   top: -9px;
   left: 8px;
   font-size: 12.5px;
@@ -266,12 +274,13 @@ input {
   margin-bottom: 6px;
   display: block;
   font-size: 15px;
+  /* background-color: transparent; */
 }
 
 .element-input-field input {
   background-color: transparent;
   width: 100%;
-  padding: 11px;
+  padding: 12px !important;
   border-radius: 4px;
   outline: none;
   border: 1px solid var(--grey-color);
@@ -1037,6 +1046,7 @@ hr {
 .icon-radio-btn{
   transform: scale(1.5);
   margin-right: 9px;
+  margin-left: 3px;
 }
 
 .web-div .btn{

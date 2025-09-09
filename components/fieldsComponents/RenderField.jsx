@@ -15,14 +15,33 @@ import Checkbox from "./Checkbox";
 import Stepper from "./Stepper";
 import IconWrapper from "./IconWrapper";
 
-const RenderField = ({ ele, index, currentStep = null }) => {
+const RenderField = ({
+  ele,
+  index,
+  currentStep = null,
+  containerBackground = null,
+}) => {
   const path = usePathname();
 
   const getFields = () => {
     if (ele?.type == "input") {
-      return <TextField ele={ele} path={path} currentStep={currentStep} />;
+      return (
+        <TextField
+          ele={ele}
+          path={path}
+          currentStep={currentStep}
+          containerBackground={containerBackground}
+        />
+      );
     } else if (ele?.type == "select") {
-      return <SelectField ele={ele} path={path} currentStep={currentStep} />;
+      return (
+        <SelectField
+          ele={ele}
+          path={path}
+          currentStep={currentStep}
+          containerBackground={containerBackground}
+        />
+      );
     } else if (ele?.type == "paragraph") {
       return <Paragraph ele={ele} path={path} />;
     } else if (ele?.type == "button") {
@@ -64,6 +83,7 @@ const RenderField = ({ ele, index, currentStep = null }) => {
           path={path}
           index={index}
           currentStep={currentStep}
+          containerBackground={containerBackground}
         />
       );
     } else {

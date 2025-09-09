@@ -24,10 +24,13 @@ const FormCreate = () => {
   const [itemDrag, setItemDrag] = useState(false);
   const [height, setHeight] = useState(false);
   const [containerId, setContainerId] = useState();
-  const [pagesList, setPagesList] = useState([]);
-  
+  const [pagesList, setPagesList] = useState([]);  
+  const [showCurrentElement, setShowCurrentElement] = useState(false);
+
   const token = useSelector((user) => user.auth.authDetails.token);
-  const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
+  const requestUserId = useSelector(
+    (user) => user.auth.authDetails.request_user_id
+  );
 
   const savePage = async () => {
     try {
@@ -157,6 +160,8 @@ const FormCreate = () => {
           containerId,
           setContainerId,
           setCurrentElement,
+          showCurrentElement,
+          setShowCurrentElement
         }}
       >
         <Row>
@@ -198,27 +203,16 @@ const FormCreate = () => {
               </Col>
             </Row>
           </Col>
-         
-            <Col lg={3} md={3} sm={12} xs={12}>
-              <FieldCustomizeSection />
-            </Col>
-          <Col
-            lg={7}
-            md={7}
-            sm={12}
-            xs={12}
-          >
+
+          <Col lg={10} md={10} sm={12} xs={12}>
             <FormTemplate />
           </Col>
-          <Col
-            lg={2}
-            md={2}
-            sm={12}
-            xs={12}
-          >
+          <Col lg={2} md={2} sm={12} xs={12}>
             <FieldSection />
           </Col>
         </Row>
+
+        <FieldCustomizeSection />
       </FormContext>
     </div>
   );

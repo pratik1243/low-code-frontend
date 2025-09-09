@@ -12,6 +12,7 @@ const FormTemplate = () => {
     setForms,
     currentElement,
     setCurrentElement,
+    setShowCurrentElement,
     setContainerId,
     setHeight,
   } = useContext(FormContext);
@@ -53,6 +54,7 @@ const FormTemplate = () => {
       setContainerId();
     }
     setCurrentElement(ele);
+    setShowCurrentElement(true);
   };
 
   const onDragOver = (e) => {

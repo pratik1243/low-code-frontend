@@ -1,9 +1,28 @@
+"use client";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay, Pagination } from "swiper/modules";
 import { addPixel, alignment, textAlign } from "../../utils/utilFunctions";
 import RenderField from "./RenderField";
+import { useEffect } from "react";
 
-const SwiperComp = ({ ele, path, currentStep }) => {
+const SwiperComp = ({ ele, path }) => {
+  useEffect(() => {
+    const interval = setInterval(() => {
+      document
+        .querySelectorAll(".swiper-pagination-bullet")
+        .forEach((bullet, index) => {
+          bullet.style.background = ele?.props?.style?.color;
+          if (bullet.classList.contains("swiper-pagination-bullet-active")) {
+            bullet.style.opacity = "1";
+          } else {
+            bullet.style.opacity = "0.5";
+          }
+        });
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <>
       {!path.includes("web-page") ? (
@@ -41,7 +60,8 @@ const SwiperComp = ({ ele, path, currentStep }) => {
                         ...(eles?.column_width && {
                           width: `${eles?.column_width}%`,
                         }),
-                        ...(eles?.props?.style && addPixel(eles?.props?.style, eles)),
+                        ...(eles?.props?.style &&
+                          addPixel(eles?.props?.style, eles)),
                       }}
                     >
                       {" "}

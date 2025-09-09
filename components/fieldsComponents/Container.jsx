@@ -11,19 +11,15 @@ import RenderField from "./RenderField";
 import ElementActions from "../commonComponents/ElementActions";
 
 const Container = ({ ele, path, index, currentStep = null }) => {
-  const {
-    forms,
-    setForms,
-    setContainerId,
-    setCurrentElement,
-    currentElement
-  } = useContext(path.includes("web-page") ? PageContext : FormContext);
+  const { forms, setForms, setContainerId, setCurrentElement, currentElement, setShowCurrentElement } =
+    useContext(path.includes("web-page") ? PageContext : FormContext);
 
   const onClickElement = (e, el) => {
     e.stopPropagation();
     setCurrentElement(el);
     if (!path.includes("web-page")) {
       setContainerId(index);
+      setShowCurrentElement(true);
     }
   };
 
@@ -78,7 +74,12 @@ const Container = ({ ele, path, index, currentStep = null }) => {
             }`
           : ""
       }`}
-      style={{...(ele?.props?.containerBackground && path.includes("web-page") && { backgroundColor: ele?.props?.containerBackground })}}
+      style={{
+        ...(ele?.props?.containerBackground &&
+          path.includes("web-page") && {
+            backgroundColor: ele?.props?.containerBackground,
+          }),
+      }}
     >
       {ele?.content?.length == 0 && (
         <h5 className="no-data">Select container to add elements here</h5>
@@ -106,8 +107,12 @@ const Container = ({ ele, path, index, currentStep = null }) => {
             } ${path.includes("web-page") ? "d-flex" : ""}`}
             style={{
               ...(el?.column_width && { width: `${el?.column_width}%` }),
-              ...((el?.props?.style && path.includes("web-page")) && addPixel(el?.props?.style, el)),
-              ...(el?.type == "button" && { backgroundColor: "transparent !important"})
+              ...(el?.props?.style &&
+                path.includes("web-page") &&
+                addPixel(el?.props?.style, el)),
+              ...(["button", "input", "select"].includes(el?.type) && {
+                backgroundColor: "transparent !important",
+              }),
             }}
             onClick={(e) => onClickElement(e, el)}
             onDragOver={(e) => onDragOver(e)}
@@ -134,7 +139,12 @@ const Container = ({ ele, path, index, currentStep = null }) => {
                 </div>
               </>
             ) : (
-              <RenderField ele={el} index={i} currentStep={currentStep} />
+              <RenderField
+                ele={el}
+                index={i}
+                currentStep={currentStep}
+                containerBackground={ele?.props?.containerBackground}
+              />
             )}
           </div>
         );

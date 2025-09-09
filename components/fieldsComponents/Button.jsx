@@ -81,9 +81,9 @@ const ButtonComp = ({ ele, path }) => {
       onClick={events}
       className="w-100"
     >
-      {ele?.props?.iconPosition == "start" && ele?.props?.iconName && <IconComponent />}{" "}
+      {ele?.props?.iconPosition == "start" && ele?.props?.iconName && <IconComponent size={20} />}{" "}
       &nbsp;{ele?.props?.text || "Button"}{" "}&nbsp;
-      {ele?.props?.iconPosition == "end" && ele?.props?.iconName && <IconComponent />}
+      {ele?.props?.iconPosition == "end" && ele?.props?.iconName && <IconComponent size={20} />}
     </Button>
   );
 };

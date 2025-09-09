@@ -3,10 +3,15 @@ import React, { useState, useEffect, useContext } from "react";
 import Select from "react-select";
 import { PageContext } from "../WebPage";
 import { FormContext } from "../FormCreate";
-import { updateNestedForms } from "../../utils/utilFunctions";
+import { selectCustomStyles, updateNestedForms } from "../../utils/utilFunctions";
 import { useSelector } from "react-redux";
 
-const CountryField = ({ ele, path, currentStep = null }) => {
+const CountryField = ({
+  ele,
+  path,
+  currentStep = null,
+  containerBackground = null,
+}) => {
   const { forms, setForms } = useContext(
     path.includes("web-page") ? PageContext : FormContext
   );
@@ -18,7 +23,7 @@ const CountryField = ({ ele, path, currentStep = null }) => {
       const response = await axios.get("http://localhost:8000/countries-list", {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       if (response.status == 200) {
@@ -50,7 +55,26 @@ const CountryField = ({ ele, path, currentStep = null }) => {
           : ""
       } mb-3`}
     >
-      <label>
+      <label
+        style={{
+          ...(ele?.props?.style?.color &&
+            path.includes("web-page") && { color: ele?.props?.style?.color }),
+          ...(containerBackground && { backgroundColor: containerBackground }),
+        }}
+        className={`${
+          path.includes("web-page") &&
+          ele?.props?.standard &&
+          (value || ele?.props?.value.length > 0)
+            ? "float-select-standard-label"
+            : ""
+        } ${
+          path.includes("web-page") &&
+          ele?.props?.floatLabel &&
+          (value || ele?.props?.value.length > 0)
+            ? "float-select-label"
+            : ""
+        }`}
+      >
         Country {ele?.props?.required && <span className="required">*</span>}
       </label>
       <Select
@@ -60,11 +84,28 @@ const CountryField = ({ ele, path, currentStep = null }) => {
         className={ele?.name}
         placeholder={ele?.props?.placeholder || "Enter placeholder"}
         options={countriesList}
+        {...(path.includes("web-page") && { styles: selectCustomStyles(ele) })}
         onChange={(e) => {
           setValidations(e);
         }}
+        onFocus={() => {
+          setValue(true);
+        }}
+        onBlur={() => {
+          setValue(false);
+        }}
       />
-      {ele?.props?.standard && path.includes("web-page") && <div className="standard-line"></div>}
+      {ele?.props?.standard && path.includes("web-page") && (
+        <div
+          className="standard-line"
+          style={{
+            ...(ele?.props?.style?.color &&
+              path.includes("web-page") && {
+                backgroundColor: ele?.props?.style?.color,
+              }),
+          }}
+        ></div>
+      )}
       {ele?.form?.error_message && (
         <span className="error-message mt-1">{ele?.form?.error_message}</span>
       )}

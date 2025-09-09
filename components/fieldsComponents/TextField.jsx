@@ -1,9 +1,14 @@
 import React, { useContext } from "react";
-import { updateNestedForms } from "../../utils/utilFunctions";
+import { addPixel, updateNestedForms } from "../../utils/utilFunctions";
 import { FormContext } from "../FormCreate";
 import { PageContext } from "../WebPage";
 
-const TextField = ({ ele, path, currentStep = null }) => {
+const TextField = ({
+  ele,
+  path,
+  currentStep = null,
+  containerBackground = null,
+}) => {
   const { forms, setForms } = useContext(
     path.includes("web-page") ? PageContext : FormContext
   );
@@ -27,7 +32,15 @@ const TextField = ({ ele, path, currentStep = null }) => {
         }`}
       >
         {" "}
-        <label>
+        <label
+          style={{
+            ...(ele?.props?.style?.color &&
+              path.includes("web-page") && { color: ele?.props?.style?.color }),
+            ...(containerBackground && {
+              backgroundColor: containerBackground,
+            }),
+          }}
+        >
           {ele?.props?.label || "Enter label"}{" "}
           {ele?.props?.required && <span className="required">*</span>}
         </label>
@@ -41,9 +54,24 @@ const TextField = ({ ele, path, currentStep = null }) => {
             maxLength: ele?.props?.maxLength,
           })}
           required
+          style={{
+            ...(ele?.props?.style && path.includes("web-page") && addPixel(ele?.props?.style, ele)),
+              color: "#aaa9a9",
+              ...((ele?.props?.standard || ele?.props?.floatLabel) && path.includes("web-page") && {
+                backgroundColor: "transparent"
+              })
+          }}
         />
       </div>
-      {ele?.props?.standard && path.includes("web-page") && <div className="standard-line"></div>}
+      {ele?.props?.standard && path.includes("web-page") && (
+        <div
+          className="standard-line"
+          style={{
+            ...(ele?.props?.style?.color &&
+              path.includes("web-page") && { backgroundColor: ele?.props?.style?.color }),
+          }}
+        ></div>
+      )}
       {ele?.form?.error_message && (
         <span className="error-message mt-1">{ele?.form?.error_message}</span>
       )}
