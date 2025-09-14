@@ -1,11 +1,13 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { FormContext } from "./FormCreate";
 import PropsRender from "./customizeFieldComponents/PropsRender";
 
 const FieldCustomizeSection = () => {
-  const { currentElement, showCurrentElement, setShowCurrentElement } = useContext(FormContext);
+  const { currentElement, showCurrentElement, setShowCurrentElement } =  useContext(FormContext);
+  const [show, setShow] = useState(false);
+  const [show1, setShow1] = useState(false);
 
   // const uploadImage = async (e) => {
   //   try {
@@ -26,8 +28,11 @@ const FieldCustomizeSection = () => {
   return (
     <Modal
       show={showCurrentElement}
-      size="lg"
+      fullscreen={show}
+      size={show1 ? "xl" : "lg"}
       onHide={() => {
+        setShow(false);
+        setShow1(false);
         setShowCurrentElement(false);
       }}
     >
@@ -35,7 +40,9 @@ const FieldCustomizeSection = () => {
         <Modal.Title>Customize Element</Modal.Title>
       </Modal.Header>
       <Modal.Body className="p-0">
-        {currentElement && <PropsRender />}
+        {currentElement && (
+          <PropsRender open={{ show, show1, setShow, setShow1 }} />
+        )}
       </Modal.Body>
     </Modal>
   );

@@ -18,7 +18,7 @@ const FormCreate = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const params = useParams();
-  const [forms, setForms] = useState([]);
+  const [forms, setForms] = useState([]);  
   const [data, setData] = useState();
   const [currentElement, setCurrentElement] = useState();
   const [itemDrag, setItemDrag] = useState(false);
@@ -197,7 +197,7 @@ const FormCreate = () => {
                       }
                     }}
                   >
-                    <IoSaveOutline /> Publish Page
+                    <IoSaveOutline /> Publish Changes
                   </button>
                 </div>
               </Col>

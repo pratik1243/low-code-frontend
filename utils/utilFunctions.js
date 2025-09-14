@@ -484,14 +484,19 @@ export function selectCustomStyles(ele) {
   };
 }
 
-
 export function errorMessageFunc(el, value) {
-  let field_name = el?.props?.label?.slice(0, 1).toUpperCase() + el?.props?.label?.slice(1).toLowerCase();
+  let field_name =
+    el?.props?.label?.slice(0, 1).toUpperCase() +
+    el?.props?.label?.slice(1).toLowerCase();
   if (el?.props?.required && !value) {
     return "This field is required";
   } else if (el?.props?.required && value.length == 0) {
     return "This field is required";
-  } else if (el?.form?.regex && el?.props?.required && !validationsRegex[el?.form?.regex?.value]?.test(value)) {
+  } else if (
+    el?.form?.regex &&
+    el?.props?.required &&
+    !validationsRegex[el?.form?.regex?.value]?.test(value)
+  ) {
     return `${field_name} is invalid`;
   } else {
     return "";
@@ -534,7 +539,8 @@ export const LoginSchema = {
         message: ["This field is required", "Email id is not valid"],
       },
       password: {
-        regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        regex:
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
         message: ["This field is required", "Password is not valid"],
       },
     },
@@ -558,13 +564,13 @@ export const RegisterSchema = {
         message: ["This field is required", "Email id is not valid"],
       },
       password: {
-        regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        regex:
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
         message: ["This field is required", "Password is not valid"],
       },
     },
   },
 };
-
 
 export function addPixel(styles, el) {
   let obj = {};
@@ -774,8 +780,8 @@ function containerData(json) {
 }
 
 export function debounce(func, delay) {
-  let timeoutId;  
-  return function(...args) {
+  let timeoutId;
+  return function (...args) {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
       func.apply(this, args);
@@ -794,12 +800,9 @@ export function pasteItems(e, ele, forms, setForms) {
           return {
             ...el,
             content:
-              json.length > 1
-                ? containerData(json)
-                : [
-                    ...el?.content,
-                    { ...newJsonData, id: generateId(4), isContainer: true },
-                  ],
+            (json.length > 1)
+            ? [...el?.content, ...containerData(json)]
+            : [...el?.content, { ...newJsonData, id: generateId(4), isContainer: true }],
           };
         }
         return el;
@@ -847,4 +850,3 @@ export async function parseMultipartRequest(request) {
 
   return { fields, files };
 }
-

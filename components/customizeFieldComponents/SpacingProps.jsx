@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Col, Row } from "react-bootstrap";
+import { FormContext } from "../FormCreate";
 
 const SpacingProps = ({ onCustomizeElement, currentField }) => {
+  const { forms } = useContext(FormContext);
   return (
     <Row className="mt-4">
       <label className="mb-3 fw-bold">{currentField?.type} Spacing</label>

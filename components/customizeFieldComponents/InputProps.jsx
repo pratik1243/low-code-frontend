@@ -61,7 +61,7 @@ const InputProps = ({ onCustomizeElement, currentField }) => {
                 </div>
               </Col>
 
-              {currentField?.type === "select" && (
+              {/* {currentField?.type === "select" && (
                 <Col lg={3} md={3} sm={12} xs={12}>
                   <div className="d-flex">
                     <input
@@ -75,24 +75,26 @@ const InputProps = ({ onCustomizeElement, currentField }) => {
                     <label htmlFor="checkbox-multiple" className="mb-0">Multiple</label>
                   </div>
                 </Col>
-              )}
+              )} */}
             </Row>
           </div>
         </Col>
-        <Col lg={6} md={6} sm={12} xs={12}>
-          <div className="customize-prop-sec">
-            <label>Label</label>
-            <input
-              type="text"
-              value={currentField?.props?.label || ""}
-              placeholder="Enter label"
-              className="customize-input"
-              onChange={(e) => {
-                onCustomizeElement(e, "label", "input", forms);
-              }}
-            />
-          </div>
-        </Col>
+        {currentField?.type !== "country" && (
+          <Col lg={6} md={6} sm={12} xs={12}>
+            <div className="customize-prop-sec">
+              <label>Label</label>
+              <input
+                type="text"
+                value={currentField?.props?.label || ""}
+                placeholder="Enter label"
+                className="customize-input"
+                onChange={(e) => {
+                  onCustomizeElement(e, "label", "input", forms);
+                }}
+              />
+            </div>
+          </Col>
+        )}
         <Col lg={6} md={6} sm={12} xs={12}>
           <div className="customize-prop-sec">
             <label>Placeholder</label>
@@ -107,20 +109,22 @@ const InputProps = ({ onCustomizeElement, currentField }) => {
             />
           </div>
         </Col>
-        <Col lg={6} md={6} sm={12} xs={12}>
-          <div className="customize-prop-sec">
-            <label>Max length</label>
-            <input
-              type="number"
-              value={currentField?.props?.maxLength || ""}
-              placeholder="Enter maxlength"
-              className="customize-input"
-              onChange={(e) => {
-                onCustomizeElement(e, "maxLength", "input", forms);
-              }}
-            />
-          </div>
-        </Col>
+        {currentField?.type !== "country" && (
+          <Col lg={6} md={6} sm={12} xs={12}>
+            <div className="customize-prop-sec">
+              <label>Max length</label>
+              <input
+                type="number"
+                value={currentField?.props?.maxLength || ""}
+                placeholder="Enter maxlength"
+                className="customize-input"
+                onChange={(e) => {
+                  onCustomizeElement(e, "maxLength", "input", forms);
+                }}
+              />
+            </div>
+          </Col>
+        )}
         <Col lg={6} md={6} sm={12} xs={12}>
           <div className="customize-prop-sec">
             <label>Name</label>
@@ -135,20 +139,22 @@ const InputProps = ({ onCustomizeElement, currentField }) => {
             />
           </div>
         </Col>
-        <Col lg={6} md={6} sm={12} xs={12}>
-          <div className="customize-prop-sec">
-            <label>Add Validation</label>
-            <Select
-              isClearable
-              placeholder={"Select validation type"}
-              options={validations}
-              value={currentField?.form?.regex || ""}
-              onChange={(e) => {
-                onCustomizeElement(e, "regex", "select", forms);
-              }}
-            />
-          </div>
-        </Col>
+        {currentField?.type !== "country" && (
+          <Col lg={6} md={6} sm={12} xs={12}>
+            <div className="customize-prop-sec">
+              <label>Add Validation</label>
+              <Select
+                isClearable
+                placeholder={"Select validation type"}
+                options={validations}
+                value={currentField?.form?.regex || ""}
+                onChange={(e) => {
+                  onCustomizeElement(e, "regex", "select", forms);
+                }}
+              />
+            </div>
+          </Col>
+        )}
         <Col lg={12} md={12} sm={12} xs={12}>
           <Row>
             <Col lg={6} md={6} sm={12} xs={12}>
@@ -219,46 +225,51 @@ const InputProps = ({ onCustomizeElement, currentField }) => {
                 </Col>
               </Row>
             </Col>
-            <Col lg={6} md={6} sm={12} xs={12}>
-              <Row className="mt-4">
-                <Col lg={9} md={9}>
-                  <label className="mb-2">Input Background Color</label>
-                  <input
-                    type="color"
-                    id="color-picker1"
-                    className="w-100"
-                    value={currentField?.props?.style?.backgroundColor || ""}
-                    onChange={(e) => {
-                      onCustomizeElement(
-                        e,
-                        "backgroundColor",
-                        "input",
-                        forms,
-                        "style"
-                      );
-                    }}
-                  />
+            {!currentField?.props.standard &&
+              !currentField?.props.floatLabel && (
+                <Col lg={6} md={6} sm={12} xs={12}>
+                  <Row className="mt-4">
+                    <Col lg={9} md={9}>
+                      <label className="mb-2">Input Background Color</label>
+                      <input
+                        type="color"
+                        id="color-picker1"
+                        className="w-100"
+                        value={
+                          currentField?.props?.style?.backgroundColor || ""
+                        }
+                        onChange={(e) => {
+                          onCustomizeElement(
+                            e,
+                            "backgroundColor",
+                            "input",
+                            forms,
+                            "style"
+                          );
+                        }}
+                      />
+                    </Col>
+                    <Col lg={3} md={3}>
+                      <Button
+                        variant={"primary"}
+                        size="sm"
+                        className="clear-background-btn"
+                        onClick={() => {
+                          onCustomizeElement(
+                            "",
+                            "backgroundColor",
+                            "input",
+                            forms,
+                            "style"
+                          );
+                        }}
+                      >
+                        Clear
+                      </Button>
+                    </Col>
+                  </Row>
                 </Col>
-                <Col lg={3} md={3}>
-                  <Button
-                    variant={"primary"}
-                    size="sm"
-                    className="clear-background-btn"
-                    onClick={() => {
-                      onCustomizeElement(
-                        "",
-                        "backgroundColor",
-                        "input",
-                        forms,
-                        "style"
-                      );
-                    }}
-                  >
-                    Clear
-                  </Button>
-                </Col>
-              </Row>
-            </Col>
+              )}
           </Row>
         </Col>
       </Row>

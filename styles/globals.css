@@ -116,7 +116,7 @@ input {
 }
 
 .main-content-sec.scrollable {
-  height: auto;
+  max-height: 590px;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -172,11 +172,14 @@ input {
   border: 1px solid var(--grey-color);
 }
 
-.element-input-field,
-.element-select-field {
+.element-input-field {
   position: relative;
   z-index: 1;
   color: #000;
+}
+
+.index-1{
+  z-index: 100 !important;
 }
 
 .element-input-field.standard-input input {
@@ -190,14 +193,12 @@ input {
   color: #aaa9a9;
 }
 
-.element-input-field.standard-input label,
-.element-select-field.standard-input label {
+.element-input-field.standard-input label {
   left: 0px !important;
   padding: 0 !important;
 }
 
-.element-input-field.standard-input + .standard-line,
-.element-select-field.standard-input .standard-line {
+.element-input-field.standard-input + .standard-line {
   content: "";
   display: block;
   height: 1px;
@@ -210,8 +211,7 @@ input {
   font-size: 15px;
 }
 
-.element-input-field.standard-input:has(input:focus) + .standard-line,
-.element-select-field.standard-input:has(.css-t3ipsp-control) .standard-line {
+.element-input-field.standard-input:has(input:focus) + .standard-line {
   width: 100%;
 }
 
@@ -221,26 +221,11 @@ input {
   font-size: 13px;
 }
 
-.float-select-label{
-  top: -9px !important;
-  left: 8px !important;
-  font-size: 12.5px !important;
-  padding: 0px 4px;
-  z-index: 1 !important;
-}
-
-.float-select-standard-label{
-  top: -12px !important;
-  font-size: 13px !important;
-}
-
-.element-input-field.float-label,
-.element-select-field.float-label {
+.element-input-field.float-label {
   margin-top: 15px;
 }
 
-.element-input-field.float-label label,
-.element-select-field.float-label label {
+.element-input-field.float-label label {
   position: absolute;
   left: 14px;
   top: 12px;
@@ -269,8 +254,7 @@ input {
   z-index: 1 !important;
 }
 
-.element-input-field label,
-.element-select-field label {
+.element-input-field label {
   margin-bottom: 6px;
   display: block;
   font-size: 15px;
@@ -285,28 +269,47 @@ input {
   outline: none;
   border: 1px solid var(--grey-color);
   transition: all 0.4s;
+  color: #aaa9a9;
 }
 
-.element-select-field .css-13cymwt-control,
-.element-select-field .css-t3ipsp-control {
-  background-color: transparent !important;
-}
-
-.element-select-field.standard-input .css-t3ipsp-control,
-.element-select-field.standard-input .css-13cymwt-control {
-  border: none !important;
-  border-bottom: 1px solid var(--grey-color) !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-
-.element-select-field.standard-input .css-hlgwow,
-.element-select-field.standard-input .css-1dyz3mf {
-  padding-left: 0px !important;
-}
-
-.element-select-field.standard-input .css-1u9des2-indicatorSeparator {
+.element-input-field .dropdown-box {
+  position: absolute;
+  background-color: hsl(0, 0%, 100%);
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px hsla(0, 0%, 0%, 0.1), 0 4px 11px hsla(0, 0%, 0%, 0.1);
+  right: 0;
+  left: 0;
+  padding: 5px 0px;
+  top: 53px;
   display: none;
+  max-height: 200px;
+  overflow-y: auto;
+  /* z-index: 2300; */
+}
+
+.element-input-field .clear-btn {
+  position: absolute;
+  right: 3px;
+  top: 10px;
+  color: #aaa9a9;
+}
+
+.element-input-field:not(.standard-input).float-label .clear-btn {
+  right: 10px !important;
+  top: 12px !important;
+}
+
+.element-input-field .dropdown-box.open {
+  display: block;
+}
+
+.element-input-field .dropdown-box .option-sec {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.element-input-field .dropdown-box .option-sec:hover {
+  background-color: #deebff;
 }
 
 .css-19bb58m {
@@ -784,8 +787,8 @@ hr {
 }
 
 .customize-content-table {
-  height: 65vh;
-  overflow-y: auto;
+  /* height: 65vh;
+  overflow-y: auto; */
   border: 1px solid var(--grey-color);
 }
 
@@ -980,7 +983,7 @@ hr {
   overflow-y: auto;
 }
 
-.no-grid{
+.no-grid {
   place-items: center;
   grid-template-columns: unset !important;
   height: 60%;
@@ -995,6 +998,7 @@ hr {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  background-color: var(--white-color);
 }
 
 .icons-list .icon-sec svg {
@@ -1011,7 +1015,7 @@ hr {
 }
 
 .icon-search-input {
-  padding: 23px 0px;
+  padding: 23px;
   background-color: var(--white-color);
   border-bottom: 1px solid var(--grey-color);
   top: 69px;
@@ -1032,23 +1036,32 @@ hr {
   padding-right: 20px;
 }
 
-.icon-box .modal-body{
+.icon-box .modal-body {
   padding: 0px !important;
 }
 
-.main-content-sec .element-column .btn{
+.main-content-sec .element-column .btn {
   display: flex;
   align-items: center;
   justify-content: center;
   border: 1px solid transparent;
 }
 
-.icon-radio-btn{
+.icon-radio-btn {
   transform: scale(1.5);
   margin-right: 9px;
   margin-left: 3px;
 }
 
-.web-div .btn{
+.web-div .btn {
   padding: 10px !important;
+}
+
+.no-scroll {
+  overflow-y: unset !important;
+  height: 466px !important;
+}
+
+.modal-fullscreen .modal-body{
+  background-color: #f8f8f8;
 }

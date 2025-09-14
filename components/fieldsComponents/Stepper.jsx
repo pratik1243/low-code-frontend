@@ -31,12 +31,16 @@ const Stepper = ({ ele, path }) => {
     }
   }, [currentStep]);
 
-  const checkErrorMessages = (data) => {    
-    const isValid = data.every((el) => el?.content ? checkErrorMessages(el?.content) : (el?.props?.value !== "" && el?.form?.error_message == "") );
+  const checkErrorMessages = (data) => {
+    const isValid = data.every((el) =>
+      el?.content
+        ? checkErrorMessages(el?.content)
+        : el?.props?.value !== "" && el?.form?.error_message == ""
+    );
     return isValid;
   };
 
-  const nextStep = () => {    
+  const nextStep = () => {
     const validateForms = forms.map((el, i) => {
       const stepContentForm = el?.props?.stepContent?.map((data, id) => {
         const updatedForms = data?.content?.map((datas, ind) => {

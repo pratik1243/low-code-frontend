@@ -8,10 +8,10 @@ import { useSelector } from "react-redux";
 import { FormContext } from "../FormCreate";
 import { useState, useEffect } from "react";
 import { debounce } from "../../utils/utilFunctions";
-import { Col, Modal, Row, Spinner } from "react-bootstrap";
+import { Col, Row, Spinner, Button } from "react-bootstrap";
 import { commonPostApiFunction } from "../../services/commonApiFunc";
 
-const IconBox = ({ open, currentElement, handleClose, onCustomizeElement }) => {
+const IconBox = ({ open, onCustomizeElement, goBack }) => {
   const { forms } = useContext(FormContext);
   const token = useSelector((user) => user.auth.authDetails.token);
   const [loader, setLoader] = useState(false);
@@ -46,56 +46,58 @@ const IconBox = ({ open, currentElement, handleClose, onCustomizeElement }) => {
   const debouncedSearch = debounce(fetchIcons, 500);
   const setIconType = (icon) => {
     onCustomizeElement(icon, "iconName", "select", forms);
-    handleClose();
+    goBack();
   };
 
-  useEffect(() => {
-    setIcons([]);
-  }, [open]);
-
   return (
-    <Modal show={open} size="xl" onHide={handleClose} className="icon-box">
-      <Modal.Header closeButton>
-        <Modal.Title>Add Icons</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <div className="icon-search-input">
-          <Row className="align-items-center justify-content-center">
-            <Col lg={7} md={7}>
-              <input
-                type="text"
-                placeholder="Search icons here..."
-                onChange={debouncedSearch}
-              />
-            </Col>
-          </Row>
-        </div>
+    <>
+      <div className="icon-search-input">
+        <Row>
+          <Col lg={2} md={2}>
+            <Button
+              variant={"primary"}
+              onClick={() => {
+                goBack();
+                setIcons([]);
+              }}
+            >
+              Go Back
+            </Button>
+          </Col>
+          <Col lg={10} md={10}>
+            <input
+              type="text"
+              placeholder="Search icons here..."
+              onChange={debouncedSearch}
+            />
+          </Col>
+        </Row>
+      </div>
 
-        <div className={`icons-list ${loader ? "no-grid" : ""}`}>
-          {loader ? (
-            <div className="text-center my-5">
-              <Spinner animation="border" variant="primary" />
-              <h5 className="mt-2">Please wait loading icons...</h5>
-            </div>
-          ) : (
-            icons.length > 0 &&
-            icons.map((ele, i) => {
-              const IconComponent = iconType[ele];
-              return (
-                <div
-                  key={i}
-                  className="icon-sec"
-                  onClick={() => setIconType(ele)}
-                >
-                  {IconComponent ? <IconComponent /> : null}
-                  <span className="icon-text">{ele?.slice(2)}</span>
-                </div>
-              );
-            })
-          )}
-        </div>
-      </Modal.Body>
-    </Modal>
+      <div className={`icons-list ${loader ? "no-grid" : ""}`}>
+        {loader ? (
+          <div className="text-center my-5">
+            <Spinner animation="border" variant="primary" />
+            <h5 className="mt-2">Please wait loading icons...</h5>
+          </div>
+        ) : (
+          icons.length > 0 &&
+          icons.map((ele, i) => {
+            const IconComponent = iconType[ele];
+            return (
+              <div
+                key={i}
+                className="icon-sec"
+                onClick={() => setIconType(ele)}
+              >
+                {IconComponent ? <IconComponent /> : null}
+                <span className="icon-text">{ele?.slice(2)}</span>
+              </div>
+            );
+          })
+        )}
+      </div>
+    </>
   );
 };
 

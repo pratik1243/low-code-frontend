@@ -21,12 +21,8 @@ import SliderProps from "./SliderProps";
 import SpacingProps from "./SpacingProps";
 import TextProps from "./TextProps";
 
-const PropsRender = () => {
-  const { forms, setForms, currentElement, containerId } =
-    useContext(FormContext);
-
-  const [show, setShow] = useState(false);
-  const [show1, setShow1] = useState(false);
+const PropsRender = ({ open }) => {
+  const { forms, setForms, currentElement, containerId } = useContext(FormContext);
 
   const onCustomizeElement = (
     e,
@@ -131,141 +127,114 @@ const PropsRender = () => {
     return null;
   };
 
-  const handleClose = () => {
-    setShow(false);
-  };
-  const handleShow = () => {
-    setShow(true);
+  const handleShow = (type) => {
+    open?.setShow(type);
   };
 
-  const handleClose1 = () => {
-    setShow1(false);
-  };
-  const handleShow1 = () => {
-    setShow1(true);
+  const handleShow1 = (type) => {
+    open?.setShow1(type);
   };
 
   return (
-    <div className="field-customize-sec">
-      <label className="fw-bold">Set Width</label>
-      <div className="width-customize-sec mb-4 mt-3">
-        <Row>
-          <Col lg={6} md={6} sm={12} xs={12}>
-            <label>Column Width ({currentField?.column_width}%)</label>
-            <input
-              type="range"
-              value={currentField?.column_width || ""}
-              min={0}
-              max={100}
-              onChange={(e) => {
-                onCustomizeElement(e, "column_width", "input", forms);
-              }}
-            />
-          </Col>
-
-          {!["divider", "image", "icon"].includes(currentField?.type) && (
-            <Col lg={6} md={6} sm={12} xs={12}>
-              <label>
-                {currentField?.type} Width ({currentField?.props?.width}%)
-              </label>
-              <input
-                type={"range"}
-                min={0}
-                max={100}
-                value={currentField?.props?.width || ""}
-                onChange={(e) => {
-                  onCustomizeElement(e, "width", "input", forms);
-                }}
-              />
-            </Col>
-          )}
-        </Row>
-      </div>
-
-      <hr />
-
-      <div className="mt-4">
-        <label className="mb-3 fw-bold">
-          Set {currentField?.type} Properties
-        </label>
-
-        <div className="customize-checkbox">
-          <Row>
-            <Col lg={6} md={6} sm={12} xs={12}>
-              <div className="d-flex align-items-center">
+    <div
+      className={`field-customize-sec ${open?.show1 || open?.show ? "p-0 no-scroll" : ""}`}
+    >
+      {open?.show1 ? (
+        <IconBox
+          onCustomizeElement={onCustomizeElement}
+          goBack={() => {
+            handleShow1(false);
+          }}
+        />
+      ) : open?.show ? (
+        <AddContent
+          addContentType={addContent[currentField?.type]}
+          currentField={currentField}
+          onCustomizeElement={onCustomizeElement}
+          goBack={() => {
+            handleShow(false);
+          }}
+        />
+      ) : (
+        <>
+          <label className="fw-bold">Set Width</label>
+          <div className="width-customize-sec mb-4 mt-3">
+            <Row>
+              <Col lg={6} md={6} sm={12} xs={12}>
+                <label>Column Width ({currentField?.column_width}%)</label>
                 <input
-                  type="checkbox"
-                  id="checkbox-hidden"
-                  checked={currentField?.props?.hidden || ""}
+                  type="range"
+                  value={currentField?.column_width || ""}
+                  min={0}
+                  max={100}
                   onChange={(e) => {
-                    onCustomizeElement(e, "hidden", "checkbox", forms);
+                    onCustomizeElement(e, "column_width", "input", forms);
                   }}
                 />
-                <label htmlFor="checkbox-hidden">Hidden</label>
-              </div>
-            </Col>
-          </Row>
-        </div>
+              </Col>
 
-        <div className="mb-3">
-          <Row>
-            <Col lg={6} md={6} sm={12} xs={12}>
-              <Row>
-                <Col lg={9} md={9}>
-                  <label className="mb-2">Column Background Color</label>
+              {!["divider", "image", "icon"].includes(currentField?.type) && (
+                <Col lg={6} md={6} sm={12} xs={12}>
+                  <label>
+                    {currentField?.type} Width ({currentField?.props?.width}%)
+                  </label>
                   <input
-                    type="color"
-                    id="color-picker"
-                    className="w-100"
-                    value={currentField?.props?.style?.background || ""}
+                    type={"range"}
+                    min={0}
+                    max={100}
+                    value={currentField?.props?.width || ""}
                     onChange={(e) => {
-                      onCustomizeElement(
-                        e,
-                        "background",
-                        "input",
-                        forms,
-                        "style"
-                      );
+                      onCustomizeElement(e, "width", "input", forms);
                     }}
                   />
                 </Col>
-                <Col lg={3} md={3}>
-                  <Button
-                    variant={"primary"}
-                    size="sm"
-                    className="clear-background-btn"
-                    onClick={() => {
-                      onCustomizeElement(
-                        "",
-                        "background",
-                        "input",
-                        forms,
-                        "style"
-                      );
-                    }}
-                  >
-                    Clear
-                  </Button>
+              )}
+            </Row>
+          </div>
+
+          <hr />
+
+          <div className="mt-4">
+            <label className="mb-3 fw-bold">
+              Set {currentField?.type} Properties
+            </label>
+
+            <div className="customize-checkbox">
+              <Row>
+                <Col lg={6} md={6} sm={12} xs={12}>
+                  <div className="d-flex align-items-center">
+                    <input
+                      type="checkbox"
+                      id="checkbox-hidden"
+                      checked={currentField?.props?.hidden || ""}
+                      onChange={(e) => {
+                        onCustomizeElement(e, "hidden", "checkbox", forms);
+                      }}
+                    />
+                    <label htmlFor="checkbox-hidden">Hidden</label>
+                  </div>
                 </Col>
               </Row>
-            </Col>
-            {currentField.type == "container" && (
-              <Col lg={6} md={6} sm={12} xs={12}>
-                <div className="customize-prop-sec">
+            </div>
+
+            <div className="mb-3">
+              <Row>
+                <Col lg={6} md={6} sm={12} xs={12}>
                   <Row>
                     <Col lg={9} md={9}>
-                      <label className="mb-2">Container Background Color</label>
+                      <label className="mb-2">Column Background Color</label>
                       <input
                         type="color"
-                        id="color-picker3"
+                        id="color-picker"
                         className="w-100"
-                        value={currentField?.props?.containerBackground || ""}
+                        value={currentField?.props?.style?.background || ""}
                         onChange={(e) => {
                           onCustomizeElement(
                             e,
-                            "containerBackground",
+                            "background",
                             "input",
-                            forms
+                            forms,
+                            "style"
                           );
                         }}
                       />
@@ -278,9 +247,10 @@ const PropsRender = () => {
                         onClick={() => {
                           onCustomizeElement(
                             "",
-                            "containerBackground",
+                            "background",
                             "input",
-                            forms
+                            forms,
+                            "style"
                           );
                         }}
                       >
@@ -288,144 +258,196 @@ const PropsRender = () => {
                       </Button>
                     </Col>
                   </Row>
+                </Col>
+                {currentField.type == "container" && (
+                  <Col lg={6} md={6} sm={12} xs={12}>
+                    <div className="customize-prop-sec">
+                      <Row>
+                        <Col lg={9} md={9}>
+                          <label className="mb-2">
+                            Container Background Color
+                          </label>
+                          <input
+                            type="color"
+                            id="color-picker3"
+                            className="w-100"
+                            value={
+                              currentField?.props?.containerBackground || ""
+                            }
+                            onChange={(e) => {
+                              onCustomizeElement(
+                                e,
+                                "containerBackground",
+                                "input",
+                                forms
+                              );
+                            }}
+                          />
+                        </Col>
+                        <Col lg={3} md={3}>
+                          <Button
+                            variant={"primary"}
+                            size="sm"
+                            className="clear-background-btn"
+                            onClick={() => {
+                              onCustomizeElement(
+                                "",
+                                "containerBackground",
+                                "input",
+                                forms
+                              );
+                            }}
+                          >
+                            Clear
+                          </Button>
+                        </Col>
+                      </Row>
+                    </div>
+                  </Col>
+                )}
+                {currentField.type == "slider" && (
+                  <Col lg={6} md={6} sm={12} xs={12}>
+                    <Row>
+                      <Col lg={9} md={9}>
+                        <label className="mb-2">Indicator Color</label>
+                        <input
+                          type="color"
+                          id="color-picker2"
+                          className="w-100"
+                          value={currentField?.props?.style?.color || ""}
+                          onChange={(e) => {
+                            onCustomizeElement(
+                              e,
+                              "color",
+                              "input",
+                              forms,
+                              "style"
+                            );
+                          }}
+                        />
+                      </Col>
+                      <Col lg={3} md={3}>
+                        <Button
+                          variant={"primary"}
+                          size="sm"
+                          className="clear-background-btn"
+                          onClick={() => {
+                            onCustomizeElement(
+                              "",
+                              "color",
+                              "input",
+                              forms,
+                              "style"
+                            );
+                          }}
+                        >
+                          Clear
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Col>
+                )}
+              </Row>
+            </div>
+
+            {renderProps()}
+          </div>
+
+          <Row className="align-items-center">
+            {currentField?.type !== "divider" && (
+              <Col lg={6} md={6} sm={12} xs={12}>
+                <div className="customize-prop-sec">
+                  <label>{currentField?.type} Alignment</label>
+                  <Select
+                    isClearable
+                    placeholder={"Select alignment"}
+                    options={alignmentOptions}
+                    value={currentField?.props?.align || ""}
+                    onChange={(e) => {
+                      onCustomizeElement(e, "align", "select", forms);
+                    }}
+                  />
                 </div>
               </Col>
             )}
-            {currentField.type == "slider" && (
+
+            {["button", "icon"].includes(currentField?.type) && (
               <Col lg={6} md={6} sm={12} xs={12}>
-                <Row>
-                  <Col lg={9} md={9}>
-                    <label className="mb-2">Indicator Color</label>
-                    <input
-                      type="color"
-                      id="color-picker2"
-                      className="w-100"
-                      value={currentField?.props?.style?.color || ""}
-                      onChange={(e) => {
-                        onCustomizeElement(e, "color", "input", forms, "style");
-                      }}
-                    />
-                  </Col>
-                  <Col lg={3} md={3}>
-                    <Button
-                      variant={"primary"}
-                      size="sm"
-                      className="clear-background-btn"
-                      onClick={() => {
-                        onCustomizeElement(
-                          "",
-                          "color",
-                          "input",
-                          forms,
-                          "style"
-                        );
-                      }}
-                    >
-                      Clear
-                    </Button>
-                  </Col>
-                </Row>
+                <Button
+                  onClick={() => {
+                    handleShow1(true);
+                  }}
+                >
+                  Add Icon
+                </Button>
+              </Col>
+            )}
+
+            {currentField?.type == "container" && (
+              <Col lg={6} md={6} sm={12} xs={12}>
+                <div className="customize-prop-sec">
+                  <label>Container Template</label>
+                  <Select
+                    isClearable
+                    placeholder={"Select template"}
+                    options={containerOptions}
+                    value={currentField?.props?.containerTemplate || ""}
+                    onChange={(e) => {
+                      onCustomizeElement(
+                        e,
+                        "containerTemplate",
+                        "select",
+                        forms
+                      );
+                    }}
+                  />
+                </div>
+              </Col>
+            )}
+
+            {currentField?.type == "stepper" && (
+              <Col lg={6} md={6} sm={12} xs={12}>
+                <div className="customize-prop-sec">
+                  <label>Stepper Container Template</label>
+                  <Select
+                    isClearable
+                    placeholder={"Select template"}
+                    options={containerOptions}
+                    value={currentField?.props?.containerType || ""}
+                    onChange={(e) => {
+                      onCustomizeElement(e, "containerType", "select", forms);
+                    }}
+                  />
+                </div>
+              </Col>
+            )}
+
+            {["stepper", "select", "slider"].includes(currentField?.type) && (
+              <Col lg={6} md={6} sm={12} xs={12}>
+                <Button
+                  onClick={() => {
+                    handleShow(true);
+                  }}
+                >
+                  {addTextType[currentField?.type]}
+                </Button>
               </Col>
             )}
           </Row>
-        </div>
 
-        {renderProps()}
-      </div>
+          <SpacingProps
+            onCustomizeElement={onCustomizeElement}
+            currentField={currentField}
+          />
 
-      <Row className="align-items-center">
-        {currentField?.type !== "divider" && (
-          <Col lg={6} md={6} sm={12} xs={12}>
-            <div className="customize-prop-sec">
-              <label>{currentField?.type} Alignment</label>
-              <Select
-                isClearable
-                placeholder={"Select alignment"}
-                options={alignmentOptions}
-                value={currentField?.props?.align || ""}
-                onChange={(e) => {
-                  onCustomizeElement(e, "align", "select", forms);
-                }}
-              />
-            </div>
-          </Col>
-        )}
+          <hr />
 
-        {["button", "icon"].includes(currentField?.type) && (
-          <Col lg={6} md={6} sm={12} xs={12}>
-            <Button onClick={handleShow1}>Add Icon</Button>
-          </Col>
-        )}
-
-        {currentField?.type == "container" && (
-          <Col lg={6} md={6} sm={12} xs={12}>
-            <div className="customize-prop-sec">
-              <label>Container Template</label>
-              <Select
-                isClearable
-                placeholder={"Select template"}
-                options={containerOptions}
-                value={currentField?.props?.containerTemplate || ""}
-                onChange={(e) => {
-                  onCustomizeElement(e, "containerTemplate", "select", forms);
-                }}
-              />
-            </div>
-          </Col>
-        )}
-
-        {currentField?.type == "stepper" && (
-          <Col lg={6} md={6} sm={12} xs={12}>
-            <div className="customize-prop-sec">
-              <label>Stepper Container Template</label>
-              <Select
-                isClearable
-                placeholder={"Select template"}
-                options={containerOptions}
-                value={currentField?.props?.containerType || ""}
-                onChange={(e) => {
-                  onCustomizeElement(e, "containerType", "select", forms);
-                }}
-              />
-            </div>
-          </Col>
-        )}
-
-        {["stepper", "select", "slider"].includes(currentField?.type) && (
-          <Col lg={6} md={6} sm={12} xs={12}>
-            <Button onClick={handleShow}>
-              {addTextType[currentField?.type]}
-            </Button>
-          </Col>
-        )}
-      </Row>
-
-      <SpacingProps
-        onCustomizeElement={onCustomizeElement}
-        currentField={currentField}
-      />
-
-      <hr />
-
-      <AnimationProps
-        onCustomizeElement={onCustomizeElement}
-        currentField={currentField}
-      />
-
-      <IconBox
-        open={show1}
-        currentElement={currentElement}
-        handleClose={handleClose1}
-        onCustomizeElement={onCustomizeElement}
-      />
-
-      <AddContent
-        open={show}
-        handleClose={handleClose}
-        addContentType={addContent[currentField?.type]}
-        currentField={currentField}
-        onCustomizeElement={onCustomizeElement}
-      />
+          <AnimationProps
+            onCustomizeElement={onCustomizeElement}
+            currentField={currentField}
+          />
+        </>
+      )}
     </div>
   );
 };

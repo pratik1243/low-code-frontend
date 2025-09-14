@@ -55,11 +55,13 @@ const TextField = ({
           })}
           required
           style={{
-            ...(ele?.props?.style && path.includes("web-page") && addPixel(ele?.props?.style, ele)),
-              color: "#aaa9a9",
-              ...((ele?.props?.standard || ele?.props?.floatLabel) && path.includes("web-page") && {
-                backgroundColor: "transparent"
-              })
+            ...(ele?.props?.style &&
+              path.includes("web-page") &&
+              addPixel(ele?.props?.style, ele)),
+            ...((ele?.props?.standard || ele?.props?.floatLabel) &&
+              path.includes("web-page") && {
+                backgroundColor: "transparent",
+              }),
           }}
         />
       </div>
@@ -68,7 +70,9 @@ const TextField = ({
           className="standard-line"
           style={{
             ...(ele?.props?.style?.color &&
-              path.includes("web-page") && { backgroundColor: ele?.props?.style?.color }),
+              path.includes("web-page") && {
+                backgroundColor: ele?.props?.style?.color,
+              }),
           }}
         ></div>
       )}

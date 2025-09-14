@@ -1,9 +1,9 @@
 "use client";
-import React, { useContext, useState } from "react";
-import Select from "react-select";
-import { selectCustomStyles, updateNestedForms } from "../../utils/utilFunctions";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { addPixel, updateNestedForms } from "../../utils/utilFunctions";
 import { FormContext } from "../FormCreate";
 import { PageContext } from "../WebPage";
+import { IoIosClose } from "react-icons/io";
 
 const SelectField = ({
   ele,
@@ -11,70 +11,117 @@ const SelectField = ({
   currentStep = null,
   containerBackground = null,
 }) => {
+
+  const boxRef = useRef(null);
   const { forms, setForms } = useContext(
     path.includes("web-page") ? PageContext : FormContext
   );
 
-  const [value, setValue] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
 
-  const setValidations = (data) => {
-    const value = typeof data == "object" ? data : data?.value || "";
+  const setValidations = (value) => {
+    setValue(value);
     setForms(updateNestedForms(forms, ele, value, currentStep));
   };
 
+  const filterOptions = ele?.props?.options.filter((el) =>
+    el.label.toLowerCase().includes(value.toLowerCase())
+  );
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (boxRef.current && !boxRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div
-      className={`element-select-field ${
-        ele?.props?.floatLabel && path.includes("web-page") ? "float-label" : ""
-      } ${
-        ele?.props?.standard && path.includes("web-page")
-          ? "standard-input"
-          : ""
-      } mb-3`}
-    >
-      <label
-        style={{
-          ...(ele?.props?.style?.color &&
-            path.includes("web-page") && { color: ele?.props?.style?.color }),
-          ...(containerBackground && { backgroundColor: containerBackground }),
-        }}
-        className={`${
-          path.includes("web-page") &&
-          ele?.props?.standard &&
-          (value || ele?.props?.value.length > 0)
-            ? "float-select-standard-label"
+    <div className="mb-3 position-relative" ref={boxRef}>
+      <div
+        className={`element-input-field ${open ? 'index-1' : ''} ${
+          (ele?.props?.floatLabel || ele?.props?.standard) &&
+          path.includes("web-page")
+            ? "float-label"
             : ""
         } ${
-          path.includes("web-page") &&
-          ele?.props?.floatLabel &&
-          (value || ele?.props?.value.length > 0)
-            ? "float-select-label"
+          ele?.props?.standard && path.includes("web-page")
+            ? "standard-input"
             : ""
         }`}
       >
-        {ele?.props?.label || "Enter label"}{" "}
-        {ele?.props?.required && <span className="required">*</span>}
-      </label>
-      <Select
-        isClearable={false}
-        defaultValue={ele?.props?.value}
-        name={ele?.name || "name"}
-        required
-        className={ele?.name}
-        isMulti={ele?.props?.multiple}
-        placeholder={ele?.props?.placeholder || "Enter placeholder"}
-        options={ele?.props?.options}
-        {...(path.includes("web-page") && { styles: selectCustomStyles(ele) })}
-        onChange={(e) => {
-          setValidations(e);
-        }}
-        onFocus={() => {
-          setValue(true);
-        }}
-        onBlur={() => {
-          setValue(false);
-        }}
-      />
+        <label
+          style={{
+            ...(ele?.props?.style?.color &&
+              path.includes("web-page") && { color: ele?.props?.style?.color }),
+            ...(containerBackground && {
+              backgroundColor: containerBackground,
+            }),
+          }}
+        >
+          {ele?.props?.label || "Enter label"}{" "}
+          {ele?.props?.required && <span className="required">*</span>}
+        </label>
+        <input
+          type="text"
+          value={ele?.props?.value || ""}
+          className={ele?.name}
+          placeholder={ele?.props?.placeholder || "Enter placeholder"}
+          onChange={(e) => {
+            setValidations(e.target.value);
+          }}
+          required
+          style={{
+            ...(ele?.props?.style &&
+              path.includes("web-page") &&
+              addPixel(ele?.props?.style, ele)),
+            color: "#aaa9a9",
+            ...((ele?.props?.standard || ele?.props?.floatLabel) &&
+              path.includes("web-page") && {
+                backgroundColor: "transparent",
+              }),
+          }}
+          onClick={() => {
+            setOpen(true);
+          }}
+        />
+
+        {value && (
+          <div role="button" className="clear-btn">
+            <IoIosClose
+              size={23}
+              onClick={() => {
+                setValidations("");
+              }}
+            />
+          </div>
+        )}
+        <div className={`dropdown-box ${open && path.includes("web-page") ? "open" : ""}`}>
+          {filterOptions.length > 0 ? (
+            filterOptions?.map((el, i) => {
+              return (
+                <div
+                  key={i}
+                  className="option-sec"
+                  onClick={() => {
+                    setValidations(el.label);
+                    setOpen(false);
+                  }}
+                >
+                  {el.value}
+                </div>
+              );
+            })
+          ) : (
+            <div className="option-sec  text-center">no options</div>
+          )}
+        </div>
+      </div>
       {ele?.props?.standard && path.includes("web-page") && (
         <div
           className="standard-line"
