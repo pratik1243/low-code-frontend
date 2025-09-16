@@ -27,6 +27,12 @@ body:has(.main-content-sec) p {
   margin-bottom: 0 !important;
 }
 
+body:has(.login-sec),
+body:has(.low-nav-bar),
+body:has(.main-content-sec) {
+  background-color: #00b2aa05 !important;
+}
+
 p {
   word-break: break-all;
 }
@@ -44,7 +50,7 @@ input {
   border: 1px solid var(--grey-color);
   padding: 20px;
   border-radius: 4px;
-  height: 85vh;
+  max-height: 590px;
   overflow: hidden auto;
 }
 
@@ -178,7 +184,7 @@ input {
   color: #000;
 }
 
-.index-1{
+.index-1 {
   z-index: 100 !important;
 }
 
@@ -267,7 +273,7 @@ input {
   padding: 12px !important;
   border-radius: 4px;
   outline: none;
-  border: 1px solid var(--grey-color);
+  border: 1.8px solid var(--grey-color);
   transition: all 0.4s;
   color: #aaa9a9;
 }
@@ -438,14 +444,29 @@ input {
   display: block;
 }
 
+.page-list-sec {
+  margin-top: 110px !important;
+}
+
 .page-list-sec .page-section-tab {
   background-color: var(--white-color);
-  border: 1px solid #a3a3a3;
+  border: 1px solid var(--grey-color);
   border-radius: 4px;
   padding: 14px;
-  font-size: 20px;
+  font-size: 18px;
   cursor: pointer;
   margin-bottom: 25px;
+  text-transform: capitalize;
+  transition: all 0.5s;
+}
+
+.page-list-sec .search-input-sec input {
+  background-color: var(--white-color);
+  width: 100%;
+  padding: 13px;
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid var(--grey-color);
 }
 
 .page-create-sec label {
@@ -839,6 +860,7 @@ hr {
   transition: all 0.5s;
   transform: translateX(500px);
   box-shadow: 0px 0px 5px 1px #8080807d;
+  z-index: 1400;
 }
 
 .snack-bar-sec.open {
@@ -875,6 +897,7 @@ hr {
   border-radius: 10px;
   max-width: 1000px;
   margin: 60px auto;
+  background-color: var(--white-color);
 }
 
 .register {
@@ -942,7 +965,7 @@ hr {
   top: 11px;
   transition: all 0.3s;
   background-color: white;
-  z-index: -1;
+  z-index: 0;
 }
 
 .login-sec .input-field.float-label input::placeholder {
@@ -961,9 +984,25 @@ hr {
   height: 100%;
 }
 
+.logout-btn,
+.add-page-btn,
+.page-create-btn,
 .login-sec .btn-primary {
   background-color: #00b2aa !important;
   border-color: #00b2aa !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-around;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+}
+
+.add-page-btn {
+  margin-right: 30px !important;
+}
+
+.page-create-btn {
+  margin-left: 16px !important;
 }
 
 .password-btn {
@@ -1062,6 +1101,34 @@ hr {
   height: 466px !important;
 }
 
-.modal-fullscreen .modal-body{
+.modal-fullscreen .modal-body {
   background-color: #f8f8f8;
+}
+
+.low-nav-bar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  box-shadow: 0 0 5px 2px #80808042;
+  padding: 14px 17px;
+  background-color: var(--white-color);
+  z-index: 1000;
+}
+
+.go-back-btn,
+.add-icon-btn,
+.add-content-btn,
+.clear-background-btn {
+  background-color: #00b2aa !important;
+  border-color: #00b2aa !important;
+}
+
+.go-back-btn{
+  display: flex !important;
+  align-items: center;
+}
+
+.icons-list .spinner-border{
+  color: #00b2aa !important;
 }

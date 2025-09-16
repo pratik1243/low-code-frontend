@@ -6,6 +6,7 @@ import RenderField from "./RenderField";
 import { useEffect } from "react";
 
 const SwiperComp = ({ ele, path }) => {
+  const isWebPage = path.includes("web-page");
   useEffect(() => {
     const interval = setInterval(() => {
       document
@@ -25,7 +26,7 @@ const SwiperComp = ({ ele, path }) => {
 
   return (
     <>
-      {!path.includes("web-page") ? (
+      {!isWebPage ? (
         <div>Slider</div>
       ) : (
         <Swiper
@@ -35,10 +36,9 @@ const SwiperComp = ({ ele, path }) => {
           navigation={ele?.props?.navigation}
           loop={ele?.props?.loop}
           pagination={{ clickable: true }}
-          {...(ele?.props?.delay?.value &&
-            path.includes("web-page") && {
-              autoplay: { delay: ele?.props?.delay?.value },
-            })}
+          {...(ele?.props?.delay?.value && {
+            autoplay: { delay: ele?.props?.delay?.value },
+          })}
         >
           {ele?.props?.slides?.map((el, i) => {
             return (

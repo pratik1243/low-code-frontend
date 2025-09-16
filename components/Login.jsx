@@ -12,6 +12,7 @@ import { Button, Col, Row } from "react-bootstrap";
 import lowCodeImg from "../public/low-code-img.png";
 import { formAction, LoginSchema } from "../utils/utilFunctions";
 import InputField from "./commonComponents/InputField";
+import { useEffect } from "react";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -61,6 +62,10 @@ const Login = () => {
       );
     }
   };
+
+  // useEffect(()=>{
+  //   router.push("/login");
+  // }, [])
 
   return (
     <div className="login-sec">

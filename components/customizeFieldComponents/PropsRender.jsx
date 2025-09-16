@@ -22,7 +22,8 @@ import SpacingProps from "./SpacingProps";
 import TextProps from "./TextProps";
 
 const PropsRender = ({ open }) => {
-  const { forms, setForms, currentElement, containerId } = useContext(FormContext);
+  const { forms, setForms, currentElement, containerId } =
+    useContext(FormContext);
 
   const onCustomizeElement = (
     e,
@@ -137,7 +138,9 @@ const PropsRender = ({ open }) => {
 
   return (
     <div
-      className={`field-customize-sec ${open?.show1 || open?.show ? "p-0 no-scroll" : ""}`}
+      className={`field-customize-sec ${
+        open?.show1 || open?.show ? "p-0 no-scroll" : ""
+      }`}
     >
       {open?.show1 ? (
         <IconBox
@@ -374,6 +377,7 @@ const PropsRender = ({ open }) => {
             {["button", "icon"].includes(currentField?.type) && (
               <Col lg={6} md={6} sm={12} xs={12}>
                 <Button
+                  className="add-icon-btn"
                   onClick={() => {
                     handleShow1(true);
                   }}
@@ -425,6 +429,7 @@ const PropsRender = ({ open }) => {
             {["stepper", "select", "slider"].includes(currentField?.type) && (
               <Col lg={6} md={6} sm={12} xs={12}>
                 <Button
+                  className="add-content-btn"
                   onClick={() => {
                     handleShow(true);
                   }}

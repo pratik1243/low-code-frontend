@@ -9,9 +9,9 @@ const TextField = ({
   currentStep = null,
   containerBackground = null,
 }) => {
-  const { forms, setForms } = useContext(
-    path.includes("web-page") ? PageContext : FormContext
-  );
+  const isWebPage = path.includes("web-page");
+
+  const { forms, setForms } = useContext(isWebPage ? PageContext : FormContext);
 
   const setValidations = (e) => {
     setForms(updateNestedForms(forms, ele, e.target.value, currentStep));
@@ -21,21 +21,16 @@ const TextField = ({
     <div className="mb-3 position-relative">
       <div
         className={`element-input-field ${
-          (ele?.props?.floatLabel || ele?.props?.standard) &&
-          path.includes("web-page")
+          (ele?.props?.floatLabel || ele?.props?.standard) && isWebPage
             ? "float-label"
             : ""
-        } ${
-          ele?.props?.standard && path.includes("web-page")
-            ? "standard-input"
-            : ""
-        }`}
+        } ${ele?.props?.standard && isWebPage ? "standard-input" : ""}`}
       >
         {" "}
         <label
           style={{
             ...(ele?.props?.style?.color &&
-              path.includes("web-page") && { color: ele?.props?.style?.color }),
+              isWebPage && { color: ele?.props?.style?.color }),
             ...(containerBackground && {
               backgroundColor: containerBackground,
             }),
@@ -56,21 +51,21 @@ const TextField = ({
           required
           style={{
             ...(ele?.props?.style &&
-              path.includes("web-page") &&
+              isWebPage &&
               addPixel(ele?.props?.style, ele)),
             ...((ele?.props?.standard || ele?.props?.floatLabel) &&
-              path.includes("web-page") && {
+              isWebPage && {
                 backgroundColor: "transparent",
               }),
           }}
         />
       </div>
-      {ele?.props?.standard && path.includes("web-page") && (
+      {ele?.props?.standard && isWebPage && (
         <div
           className="standard-line"
           style={{
             ...(ele?.props?.style?.color &&
-              path.includes("web-page") && {
+              isWebPage && {
                 backgroundColor: ele?.props?.style?.color,
               }),
           }}

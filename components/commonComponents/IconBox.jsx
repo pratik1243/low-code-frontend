@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { debounce } from "../../utils/utilFunctions";
 import { Col, Row, Spinner, Button } from "react-bootstrap";
 import { commonPostApiFunction } from "../../services/commonApiFunc";
+import { IoMdArrowBack } from "react-icons/io";
 
 const IconBox = ({ open, onCustomizeElement, goBack }) => {
   const { forms } = useContext(FormContext);
@@ -56,12 +57,13 @@ const IconBox = ({ open, onCustomizeElement, goBack }) => {
           <Col lg={2} md={2}>
             <Button
               variant={"primary"}
+              className="go-back-btn"
               onClick={() => {
                 goBack();
                 setIcons([]);
               }}
             >
-              Go Back
+            <IoMdArrowBack size={18} /> &nbsp;&nbsp;Go Back
             </Button>
           </Col>
           <Col lg={10} md={10}>

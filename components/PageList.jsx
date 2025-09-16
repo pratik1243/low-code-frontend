@@ -8,6 +8,9 @@ import { setLoader } from "../redux/slices/loaderSlice";
 import { setSnackbarProps } from "../redux/slices/snackbarSlice";
 import { commonPostApiFunction } from "../services/commonApiFunc";
 import { generateId } from "../utils/utilFunctions";
+import { MdDeleteOutline } from "react-icons/md";
+import { MdLogout } from "react-icons/md";
+import { IoIosAdd } from "react-icons/io";
 
 const PageList = () => {
   const router = useRouter();
@@ -20,7 +23,9 @@ const PageList = () => {
   });
 
   const token = useSelector((user) => user.auth.authDetails.token);
-  const requestUserId = useSelector((user) => user.auth.authDetails?.request_user_id);
+  const requestUserId = useSelector(
+    (user) => user.auth.authDetails?.request_user_id
+  );
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -76,56 +81,64 @@ const PageList = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  useEffect(() => {   
+  useEffect(() => {
     fetchPagesList();
   }, []);
 
   return (
     <div>
       <Container>
-        <Row>
-          <Col lg={9} md={9} sm={12} xs={12}></Col>
-          <Col lg={3} md={3} sm={12} xs={12}>
-            <Button
-              variant={"primary"}
-              className={"mr-auto"}
-              onClick={() => {
-                handleShow();
-              }}
-            >
-              Add Page
-            </Button>
-            <Button
-              variant={"primary"}
-              className={"mr-auto"}
-              onClick={() => {
-                dispatch(
-                  setAuthDetails({
-                    token: null,
-                    request_user_id: null,
-                    user_name: null,
-                  })
-                );
-                router.push('/login')
-              }}
-            >
-             Log Out
-            </Button>
-          </Col>
-        </Row>
-        <div className="page-list-sec mt-5">
+        <div className="low-nav-bar">
+          <Row>
+            <Col lg={9} md={9} sm={12} xs={12}></Col>
+            <Col lg={3} md={3} sm={12} xs={12}>
+              <div className="d-flex align-items-center ">
+                <Button
+                  variant={"primary"}
+                  className={"mr-auto add-page-btn"}
+                  onClick={() => {
+                    handleShow();
+                  }}
+                >
+                  <IoIosAdd size={23} /> &nbsp;Add Page
+                </Button>
+                <Button
+                  variant={"primary"}
+                  className={"mr-auto logout-btn"}
+                  onClick={() => {
+                    dispatch(
+                      setAuthDetails({
+                        token: null,
+                        request_user_id: null,
+                        user_name: null,
+                      })
+                    );
+                    router.push("/login");
+                  }}
+                >
+                  <MdLogout size={17} /> &nbsp;&nbsp;Log Out
+                </Button>
+              </div>
+            </Col>
+          </Row>
+        </div>
+        <div className="page-list-sec">
+          <div className="search-input-sec my-5">
+            <input type="text" placeholder="Search page here..." />
+          </div>
           <Row>
             {pagesList?.map((ele, i) => {
               return (
                 <Col key={i} lg={4} md={4} sm={12} xs={12}>
                   <div
                     key={i}
-                    className="page-section-tab"
+                    className="page-section-tab d-flex align-items-center justify-content-between"
                     onClick={() => {
                       router.push(`/page/${ele?.page_id}`);
                     }}
                   >
                     {ele?.page_name}
+                    <MdDeleteOutline size={24} color="red" />
                   </div>
                 </Col>
               );
@@ -144,30 +157,33 @@ const PageList = () => {
               <input
                 type="text"
                 name="page_name"
+                placeholder="Enter page name"
                 onChange={(e) => formChange(e)}
               />
             </div>
 
-            <div>
+            <div className="mt-4">
               <label>Page Route</label>
               <input
                 type="text"
                 name="page_link"
+                placeholder="Enter page route"
                 onChange={(e) => formChange(e)}
               />
             </div>
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="outline-secondary" onClick={handleClose}>
             Cancel
           </Button>
           <Button
             variant="primary"
+            className="page-create-btn"
             disabled={formData.page_name ? false : true}
             onClick={onPageCreate}
           >
-            Create
+            Create Page
           </Button>
         </Modal.Footer>
       </Modal>

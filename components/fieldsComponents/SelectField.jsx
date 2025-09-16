@@ -11,11 +11,9 @@ const SelectField = ({
   currentStep = null,
   containerBackground = null,
 }) => {
-
+  const isWebPage = path.includes("web-page");
   const boxRef = useRef(null);
-  const { forms, setForms } = useContext(
-    path.includes("web-page") ? PageContext : FormContext
-  );
+  const { forms, setForms } = useContext(isWebPage ? PageContext : FormContext);
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
@@ -44,21 +42,16 @@ const SelectField = ({
   return (
     <div className="mb-3 position-relative" ref={boxRef}>
       <div
-        className={`element-input-field ${open ? 'index-1' : ''} ${
-          (ele?.props?.floatLabel || ele?.props?.standard) &&
-          path.includes("web-page")
+        className={`element-input-field ${open ? "index-1" : ""} ${
+          (ele?.props?.floatLabel || ele?.props?.standard) && isWebPage
             ? "float-label"
             : ""
-        } ${
-          ele?.props?.standard && path.includes("web-page")
-            ? "standard-input"
-            : ""
-        }`}
+        } ${ele?.props?.standard && isWebPage ? "standard-input" : ""}`}
       >
         <label
           style={{
             ...(ele?.props?.style?.color &&
-              path.includes("web-page") && { color: ele?.props?.style?.color }),
+              isWebPage && { color: ele?.props?.style?.color }),
             ...(containerBackground && {
               backgroundColor: containerBackground,
             }),
@@ -78,11 +71,11 @@ const SelectField = ({
           required
           style={{
             ...(ele?.props?.style &&
-              path.includes("web-page") &&
+              isWebPage &&
               addPixel(ele?.props?.style, ele)),
             color: "#aaa9a9",
             ...((ele?.props?.standard || ele?.props?.floatLabel) &&
-              path.includes("web-page") && {
+              isWebPage && {
                 backgroundColor: "transparent",
               }),
           }}
@@ -101,7 +94,7 @@ const SelectField = ({
             />
           </div>
         )}
-        <div className={`dropdown-box ${open && path.includes("web-page") ? "open" : ""}`}>
+        <div className={`dropdown-box ${open && isWebPage ? "open" : ""}`}>
           {filterOptions.length > 0 ? (
             filterOptions?.map((el, i) => {
               return (
@@ -122,12 +115,12 @@ const SelectField = ({
           )}
         </div>
       </div>
-      {ele?.props?.standard && path.includes("web-page") && (
+      {ele?.props?.standard && isWebPage && (
         <div
           className="standard-line"
           style={{
             ...(ele?.props?.style?.color &&
-              path.includes("web-page") && {
+              isWebPage && {
                 backgroundColor: ele?.props?.style?.color,
               }),
           }}

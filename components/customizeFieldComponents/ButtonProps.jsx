@@ -69,7 +69,7 @@ const ButtonProps = ({ onCustomizeElement, currentField }) => {
             </div>
           </Col>
           <Col lg={12} md={12} sm={12} xs={12}>
-            <Row className="mt-3 mb-4">
+            <Row className="mt-4 mb-4">
               <Col lg={6} md={6} sm={12} xs={12}>
                 <Row>
                   <Col lg={9} md={9}>

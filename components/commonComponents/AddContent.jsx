@@ -6,6 +6,7 @@ import { Button, Table } from "react-bootstrap";
 import { FormContext } from "../FormCreate";
 import { LuExternalLink } from "react-icons/lu";
 import { addContentProps, nestedStructure } from "../../utils/utilFunctions";
+import { IoMdArrowBack } from "react-icons/io";
 
 const AddContent = ({
   currentField,
@@ -102,11 +103,12 @@ const AddContent = ({
     <div className="customize-prop-sec p-4 modal-dialog-customize">
       <Button
         variant={"primary"}
+        className="go-back-btn"
         onClick={() => {
           goBack();
         }}
       >
-        Go Back
+       <IoMdArrowBack />&nbsp;&nbsp;Go Back
       </Button>
       <div className="d-flex mt-4 mb-4">
         <div className="w-100">

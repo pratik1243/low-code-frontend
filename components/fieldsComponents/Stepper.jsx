@@ -12,9 +12,9 @@ import { PageContext } from "../WebPage";
 import RenderField from "./RenderField";
 
 const Stepper = ({ ele, path }) => {
-  const { forms, setForms } = useContext(
-    path.includes("web-page") ? PageContext : FormContext
-  );
+  const isWebPage = path.includes("web-page");
+
+  const { forms, setForms } = useContext(isWebPage ? PageContext : FormContext);
   const [stepsArr, setStepsArr] = useState([]);
   const [prevArr, setPrevArr] = useState([]);
   const [currentStep, setCurrentStep] = useState(0);
@@ -86,7 +86,7 @@ const Stepper = ({ ele, path }) => {
 
   return (
     <>
-      {!path.includes("web-page") ? (
+      {!isWebPage ? (
         <div>Stepper Form</div>
       ) : (
         <div

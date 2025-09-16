@@ -11,13 +11,20 @@ import RenderField from "./RenderField";
 import ElementActions from "../commonComponents/ElementActions";
 
 const Container = ({ ele, path, index, currentStep = null }) => {
-  const { forms, setForms, setContainerId, setCurrentElement, currentElement, setShowCurrentElement } =
-    useContext(path.includes("web-page") ? PageContext : FormContext);
+  const isWebPage = path.includes("web-page");
+  const {
+    forms,
+    setForms,
+    setContainerId,
+    setCurrentElement,
+    currentElement,
+    setShowCurrentElement,
+  } = useContext(isWebPage ? PageContext : FormContext);
 
   const onClickElement = (e, el) => {
     e.stopPropagation();
     setCurrentElement(el);
-    if (!path.includes("web-page")) {
+    if (!isWebPage) {
       setContainerId(index);
       setShowCurrentElement(true);
     }
@@ -68,7 +75,7 @@ const Container = ({ ele, path, index, currentStep = null }) => {
   return (
     <div
       className={`card-sec ${
-        path.includes("web-page")
+        isWebPage
           ? `is-web-page ${
               containerClasses[ele?.props?.containerTemplate?.value] || ""
             }`
@@ -76,7 +83,7 @@ const Container = ({ ele, path, index, currentStep = null }) => {
       }`}
       style={{
         ...(ele?.props?.containerBackground &&
-          path.includes("web-page") && {
+          isWebPage && {
             backgroundColor: ele?.props?.containerBackground,
           }),
       }}
@@ -88,28 +95,24 @@ const Container = ({ ele, path, index, currentStep = null }) => {
         return (
           <div
             key={i}
-            draggable={!path.includes("web-page")}
+            draggable={!isWebPage}
             className={`position-relative element-column column_${el?.id} ${
-              (path.includes("web-page") &&
-                alignment[el?.props?.align?.value]) ||
-              ""
+              (isWebPage && alignment[el?.props?.align?.value]) || ""
             } ${currentElement?.id === el?.id ? "selected" : ""} ${
-              el?.props?.hidden && path.includes("web-page")
+              el?.props?.hidden && isWebPage
                 ? "hide"
                 : el?.props?.hidden
                 ? "hidden"
                 : ""
             } ${
-              (path.includes("web-page") && el?.type == "heading") ||
-              (path.includes("web-page") && el?.type == "paragraph")
+              (isWebPage && el?.type == "heading") ||
+              (isWebPage && el?.type == "paragraph")
                 ? textAlign[el?.props?.align?.value] || ""
                 : ""
-            } ${path.includes("web-page") ? "d-flex" : ""}`}
+            } ${isWebPage ? "d-flex" : ""}`}
             style={{
               ...(el?.column_width && { width: `${el?.column_width}%` }),
-              ...(el?.props?.style &&
-                path.includes("web-page") &&
-                addPixel(el?.props?.style, el)),
+              ...(el?.props?.style &&  isWebPage &&  addPixel(el?.props?.style, el)),
               ...(["button", "input", "select"].includes(el?.type) && {
                 backgroundColor: "transparent !important",
               }),
@@ -119,13 +122,11 @@ const Container = ({ ele, path, index, currentStep = null }) => {
             onDragStart={(e) => onDragStart(e, i, index)}
             onDrop={(e) => onDropItem(e, i, index)}
           >
-            {!path.includes("web-page") ? (
+            {!isWebPage ? (
               <>
                 <div
                   className={
-                    el?.type !== "container" && !path.includes("web-page")
-                      ? "field-render"
-                      : ""
+                    el?.type !== "container" && !isWebPage ? "field-render" : ""
                   }
                 >
                   <RenderField ele={el} index={i} />

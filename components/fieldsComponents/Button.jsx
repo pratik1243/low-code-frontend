@@ -12,7 +12,8 @@ import { addPixel, errorMessageFunc } from "../../utils/utilFunctions";
 
 const ButtonComp = ({ ele, path }) => {
   const router = useRouter();
-  const { forms, setForms } = useContext(path.includes("web-page") ? PageContext : FormContext);
+  const isWebPage = path.includes("web-page");
+  const { forms, setForms } = useContext(isWebPage ? PageContext : FormContext);
   const fieldArray = ele?.props?.fields.map((el) => el?.value);
 
   const iconType = {
@@ -30,7 +31,10 @@ const ButtonComp = ({ ele, path }) => {
     const validateForms = forms.map((el, i) => {
       const nestedForm = el?.content?.map((eles, id) => {
         if (fieldArray.includes(eles?.props?.name)) {
-          formData[eles?.props?.name] = typeof eles?.props?.value == "object" ? eles?.props?.value?.map((e) => e?.value) : eles?.props?.value;
+          formData[eles?.props?.name] =
+            typeof eles?.props?.value == "object"
+              ? eles?.props?.value?.map((e) => e?.value)
+              : eles?.props?.value;
           if (errorMessageFunc(eles, eles?.props?.value) !== "") {
             isFieldsInvalid = true;
           }
@@ -49,7 +53,10 @@ const ButtonComp = ({ ele, path }) => {
         return { ...el, content: nestedForm };
       } else {
         if (fieldArray.includes(el?.props?.name)) {
-          formData[el?.props?.name] = typeof el?.props?.value == "object" ? el?.props?.value?.map((e) => e?.value) : el?.props?.value;
+          formData[el?.props?.name] =
+            typeof el?.props?.value == "object"
+              ? el?.props?.value?.map((e) => e?.value)
+              : el?.props?.value;
           if (errorMessageFunc(el, el?.props?.value) !== "") {
             isFieldsInvalid = true;
           }
@@ -77,13 +84,19 @@ const ButtonComp = ({ ele, path }) => {
   return (
     <Button
       variant={"primary"}
-      style={{ ...(ele?.props?.style && path.includes("web-page") && addPixel(ele?.props?.style, ele)) }}
+      style={{
+        ...(ele?.props?.style && isWebPage && addPixel(ele?.props?.style, ele)),
+      }}
       onClick={events}
       className="w-100"
     >
-      {ele?.props?.iconPosition == "start" && ele?.props?.iconName && <IconComponent size={20} />}{" "}
-      &nbsp;{ele?.props?.text || "Button"}{" "}&nbsp;
-      {ele?.props?.iconPosition == "end" && ele?.props?.iconName && <IconComponent size={20} />}
+      {ele?.props?.iconPosition == "start" && ele?.props?.iconName && (
+        <IconComponent size={20} />
+      )}{" "}
+      &nbsp;{ele?.props?.text || "Button"} &nbsp;
+      {ele?.props?.iconPosition == "end" && ele?.props?.iconName && (
+        <IconComponent size={20} />
+      )}
     </Button>
   );
 };
