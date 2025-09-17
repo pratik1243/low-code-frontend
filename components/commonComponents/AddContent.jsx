@@ -7,6 +7,7 @@ import { FormContext } from "../FormCreate";
 import { LuExternalLink } from "react-icons/lu";
 import { addContentProps, nestedStructure } from "../../utils/utilFunctions";
 import { IoMdArrowBack } from "react-icons/io";
+import { MdDeleteOutline } from "react-icons/md";
 
 const AddContent = ({
   currentField,
@@ -223,7 +224,7 @@ const AddContent = ({
                       className="m-2"
                       onClick={() => removeOption(ele?.value, addContentType)}
                     >
-                      Delete
+                     <MdDeleteOutline size={19} /> &nbsp;Delete
                     </Button>
                   </td>
                 </tr>

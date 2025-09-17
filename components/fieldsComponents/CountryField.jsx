@@ -12,12 +12,9 @@ const CountryField = ({
   currentStep = null,
   containerBackground = null,
 }) => {
-
   const isWebPage = path.includes("web-page");
   const boxRef = useRef(null);
-  const { forms, setForms } = useContext(
-    isWebPage ? PageContext : FormContext
-  );
+  const { forms, setForms } = useContext(isWebPage ? PageContext : FormContext);
   const token = useSelector((user) => user.auth.authDetails.token);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
@@ -50,13 +47,16 @@ const CountryField = ({
     el.label.toLowerCase().includes(value.toLowerCase())
   );
 
+  useEffect(()=>{
+    getCountries();
+  }, [])
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (boxRef.current && !boxRef.current.contains(event.target)) {
         setOpen(false);
       }
-    }
-    getCountries();
+    }   
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -69,15 +69,16 @@ const CountryField = ({
         className={`element-input-field ${
           (ele?.props?.floatLabel || ele?.props?.standard) && isWebPage
             ? "float-label"
-            : ""
+            : "normal-input"
         } ${ele?.props?.standard && isWebPage ? "standard-input" : ""}`}
       >
         <label
           style={{
-            ...(ele?.props?.style?.color &&
-              isWebPage && { color: ele?.props?.style?.color }),
-            ...(containerBackground && {
-              backgroundColor: containerBackground,
+            ...(isWebPage && {
+              color: ele?.props?.style?.color,
+              backgroundColor: containerBackground
+                ? containerBackground
+                : ele?.props?.style?.background,
             }),
           }}
         >
@@ -143,10 +144,9 @@ const CountryField = ({
         <div
           className="standard-line"
           style={{
-            ...(ele?.props?.style?.color &&
-              isWebPage && {
-                backgroundColor: ele?.props?.style?.color,
-              }),
+            ...(isWebPage && {
+              backgroundColor: ele?.props?.style?.color,
+            }),
           }}
         ></div>
       )}

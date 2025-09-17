@@ -27,6 +27,10 @@ body:has(.main-content-sec) p {
   margin-bottom: 0 !important;
 }
 
+body:has(.main-content-sec) .element-input-field input {
+  border-width: 1px !important;
+}
+
 body:has(.login-sec),
 body:has(.low-nav-bar),
 body:has(.main-content-sec) {
@@ -172,7 +176,7 @@ input {
 .modal-dialog-customize .customize-input {
   background-color: var(--white-color);
   width: 100%;
-  padding: 10px;
+  padding: 11px;
   border-radius: 4px;
   outline: none;
   border: 1px solid var(--grey-color);
@@ -190,7 +194,7 @@ input {
 
 .element-input-field.standard-input input {
   border: none;
-  border-bottom: 1px solid var(--grey-color);
+  border-bottom: 1.7px solid var(--grey-color);
   border-radius: 0px !important;
   padding: 10px 0px !important;
 }
@@ -207,10 +211,13 @@ input {
 .element-input-field.standard-input + .standard-line {
   content: "";
   display: block;
-  height: 1px;
+  height: 1.6px;
   width: 0%;
   background-color: #000;
   transition: all 0.4s;
+  z-index: 1;
+  position: relative;
+  margin-top: -1px;
 }
 
 .element-input-field.standard-input input::placeholder {
@@ -291,6 +298,15 @@ input {
   max-height: 200px;
   overflow-y: auto;
   /* z-index: 2300; */
+}
+
+.element-input-field.normal-input .dropdown-box {
+  top: 84px !important;
+}
+
+.element-input-field.normal-input .clear-btn {
+  top: 40px !important;
+  right: 8px !important;
 }
 
 .element-input-field .clear-btn {
@@ -419,6 +435,9 @@ input {
 
 .customize-option-sec .delete-content-btn {
   width: 90%;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
 }
 
 .customize-option-sec .page-item-link {
@@ -452,7 +471,7 @@ input {
   background-color: var(--white-color);
   border: 1px solid var(--grey-color);
   border-radius: 4px;
-  padding: 14px;
+  padding: 18px;
   font-size: 18px;
   cursor: pointer;
   margin-bottom: 25px;
@@ -495,10 +514,11 @@ input {
   padding: 8px 10px;
   border-radius: 4px;
   outline: none;
-  border: 1px solid #a3a3a3;
+  border: 1px solid #00b2aa;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #00b2aa;
 }
 
 .publish-btn-sec button svg {
@@ -1124,11 +1144,17 @@ hr {
   border-color: #00b2aa !important;
 }
 
-.go-back-btn{
+.go-back-btn {
   display: flex !important;
   align-items: center;
 }
 
-.icons-list .spinner-border{
+.icons-list .spinner-border {
   color: #00b2aa !important;
+}
+
+.icon-clear-btn {
+  position: absolute;
+  right: 15px;
+  top: 13px;
 }

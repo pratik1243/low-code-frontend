@@ -29,10 +29,11 @@ const TextField = ({
         {" "}
         <label
           style={{
-            ...(ele?.props?.style?.color &&
-              isWebPage && { color: ele?.props?.style?.color }),
-            ...(containerBackground && {
-              backgroundColor: containerBackground,
+            ...(isWebPage && {
+              color: ele?.props?.style?.color,
+              backgroundColor: containerBackground
+                ? containerBackground
+                : ele?.props?.style?.background,
             }),
           }}
         >
@@ -64,10 +65,9 @@ const TextField = ({
         <div
           className="standard-line"
           style={{
-            ...(ele?.props?.style?.color &&
-              isWebPage && {
-                backgroundColor: ele?.props?.style?.color,
-              }),
+            ...(isWebPage && {
+              backgroundColor: ele?.props?.style?.color,
+            }),
           }}
         ></div>
       )}

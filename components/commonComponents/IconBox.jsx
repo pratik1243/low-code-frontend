@@ -6,17 +6,19 @@ import * as HiIcons from "react-icons/hi";
 import * as AiIcons from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { FormContext } from "../FormCreate";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { MdOutlineClear } from "react-icons/md";
 import { debounce } from "../../utils/utilFunctions";
 import { Col, Row, Spinner, Button } from "react-bootstrap";
 import { commonPostApiFunction } from "../../services/commonApiFunc";
 import { IoMdArrowBack } from "react-icons/io";
 
-const IconBox = ({ open, onCustomizeElement, goBack }) => {
+const IconBox = ({ onCustomizeElement, goBack }) => {
   const { forms } = useContext(FormContext);
   const token = useSelector((user) => user.auth.authDetails.token);
   const [loader, setLoader] = useState(false);
   const [icons, setIcons] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
 
   const iconType = {
     ...FaIcons,
@@ -44,10 +46,18 @@ const IconBox = ({ open, onCustomizeElement, goBack }) => {
     }
   };
 
-  const debouncedSearch = debounce(fetchIcons, 500);
   const setIconType = (icon) => {
     onCustomizeElement(icon, "iconName", "select", forms);
     goBack();
+  };
+
+  const clearValue = () => {
+    setSearchValue("");
+    setIcons([]);
+  };
+
+  const searchChange = (e) => {
+    debounce(fetchIcons(e), 700);
   };
 
   return (
@@ -63,15 +73,24 @@ const IconBox = ({ open, onCustomizeElement, goBack }) => {
                 setIcons([]);
               }}
             >
-            <IoMdArrowBack size={18} /> &nbsp;&nbsp;Go Back
+              <IoMdArrowBack size={18} /> &nbsp;&nbsp;Go Back
             </Button>
           </Col>
           <Col lg={10} md={10}>
-            <input
-              type="text"
-              placeholder="Search icons here..."
-              onChange={debouncedSearch}
-            />
+            <div className="position-relative">
+              <input
+                type="text"
+                onChange={searchChange}
+                placeholder="Search icons here..."
+              />
+
+              <MdOutlineClear
+                role="button"
+                size={21}
+                onClick={clearValue}
+                className="icon-clear-btn"
+              />
+            </div>
           </Col>
         </Row>
       </div>

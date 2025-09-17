@@ -10,7 +10,7 @@ import FormTemplate from "./FormTemplate";
 import { IoSaveOutline } from "react-icons/io5";
 import { setLoader } from "../redux/slices/loaderSlice";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+import { setSnackbarProps } from "../redux/slices/snackbarSlice";
 
 export const FormContext = createContext();
 
@@ -34,7 +34,7 @@ const FormCreate = () => {
 
   const savePage = async () => {
     try {
-      dispatch(setLoader(true));
+      //dispatch(setLoader(true));
       const pageData = JSON.parse(localStorage.getItem("page-data"));
       const requestData = {
         key: "bvghtyy",
@@ -47,18 +47,38 @@ const FormCreate = () => {
         },
       };
       const response = await commonPostApiFunction(requestData, token);
-      dispatch(setLoader(false));
+      //dispatch(setLoader(false));
       if (response.status == 200) {
-        // router.push("/page-list");
+        dispatch(
+          setSnackbarProps({
+            variant: "Success",
+            message: response?.data?.message,
+            open: true,
+          })
+        );
       } else {
-        dispatch(setLoader(false));
+        dispatch(
+          setSnackbarProps({
+            variant: "Danger",
+            message: response?.data?.message,
+            open: true,
+          })
+        );
       }
-    } catch (error) {}
+    } catch (error) {
+      dispatch(
+        setSnackbarProps({
+          variant: "Danger",
+          message: "Something Went Wrong!",
+          open: true,
+        })
+      );
+    }
   };
 
   const editPage = async () => {
     try {
-      dispatch(setLoader(true));
+      //dispatch(setLoader(true));
       const requestData = {
         key: "khftrey",
         payload: {
@@ -73,14 +93,32 @@ const FormCreate = () => {
         },
       };
       const response = await commonPostApiFunction(requestData, token);
-      dispatch(setLoader(false));
+      // dispatch(setLoader(false));
       if (response.status == 200) {
-        // router.push("/page-list");
+        dispatch(
+          setSnackbarProps({
+            variant: "Success",
+            message: response?.data?.message,
+            open: true,
+          })
+        );
       } else {
-        dispatch(setLoader(false));
+        dispatch(
+          setSnackbarProps({
+            variant: "Danger",
+            message: response?.data?.message,
+            open: true,
+          })
+        );
       }
     } catch (error) {
-      dispatch(setLoader(false));
+      dispatch(
+        setSnackbarProps({
+          variant: "Danger",
+          message: response?.data?.message,
+          open: true,
+        })
+      );
     }
   };
 

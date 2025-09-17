@@ -68,6 +68,22 @@ const ButtonProps = ({ onCustomizeElement, currentField }) => {
               <label htmlFor="checkbox-icon2">End Icon</label>
             </div>
           </Col>
+          <Col lg={3} md={3} sm={12} xs={12}>
+            <div className="d-flex align-items-center">
+              <input
+                type="radio"
+                id="checkbox-icon3"
+                name="checkbox-icon"
+                value={"none"}
+                className="icon-radio-btn"
+                checked={currentField?.props?.iconPosition == "none" || ""}
+                onChange={(e) => {
+                  onCustomizeElement(e, "iconPosition", "input", forms);
+                }}
+              />
+              <label htmlFor="checkbox-icon3">No Icon</label>
+            </div>
+          </Col>
           <Col lg={12} md={12} sm={12} xs={12}>
             <Row className="mt-4 mb-4">
               <Col lg={6} md={6} sm={12} xs={12}>

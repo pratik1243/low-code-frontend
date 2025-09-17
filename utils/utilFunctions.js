@@ -95,7 +95,7 @@ export const fieldsData = [
       text: "",
       variant: "standard",
       hidden: false,
-      iconPosition: "start",
+      iconPosition: "none",
       iconName: "",
       hover_color: "",
       align: "",
@@ -453,36 +453,6 @@ export const containerClasses = {
   "Border Card": "border-card",
   "Border Shadow Card": "border-shadow-card",
 };
-
-export function selectCustomStyles(ele) {
-  return {
-    control: (provided, state) => ({
-      ...provided,
-      backgroundColor: "transparent",
-      ...(ele?.props?.standard && {
-        border: "none",
-        borderBottom: `1px solid ${ele?.props?.style?.borderColor}`,
-        borderRadius: "none",
-      }),
-      ...(ele?.props?.style?.borderColor && {
-        borderColor: state.isFocused
-          ? ele?.props?.style?.borderColor
-          : ele?.props?.style?.borderColor,
-        boxShadow: state.isFocused ? "none" : "none",
-        "&:hover": {
-          borderColor: state.isFocused
-            ? ele?.props?.style?.borderColor
-            : ele?.props?.style?.borderColor,
-          boxShadow: state.isFocused ? "none" : "none",
-        },
-      }),
-    }),
-    placeholder: (provided, state) => ({
-      ...provided,
-      color: state.data?.value || state.isFocused ? "grey" : "transparent",
-    }),
-  };
-}
 
 export function errorMessageFunc(el, value) {
   let field_name =
