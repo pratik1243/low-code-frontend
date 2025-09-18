@@ -28,7 +28,7 @@ const FieldCustomizeSection = () => {
   return (
     <Modal
       show={showCurrentElement}
-      fullscreen={show}
+      fullscreen={currentElement?.type == "select" ? false : show}
       size={show1 ? "xl" : "lg"}
       onHide={() => {
         setShow(false);

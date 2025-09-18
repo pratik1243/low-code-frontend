@@ -89,7 +89,7 @@ const ButtonProps = ({ onCustomizeElement, currentField }) => {
               <Col lg={6} md={6} sm={12} xs={12}>
                 <Row>
                   <Col lg={9} md={9}>
-                    <label className="mb-2">Label Color</label>
+                    <label className="mb-2">Text Color</label>
                     <input
                       type="color"
                       id="color-picker2"

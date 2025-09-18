@@ -26,15 +26,17 @@ const FieldSection = () => {
     }
   };
 
+  const noContentFields = fieldsData.filter(el=> !['stepper', 'slider', 'container'].includes(el?.type));
+  const FilterFieldsData = currentElement?.type === "container" ? noContentFields : fieldsData;
+
   return (
     <div className="field-option-sec">
-      {fieldsData?.map((ele, index) => {
+      {FilterFieldsData?.map((ele, index) => {
         return (
           <div
             key={index}
             className="field-option"
-            onClick={() => onClickAddFields(ele)}
-            style={{ pointerEvents: currentElement?.type === "container" && ele.type == "container" ? "none" : "unset"}}
+            onClick={() => onClickAddFields(ele)}            
           >
             {ele?.label_text}
           </div>

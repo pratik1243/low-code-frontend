@@ -15,20 +15,15 @@ const AddContent = ({
   onCustomizeElement,
   goBack,
 }) => {
-  const { forms, setForms, currentElement, pagesList } =
-    useContext(FormContext);
+
+  const { forms, setForms, currentElement, pagesList } = useContext(FormContext);
   const [optionValue, setOptionValue] = useState("");
   const [pageItem, setPageItem] = useState("");
   const stepList = ["stepper", "slider"];
+  const stepList2 = ["stepper", "slider", "select"];
 
-  const addTextType = {
-    stepper: "Add Steps",
-    slider: "Add Slides",
-    select: "Add Options",
-  };
-
-  const orderContent = (e, dropIndex, i) => {
-    const filterContentList = forms[i].props[addContentType];
+  const orderContent = (e, dropIndex, i, id = undefined) => {
+    const filterContentList = (id !== undefined) ? forms[id]?.content[i]?.props[addContentType] : forms[i]?.props[addContentType];
     const dragIndex = JSON.parse(e?.dataTransfer?.getData("element"));
     const draggedItem = filterContentList[dragIndex];
     filterContentList?.splice(dragIndex, 1);
@@ -39,10 +34,21 @@ const AddContent = ({
   const onDropItem = (e, dropIndex) => {
     e.stopPropagation();
     const updateForms = forms?.map((el, i) => {
-      if (
-        ["stepper", "slider", "select"].includes(el.type) &&
-        el.id === currentElement.id
-      ) {
+      const updateNestedForms = el?.content?.map((ele, id) => {
+        if (stepList2.includes(ele.type) && ele.id === currentElement.id) {
+          return {
+            ...ele,
+            props: {
+              ...ele?.props,
+              [addContentType]: orderContent(e, dropIndex, id, i),
+            },
+          };
+        }
+        return ele;
+      });
+      if (currentElement?.isContainer) {
+        return { ...el, content: updateNestedForms };
+      } else if (stepList2.includes(el.type) && el.id === currentElement.id) {
         return {
           ...el,
           props: {
@@ -71,22 +77,28 @@ const AddContent = ({
       pageItem: pageItem,
       optionValue: optionValue,
     };
-    setForms(
-      nestedStructure(
-        addContentObj,
-        forms,
-        currentElement,
-        addContentProps,
-        "addContent"
-      )
-    );
+    setForms(nestedStructure(addContentObj, forms, currentElement, addContentProps, "addContent"));
     setOptionValue("");
     setPageItem("");
   };
 
   const removeOption = (value, type) => {
     const updateForms = forms?.map((el, i) => {
-      if (el.id === currentElement?.id) {
+      const updateNestedForms = el?.content?.map((ele, id) => {
+        if (ele.id === currentElement.id) {
+          return {
+            ...ele,
+            props: {
+              ...ele.props,
+              [type]: ele?.props?.[type]?.filter((e) => e?.value !== value),
+            },
+          };
+        }
+        return ele;
+      });
+      if (currentElement?.isContainer) {
+        return { ...el, content: updateNestedForms };
+      } else if (el.id === currentElement?.id) {
         return {
           ...el,
           props: {
@@ -109,7 +121,8 @@ const AddContent = ({
           goBack();
         }}
       >
-       <IoMdArrowBack />&nbsp;&nbsp;Go Back
+        <IoMdArrowBack />
+        &nbsp;&nbsp;Go Back
       </Button>
       <div className="d-flex mt-4 mb-4">
         <div className="w-100">
@@ -224,7 +237,7 @@ const AddContent = ({
                       className="m-2"
                       onClick={() => removeOption(ele?.value, addContentType)}
                     >
-                     <MdDeleteOutline size={19} /> &nbsp;Delete
+                      <MdDeleteOutline size={19} /> &nbsp;Delete
                     </Button>
                   </td>
                 </tr>
