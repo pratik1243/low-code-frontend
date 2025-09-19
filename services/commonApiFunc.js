@@ -8,7 +8,7 @@ export const commonPostApiFunction = async (request, token) => {
       isFormData ? request?.payload : request,
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": isFormData ? "multipart/form-data" : "application/json",
           "Authorization": `Bearer ${token}`,
         },
       }

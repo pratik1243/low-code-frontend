@@ -6,9 +6,9 @@ const ImageComp = ({ ele, path, index }) => {
     <div className={`${!path.includes("web-page") ? 'img-border' : ''}`}>
       {ele?.props?.url ? (
         <Image
-          src={ele?.props?.url}
+          src={`http://localhost:8000/image/${ele?.props?.url}`}
           height={path.includes("web-page") ? ele?.props?.height : 200}
-          width={path.includes("web-page") ? ele?.props?.width : 200}
+          width={path.includes("web-page") ? ele?.props?.width : 200}         
           alt={`image-${index}`}          
         />
       ) : !path.includes("web-page") ? (

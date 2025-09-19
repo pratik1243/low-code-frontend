@@ -16,6 +16,7 @@ import { FormContext } from "../FormCreate";
 import AnimationProps from "./AnimationProps";
 import ButtonProps from "./ButtonProps";
 import IconProps from "./IconProps";
+import ImageProps from "./ImageProps";
 import InputProps from "./InputProps";
 import SliderProps from "./SliderProps";
 import SpacingProps from "./SpacingProps";
@@ -372,6 +373,13 @@ const PropsRender = ({ open }) => {
                   />
                 </div>
               </Col>
+            )}
+
+            {currentField?.type == "image" && (
+              <ImageProps
+                currentField={currentField}
+                onCustomizeElement={onCustomizeElement}
+              />
             )}
 
             {["button", "icon"].includes(currentField?.type) && (
