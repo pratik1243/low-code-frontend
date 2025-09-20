@@ -1,13 +1,16 @@
 "use client"
-import React, { useMemo } from "react";
+import React, { useContext, useMemo } from "react";
 import Select from "react-select";
 import { Col, Row } from "react-bootstrap";
 import {
   animationDelayOptions,
   animationOptions,
 } from "../../utils/utilFunctions";
+import { FormContext } from "../FormCreate";
 
 const AnimationProps = ({ onCustomizeElement, currentField }) => {
+  
+  const { forms } = useContext(FormContext);
   const animationList = useMemo(() => {
     return animationOptions;
   }, []);

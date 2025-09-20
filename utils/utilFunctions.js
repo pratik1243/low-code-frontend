@@ -136,6 +136,7 @@ export const fieldsData = [
     props: {
       hidden: false,
       url: "",
+      filename: "",
       height: 100,
       width: 100,
       style: {},

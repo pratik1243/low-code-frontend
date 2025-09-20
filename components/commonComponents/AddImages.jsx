@@ -1,0 +1,152 @@
+import axios from "axios";
+import Image from "next/image";
+import React, { useContext } from "react";
+import { useState } from "react";
+import { useEffect } from "react";
+import { Modal, Spinner } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { setSnackbarProps } from "../../redux/slices/snackbarSlice";
+import { nestedStructure, updateforms } from "../../utils/utilFunctions";
+import { FormContext } from "../FormCreate";
+
+const AddImages = () => {
+  const dispatch = useDispatch();
+  const token = useSelector((user) => user.auth.authDetails.token);
+  const { openImageModel, setOpenImageModel, forms, setForms, currentElement } = useContext(FormContext);
+  const [uploadedImages, setUploadImages] = useState([]);
+  const [loader, setLoader] = useState(false);
+
+  const getImages = async () => {
+    try {
+      setLoader(true);
+      const response = await axios.get("http://localhost:8000/get-images", {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+      setLoader(false);
+      if (response.status == 200) {
+        setUploadImages(response?.data?.images);
+        dispatch(
+          setSnackbarProps({
+            variant: "Success",
+            message: response?.data?.message,
+            open: true,
+          })
+        );
+      } else {
+        dispatch(
+          setSnackbarProps({
+            variant: "Danger",
+            message: response?.data?.message,
+            open: false,
+          })
+        );
+      }
+    } catch (error) {
+      dispatch(
+        setSnackbarProps({
+          variant: "Danger",
+          message: "Something Went Wrong90!",
+          open: true,
+        })
+      );
+    }
+  };
+
+  const onCustomizeElement = (
+    e,
+    attribute,
+    type,
+    forms,
+    style = null,
+    optionIndex = null
+  ) => {
+    const value = {
+      select: e || "",
+      input: e?.target?.value,
+      checkbox: e?.target?.checked,
+      image: e || "",
+    };
+    const customizeFieldObj = {
+      e: e,
+      type: type,
+      value: value,
+      attribute: attribute,
+      style: style,
+      optionIndex: optionIndex,
+    };
+    setForms(
+      nestedStructure(
+        customizeFieldObj,
+        forms,
+        currentElement,
+        updateforms,
+        "customizeField"
+      )
+    );
+  };
+
+  const selectCurrentImage = (imageId) => {
+    setOpenImageModel(false);
+    onCustomizeElement(imageId, "url", "image", forms);
+  };
+
+  useEffect(() => {
+    getImages();
+    return () => {
+      setUploadImages([]);
+    };
+  }, []);
+
+  return (
+    <Modal
+      show={openImageModel}
+      fullscreen
+      onHide={() => {
+        setOpenImageModel(false);
+      }}
+    >
+      <Modal.Header closeButton>
+        <Modal.Title>Select Images</Modal.Title>
+      </Modal.Header>
+      <Modal.Body className="p-0">
+        <div className="uploaded-images-sec">
+          {loader ? (
+            <div className="text-center my-5">
+              <Spinner animation="border" variant="primary" />
+              <h5 className="mt-2">Please wait loading icons...</h5>
+            </div>
+          ) : (
+            <>
+              {uploadedImages.length > 0 &&
+                uploadedImages?.map((el, i) => {
+                  return (
+                    <div
+                      key={i}
+                      className="d-flex align-items-center image-select-sec"
+                      onClick={() => {
+                        selectCurrentImage(el._id);
+                      }}
+                    >
+                      <Image
+                        src={`http://localhost:8000/image/${el._id}`}
+                        height={50}
+                        width={50}
+                        alt={`uploaded-image-${i}`}
+                      />
+
+                      <div className="image-name">{el?.name}</div>
+                    </div>
+                  );
+                })}
+            </>
+          )}
+        </div>
+      </Modal.Body>
+    </Modal>
+  );
+};
+
+export default AddImages;

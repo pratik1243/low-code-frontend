@@ -101,7 +101,7 @@ const RenderField = ({
         path.includes("web-page") && {
           "data-aos-delay": ele?.props?.animation_delay?.value,
         })}
-      style={{ width: `${ele?.props?.width}%` }}
+      style={{ ...(ele?.type !== "image" && { width: `${ele?.props?.width}%` }) }}
     >
       {getFields()}
     </div>

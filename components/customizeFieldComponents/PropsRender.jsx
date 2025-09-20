@@ -1,11 +1,9 @@
 "use client";
-import React, { useContext, useState, useMemo } from "react";
+import React, { useContext } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import Select from "react-select";
 import {
   alignmentOptions,
-  animationDelayOptions,
-  animationOptions,
   containerOptions,
   nestedStructure,
   updateforms,
@@ -23,8 +21,7 @@ import SpacingProps from "./SpacingProps";
 import TextProps from "./TextProps";
 
 const PropsRender = ({ open }) => {
-  const { forms, setForms, currentElement, containerId } =
-    useContext(FormContext);
+  const { forms, setForms, currentElement, containerId } = useContext(FormContext);
 
   const onCustomizeElement = (
     e,
@@ -458,7 +455,7 @@ const PropsRender = ({ open }) => {
           <AnimationProps
             onCustomizeElement={onCustomizeElement}
             currentField={currentField}
-          />
+          />         
         </>
       )}
     </div>

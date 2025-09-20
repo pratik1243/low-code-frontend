@@ -11,6 +11,7 @@ import { IoSaveOutline } from "react-icons/io5";
 import { setLoader } from "../redux/slices/loaderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { setSnackbarProps } from "../redux/slices/snackbarSlice";
+import AddImages from "./commonComponents/AddImages";
 
 export const FormContext = createContext();
 
@@ -18,23 +19,21 @@ const FormCreate = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const params = useParams();
-  const [forms, setForms] = useState([]);  
+  const [forms, setForms] = useState([]);
   const [data, setData] = useState();
   const [currentElement, setCurrentElement] = useState();
   const [itemDrag, setItemDrag] = useState(false);
   const [height, setHeight] = useState(false);
   const [containerId, setContainerId] = useState();
-  const [pagesList, setPagesList] = useState([]);  
+  const [pagesList, setPagesList] = useState([]);
   const [showCurrentElement, setShowCurrentElement] = useState(false);
+  const [openImageModel, setOpenImageModel] = useState(false);
 
   const token = useSelector((user) => user.auth.authDetails.token);
-  const requestUserId = useSelector(
-    (user) => user.auth.authDetails.request_user_id
-  );
+  const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
 
   const savePage = async () => {
     try {
-      //dispatch(setLoader(true));
       const pageData = JSON.parse(localStorage.getItem("page-data"));
       const requestData = {
         key: "bvghtyy",
@@ -47,7 +46,6 @@ const FormCreate = () => {
         },
       };
       const response = await commonPostApiFunction(requestData, token);
-      //dispatch(setLoader(false));
       if (response.status == 200) {
         dispatch(
           setSnackbarProps({
@@ -78,7 +76,6 @@ const FormCreate = () => {
 
   const editPage = async () => {
     try {
-      //dispatch(setLoader(true));
       const requestData = {
         key: "khftrey",
         payload: {
@@ -93,7 +90,6 @@ const FormCreate = () => {
         },
       };
       const response = await commonPostApiFunction(requestData, token);
-      // dispatch(setLoader(false));
       if (response.status == 200) {
         dispatch(
           setSnackbarProps({
@@ -199,7 +195,9 @@ const FormCreate = () => {
           setContainerId,
           setCurrentElement,
           showCurrentElement,
-          setShowCurrentElement
+          openImageModel,
+          setOpenImageModel,
+          setShowCurrentElement,
         }}
       >
         <Row>
@@ -249,8 +247,8 @@ const FormCreate = () => {
             <FieldSection />
           </Col>
         </Row>
-
         <FieldCustomizeSection />
+        {openImageModel && <AddImages />}
       </FormContext>
     </div>
   );
