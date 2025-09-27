@@ -15,20 +15,26 @@ const AddContent = ({
   onCustomizeElement,
   goBack,
 }) => {
-
   const { forms, setForms, currentElement, pagesList } = useContext(FormContext);
   const [optionValue, setOptionValue] = useState("");
   const [pageItem, setPageItem] = useState("");
-  const stepList = ["stepper", "slider"];
-  const stepList2 = ["stepper", "slider", "select"];
+  const stepList = ["stepper", "slider", "card_box"];
+  const stepList2 = ["stepper", "slider", "select", "card_box"];
 
   const orderContent = (e, dropIndex, i, id = undefined) => {
-    const filterContentList = (id !== undefined) ? forms[id]?.content[i]?.props[addContentType] : forms[i]?.props[addContentType];
+    const filterContentList = id !== undefined ? forms[id]?.content[i]?.props[addContentType] : forms[i]?.props[addContentType];
     const dragIndex = JSON.parse(e?.dataTransfer?.getData("element"));
     const draggedItem = filterContentList[dragIndex];
     filterContentList?.splice(dragIndex, 1);
     filterContentList?.splice(dropIndex, 0, draggedItem);
     return filterContentList;
+  };
+
+  const contentLabel = {
+    slider: "Slide",
+    stepper: "Stepper",
+    card_box: "Card",
+    select: "Option",
   };
 
   const onDropItem = (e, dropIndex) => {
@@ -77,12 +83,20 @@ const AddContent = ({
       pageItem: pageItem,
       optionValue: optionValue,
     };
-    setForms(nestedStructure(addContentObj, forms, currentElement, addContentProps, "addContent"));
+    setForms(
+      nestedStructure(
+        addContentObj,
+        forms,
+        currentElement,
+        addContentProps,
+        "addContent"
+      )
+    );
     setOptionValue("");
     setPageItem("");
   };
 
-  const removeOption = (value, type) => {
+  const removeOption = (label, type) => {
     const updateForms = forms?.map((el, i) => {
       const updateNestedForms = el?.content?.map((ele, id) => {
         if (ele.id === currentElement.id) {
@@ -90,7 +104,7 @@ const AddContent = ({
             ...ele,
             props: {
               ...ele.props,
-              [type]: ele?.props?.[type]?.filter((e) => e?.value !== value),
+              [type]: ele?.props?.[type]?.filter((e) => e?.label !== label),
             },
           };
         }
@@ -103,7 +117,7 @@ const AddContent = ({
           ...el,
           props: {
             ...el.props,
-            [type]: el?.props?.[type]?.filter((el) => el?.value !== value),
+            [type]: el?.props?.[type]?.filter((el) => el?.label !== label),
           },
         };
       }
@@ -111,6 +125,8 @@ const AddContent = ({
     });
     setForms(updateForms);
   };
+
+  console.log('vbvb', currentField?.props?.[addContentType]);
 
   return (
     <div className="customize-prop-sec p-4 modal-dialog-customize">
@@ -125,24 +141,28 @@ const AddContent = ({
         &nbsp;&nbsp;Go Back
       </Button>
       <div className="d-flex mt-4 mb-4">
-        <div className="w-100">
-          {stepList.includes(currentField?.type) && (
-            <label className="mb-1">
-              {currentField?.type == "slider" ? "Slide" : "Stepper"} Label
-            </label>
-          )}
-          <input
-            type="text"
-            placeholder={`Enter ${
-              currentField?.type == "stepper" ? "step" : "option"
-            } value`}
-            className="customize-input"
-            value={optionValue}
-            onChange={(e) => setOptionValue(e.target.value)}
-          />
-        </div>
+        {!["card_box", "slider"].includes(currentField?.type) && (
+          <div className="w-100">
+            {stepList.includes(currentField?.type) && (
+              <label className="mb-1">
+                {contentLabel[currentField?.type]} Label
+              </label>
+            )}
+            <input
+              type="text"
+              placeholder={`Enter value`}
+              className="customize-input"
+              value={optionValue}
+              onChange={(e) => setOptionValue(e.target.value)}
+            />
+          </div>
+        )}
         {stepList.includes(currentField?.type) && (
-          <div className="w-100 ml-3">
+          <div
+            className={`w-100 ${
+              ["card_box", "slider"].includes(currentField?.type) ? "" : "ml-3"
+            }`}
+          >
             <label className="mb-1">Page Item</label>
             <Select
               isClearable
@@ -169,16 +189,13 @@ const AddContent = ({
         <Table bordered>
           <thead>
             <tr>
-              <th>
-                <div className="mx-2 my-1">
-                  {currentField?.type == "stepper"
-                    ? "Step"
-                    : currentField?.type == "slider"
-                    ? "Slide"
-                    : "Option"}{" "}
-                  Label
-                </div>
-              </th>
+              {!["card_box", "slider"].includes(currentField?.type) && (
+                <th>
+                  <div className="mx-2 my-1">
+                    {contentLabel[currentField?.type]} Label
+                  </div>
+                </th>
+              )}
               {stepList.includes(currentField?.type) && (
                 <th>
                   <div className="mx-2 my-1">Page Item</div>
@@ -199,24 +216,26 @@ const AddContent = ({
                   onDragStart={(e) => onDragStart(e, i)}
                   onDrop={(e) => onDropItem(e, i)}
                 >
-                  <td>
-                    <div className="option-input m-2">
-                      <input
-                        type="text"
-                        value={ele?.value}
-                        onChange={(e) =>
-                          onCustomizeElement(
-                            e,
-                            addContentType,
-                            "input",
-                            forms,
-                            "",
-                            i
-                          )
-                        }
-                      />
-                    </div>
-                  </td>
+                  {!["card_box", "slider"].includes(currentField?.type) && (
+                    <td>
+                      <div className="option-input m-2">
+                        <input
+                          type="text"
+                          value={ele?.value}
+                          onChange={(e) =>
+                            onCustomizeElement(
+                              e,
+                              addContentType,
+                              "input",
+                              forms,
+                              "",
+                              i
+                            )
+                          }
+                        />
+                      </div>
+                    </td>
+                  )}
                   {stepList.includes(currentField?.type) && (
                     <td>
                       <div className="d-flex align-items-center m-2 mt-3">
@@ -235,7 +254,7 @@ const AddContent = ({
                     <Button
                       variant="danger delete-content-btn"
                       className="m-2"
-                      onClick={() => removeOption(ele?.value, addContentType)}
+                      onClick={() => removeOption(ele?.label, addContentType)}
                     >
                       <MdDeleteOutline size={19} /> &nbsp;Delete
                     </Button>

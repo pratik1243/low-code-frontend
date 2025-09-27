@@ -21,7 +21,8 @@ import SpacingProps from "./SpacingProps";
 import TextProps from "./TextProps";
 
 const PropsRender = ({ open }) => {
-  const { forms, setForms, currentElement, containerId } = useContext(FormContext);
+  const { forms, setForms, currentElement, containerId } =
+    useContext(FormContext);
 
   const onCustomizeElement = (
     e,
@@ -60,12 +61,14 @@ const PropsRender = ({ open }) => {
     stepper: "stepContent",
     select: "options",
     slider: "slides",
+    card_box: "cards",
   };
 
   const addTextType = {
     stepper: "Add Steps",
     slider: "Add Slides",
     select: "Add Options",
+    card_box: "Add Cards",
   };
 
   const filterCurrent = (data) => {
@@ -177,7 +180,7 @@ const PropsRender = ({ open }) => {
               {!["divider", "image", "icon"].includes(currentField?.type) && (
                 <Col lg={6} md={6} sm={12} xs={12}>
                   <label>
-                    {currentField?.type} Width ({currentField?.props?.width}%)
+                    {currentField?.type?.split("_").join(" ")} Width ({currentField?.props?.width}%)
                   </label>
                   <input
                     type={"range"}
@@ -197,7 +200,7 @@ const PropsRender = ({ open }) => {
 
           <div className="mt-4">
             <label className="mb-3 fw-bold">
-              Set {currentField?.type} Properties
+              Set {currentField?.type.split("_").join(" ")} Properties
             </label>
 
             <div className="customize-checkbox">
@@ -354,11 +357,13 @@ const PropsRender = ({ open }) => {
             {renderProps()}
           </div>
 
-          <Row className="align-items-center">
+          <Row className="align-items-center mt-3">
             {currentField?.type !== "divider" && (
               <Col lg={6} md={6} sm={12} xs={12}>
                 <div className="customize-prop-sec">
-                  <label>{currentField?.type} Alignment</label>
+                  <label>
+                    {currentField?.type.split("_").join(" ")} Alignment
+                  </label>
                   <Select
                     isClearable
                     placeholder={"Select alignment"}
@@ -372,11 +377,37 @@ const PropsRender = ({ open }) => {
               </Col>
             )}
 
-            {currentField?.type == "image" && (
+            {["image", "container", "card_box"].includes(
+              currentField?.type
+            ) && (
               <ImageProps
                 currentField={currentField}
                 onCustomizeElement={onCustomizeElement}
               />
+            )}
+
+            {currentField?.type == "card_box" && (
+              <Col lg={6} md={6} sm={12} xs={12}>
+                <div className="customize-prop-sec mt-4">
+                  <label>Columns Per Rows</label>
+                  <input
+                    type="number"
+                    min={1}
+                    max={12}
+                    value={currentField?.props?.style?.gridTemplateColumns || 1}
+                    className="customize-input"
+                    onChange={(e) => {
+                      onCustomizeElement(
+                        e,
+                        "gridTemplateColumns",
+                        "input",
+                        forms,
+                        "style"
+                      );
+                    }}
+                  />
+                </div>
+              </Col>
             )}
 
             {["button", "icon"].includes(currentField?.type) && (
@@ -431,7 +462,9 @@ const PropsRender = ({ open }) => {
               </Col>
             )}
 
-            {["stepper", "select", "slider"].includes(currentField?.type) && (
+            {["stepper", "select", "slider", "card_box"].includes(
+              currentField?.type
+            ) && (
               <Col lg={6} md={6} sm={12} xs={12}>
                 <Button
                   className="add-content-btn"
@@ -445,17 +478,22 @@ const PropsRender = ({ open }) => {
             )}
           </Row>
 
+          <hr className="mt-3" />
+
           <SpacingProps
             onCustomizeElement={onCustomizeElement}
             currentField={currentField}
           />
 
-          <hr />
-
-          <AnimationProps
-            onCustomizeElement={onCustomizeElement}
-            currentField={currentField}
-          />         
+          {currentField?.type !== "card_box" && (
+            <>
+              <hr className="mt-3" />
+              <AnimationProps
+                onCustomizeElement={onCustomizeElement}
+                currentField={currentField}
+              />
+            </>
+          )}
         </>
       )}
     </div>

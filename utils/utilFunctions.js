@@ -215,6 +215,20 @@ export const fieldsData = [
     },
   },
   {
+    label_text: "Card Box",
+    type: "card_box",
+    column_width: 100,
+    props: {
+      hidden: false,
+      align: "",
+      width: 100,
+      style: {},
+      cards: [],
+      animation: "",
+      animation_delay: "",
+    },
+  },
+  {
     label_text: "Icon",
     type: "icon",
     column_width: 100,
@@ -633,7 +647,7 @@ export function addContentProps(el, type, pageItem, optionValue) {
       [type]: [
         ...el?.props?.[type],
         {
-          ...(["stepContent", "slides"].includes(type)
+          ...(["stepContent", "slides", "cards"].includes(type)
             ? {
                 content: pageItem?.page_data,
                 url: pageItem?.page_item_url,
@@ -671,7 +685,7 @@ export function updateforms(e, el, attribute, value, optionIndex, style) {
                   },
                 }
               : {
-                  [attribute]: ["options", "stepContent", "slides"].includes(
+                  [attribute]: ["options", "stepContent", "slides", "cards"].includes(
                     attribute
                   )
                     ? options(el, value, attribute, optionIndex)

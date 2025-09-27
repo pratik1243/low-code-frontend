@@ -12,7 +12,8 @@ const FieldCustomizeSection = () => {
   return (
     <Modal
       show={showCurrentElement}
-      fullscreen={currentElement?.type == "select" ? false : show}
+      className={"field-sec-customize-modal"}
+      fullscreen={["select", "card_box", "slider"].includes(currentElement?.type) ? false : show}
       size={show1 ? "xl" : "lg"}
       onHide={() => {
         setShow(false);

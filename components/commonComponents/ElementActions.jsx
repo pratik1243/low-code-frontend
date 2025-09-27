@@ -6,9 +6,9 @@ import { copyItems, pasteItems } from "../../utils/utilFunctions";
 import { FormContext } from "../FormCreate";
 
 const ElementActions = ({ data, deleteFunction }) => {
-  const { forms, setForms } = useContext(FormContext);
+  const { forms, setForms, currentElement } = useContext(FormContext);
   const [copyText, setCopyText] = useState("Copy");
-  
+
   const renderTooltip = (text, props) => (
     <Tooltip id="button-tooltip" {...props}>
       {text}
@@ -34,14 +34,16 @@ const ElementActions = ({ data, deleteFunction }) => {
           <MdDeleteOutline size={21} />
         </OverlayTrigger>
       </div>
-      <div role="button" onClick={copyFunction}>
-        <OverlayTrigger
-          placement="top"
-          overlay={(props) => renderTooltip(copyText, props)}
-        >
-          <MdContentCopy size={18} />
-        </OverlayTrigger>
-      </div>
+      {!["stepper", "slider", "card_box"].includes(data.type) && (
+        <div role="button" onClick={copyFunction}>
+          <OverlayTrigger
+            placement="top"
+            overlay={(props) => renderTooltip(copyText, props)}
+          >
+            <MdContentCopy size={18} />
+          </OverlayTrigger>
+        </div>
+      )}
 
       {data.type == "container" ? (
         <div

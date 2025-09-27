@@ -22,19 +22,12 @@ const AddImages = () => {
       const response = await axios.get("http://localhost:8000/get-images", {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       setLoader(false);
       if (response.status == 200) {
         setUploadImages(response?.data?.images);
-        dispatch(
-          setSnackbarProps({
-            variant: "Success",
-            message: response?.data?.message,
-            open: true,
-          })
-        );
       } else {
         dispatch(
           setSnackbarProps({
@@ -90,7 +83,12 @@ const AddImages = () => {
 
   const selectCurrentImage = (imageId) => {
     setOpenImageModel(false);
-    onCustomizeElement(imageId, "url", "image", forms);
+    const backgroundImage = `url('http://localhost:8000/image/${imageId}')`;
+    if (["container", "card_box"].includes(currentElement?.type)) {
+      onCustomizeElement(backgroundImage, "backgroundImage", "image", forms, "style");
+    } else {
+      onCustomizeElement(imageId, "url", "image", forms);
+    }
   };
 
   useEffect(() => {

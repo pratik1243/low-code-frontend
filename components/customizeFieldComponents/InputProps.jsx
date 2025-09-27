@@ -109,7 +109,7 @@ const InputProps = ({ onCustomizeElement, currentField }) => {
             />
           </div>
         </Col>
-        {currentField?.type !== "country" && (
+        {!["country", "select", "country"].includes(currentField?.type) && (
           <Col lg={6} md={6} sm={12} xs={12}>
             <div className="customize-prop-sec">
               <label>Max length</label>
@@ -139,7 +139,7 @@ const InputProps = ({ onCustomizeElement, currentField }) => {
             />
           </div>
         </Col>
-        {currentField?.type !== "country" && (
+        {!["country", "select", "country"].includes(currentField?.type) && (
           <Col lg={6} md={6} sm={12} xs={12}>
             <div className="customize-prop-sec">
               <label>Add Validation</label>

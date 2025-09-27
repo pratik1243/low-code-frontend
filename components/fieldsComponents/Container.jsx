@@ -80,12 +80,11 @@ const Container = ({ ele, path, index, currentStep = null }) => {
               containerClasses[ele?.props?.containerTemplate?.value] || ""
             }`
           : ""
-      }`}
+      } ${ele?.props?.style?.backgroundImage ? "background-image-props" : ""}`}
       style={{
-        ...(ele?.props?.containerBackground &&
-          isWebPage && {
-            backgroundColor: ele?.props?.containerBackground,
-          }),
+        ...(isWebPage && {
+          backgroundColor: ele?.props?.containerBackground
+        }),
       }}
     >
       {ele?.content?.length == 0 && (
@@ -112,7 +111,7 @@ const Container = ({ ele, path, index, currentStep = null }) => {
             } ${isWebPage ? "d-flex" : ""}`}
             style={{
               ...(el?.column_width && { width: `${el?.column_width}%` }),
-              ...(el?.props?.style &&  isWebPage &&  addPixel(el?.props?.style, el)),
+              ...(el?.props?.style && isWebPage && addPixel(el?.props?.style, el)),
               ...(["button", "input", "select"].includes(el?.type) && {
                 backgroundColor: "transparent !important",
               }),

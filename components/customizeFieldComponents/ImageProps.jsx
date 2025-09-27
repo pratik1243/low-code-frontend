@@ -27,7 +27,19 @@ const ImageProps = ({ currentField, onCustomizeElement }) => {
       const response = await commonPostApiFunction(requestData, token);
       dispatch(setLoader(false));
       if (response.status == 200) {
-        onCustomizeElement(response?.data?.id, "url", "image", forms);
+        const backgroundImage = `url('http://localhost:8000/image/${response?.data?.id}')`;
+        if (["container", "card_box"].includes(currentField?.type)) {
+          onCustomizeElement(
+            backgroundImage,
+            "backgroundImage",
+            "image",
+            forms,
+            "style"
+          );
+        } else {
+          onCustomizeElement(response?.data?.id, "url", "image", forms);
+        }
+
         dispatch(
           setSnackbarProps({
             variant: "Success",
@@ -56,71 +68,85 @@ const ImageProps = ({ currentField, onCustomizeElement }) => {
   };
 
   return (
-    <>
-      <Col lg={3} md={3} sm={12} xs={12}>
-        <div className="upload-image-btn">
-          <input
-            type="file"
-            id="upload-image"
-            accept="image/*"
-            onChange={(e) => uploadImage(e)}
-          />
-          <label htmlFor="upload-image">
-            <FiUpload size={20} />
-            &nbsp; Upload Image
-          </label>
-        </div>
-      </Col>
+    <Col lg={12} md={12} sm={12} xs={12}>
+      <Row className="mt-3">
+        <Col lg={5} md={3} sm={12} xs={12}>
+          <div className="upload-image-btn mb-2">
+            <input
+              type="file"
+              id="upload-image"
+              accept="image/*"
+              onChange={(e) => uploadImage(e)}
+            />
+            <label htmlFor="upload-image">
+              <FiUpload size={20} />
+              &nbsp; Upload {currentField?.type !== "image"
+                ? "Backgroud"
+                : ""}{" "}
+              Image
+            </label>
+          </div>
+        </Col>
 
-      <Col lg={3} md={3} sm={12} xs={12}>
-        <Button
-          variant={"primary"}
-          className="select-image-btn"
-          onClick={() => {
-            setOpenImageModel(true);
-          }}
-        >
-          <LuFileImage size={20} />
-          &nbsp; Select Image
-        </Button>
-      </Col>
-
-      <Col lg={12} md={12} sm={12} xs={12}>
-        <Row className="mt-4">
-          <label className="mb-3 fw-bold">Image Size</label>
-          <Col lg={6} md={6} sm={12} xs={12}>
-            <div className="customize-prop-sec">
-              <label>Height</label>
-              <input
-                type="number"
-                min={0}
-                max={800}
-                value={currentField?.props?.height || 100}
-                className="customize-input"
-                onChange={(e) => {
-                  onCustomizeElement(e, "height", "input", forms);
-                }}
-              />
-            </div>
+        <Col lg={4} md={3} sm={12} xs={12}>
+          <Button
+            variant={"primary"}
+            className="select-image-btn"
+            onClick={() => {
+              setOpenImageModel(true);
+            }}
+          >
+            <LuFileImage size={20} />
+            &nbsp; Select {currentField?.type !== "image"
+              ? "Backgroud"
+              : ""}{" "}
+            Image
+          </Button>
+        </Col>
+        {currentField?.type == "image" && (
+          <Col lg={12} md={12} sm={12} xs={12}>
+            <hr className="mt-4" />
           </Col>
-          <Col lg={6} md={6} sm={12} xs={12}>
-            <div className="customize-prop-sec">
-              <label>Width</label>
-              <input
-                type="number"
-                min={0}
-                max={800}
-                value={currentField?.props?.width || 100}
-                className="customize-input"
-                onChange={(e) => {
-                  onCustomizeElement(e, "width", "input", forms);
-                }}
-              />
-            </div>
+        )}
+        {!["card_box", "container"].includes(currentField?.type) && (
+          <Col lg={12} md={12} sm={12} xs={12}>
+            <Row className="mt-4">
+              <label className="mb-3 fw-bold">Image Size</label>
+              <Col lg={6} md={6} sm={12} xs={12}>
+                <div className="customize-prop-sec">
+                  <label>Height</label>
+                  <input
+                    type="number"
+                    min={0}
+                    max={800}
+                    value={currentField?.props?.height || 100}
+                    className="customize-input"
+                    onChange={(e) => {
+                      onCustomizeElement(e, "height", "input", forms);
+                    }}
+                  />
+                </div>
+              </Col>
+              <Col lg={6} md={6} sm={12} xs={12}>
+                <div className="customize-prop-sec">
+                  <label>Width</label>
+                  <input
+                    type="number"
+                    min={0}
+                    max={800}
+                    value={currentField?.props?.width || 100}
+                    className="customize-input"
+                    onChange={(e) => {
+                      onCustomizeElement(e, "width", "input", forms);
+                    }}
+                  />
+                </div>
+              </Col>
+            </Row>
           </Col>
-        </Row>
-      </Col>
-    </>
+        )}
+      </Row>
+    </Col>
   );
 };
 

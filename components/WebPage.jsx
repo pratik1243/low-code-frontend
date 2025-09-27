@@ -67,7 +67,7 @@ const WebPage = () => {
                 return (
                   <div
                     key={index}
-                    className={`d-flex ${
+                    className={`d-flex ${ele?.type == "card_box" ? 'background-image-props' : ''} ${
                       alignment[ele?.props?.align?.value] || ""
                     } ${ele?.props?.hidden ? "hide" : ""} ${
                       ele?.type == "heading" || ele?.type == "paragraph"

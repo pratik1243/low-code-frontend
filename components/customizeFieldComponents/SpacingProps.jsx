@@ -6,7 +6,7 @@ const SpacingProps = ({ onCustomizeElement, currentField }) => {
   const { forms } = useContext(FormContext);
   return (
     <Row className="mt-4">
-      <label className="mb-3 fw-bold">{currentField?.type} Spacing</label>
+      <label className="mb-3 fw-bold">{currentField?.type.split("_").join(" ")} Spacing</label>
       <Col lg={6} md={6} sm={12} xs={12}>
         <div className="customize-prop-sec">
           <label>Top Spacing</label>

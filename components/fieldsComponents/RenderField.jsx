@@ -14,6 +14,7 @@ import CountryField from "./CountryField";
 import Checkbox from "./Checkbox";
 import Stepper from "./Stepper";
 import IconWrapper from "./IconWrapper";
+import CardBox from "./CardBox";
 
 const RenderField = ({
   ele,
@@ -65,6 +66,14 @@ const RenderField = ({
           path={path}
           index={index}
           currentStep={currentStep}
+        />
+      );
+    } else if (ele?.type == "card_box") {
+      return (
+        <CardBox
+          ele={ele}
+          path={path}
+          index={index}
         />
       );
     } else if (ele?.type == "container") {
