@@ -7,11 +7,15 @@ import { commonPostApiFunction } from "../../services/commonApiFunc";
 import { FiUpload } from "react-icons/fi";
 import { FormContext } from "../FormCreate";
 import { LuFileImage } from "react-icons/lu";
+import { IoCloseSharp } from "react-icons/io5";
+import Select from "react-select";
+import { alignmentOptions } from "../../utils/utilFunctions";
 
 const ImageProps = ({ currentField, onCustomizeElement }) => {
-  const { forms, setOpenImageModel } = useContext(FormContext);
   const dispatch = useDispatch();
+  const { forms, setOpenImageModel } = useContext(FormContext);
   const token = useSelector((user) => user.auth.authDetails.token);
+  const contType = ["container", "card_box"].includes(currentField?.type);
 
   const uploadImage = async (e) => {
     try {
@@ -28,18 +32,11 @@ const ImageProps = ({ currentField, onCustomizeElement }) => {
       dispatch(setLoader(false));
       if (response.status == 200) {
         const backgroundImage = `url('http://localhost:8000/image/${response?.data?.id}')`;
-        if (["container", "card_box"].includes(currentField?.type)) {
-          onCustomizeElement(
-            backgroundImage,
-            "backgroundImage",
-            "image",
-            forms,
-            "style"
-          );
-        } else {
-          onCustomizeElement(response?.data?.id, "url", "image", forms);
-        }
-
+        const imageData = {
+          url: contType ? backgroundImage : response?.data?.id,
+          filename: file?.name,
+        };
+        onCustomizeElement(imageData, "imageData", "image", forms);
         dispatch(
           setSnackbarProps({
             variant: "Success",
@@ -67,28 +64,17 @@ const ImageProps = ({ currentField, onCustomizeElement }) => {
     }
   };
 
-  return (
-    <Col lg={12} md={12} sm={12} xs={12}>
-      <Row className="mt-3">
-        <Col lg={5} md={3} sm={12} xs={12}>
-          <div className="upload-image-btn mb-2">
-            <input
-              type="file"
-              id="upload-image"
-              accept="image/*"
-              onChange={(e) => uploadImage(e)}
-            />
-            <label htmlFor="upload-image">
-              <FiUpload size={20} />
-              &nbsp; Upload {currentField?.type !== "image"
-                ? "Backgroud"
-                : ""}{" "}
-              Image
-            </label>
-          </div>
-        </Col>
+  const removeFileBg = () => {
+    const imageData = {
+      url: "",
+      filename: "",
+    };
+    onCustomizeElement(imageData, "imageData", "image", forms);
+  };
 
-        <Col lg={4} md={3} sm={12} xs={12}>
+  return (
+    <>
+      {/* <Col lg={4} md={3} sm={12} xs={12}>
           <Button
             variant={"primary"}
             className="select-image-btn"
@@ -96,57 +82,105 @@ const ImageProps = ({ currentField, onCustomizeElement }) => {
               setOpenImageModel(true);
             }}
           >
-            <LuFileImage size={20} />
-            &nbsp; Select {currentField?.type !== "image"
-              ? "Backgroud"
-              : ""}{" "}
-            Image
+            <LuFileImage size={18} />
+            &nbsp; Select Image
           </Button>
-        </Col>
-        {currentField?.type == "image" && (
+        </Col> */}
+      <Col lg={12} md={12} sm={12} xs={12} className={`${currentField?.type == "container" ? 'mt-1' : 'mt-4'} mb-4`}>
+        <label className="mb-2">Upload {currentField?.type !== "image" && "Background"} Image</label>
+        {currentField?.props?.imageData?.filename ? (
+          <div className="uploaded-image">
+            <div>
+              <LuFileImage size={22} />
+              {currentField?.props?.imageData?.filename}
+            </div>
+            <IoCloseSharp
+              role="button"
+              size={25}
+              onClick={() => {
+                removeFileBg();
+              }}
+            />
+          </div>
+        ) : (
+          <div className="upload-image-btn mb-2">
+            <div className="text-center">
+              <input
+                type="file"
+                id="upload-image"
+                accept="image/*"
+                onChange={(e) => uploadImage(e)}
+              />
+              <div className="mb-2">
+                <FiUpload size={21} />
+              </div>
+              Click or <span className="click-text">Drag Image</span> to upload
+              (jpg, png and jpeg)
+            </div>
+            <label htmlFor="upload-image"></label>
+          </div>
+        )}
+      </Col>
+      {currentField?.type == "image" && (
+        <>
+          <Col lg={6} md={6} sm={12} xs={12}>
+            <div className="customize-prop-sec mb-2">
+              <label>{currentField?.type.split("_").join(" ")} Alignment</label>
+              <Select
+                isClearable
+                placeholder={"Select alignment"}
+                options={alignmentOptions}
+                value={currentField?.props?.align || ""}
+                onChange={(e) => {
+                  onCustomizeElement(e, "align", "select", forms);
+                }}
+              />
+            </div>
+          </Col>
+
           <Col lg={12} md={12} sm={12} xs={12}>
             <hr className="mt-4" />
           </Col>
-        )}
-        {!["card_box", "container"].includes(currentField?.type) && (
-          <Col lg={12} md={12} sm={12} xs={12}>
-            <Row className="mt-4">
-              <label className="mb-3 fw-bold">Image Size</label>
-              <Col lg={6} md={6} sm={12} xs={12}>
-                <div className="customize-prop-sec">
-                  <label>Height</label>
-                  <input
-                    type="number"
-                    min={0}
-                    max={800}
-                    value={currentField?.props?.height || 100}
-                    className="customize-input"
-                    onChange={(e) => {
-                      onCustomizeElement(e, "height", "input", forms);
-                    }}
-                  />
-                </div>
-              </Col>
-              <Col lg={6} md={6} sm={12} xs={12}>
-                <div className="customize-prop-sec">
-                  <label>Width</label>
-                  <input
-                    type="number"
-                    min={0}
-                    max={800}
-                    value={currentField?.props?.width || 100}
-                    className="customize-input"
-                    onChange={(e) => {
-                      onCustomizeElement(e, "width", "input", forms);
-                    }}
-                  />
-                </div>
-              </Col>
-            </Row>
-          </Col>
-        )}
-      </Row>
-    </Col>
+        </>
+      )}
+      {!["card_box", "container"].includes(currentField?.type) && (
+        <Col lg={12} md={12} sm={12} xs={12}>
+          <Row className="mt-4">
+            <label className="mb-3 fw-bold">Image Size</label>
+            <Col lg={6} md={6} sm={12} xs={12}>
+              <div className="customize-prop-sec">
+                <label>Height</label>
+                <input
+                  type="number"
+                  min={0}
+                  max={800}
+                  value={currentField?.props?.height || 100}
+                  className="customize-input"
+                  onChange={(e) => {
+                    onCustomizeElement(e, "height", "input", forms);
+                  }}
+                />
+              </div>
+            </Col>
+            <Col lg={6} md={6} sm={12} xs={12}>
+              <div className="customize-prop-sec">
+                <label>Width</label>
+                <input
+                  type="number"
+                  min={0}
+                  max={800}
+                  value={currentField?.props?.width || 100}
+                  className="customize-input"
+                  onChange={(e) => {
+                    onCustomizeElement(e, "width", "input", forms);
+                  }}
+                />
+              </div>
+            </Col>
+          </Row>
+        </Col>
+      )}
+    </>
   );
 };
 

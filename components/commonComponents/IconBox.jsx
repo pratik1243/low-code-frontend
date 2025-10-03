@@ -18,7 +18,6 @@ const IconBox = ({ onCustomizeElement, goBack }) => {
   const token = useSelector((user) => user.auth.authDetails.token);
   const [loader, setLoader] = useState(false);
   const [icons, setIcons] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
 
   const iconType = {
     ...FaIcons,
@@ -52,13 +51,10 @@ const IconBox = ({ onCustomizeElement, goBack }) => {
   };
 
   const clearValue = () => {
-    setSearchValue("");
     setIcons([]);
   };
 
-  const searchChange = (e) => {
-    debounce(fetchIcons(e), 700);
-  };
+  const debouncedHandler = debounce(fetchIcons, 500);
 
   return (
     <>
@@ -80,7 +76,7 @@ const IconBox = ({ onCustomizeElement, goBack }) => {
             <div className="position-relative">
               <input
                 type="text"
-                onChange={searchChange}
+                onChange={debouncedHandler}
                 placeholder="Search icons here..."
               />
 

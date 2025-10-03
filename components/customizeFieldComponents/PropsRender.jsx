@@ -125,6 +125,15 @@ const PropsRender = ({ open }) => {
           currentField={currentField}
         />
       );
+    } else if (
+      ["image", "container", "card_box"].includes(currentField?.type)
+    ) {
+      return (
+        <ImageProps
+          currentField={currentField}
+          onCustomizeElement={onCustomizeElement}
+        />
+      );
     }
     return null;
   };
@@ -180,7 +189,8 @@ const PropsRender = ({ open }) => {
               {!["divider", "image", "icon"].includes(currentField?.type) && (
                 <Col lg={6} md={6} sm={12} xs={12}>
                   <label>
-                    {currentField?.type?.split("_").join(" ")} Width ({currentField?.props?.width}%)
+                    {currentField?.type?.split("_").join(" ")} Width (
+                    {currentField?.props?.width}%)
                   </label>
                   <input
                     type={"range"}
@@ -309,6 +319,7 @@ const PropsRender = ({ open }) => {
                     </div>
                   </Col>
                 )}
+
                 {currentField.type == "slider" && (
                   <Col lg={6} md={6} sm={12} xs={12}>
                     <Row>
@@ -351,149 +362,145 @@ const PropsRender = ({ open }) => {
                     </Row>
                   </Col>
                 )}
+
+                {renderProps()}
+
+                {currentField?.type == "card_box" && (
+                  <Col lg={6} md={6} sm={12} xs={12}>
+                    <div className="customize-prop-sec">
+                      <label>Columns Per Rows</label>
+                      <input
+                        type="number"
+                        min={1}
+                        max={12}
+                        value={
+                          currentField?.props?.style?.gridTemplateColumns || 1
+                        }
+                        className="customize-input"
+                        onChange={(e) => {
+                          onCustomizeElement(
+                            e,
+                            "gridTemplateColumns",
+                            "input",
+                            forms,
+                            "style"
+                          );
+                        }}
+                      />
+                    </div>
+                  </Col>
+                )}
+
+                {!["divider", "image"].includes(currentField?.type) && (
+                  <Col lg={6} md={6} sm={12} xs={12}>
+                    <div className="customize-prop-sec">
+                      <label>
+                        {currentField?.type.split("_").join(" ")} Alignment
+                      </label>
+                      <Select
+                        isClearable
+                        placeholder={"Select alignment"}
+                        options={alignmentOptions}
+                        value={currentField?.props?.align || ""}
+                        onChange={(e) => {
+                          onCustomizeElement(e, "align", "select", forms);
+                        }}
+                      />
+                    </div>
+                  </Col>
+                )}
+
+                {["button", "icon"].includes(currentField?.type) && (
+                  <Col lg={6} md={6} sm={12} xs={12}>
+                    <Button
+                      className="add-icon-btn"
+                      onClick={() => {
+                        handleShow1(true);
+                      }}
+                    >
+                      Add Icon
+                    </Button>
+                  </Col>
+                )}
+
+                {currentField?.type == "container" && (
+                  <Col lg={6} md={6} sm={12} xs={12}>
+                    <div className="customize-prop-sec">
+                      <label>Container Template</label>
+                      <Select
+                        isClearable
+                        placeholder={"Select template"}
+                        options={containerOptions}
+                        value={currentField?.props?.containerTemplate || ""}
+                        onChange={(e) => {
+                          onCustomizeElement(
+                            e,
+                            "containerTemplate",
+                            "select",
+                            forms
+                          );
+                        }}
+                      />
+                    </div>
+                  </Col>
+                )}
+
+                {currentField?.type == "stepper" && (
+                  <Col lg={6} md={6} sm={12} xs={12}>
+                    <div className="customize-prop-sec">
+                      <label>Stepper Container Template</label>
+                      <Select
+                        isClearable
+                        placeholder={"Select template"}
+                        options={containerOptions}
+                        value={currentField?.props?.containerType || ""}
+                        onChange={(e) => {
+                          onCustomizeElement(
+                            e,
+                            "containerType",
+                            "select",
+                            forms
+                          );
+                        }}
+                      />
+                    </div>
+                  </Col>
+                )}
+
+                {["stepper", "select", "slider", "card_box"].includes(
+                  currentField?.type
+                ) && (
+                  <Col lg={6} md={6} sm={12} xs={12}>
+                    <Button
+                      className={`add-content-btn my-2`}
+                      onClick={() => {
+                        handleShow(true);
+                      }}
+                    >
+                      {addTextType[currentField?.type]}
+                    </Button>
+                  </Col>
+                )}
               </Row>
             </div>
 
-            {renderProps()}
+            <hr className="mt-3" />
+
+            <SpacingProps
+              onCustomizeElement={onCustomizeElement}
+              currentField={currentField}
+            />
+
+            {currentField?.type !== "card_box" && (
+              <>
+                <hr className="mt-3" />
+                <AnimationProps
+                  onCustomizeElement={onCustomizeElement}
+                  currentField={currentField}
+                />
+              </>
+            )}
           </div>
-
-          <Row className="align-items-center mt-3">
-            {currentField?.type !== "divider" && (
-              <Col lg={6} md={6} sm={12} xs={12}>
-                <div className="customize-prop-sec">
-                  <label>
-                    {currentField?.type.split("_").join(" ")} Alignment
-                  </label>
-                  <Select
-                    isClearable
-                    placeholder={"Select alignment"}
-                    options={alignmentOptions}
-                    value={currentField?.props?.align || ""}
-                    onChange={(e) => {
-                      onCustomizeElement(e, "align", "select", forms);
-                    }}
-                  />
-                </div>
-              </Col>
-            )}
-
-            {["image", "container", "card_box"].includes(
-              currentField?.type
-            ) && (
-              <ImageProps
-                currentField={currentField}
-                onCustomizeElement={onCustomizeElement}
-              />
-            )}
-
-            {currentField?.type == "card_box" && (
-              <Col lg={6} md={6} sm={12} xs={12}>
-                <div className="customize-prop-sec mt-4">
-                  <label>Columns Per Rows</label>
-                  <input
-                    type="number"
-                    min={1}
-                    max={12}
-                    value={currentField?.props?.style?.gridTemplateColumns || 1}
-                    className="customize-input"
-                    onChange={(e) => {
-                      onCustomizeElement(
-                        e,
-                        "gridTemplateColumns",
-                        "input",
-                        forms,
-                        "style"
-                      );
-                    }}
-                  />
-                </div>
-              </Col>
-            )}
-
-            {["button", "icon"].includes(currentField?.type) && (
-              <Col lg={6} md={6} sm={12} xs={12}>
-                <Button
-                  className="add-icon-btn"
-                  onClick={() => {
-                    handleShow1(true);
-                  }}
-                >
-                  Add Icon
-                </Button>
-              </Col>
-            )}
-
-            {currentField?.type == "container" && (
-              <Col lg={6} md={6} sm={12} xs={12}>
-                <div className="customize-prop-sec">
-                  <label>Container Template</label>
-                  <Select
-                    isClearable
-                    placeholder={"Select template"}
-                    options={containerOptions}
-                    value={currentField?.props?.containerTemplate || ""}
-                    onChange={(e) => {
-                      onCustomizeElement(
-                        e,
-                        "containerTemplate",
-                        "select",
-                        forms
-                      );
-                    }}
-                  />
-                </div>
-              </Col>
-            )}
-
-            {currentField?.type == "stepper" && (
-              <Col lg={6} md={6} sm={12} xs={12}>
-                <div className="customize-prop-sec">
-                  <label>Stepper Container Template</label>
-                  <Select
-                    isClearable
-                    placeholder={"Select template"}
-                    options={containerOptions}
-                    value={currentField?.props?.containerType || ""}
-                    onChange={(e) => {
-                      onCustomizeElement(e, "containerType", "select", forms);
-                    }}
-                  />
-                </div>
-              </Col>
-            )}
-
-            {["stepper", "select", "slider", "card_box"].includes(
-              currentField?.type
-            ) && (
-              <Col lg={6} md={6} sm={12} xs={12}>
-                <Button
-                  className="add-content-btn"
-                  onClick={() => {
-                    handleShow(true);
-                  }}
-                >
-                  {addTextType[currentField?.type]}
-                </Button>
-              </Col>
-            )}
-          </Row>
-
-          <hr className="mt-3" />
-
-          <SpacingProps
-            onCustomizeElement={onCustomizeElement}
-            currentField={currentField}
-          />
-
-          {currentField?.type !== "card_box" && (
-            <>
-              <hr className="mt-3" />
-              <AnimationProps
-                onCustomizeElement={onCustomizeElement}
-                currentField={currentField}
-              />
-            </>
-          )}
         </>
       )}
     </div>

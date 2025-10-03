@@ -78,7 +78,10 @@ const WebPage = () => {
                       ...(ele?.column_width && {
                         width: `${ele?.column_width}%`,
                       }),
-                      ...(ele?.props?.style && addPixel(ele?.props?.style, ele))
+                      ...(ele?.props?.style && addPixel(ele?.props?.style, ele)),
+                      ...(ele?.props?.imageData && {
+                        backgroundImage: ele?.props?.imageData?.url
+                      })
                     }}
                   >
                     <RenderField ele={ele} index={index} />

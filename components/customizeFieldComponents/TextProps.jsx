@@ -8,43 +8,7 @@ const TextProps = ({ onCustomizeElement, currentField }) => {
   const { forms } = useContext(FormContext);
 
   return (
-    <div>
-      {currentField?.type === "heading" && (
-        <div className="customize-prop-sec">
-          <label>Heading Variant</label>
-          <Select
-            isClearable
-            placeholder={"Select variant"}
-            options={headingVariantOptions}
-            value={currentField?.props?.variant || ""}
-            onChange={(e) => {
-              onCustomizeElement(e, "variant", "select", forms);
-            }}
-          />
-        </div>
-      )}
-
-      <div className="customize-prop-sec">
-        <label>
-          {currentField?.type === "paragraph"
-            ? "Paragraph Text"
-            : "Heading Text"}
-        </label>
-        <textarea
-          value={currentField?.props?.text || ""}
-          placeholder={
-            currentField?.type === "paragraph"
-              ? "Enter paragraph"
-              : "Enter heading"
-          }
-          className="customize-input"
-          onChange={(e) => {
-            onCustomizeElement(e, "text", "input", forms);
-          }}
-          {...(currentField?.type === "paragraph" && { rows: 7 })}
-        />
-      </div>
-
+    <>
       <Col lg={6} md={6} sm={12} xs={12} className="mb-4">
         <Row>
           <Col lg={9} md={9}>
@@ -73,7 +37,47 @@ const TextProps = ({ onCustomizeElement, currentField }) => {
           </Col>
         </Row>
       </Col>
-    </div>
+
+      {currentField?.type === "heading" && (
+        <Col lg={12} md={12} sm={12} xs={12}>
+          <div className="customize-prop-sec">
+            <label>Heading Variant</label>
+            <Select
+              isClearable
+              placeholder={"Select variant"}
+              options={headingVariantOptions}
+              value={currentField?.props?.variant || ""}
+              onChange={(e) => {
+                onCustomizeElement(e, "variant", "select", forms);
+              }}
+            />
+          </div>
+        </Col>
+      )}
+
+      <Col lg={12} md={12} sm={12} xs={12}>
+        <div className="customize-prop-sec">
+          <label>
+            {currentField?.type === "paragraph"
+              ? "Paragraph Text"
+              : "Heading Text"}
+          </label>
+          <textarea
+            value={currentField?.props?.text || ""}
+            placeholder={
+              currentField?.type === "paragraph"
+                ? "Enter paragraph"
+                : "Enter heading"
+            }
+            className="customize-input"
+            onChange={(e) => {
+              onCustomizeElement(e, "text", "input", forms);
+            }}
+            {...(currentField?.type === "paragraph" && { rows: 7 })}
+          />
+        </div>
+      </Col>
+    </>
   );
 };
 

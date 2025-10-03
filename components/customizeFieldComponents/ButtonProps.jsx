@@ -32,9 +32,104 @@ const ButtonProps = ({ onCustomizeElement, currentField }) => {
 
   const fieldOptions = useMemo(() => getFields(forms), [forms]);
 
-
   return (
-    <div>
+    <>
+      <Col lg={6} md={6} sm={12} xs={12}>
+        <Row>
+          <Col lg={9} md={9}>
+            <label className="mb-2">Text Color</label>
+            <input
+              type="color"
+              id="color-picker2"
+              className="w-100"
+              value={currentField?.props?.style?.color || ""}
+              onChange={(e) => {
+                onCustomizeElement(e, "color", "input", forms, "style");
+              }}
+            />
+          </Col>
+          <Col lg={3} md={3}>
+            <Button
+              variant={"primary"}
+              size="sm"
+              className="clear-background-btn"
+              onClick={() => {
+                onCustomizeElement("", "color", "input", forms, "style");
+              }}
+            >
+              Clear
+            </Button>
+          </Col>
+        </Row>
+      </Col>
+      <Col lg={6} md={6} sm={12} xs={12}>
+        <Row className="mt-4">
+          <Col lg={9} md={9}>
+            <label className="mb-2">Border Color</label>
+            <input
+              type="color"
+              id="color-picker2"
+              className="w-100"
+              value={currentField?.props?.style?.borderColor || ""}
+              onChange={(e) => {
+                onCustomizeElement(e, "borderColor", "input", forms, "style");
+              }}
+            />
+          </Col>
+          <Col lg={3} md={3}>
+            <Button
+              variant={"primary"}
+              size="sm"
+              className="clear-background-btn"
+              onClick={() => {
+                onCustomizeElement("", "borderColor", "input", forms, "style");
+              }}
+            >
+              Clear
+            </Button>
+          </Col>
+        </Row>
+      </Col>
+      <Col lg={6} md={6} sm={12} xs={12}>
+        <Row className="mt-4">
+          <Col lg={9} md={9}>
+            <label className="mb-2">Button Background Color</label>
+            <input
+              type="color"
+              id="color-picker1"
+              className="w-100"
+              value={currentField?.props?.style?.backgroundColor || ""}
+              onChange={(e) => {
+                onCustomizeElement(
+                  e,
+                  "backgroundColor",
+                  "input",
+                  forms,
+                  "style"
+                );
+              }}
+            />
+          </Col>
+          <Col lg={3} md={3}>
+            <Button
+              variant={"primary"}
+              size="sm"
+              className="clear-background-btn"
+              onClick={() => {
+                onCustomizeElement(
+                  "",
+                  "backgroundColor",
+                  "input",
+                  forms,
+                  "style"
+                );
+              }}
+            >
+              Clear
+            </Button>
+          </Col>
+        </Row>
+      </Col>
       <Col lg={12} md={12} sm={12} xs={12}>
         <Row className="mt-4">
           <Col lg={3} md={3} sm={12} xs={12}>
@@ -86,183 +181,65 @@ const ButtonProps = ({ onCustomizeElement, currentField }) => {
             </div>
           </Col>
           <Col lg={12} md={12} sm={12} xs={12}>
-            <Row className="mt-4 mb-4">
-              <Col lg={6} md={6} sm={12} xs={12}>
-                <Row>
-                  <Col lg={9} md={9}>
-                    <label className="mb-2">Text Color</label>
-                    <input
-                      type="color"
-                      id="color-picker2"
-                      className="w-100"
-                      value={currentField?.props?.style?.color || ""}
-                      onChange={(e) => {
-                        onCustomizeElement(e, "color", "input", forms, "style");
-                      }}
-                    />
-                  </Col>
-                  <Col lg={3} md={3}>
-                    <Button
-                      variant={"primary"}
-                      size="sm"
-                      className="clear-background-btn"
-                      onClick={() => {
-                        onCustomizeElement(
-                          "",
-                          "color",
-                          "input",
-                          forms,
-                          "style"
-                        );
-                      }}
-                    >
-                      Clear
-                    </Button>
-                  </Col>
-                </Row>
-              </Col>
-              <Col lg={6} md={6} sm={12} xs={12}>
-                <Row>
-                  <Col lg={9} md={9}>
-                    <label className="mb-2">Border Color</label>
-                    <input
-                      type="color"
-                      id="color-picker2"
-                      className="w-100"
-                      value={currentField?.props?.style?.borderColor || ""}
-                      onChange={(e) => {
-                        onCustomizeElement(
-                          e,
-                          "borderColor",
-                          "input",
-                          forms,
-                          "style"
-                        );
-                      }}
-                    />
-                  </Col>
-                  <Col lg={3} md={3}>
-                    <Button
-                      variant={"primary"}
-                      size="sm"
-                      className="clear-background-btn"
-                      onClick={() => {
-                        onCustomizeElement(
-                          "",
-                          "borderColor",
-                          "input",
-                          forms,
-                          "style"
-                        );
-                      }}
-                    >
-                      Clear
-                    </Button>
-                  </Col>
-                </Row>
-              </Col>
-              <Col lg={6} md={6} sm={12} xs={12}>
-                <Row className="mt-4">
-                  <Col lg={9} md={9}>
-                    <label className="mb-2">Button Background Color</label>
-                    <input
-                      type="color"
-                      id="color-picker1"
-                      className="w-100"
-                      value={currentField?.props?.style?.backgroundColor || ""}
-                      onChange={(e) => {
-                        onCustomizeElement(
-                          e,
-                          "backgroundColor",
-                          "input",
-                          forms,
-                          "style"
-                        );
-                      }}
-                    />
-                  </Col>
-                  <Col lg={3} md={3}>
-                    <Button
-                      variant={"primary"}
-                      size="sm"
-                      className="clear-background-btn"
-                      onClick={() => {
-                        onCustomizeElement(
-                          "",
-                          "backgroundColor",
-                          "input",
-                          forms,
-                          "style"
-                        );
-                      }}
-                    >
-                      Clear
-                    </Button>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-          </Col>
-          <Col lg={12} md={12} sm={12} xs={12}>
-            <hr />
-          </Col>
-          <Col lg={12} md={12} sm={12} xs={12}>
-            <div className="mt-4">
-              <label className="fw-bold mb-3">Button Actions</label>
-              <Row>
-                <Col lg={6} md={6} sm={12} xs={12}>
-                  <div className="customize-prop-sec">
-                    <label>{currentField?.type} Text</label>
-                    <input
-                      type="text"
-                      value={currentField?.props?.text || ""}
-                      placeholder="Enter button text"
-                      className="customize-input"
-                      onChange={(e) => {
-                        onCustomizeElement(e, "text", "input", forms);
-                      }}
-                    />
-                  </div>
-                </Col>
-
-                <Col lg={6} md={6} sm={12} xs={12}>
-                  <div className="customize-prop-sec">
-                    <label>Redirect Page</label>
-                    <Select
-                      isClearable
-                      placeholder={"Select page"}
-                      options={pagesList}
-                      getOptionLabel={(e) => e.page_name}
-                      getOptionValue={(e) => e.page_route}
-                      value={currentField?.props?.redirectUrl || ""}
-                      onChange={(e) => {
-                        onCustomizeElement(e, "redirectUrl", "select", forms);
-                      }}
-                    />
-                  </div>
-                </Col>
-
-                <Col lg={6} md={6} sm={12} xs={12}>
-                  <div className="customize-prop-sec">
-                    <label>fields to be submmited</label>
-                    <Select
-                      isClearable
-                      isMulti
-                      placeholder={"Select fields"}
-                      options={fieldOptions}
-                      value={currentField?.props?.fields || ""}
-                      onChange={(e) => {
-                        onCustomizeElement(e, "fields", "select", forms);
-                      }}
-                    />
-                  </div>
-                </Col>
-              </Row>
-            </div>
+            <hr className="mt-4" />
           </Col>
         </Row>
       </Col>
-    </div>
+
+      <Col lg={12} md={12} sm={12} xs={12}>
+        <div className="mt-4">
+          <label className="fw-bold mb-3">Button Actions</label>
+        </div>
+      </Col>
+
+      <Col lg={6} md={6} sm={12} xs={12}>
+        <div className="customize-prop-sec">
+          <label>{currentField?.type} Text</label>
+          <input
+            type="text"
+            value={currentField?.props?.text || ""}
+            placeholder="Enter button text"
+            className="customize-input"
+            onChange={(e) => {
+              onCustomizeElement(e, "text", "input", forms);
+            }}
+          />
+        </div>
+      </Col>
+
+      <Col lg={6} md={6} sm={12} xs={12}>
+        <div className="customize-prop-sec">
+          <label>Redirect Page</label>
+          <Select
+            isClearable
+            placeholder={"Select page"}
+            options={pagesList}
+            getOptionLabel={(e) => e.page_name}
+            getOptionValue={(e) => e.page_route}
+            value={currentField?.props?.redirectUrl || ""}
+            onChange={(e) => {
+              onCustomizeElement(e, "redirectUrl", "select", forms);
+            }}
+          />
+        </div>
+      </Col>
+
+      <Col lg={6} md={6} sm={12} xs={12}>
+        <div className="customize-prop-sec">
+          <label>fields to be submmited</label>
+          <Select
+            isClearable
+            isMulti
+            placeholder={"Select fields"}
+            options={fieldOptions}
+            value={currentField?.props?.fields || ""}
+            onChange={(e) => {
+              onCustomizeElement(e, "fields", "select", forms);
+            }}
+          />
+        </div>
+      </Col>
+    </>
   );
 };
 

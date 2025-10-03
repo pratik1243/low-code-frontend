@@ -125,6 +125,10 @@ export const fieldsData = [
     props: {
       hidden: false,
       width: 100,
+      imageData: {
+        url: "",
+        filename: "",
+      },
       containerTemplate: "",
       containerBackground: "",
     },
@@ -135,8 +139,10 @@ export const fieldsData = [
     column_width: 100,
     props: {
       hidden: false,
-      url: "",
-      filename: "",
+      imageData: {
+        url: "",
+        filename: "",
+      },
       height: 100,
       width: 100,
       style: {},
@@ -223,6 +229,10 @@ export const fieldsData = [
       align: "",
       width: 100,
       style: {},
+      imageData: {
+        url: "",
+        filename: "",
+      },
       cards: [],
       animation: "",
       animation_delay: "",
@@ -685,9 +695,12 @@ export function updateforms(e, el, attribute, value, optionIndex, style) {
                   },
                 }
               : {
-                  [attribute]: ["options", "stepContent", "slides", "cards"].includes(
-                    attribute
-                  )
+                  [attribute]: [
+                    "options",
+                    "stepContent",
+                    "slides",
+                    "cards",
+                  ].includes(attribute)
                     ? options(el, value, attribute, optionIndex)
                     : value,
                 }),
@@ -785,9 +798,12 @@ export function pasteItems(e, ele, forms, setForms) {
           return {
             ...el,
             content:
-            (json.length > 1)
-            ? [...el?.content, ...containerData(json)]
-            : [...el?.content, { ...newJsonData, id: generateId(4), isContainer: true }],
+              json.length > 1
+                ? [...el?.content, ...containerData(json)]
+                : [
+                    ...el?.content,
+                    { ...newJsonData, id: generateId(4), isContainer: true },
+                  ],
           };
         }
         return el;

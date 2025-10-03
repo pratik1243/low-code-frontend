@@ -1181,16 +1181,47 @@ hr {
   margin-left: 20px;
 }
 
-.upload-image-btn label{
-  background-color: #00b2aa;
-  padding: 7px 13px;
+.upload-image-btn{
+  background-color: var(--white-color);
+  border: 2px dashed #00b2aa;
+  padding: 15px;
   border-radius: 5px;
-  color: var(--white-color);
+  position: relative; 
+}
+
+.upload-image-btn label{
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
   cursor: pointer;
+}
+
+.upload-image-btn svg{
+  color: #00b2aa;
+}
+
+.upload-image-btn .click-text{
+  color: #00b2aa;
 }
 
 .upload-image-btn input{
   display: none !important;
+}
+
+.uploaded-image{
+  background-color: var(--white-color);
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #00b2aa;
+  display: flex;  
+  align-items: center;
+  justify-content: space-between;
+}
+
+.uploaded-image svg:nth-child(1){
+  margin-right: 10px;
+  color: #00b2aa;
 }
 
 .background-image-props{
@@ -1207,4 +1238,9 @@ hr {
 .field-sec-customize-modal .modal-body{
   height: 460px !important;
   overflow-y: auto;
+}
+
+.select-image-btn{
+  font-size: 15px !important;
+  width: 100%;
 }
