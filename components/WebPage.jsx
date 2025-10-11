@@ -69,19 +69,15 @@ const WebPage = () => {
                     key={index}
                     className={`d-flex ${ele?.type == "card_box" ? 'background-image-props' : ''} ${
                       alignment[ele?.props?.align?.value] || ""
-                    } ${ele?.props?.hidden ? "hide" : ""} ${
+                    } ${['input', 'select', 'country'].includes(ele?.type) ? 'input-style' : ''} ${ele?.props?.hidden ? "hide" : ""} ${
                       ele?.type == "heading" || ele?.type == "paragraph"
                         ? textAlign[ele?.props?.align?.value] || ""
                         : ""
                     }`}
                     style={{
-                      ...(ele?.column_width && {
-                        width: `${ele?.column_width}%`,
-                      }),
+                      ...(ele?.column_width && { width: `${ele?.column_width}%` }),
                       ...(ele?.props?.style && addPixel(ele?.props?.style, ele)),
-                      ...(ele?.props?.imageData && {
-                        backgroundImage: ele?.props?.imageData?.url
-                      })
+                      ...(ele?.props?.imageData && { backgroundImage: ele?.props?.imageData?.url })
                     }}
                   >
                     <RenderField ele={ele} index={index} />

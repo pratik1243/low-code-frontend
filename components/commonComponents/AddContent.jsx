@@ -126,8 +126,6 @@ const AddContent = ({
     setForms(updateForms);
   };
 
-  console.log('vbvb', currentField?.props?.[addContentType]);
-
   return (
     <div className="customize-prop-sec p-4 modal-dialog-customize">
       <Button

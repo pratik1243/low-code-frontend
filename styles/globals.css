@@ -242,7 +242,7 @@ input {
 .element-input-field.float-label label {
   position: absolute;
   left: 14px;
-  top: 12px;
+  top: 14px;
   transition: all 0.3s;
   background-color: white;
   z-index: -1;
@@ -283,7 +283,7 @@ input {
   outline: none;
   border: 1.8px solid var(--grey-color);
   transition: all 0.4s;
-  color: #aaa9a9;
+  /* color: #aaa9a9; */
 }
 
 .element-input-field .dropdown-box {
@@ -1140,7 +1140,6 @@ hr {
 .go-back-btn,
 .add-icon-btn,
 .add-content-btn,
-.select-image-btn,
 .clear-background-btn {
   background-color: #00b2aa !important;
   border-color: #00b2aa !important;
@@ -1183,7 +1182,7 @@ hr {
 
 .upload-image-btn{
   background-color: var(--white-color);
-  border: 2px dashed #00b2aa;
+  border: 1px dashed #00b2aa;
   padding: 15px;
   border-radius: 5px;
   position: relative; 
@@ -1227,6 +1226,7 @@ hr {
 .background-image-props{
   background-repeat: no-repeat !important;
   background-position: center !important;
+  background-size: cover;
 }
 
 .card-main-section{
@@ -1241,6 +1241,25 @@ hr {
 }
 
 .select-image-btn{
-  font-size: 15px !important;
-  width: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 3px 8px;
+  border-bottom-left-radius: 5px;
+  font-size: 13px !important;
+  background-color: #00b2aa;
+  color: var(--white-color);
+  z-index: 1;
+}
+
+.input-style{
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.tooltip .tooltip-inner{
+  text-align: left !important;
+  font-size: 13px !important;
+  line-height: 18px !important;
+  padding: 10px 11px !important;
 }

@@ -74,20 +74,18 @@ const ImageProps = ({ currentField, onCustomizeElement }) => {
 
   return (
     <>
-      {/* <Col lg={4} md={3} sm={12} xs={12}>
-          <Button
-            variant={"primary"}
-            className="select-image-btn"
-            onClick={() => {
-              setOpenImageModel(true);
-            }}
-          >
-            <LuFileImage size={18} />
-            &nbsp; Select Image
-          </Button>
-        </Col> */}
-      <Col lg={12} md={12} sm={12} xs={12} className={`${currentField?.type == "container" ? 'mt-1' : 'mt-4'} mb-4`}>
-        <label className="mb-2">Upload {currentField?.type !== "image" && "Background"} Image</label>
+      <Col
+        lg={12}
+        md={12}
+        sm={12}
+        xs={12}
+        className={`${
+          currentField?.type == "container" ? "mt-1" : "mt-4"
+        } mb-4`}
+      >
+        <label className="mb-2">
+          Upload {currentField?.type !== "image" && "Background"} Image
+        </label>
         {currentField?.props?.imageData?.filename ? (
           <div className="uploaded-image">
             <div>
@@ -104,6 +102,17 @@ const ImageProps = ({ currentField, onCustomizeElement }) => {
           </div>
         ) : (
           <div className="upload-image-btn mb-2">
+            <span
+              role="button"
+              className="select-image-btn"
+              onClick={(e) => {
+                setOpenImageModel(true);
+                e.stopPropagation();
+              }}
+            >
+              Image Gallery
+            </span>
+
             <div className="text-center">
               <input
                 type="file"

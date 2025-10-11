@@ -38,7 +38,7 @@ const InputProps = ({ onCustomizeElement, currentField }) => {
         </Row>
       </Col>
       <Col lg={6} md={6} sm={12} xs={12}>
-        <Row className="mt-4">
+        <Row>
           <Col lg={9} md={9}>
             <label className="mb-2">Border Color</label>
             <input

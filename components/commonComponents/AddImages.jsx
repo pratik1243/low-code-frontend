@@ -15,6 +15,7 @@ const AddImages = () => {
   const { openImageModel, setOpenImageModel, forms, setForms, currentElement } = useContext(FormContext);
   const [uploadedImages, setUploadImages] = useState([]);
   const [loader, setLoader] = useState(false);
+  const contType = ["container", "card_box"].includes(currentElement?.type);
 
   const getImages = async () => {
     try {
@@ -81,14 +82,14 @@ const AddImages = () => {
     );
   };
 
-  const selectCurrentImage = (imageId) => {
+  const selectCurrentImage = (image) => {
     setOpenImageModel(false);
-    const backgroundImage = `url('http://localhost:8000/image/${imageId}')`;
-    if (["container", "card_box"].includes(currentElement?.type)) {
-      onCustomizeElement(backgroundImage, "backgroundImage", "image", forms, "style");
-    } else {
-      onCustomizeElement(imageId, "url", "image", forms);
-    }
+    const backgroundImage = `url('http://localhost:8000/image/${image?._id}')`;
+    const imageData = {
+      url: contType ? backgroundImage : image?._id,
+      filename: image?.name,
+    };
+    onCustomizeElement(imageData, "imageData", "image", forms);
   };
 
   useEffect(() => {
@@ -125,7 +126,7 @@ const AddImages = () => {
                       key={i}
                       className="d-flex align-items-center image-select-sec"
                       onClick={() => {
-                        selectCurrentImage(el._id);
+                        selectCurrentImage(el);
                       }}
                     >
                       <Image

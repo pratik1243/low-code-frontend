@@ -1,6 +1,6 @@
 "use client";
 import React, { useContext } from "react";
-import { Button, Col, Row } from "react-bootstrap";
+import { Button, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import Select from "react-select";
 import {
   alignmentOptions,
@@ -8,6 +8,7 @@ import {
   nestedStructure,
   updateforms,
 } from "../../utils/utilFunctions";
+import { RiErrorWarningLine } from "react-icons/ri";
 import AddContent from "../commonComponents/AddContent";
 import IconBox from "../commonComponents/IconBox";
 import { FormContext } from "../FormCreate";
@@ -74,6 +75,12 @@ const PropsRender = ({ open }) => {
   const filterCurrent = (data) => {
     return data?.filter((el) => el?.id === currentElement?.id)[0];
   };
+
+  const renderTooltip = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+      The {currentElement?.type} width should be less than the column width to maintain proper alignment
+    </Tooltip>
+  );
 
   const renderCurrentField = (form) => {
     const fields = filterCurrent(form);
@@ -233,46 +240,50 @@ const PropsRender = ({ open }) => {
 
             <div className="mb-3">
               <Row>
-                <Col lg={6} md={6} sm={12} xs={12}>
-                  <Row>
-                    <Col lg={9} md={9}>
-                      <label className="mb-2">Column Background Color</label>
-                      <input
-                        type="color"
-                        id="color-picker"
-                        className="w-100"
-                        value={currentField?.props?.style?.background || ""}
-                        onChange={(e) => {
-                          onCustomizeElement(
-                            e,
-                            "background",
-                            "input",
-                            forms,
-                            "style"
-                          );
-                        }}
-                      />
-                    </Col>
-                    <Col lg={3} md={3}>
-                      <Button
-                        variant={"primary"}
-                        size="sm"
-                        className="clear-background-btn"
-                        onClick={() => {
-                          onCustomizeElement(
-                            "",
-                            "background",
-                            "input",
-                            forms,
-                            "style"
-                          );
-                        }}
-                      >
-                        Clear
-                      </Button>
-                    </Col>
-                  </Row>
-                </Col>
+                {!["input", "select", "country"].includes(
+                  currentField.type
+                ) && (
+                  <Col lg={6} md={6} sm={12} xs={12}>
+                    <Row>
+                      <Col lg={9} md={9}>
+                        <label className="mb-2">Column Background Color</label>
+                        <input
+                          type="color"
+                          id="color-picker"
+                          className="w-100"
+                          value={currentField?.props?.style?.background || ""}
+                          onChange={(e) => {
+                            onCustomizeElement(
+                              e,
+                              "background",
+                              "input",
+                              forms,
+                              "style"
+                            );
+                          }}
+                        />
+                      </Col>
+                      <Col lg={3} md={3}>
+                        <Button
+                          variant={"primary"}
+                          size="sm"
+                          className="clear-background-btn"
+                          onClick={() => {
+                            onCustomizeElement(
+                              "",
+                              "background",
+                              "input",
+                              forms,
+                              "style"
+                            );
+                          }}
+                        >
+                          Clear
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Col>
+                )}
                 {currentField.type == "container" && (
                   <Col lg={6} md={6} sm={12} xs={12}>
                     <div className="customize-prop-sec">
@@ -394,8 +405,16 @@ const PropsRender = ({ open }) => {
                 {!["divider", "image"].includes(currentField?.type) && (
                   <Col lg={6} md={6} sm={12} xs={12}>
                     <div className="customize-prop-sec">
-                      <label>
-                        {currentField?.type.split("_").join(" ")} Alignment
+                      <label className="d-flex align-items-center">
+                        {currentField?.type.split("_").join(" ")}{" "}
+                        Alignment&nbsp;&nbsp;{" "}
+                        <OverlayTrigger
+                          placement="right"
+                          delay={{ show: 250, hide: 400 }}
+                          overlay={renderTooltip}
+                        >
+                          <RiErrorWarningLine size={19} />
+                        </OverlayTrigger>
                       </label>
                       <Select
                         isClearable
