@@ -14,7 +14,7 @@ import RenderField from "./RenderField";
 const Stepper = ({ ele, path }) => {
   const isWebPage = path.includes("web-page");
 
-  const { forms, setForms } = useContext(isWebPage ? PageContext : FormContext);
+  const { forms, setForms, breakPoint } = useContext(isWebPage ? PageContext : FormContext);
   const [stepsArr, setStepsArr] = useState([]);
   const [prevArr, setPrevArr] = useState([]);
   const [currentStep, setCurrentStep] = useState(0);
@@ -41,7 +41,7 @@ const Stepper = ({ ele, path }) => {
   };
 
   const nextStep = () => {
-    const validateForms = forms.map((el, i) => {
+    const validateForms = forms[breakPoint].map((el, i) => {
       const stepContentForm = el?.props?.stepContent?.map((data, id) => {
         const updatedForms = data?.content?.map((datas, ind) => {
           const nestedForm = datas?.content?.map((eles, i) => {
@@ -77,7 +77,8 @@ const Stepper = ({ ele, path }) => {
       }
       return el;
     });
-    setForms(validateForms);
+    // setForms(validateForms);
+    setForms({...forms, [breakPoint]: validateForms })
 
     if (checkErrorMessages(ele?.props?.stepContent[currentStep]?.content)) {
       setCurrentStep(currentStep + 1);

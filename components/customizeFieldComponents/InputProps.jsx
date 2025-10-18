@@ -145,6 +145,29 @@ const InputProps = ({ onCustomizeElement, currentField }) => {
                   </div>
                 </Col>
 
+                {currentField?.type == "input" && (
+                  <Col lg={3} md={3} sm={12} xs={12}>
+                    <div className="d-flex">
+                      <input
+                        type="checkbox"
+                        id="checkbox-password"
+                        checked={currentField?.props?.isPassword || ""}
+                        onChange={(e) => {
+                          onCustomizeElement(
+                            e,
+                            "isPassword",
+                            "checkbox",
+                            forms
+                          );
+                        }}
+                      />
+                      <label htmlFor="checkbox-password" className="mb-0">
+                        Password Button
+                      </label>
+                    </div>
+                  </Col>
+                )}
+
                 <Col lg={3} md={3} sm={12} xs={12}>
                   <div className="d-flex">
                     <input

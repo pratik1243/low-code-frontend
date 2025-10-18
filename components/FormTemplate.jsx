@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import ElementActions from "./commonComponents/ElementActions";
 
 const FormTemplate = () => {
-
   const {
     forms,
     setForms,
@@ -15,14 +14,15 @@ const FormTemplate = () => {
     setShowCurrentElement,
     setContainerId,
     setHeight,
+    breakPoint,
   } = useContext(FormContext);
 
   const pathname = usePathname();
-  
+
   const onDropItem = (e, dropIndex) => {
     e.stopPropagation();
     setHeight(false);
-    let copiedItems = [...forms];
+    let copiedItems = [...forms[breakPoint]];
     let dragIndex = e?.dataTransfer?.getData("element_index");
     let draggedItem = copiedItems[dragIndex];
     let conatinerIndex = e?.dataTransfer?.getData("container_index");
@@ -31,7 +31,8 @@ const FormTemplate = () => {
     }
     copiedItems.splice(dragIndex, 1);
     copiedItems.splice(dropIndex, 0, draggedItem);
-    setForms(copiedItems);
+    // setForms(copiedItems);
+    setForms({ ...forms, [breakPoint]: copiedItems });
     conatinerIndex = null;
     dragIndex = null;
   };
@@ -42,8 +43,9 @@ const FormTemplate = () => {
 
   const deleteItem = (e, id) => {
     e.stopPropagation();
-    const formData = forms.filter((el) => el.id !== id);
-    setForms(formData);
+    const formData = forms[breakPoint].filter((el) => el.id !== id);
+    // setForms(formData);
+    setForms({ ...forms, [breakPoint]: formData });
     setCurrentElement();
   };
 
@@ -64,13 +66,13 @@ const FormTemplate = () => {
 
   return (
     <div className={`main-content-sec scrollable`}>
-      {forms && forms?.length == 0 && (
+      {forms[breakPoint] && forms[breakPoint]?.length == 0 && (
         <h4 className="text-center w-100 p-3 mb-0">
           Click on elements to add...
         </h4>
       )}
-      {forms?.length > 0 &&
-        forms?.map((ele, index) => {
+      {forms[breakPoint]?.length > 0 &&
+        forms[breakPoint]?.map((ele, index) => {
           return (
             <div
               key={index}
@@ -81,7 +83,11 @@ const FormTemplate = () => {
                       currentElement.type == "container" ? "selected-card" : ""
                     }`
                   : ""
-              } ${ele?.props?.hidden ? "hidden" : ""}`}
+              } ${ele?.props?.hidden ? "hidden" : ""} ${
+                ["stepper", "slider", "card_box"].includes(ele?.type)
+                  ? "w-65"
+                  : ""
+              }`}
               style={{
                 ...(ele?.column_width && { width: `${ele?.column_width}%` }),
               }}
@@ -99,7 +105,7 @@ const FormTemplate = () => {
                 <RenderField ele={ele} index={index} />
               </div>
 
-              <div className="delete-element-btn">
+              <div className={`delete-element-btn`}>
                 <ElementActions
                   data={ele}
                   deleteFunction={(e) => deleteItem(e, ele?.id)}

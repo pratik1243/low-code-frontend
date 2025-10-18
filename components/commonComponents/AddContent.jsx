@@ -15,14 +15,14 @@ const AddContent = ({
   onCustomizeElement,
   goBack,
 }) => {
-  const { forms, setForms, currentElement, pagesList } = useContext(FormContext);
+  const { forms, setForms, currentElement, pagesList, breakPoint } = useContext(FormContext);
   const [optionValue, setOptionValue] = useState("");
   const [pageItem, setPageItem] = useState("");
   const stepList = ["stepper", "slider", "card_box"];
   const stepList2 = ["stepper", "slider", "select", "card_box"];
 
   const orderContent = (e, dropIndex, i, id = undefined) => {
-    const filterContentList = id !== undefined ? forms[id]?.content[i]?.props[addContentType] : forms[i]?.props[addContentType];
+    const filterContentList = id !== undefined ? forms[breakPoint][id]?.content[i]?.props[addContentType] : forms[breakPoint][i]?.props[addContentType];
     const dragIndex = JSON.parse(e?.dataTransfer?.getData("element"));
     const draggedItem = filterContentList[dragIndex];
     filterContentList?.splice(dragIndex, 1);
@@ -39,7 +39,7 @@ const AddContent = ({
 
   const onDropItem = (e, dropIndex) => {
     e.stopPropagation();
-    const updateForms = forms?.map((el, i) => {
+    const updateForms = forms[breakPoint]?.map((el, i) => {
       const updateNestedForms = el?.content?.map((ele, id) => {
         if (stepList2.includes(ele.type) && ele.id === currentElement.id) {
           return {
@@ -65,7 +65,8 @@ const AddContent = ({
       }
       return el;
     });
-    setForms(updateForms);
+    // setForms(updateForms);
+    setForms({ ...forms, [breakPoint]: updateForms });
   };
 
   const onDragStart = (e, i) => {
@@ -83,21 +84,23 @@ const AddContent = ({
       pageItem: pageItem,
       optionValue: optionValue,
     };
-    setForms(
-      nestedStructure(
+    setForms({
+      ...forms,
+      [breakPoint]: nestedStructure(
         addContentObj,
         forms,
         currentElement,
         addContentProps,
-        "addContent"
-      )
-    );
+        "addContent",
+        breakPoint
+      ),
+    });
     setOptionValue("");
     setPageItem("");
   };
 
   const removeOption = (label, type) => {
-    const updateForms = forms?.map((el, i) => {
+    const updateForms = forms[breakPoint]?.map((el, i) => {
       const updateNestedForms = el?.content?.map((ele, id) => {
         if (ele.id === currentElement.id) {
           return {
@@ -123,7 +126,8 @@ const AddContent = ({
       }
       return el;
     });
-    setForms(updateForms);
+    // setForms(updateForms);
+    setForms({ ...forms, [breakPoint]: updateForms });
   };
 
   return (
@@ -167,7 +171,7 @@ const AddContent = ({
               placeholder={"Select page item"}
               options={pagesList}
               getOptionLabel={(e) => e.page_name}
-              getOptionValue={(e) => e.page_data}
+              getOptionValue={(e) => e.page_data[breakPoint]}
               value={pageItem || ""}
               onChange={(e) => setPageItem(e)}
             />

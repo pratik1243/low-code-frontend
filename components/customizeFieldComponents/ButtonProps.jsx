@@ -5,24 +5,17 @@ import { FormContext } from "../FormCreate";
 import Select from "react-select";
 
 const ButtonProps = ({ onCustomizeElement, currentField }) => {
-  const { forms, pagesList } = useContext(FormContext);
+  const { forms, pagesList, breakPoint } = useContext(FormContext);
 
   const getFields = (element) => {
     let fields = [];
     let types = ["input", "select", "country"];
     for (let i = 0; i < element?.length; i++) {
       for (let j = 0; j < element[i]?.content?.length; j++) {
-        if (
-          types?.includes(element[i]?.content[j]?.type) ||
-          types?.includes(element[i]?.type)
-        ) {
+        if (types?.includes(element[i]?.content[j]?.type) || types?.includes(element[i]?.type)) {
           fields.push({
-            value: element[i]?.content[j]
-              ? element[i]?.content[j]?.props?.name
-              : element[i]?.props?.name,
-            label: element[i]?.content[j]
-              ? element[i]?.content[j]?.props?.name
-              : element[i]?.props?.name,
+            value: element[i]?.content[j] ? element[i]?.content[j]?.props?.name : element[i]?.props?.name,
+            label: element[i]?.content[j] ? element[i]?.content[j]?.props?.name : element[i]?.props?.name,
           });
         }
       }
@@ -30,7 +23,7 @@ const ButtonProps = ({ onCustomizeElement, currentField }) => {
     return fields;
   };
 
-  const fieldOptions = useMemo(() => getFields(forms), [forms]);
+  const fieldOptions = useMemo(() => getFields(forms[breakPoint]), [forms[breakPoint]]);
 
   return (
     <>

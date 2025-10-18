@@ -119,11 +119,15 @@ const ImageProps = ({ currentField, onCustomizeElement }) => {
                 id="upload-image"
                 accept="image/*"
                 onChange={(e) => uploadImage(e)}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                }}
+                onDrop={(e) => uploadImage(e)}
               />
               <div className="mb-2">
                 <FiUpload size={21} />
               </div>
-              Click or <span className="click-text">Drag Image</span> to upload
+              Click or <span className="click-text">Drag & Drop Image</span> to upload
               (jpg, png and jpeg)
             </div>
             <label htmlFor="upload-image"></label>

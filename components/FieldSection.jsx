@@ -3,10 +3,10 @@ import { fieldsData, generateId } from "../utils/utilFunctions";
 import { FormContext } from "./FormCreate";
 
 const FieldSection = () => {
-  const { forms, setForms, currentElement, containerId } = useContext(FormContext);
+  const { forms, setForms, currentElement, containerId, breakPoint } = useContext(FormContext);
 
   const onClickAddFields = (items) => {
-    const updatedForms = forms.map((el, i) => {
+    const updatedForms = forms[breakPoint].map((el, i) => {
       if (containerId === i && currentElement?.type == "container") {
         return {
           ...el,
@@ -20,13 +20,21 @@ const FieldSection = () => {
     });
 
     if (currentElement?.type === "container") {
-      setForms(updatedForms);
+      // setForms(updatedForms);
+      setForms({
+        ...forms,
+        [breakPoint]: updatedForms,
+      });
     } else {
-      setForms([...forms, { ...items, id: generateId(4) }]);
+      // setForms([...forms, { ...items, id: generateId(4) }]);
+      setForms({
+        ...forms,
+        [breakPoint]: [...forms[breakPoint], { ...items, id: generateId(4) }],
+      });
     }
   };
 
-  const noContentFields = fieldsData.filter(el=> !['stepper', 'slider', 'container', 'card_box'].includes(el?.type));
+  const noContentFields = fieldsData.filter((el) => !["stepper", "slider", "container", "card_box"].includes(el?.type));
   const FilterFieldsData = currentElement?.type === "container" ? noContentFields : fieldsData;
 
   return (
@@ -36,7 +44,7 @@ const FieldSection = () => {
           <div
             key={index}
             className="field-option"
-            onClick={() => onClickAddFields(ele)}            
+            onClick={() => onClickAddFields(ele)}
           >
             {ele?.label_text}
           </div>

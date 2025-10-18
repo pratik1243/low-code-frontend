@@ -12,7 +12,14 @@ import { FormContext } from "../FormCreate";
 const AddImages = () => {
   const dispatch = useDispatch();
   const token = useSelector((user) => user.auth.authDetails.token);
-  const { openImageModel, setOpenImageModel, forms, setForms, currentElement } = useContext(FormContext);
+  const {
+    openImageModel,
+    setOpenImageModel,
+    forms,
+    setForms,
+    currentElement,
+    breakPoint,
+  } = useContext(FormContext);
   const [uploadedImages, setUploadImages] = useState([]);
   const [loader, setLoader] = useState(false);
   const contType = ["container", "card_box"].includes(currentElement?.type);
@@ -71,15 +78,17 @@ const AddImages = () => {
       style: style,
       optionIndex: optionIndex,
     };
-    setForms(
-      nestedStructure(
+    setForms({
+      ...forms,
+      [breakPoint]: nestedStructure(
         customizeFieldObj,
         forms,
         currentElement,
         updateforms,
-        "customizeField"
-      )
-    );
+        "customizeField",
+        breakPoint
+      ),
+    });
   };
 
   const selectCurrentImage = (image) => {
@@ -111,38 +120,36 @@ const AddImages = () => {
         <Modal.Title>Select Images</Modal.Title>
       </Modal.Header>
       <Modal.Body className="p-0">
-        <div className="uploaded-images-sec">
-          {loader ? (
-            <div className="text-center my-5">
-              <Spinner animation="border" variant="primary" />
-              <h5 className="mt-2">Please wait loading icons...</h5>
-            </div>
-          ) : (
-            <>
-              {uploadedImages.length > 0 &&
-                uploadedImages?.map((el, i) => {
-                  return (
-                    <div
-                      key={i}
-                      className="d-flex align-items-center image-select-sec"
-                      onClick={() => {
-                        selectCurrentImage(el);
-                      }}
-                    >
-                      <Image
-                        src={`http://localhost:8000/image/${el._id}`}
-                        height={50}
-                        width={50}
-                        alt={`uploaded-image-${i}`}
-                      />
+        {loader ? (
+          <div className="text-center my-5">
+            <Spinner animation="border" variant="primary" />
+            <h5 className="mt-2">Please wait loading icons...</h5>
+          </div>
+        ) : (
+          <div className="uploaded-images-sec">
+            {uploadedImages.length > 0 &&
+              uploadedImages?.map((el, i) => {
+                return (
+                  <div
+                    key={i}
+                    className="d-flex align-items-center image-select-sec"
+                    onClick={() => {
+                      selectCurrentImage(el);
+                    }}
+                  >
+                    <Image
+                      src={`http://localhost:8000/image/${el._id}`}
+                      height={50}
+                      width={50}
+                      alt={`uploaded-image-${i}`}
+                    />
 
-                      <div className="image-name">{el?.name}</div>
-                    </div>
-                  );
-                })}
-            </>
-          )}
-        </div>
+                    <div className="image-name">{el?.name}</div>
+                  </div>
+                );
+              })}
+          </div>
+        )}
       </Modal.Body>
     </Modal>
   );

@@ -12,6 +12,7 @@ import { setLoader } from "../redux/slices/loaderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { setSnackbarProps } from "../redux/slices/snackbarSlice";
 import AddImages from "./commonComponents/AddImages";
+import Select from "react-select";
 
 export const FormContext = createContext();
 
@@ -19,18 +20,26 @@ const FormCreate = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const params = useParams();
-  const [forms, setForms] = useState([]);
+  const [forms, setForms] = useState({
+    lg: [],
+    md: [],
+    sm: [],
+    xs: [],
+  });
   const [data, setData] = useState();
   const [currentElement, setCurrentElement] = useState();
   const [itemDrag, setItemDrag] = useState(false);
   const [height, setHeight] = useState(false);
   const [containerId, setContainerId] = useState();
+  const [breakPoint, setBreakPoint] = useState("lg");
   const [pagesList, setPagesList] = useState([]);
   const [showCurrentElement, setShowCurrentElement] = useState(false);
   const [openImageModel, setOpenImageModel] = useState(false);
 
   const token = useSelector((user) => user.auth.authDetails.token);
-  const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
+  const requestUserId = useSelector(
+    (user) => user.auth.authDetails.request_user_id
+  );
 
   const savePage = async () => {
     try {
@@ -41,7 +50,7 @@ const FormCreate = () => {
           page_id: pageData?.page_id,
           page_name: pageData?.page_name,
           page_route: pageData?.page_link,
-          page_data: forms,
+          page_data: { lg: forms.lg, md: forms.md, sm: forms.sm, xs: forms.xs },
           request_user_id: requestUserId,
         },
       };
@@ -84,7 +93,12 @@ const FormCreate = () => {
             page_id: data?.page_id,
             page_name: data?.page_name,
             page_route: data?.page_link,
-            page_data: forms,
+            page_data: {
+              lg: forms.lg,
+              md: forms.md,
+              sm: forms.sm,
+              xs: forms.xs,
+            },
             request_user_id: requestUserId,
           },
         },
@@ -123,13 +137,21 @@ const FormCreate = () => {
       dispatch(setLoader(true));
       const requestData = {
         key: "hfgftrj",
-        payload: { page_id: params.id, request_user_id: requestUserId },
+        payload: {
+          page_id: params.id,
+          request_user_id: requestUserId,
+          break_point: breakPoint,
+        },
       };
       const response = await commonPostApiFunction(requestData, token);
       dispatch(setLoader(false));
       if (response.status == 200) {
-        setData(response?.data?.responseData[0]);
-        setForms(response?.data?.responseData[0]?.page_data);
+        const dataArray =  response?.data?.responseData;
+        setData(dataArray);
+        setForms({
+          ...forms,
+          [breakPoint]: dataArray?.page_data?.length > 0 ? dataArray?.page_data : forms.lg,
+        });
       } else {
         alert(response.data.message);
       }
@@ -142,7 +164,7 @@ const FormCreate = () => {
     try {
       dispatch(setLoader(true));
       const requestData = {
-        key: "hfgftrj",
+        key: "kgasderq",
         payload: { request_user_id: requestUserId },
       };
       const response = await commonPostApiFunction(requestData, token);
@@ -152,11 +174,9 @@ const FormCreate = () => {
         let data = response?.data?.responseData;
         for (let index = 0; index < data?.length; index++) {
           page_list.push({
-            page_route: data[index]?.page_route
-              ? `/web-page/${data[index]?.page_route}`
-              : null,
+            page_route: data[index]?.page_route ? `/web-page/${data[index]?.page_route}` : null,
             page_name: data[index]?.page_name,
-            page_data: data[index]?.page_data,
+            page_data: data[index]?.page_data[breakPoint],
             page_item_url: `/page/${data[index]?.page_id}`,
           });
         }
@@ -177,7 +197,7 @@ const FormCreate = () => {
       dispatch(setLoader(false));
     }
     fetchPagesList();
-  }, []);
+  }, [breakPoint]);
 
   return (
     <div className="mx-4 mt-4 element-create-sec">
@@ -194,6 +214,8 @@ const FormCreate = () => {
           containerId,
           setContainerId,
           setCurrentElement,
+          breakPoint,
+          setBreakPoint,
           showCurrentElement,
           openImageModel,
           setOpenImageModel,
@@ -203,12 +225,12 @@ const FormCreate = () => {
         <Row>
           <Col lg={12} md={12} sm={12} xs={12} className="mb-3">
             <Row className="align-items-center">
-              <Col lg={3} md={3} sm={12} xs={12}>
+              <Col lg={2} md={2} sm={12} xs={12}>
                 <h4>{data?.page_name}</h4>
               </Col>
-              <Col lg={7} md={7} sm={12} xs={12}>
+              <Col lg={6} md={6} sm={12} xs={12}>
                 <Row className="align-items-center">
-                  <Col lg={2} md={2} sm={12} xs={12}>
+                  <Col lg={3} md={3} sm={12} xs={12}>
                     <div className="publish-btn-sec">
                       <button onClick={() => router.push("/page-list")}>
                         <IoMdArrowBack /> Go Back
@@ -221,6 +243,29 @@ const FormCreate = () => {
                     </p>
                   </Col>
                 </Row>
+              </Col>
+              <Col lg={2} md={2} sm={12} xs={12}>
+                <Select
+                  isClearable
+                  placeholder={"Select Screen"}
+                  options={[
+                    { label: "Large Screen", value: "lg" },
+                    { label: "Medium Screen", value: "md" },
+                    { label: "Small Screen", value: "sm" },
+                    { label: "Extra Small Screen", value: "xs" },
+                  ]}
+                  onChange={(data) => {
+                    if (data === null) {
+                      setBreakPoint("lg");
+                    } else {
+                      setBreakPoint(data?.value);
+                      setForms({
+                        ...forms,
+                        [data?.value]: forms.lg,
+                      });
+                    }
+                  }}
+                />
               </Col>
               <Col lg={2} md={2} sm={12} xs={12}>
                 <div className="publish-btn-sec">

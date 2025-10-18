@@ -14,7 +14,7 @@ const CountryField = ({
 }) => {
   const isWebPage = path.includes("web-page");
   const boxRef = useRef(null);
-  const { forms, setForms } = useContext(isWebPage ? PageContext : FormContext);
+  const { forms, setForms, breakPoint } = useContext(isWebPage ? PageContext : FormContext);
   const token = useSelector((user) => user.auth.authDetails.token);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
@@ -40,23 +40,23 @@ const CountryField = ({
 
   const setValidations = (value) => {
     setValue(value);
-    setForms(updateNestedForms(forms, ele, value, currentStep));
+    setForms({...forms, [breakPoint]: updateNestedForms(forms, ele, value, currentStep, breakPoint) });
   };
 
   const filterOptions = countriesList.filter((el) =>
     el.label.toLowerCase().includes(value.toLowerCase())
   );
 
-  useEffect(()=>{
+  useEffect(() => {
     getCountries();
-  }, [])
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event) {
       if (boxRef.current && !boxRef.current.contains(event.target)) {
         setOpen(false);
       }
-    }   
+    }
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -81,12 +81,14 @@ const CountryField = ({
                 : ele?.props?.style?.background,
             }),
           }}
+          htmlFor={ele?.id}
         >
           {"Country"}{" "}
           {ele?.props?.required && <span className="required">*</span>}
         </label>
         <input
           type="text"
+          id={ele?.id}
           value={ele?.props?.value || ""}
           className={ele?.name}
           placeholder={ele?.props?.placeholder || "Enter placeholder"}
@@ -98,7 +100,6 @@ const CountryField = ({
             ...(ele?.props?.style &&
               isWebPage &&
               addPixel(ele?.props?.style, ele)),
-            color: "#aaa9a9",
             ...((ele?.props?.standard || ele?.props?.floatLabel) &&
               isWebPage && {
                 backgroundColor: "transparent",
@@ -108,11 +109,21 @@ const CountryField = ({
             setOpen(true);
           }}
         />
+        {ele?.props?.standard && isWebPage && (
+          <div
+            className="standard-line"
+            style={{
+              ...(isWebPage && {
+                backgroundColor: ele?.props?.style?.color,
+              }),
+            }}
+          ></div>
+        )}
 
         {value && (
           <div role="button" className="clear-btn">
             <IoIosClose
-              size={23}
+              size={28}
               onClick={() => {
                 setValidations("");
               }}
@@ -136,20 +147,10 @@ const CountryField = ({
               );
             })
           ) : (
-            <div className="option-sec text-center">no options</div>
+            <div className="option-sec no-option text-center">no options</div>
           )}
         </div>
       </div>
-      {ele?.props?.standard && isWebPage && (
-        <div
-          className="standard-line"
-          style={{
-            ...(isWebPage && {
-              backgroundColor: ele?.props?.style?.color,
-            }),
-          }}
-        ></div>
-      )}
       {ele?.form?.error_message && (
         <span className="error-message mt-1">{ele?.form?.error_message}</span>
       )}

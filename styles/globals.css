@@ -100,6 +100,7 @@ input {
   width: 100%;
   height: fit-content;
   cursor: grab;
+  overflow: hidden;
 }
 
 .main-content-sec .element-column.selected {
@@ -185,7 +186,7 @@ input {
 
 .element-input-field {
   position: relative;
-  z-index: 1;
+  /* z-index: 1; */
   color: #000;
 }
 
@@ -209,7 +210,7 @@ input {
   padding: 0 !important;
 }
 
-.element-input-field.standard-input + .standard-line {
+.element-input-field.standard-input .standard-line {
   content: "";
   display: block;
   height: 1.6px;
@@ -225,7 +226,7 @@ input {
   font-size: 15px;
 }
 
-.element-input-field.standard-input:has(input:focus) + .standard-line {
+.element-input-field.standard-input:has(input:focus) .standard-line {
   width: 100%;
 }
 
@@ -245,7 +246,7 @@ input {
   top: 14px;
   transition: all 0.3s;
   background-color: white;
-  z-index: -1;
+  /* z-index: -1; */
   /* background-color: transparent; */
 }
 
@@ -261,7 +262,7 @@ input {
 
 .element-input-field:not(.standard-input).float-label:has(input:valid) label,
 .element-input-field:not(.standard-input).float-label:has(input:focus) label {
-  top: -9px;
+  top: -8px;
   left: 8px;
   font-size: 12.5px;
   padding: 0px 4px;
@@ -270,7 +271,7 @@ input {
 
 .element-input-field label {
   margin-bottom: 6px;
-  display: block;
+  display: inline-block;
   font-size: 15px;
   /* background-color: transparent; */
 }
@@ -294,10 +295,11 @@ input {
   right: 0;
   left: 0;
   padding: 5px 0px;
-  top: 53px;
+  top: 50px;
   display: none;
   max-height: 200px;
   overflow-y: auto;
+  z-index: 1200;
   /* z-index: 2300; */
 }
 
@@ -310,11 +312,16 @@ input {
   right: 8px !important;
 }
 
+.element-input-field.standard-input .clear-btn {
+  right: -2px !important;
+}
+
 .element-input-field .clear-btn {
   position: absolute;
   right: 3px;
   top: 10px;
-  color: #aaa9a9;
+  color: #706e6e;
+  transform: scale(1.1);
 }
 
 .element-input-field:not(.standard-input).float-label .clear-btn {
@@ -351,6 +358,10 @@ input {
   margin-top: 10px;
   margin-bottom: 20px;
 }
+
+/* .w-65:hover {
+  width: 65px !important;
+} */
 
 .width-tab-sec button {
   width: 100%;
@@ -540,8 +551,13 @@ input {
 
 .main-content-sec .element-column:hover .delete-element-btn,
 .card-sec .element-column:hover .delete-element-btn2 {
-  display: block;
+  width: 86px;
+  transform: translateX(0px);
   box-shadow: -1px 1px 3px #8080804a;
+}
+
+.w-65:hover .delete-element-btn {
+  width: 63px !important;
 }
 
 .delete-element-btn,
@@ -556,11 +572,12 @@ input {
   z-index: 100;
   border-top-right-radius: 4px;
   border-bottom-left-radius: 4px;
-  display: none;
+  /* display: none; */
+  width: 0px;
   cursor: pointer !important;
   transition: all 0.4s;
-  width: 33px;
   overflow: hidden;
+  transform: translateX(20px);
 }
 
 .delete-element-btn .inner-btn-sec,
@@ -584,10 +601,10 @@ input {
   margin-right: 7px;
 }
 
-.delete-element-btn:hover,
+/* .delete-element-btn:hover,
 .delete-element-btn2:hover {
   width: 86px;
-}
+} */
 
 .delete-element-btn:hover .inner-btn-sec::after,
 .delete-element-btn2:hover .inner-btn-sec::after {
@@ -1029,9 +1046,19 @@ hr {
 .password-btn {
   position: absolute;
   right: 15px;
-  top: 8px;
+  top: 9px;
   cursor: pointer;
   font-size: 20px;
+}
+
+.element-input-field.standard-input .password-btn{
+  right: 2px;
+  top: 7px;
+}
+
+.element-input-field:not(.standard-input) .password-btn {
+  top: 39px;
+  right: 13px;
 }
 
 .icons-list {
@@ -1117,6 +1144,10 @@ hr {
   padding: 10px !important;
 }
 
+/* .overflow-hide{
+  overflow: hidden;
+} */
+
 /* .no-scroll {
   overflow-y: unset !important;
   height: 466px !important;
@@ -1160,14 +1191,14 @@ hr {
   top: 13px;
 }
 
-.uploaded-images-sec{
+.uploaded-images-sec {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   padding: 20px;
   grid-column-gap: 20px;
 }
 
-.uploaded-images-sec .image-select-sec{
+.uploaded-images-sec .image-select-sec {
   border: 1px solid var(--grey-color);
   border-radius: 8px;
   padding: 15px;
@@ -1176,19 +1207,19 @@ hr {
   cursor: pointer;
 }
 
-.uploaded-images-sec .image-select-sec .image-name{
+.uploaded-images-sec .image-select-sec .image-name {
   margin-left: 20px;
 }
 
-.upload-image-btn{
+.upload-image-btn {
   background-color: var(--white-color);
   border: 1px dashed #00b2aa;
   padding: 15px;
   border-radius: 5px;
-  position: relative; 
+  position: relative;
 }
 
-.upload-image-btn label{
+.upload-image-btn label {
   position: absolute;
   inset: 0;
   display: grid;
@@ -1196,51 +1227,51 @@ hr {
   cursor: pointer;
 }
 
-.upload-image-btn svg{
+.upload-image-btn svg {
   color: #00b2aa;
 }
 
-.upload-image-btn .click-text{
+.upload-image-btn .click-text {
   color: #00b2aa;
 }
 
-.upload-image-btn input{
+.upload-image-btn input {
   display: none !important;
 }
 
-.uploaded-image{
+.uploaded-image {
   background-color: var(--white-color);
   padding: 15px;
   border-radius: 5px;
   border: 1px solid #00b2aa;
-  display: flex;  
+  display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.uploaded-image svg:nth-child(1){
+.uploaded-image svg:nth-child(1) {
   margin-right: 10px;
   color: #00b2aa;
 }
 
-.background-image-props{
+.background-image-props {
   background-repeat: no-repeat !important;
   background-position: center !important;
   background-size: cover;
 }
 
-.card-main-section{
+.card-main-section {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   grid-gap: 30px;
 }
 
-.field-sec-customize-modal .modal-body{
+.field-sec-customize-modal .modal-body {
   height: 460px !important;
   overflow-y: auto;
 }
 
-.select-image-btn{
+.select-image-btn {
   position: absolute;
   right: 0;
   top: 0;
@@ -1252,14 +1283,23 @@ hr {
   z-index: 1;
 }
 
-.input-style{
+.input-style {
   background-color: transparent !important;
   border: none !important;
 }
 
-.tooltip .tooltip-inner{
+.tooltip[id="align-tooltip"] .tooltip-inner {
   text-align: left !important;
   font-size: 13px !important;
   line-height: 18px !important;
   padding: 10px 11px !important;
+}
+
+.no-option {
+  color: #706e6e;
+  cursor: auto !important;
+}
+
+.no-option:hover {
+  background-color: transparent !important;
 }

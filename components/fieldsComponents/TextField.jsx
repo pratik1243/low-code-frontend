@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { addPixel, updateNestedForms } from "../../utils/utilFunctions";
 import { FormContext } from "../FormCreate";
 import { PageContext } from "../WebPage";
@@ -10,11 +11,11 @@ const TextField = ({
   containerBackground = null,
 }) => {
   const isWebPage = path.includes("web-page");
-
-  const { forms, setForms } = useContext(isWebPage ? PageContext : FormContext);
+  const { forms, setForms, breakPoint } = useContext(isWebPage ? PageContext : FormContext);
+  const [showPassword, setShowPassword] = useState(false);
 
   const setValidations = (e) => {
-    setForms(updateNestedForms(forms, ele, e.target.value, currentStep));
+    setForms({...forms, [breakPoint]: updateNestedForms(forms, ele, e.target.value, currentStep, breakPoint) });
   };
 
   return (
@@ -36,12 +37,20 @@ const TextField = ({
                 : ele?.props?.style?.background,
             }),
           }}
+          htmlFor={ele?.id}
         >
           {ele?.props?.label || "Enter label"}{" "}
           {ele?.props?.required && <span className="required">*</span>}
         </label>
         <input
-          type="text"
+          type={
+            ele?.props?.isPassword
+              ? showPassword
+                ? "text"
+                : "password"
+              : "text"
+          }
+          id={ele?.id}
           value={ele?.props?.value}
           className={ele?.name}
           placeholder={ele?.props?.placeholder || "Enter placeholder"}
@@ -60,17 +69,27 @@ const TextField = ({
               }),
           }}
         />
+        {ele?.props?.standard && isWebPage && (
+          <div
+            className="standard-line"
+            style={{
+              ...(isWebPage && {
+                backgroundColor: ele?.props?.style?.color,
+              }),
+            }}
+          ></div>
+        )}
+        {isWebPage && ele?.props?.isPassword && (
+          <div
+            role="button"
+            className="password-btn"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </div>
+        )}
       </div>
-      {ele?.props?.standard && isWebPage && (
-        <div
-          className="standard-line"
-          style={{
-            ...(isWebPage && {
-              backgroundColor: ele?.props?.style?.color,
-            }),
-          }}
-        ></div>
-      )}
+
       {ele?.form?.error_message && (
         <span className="error-message mt-1">{ele?.form?.error_message}</span>
       )}

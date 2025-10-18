@@ -22,7 +22,7 @@ import SpacingProps from "./SpacingProps";
 import TextProps from "./TextProps";
 
 const PropsRender = ({ open }) => {
-  const { forms, setForms, currentElement, containerId } =
+  const { forms, setForms, currentElement, containerId, breakPoint } =
     useContext(FormContext);
 
   const onCustomizeElement = (
@@ -47,15 +47,17 @@ const PropsRender = ({ open }) => {
       style: style,
       optionIndex: optionIndex,
     };
-    setForms(
-      nestedStructure(
+    setForms({
+      ...forms,
+      [breakPoint]: nestedStructure(
         customizeFieldObj,
         forms,
         currentElement,
         updateforms,
-        "customizeField"
-      )
-    );
+        "customizeField",
+        breakPoint
+      ),
+    });
   };
 
   const addContent = {
@@ -77,8 +79,9 @@ const PropsRender = ({ open }) => {
   };
 
   const renderTooltip = (props) => (
-    <Tooltip id="button-tooltip" {...props}>
-      The {currentElement?.type} width should be less than the column width to maintain proper alignment
+    <Tooltip id="align-tooltip" {...props}>
+      The {currentElement?.type} width should be less than the column width in
+      order to maintain proper alignment
     </Tooltip>
   );
 
@@ -86,15 +89,13 @@ const PropsRender = ({ open }) => {
     const fields = filterCurrent(form);
     const nestedFields = filterCurrent(form?.[containerId]?.content);
     if (form?.[containerId]?.content?.length > 0) {
-      return currentElement?.type == "container"
-        ? form?.[containerId]
-        : nestedFields;
+      return currentElement?.type == "container" ? form?.[containerId] : nestedFields;
     } else {
       return fields;
     }
   };
 
-  const currentField = renderCurrentField(forms);
+  const currentField = renderCurrentField(forms[breakPoint]);
 
   const renderProps = () => {
     if (["input", "select", "country"].includes(currentField?.type)) {

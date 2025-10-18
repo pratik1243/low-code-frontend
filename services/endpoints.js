@@ -1,5 +1,6 @@
 export const endPointsUrl = {
-  hfgftrj: "pages-list",
+  hfgftrj: "page-data",
+  kgasderq: "pages-list",
   bvghtyy: "save-page",
   khftrey: "edit-page",
   mfgtrwo: "upload-image",

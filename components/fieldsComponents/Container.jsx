@@ -19,6 +19,7 @@ const Container = ({ ele, path, index, currentStep = null }) => {
     setCurrentElement,
     currentElement,
     setShowCurrentElement,
+    breakPoint
   } = useContext(isWebPage ? PageContext : FormContext);
 
   const onClickElement = (e, el) => {
@@ -32,7 +33,7 @@ const Container = ({ ele, path, index, currentStep = null }) => {
 
   const deleteNestedItem = (e, id, ind) => {
     e.stopPropagation();
-    const updateData = forms.map((el, i) => {
+    const updateData = forms[breakPoint].map((el, i) => {
       if (ind === i && el?.type === "container") {
         return {
           ...el,
@@ -41,7 +42,8 @@ const Container = ({ ele, path, index, currentStep = null }) => {
       }
       return el;
     });
-    setForms(updateData);
+    // setForms(updateData);
+    setForms({...forms, [breakPoint]: updateData });
     setCurrentElement();
   };
 
@@ -49,14 +51,15 @@ const Container = ({ ele, path, index, currentStep = null }) => {
     e.stopPropagation();
     let dragIndex = e.dataTransfer.getData("element_index1");
     let dragIndex2 = e?.dataTransfer?.getData("element_index");
-    let copiedItems = [...forms];
+    let copiedItems = [...forms[breakPoint]];
     let draggedItem = copiedItems?.[containerIndex]?.content?.[dragIndex];
     if (dragIndex2) {
       return;
     }
     copiedItems?.[containerIndex]?.content?.splice(dragIndex, 1);
     copiedItems?.[containerIndex]?.content?.splice(dropIndex, 0, draggedItem);
-    setForms(copiedItems);
+    // setForms(copiedItems);
+    setForms({...forms, [breakPoint]: copiedItems });
     dragIndex = null;
     dragIndex2 = null;
   };
@@ -112,7 +115,7 @@ const Container = ({ ele, path, index, currentStep = null }) => {
             style={{
               ...(el?.column_width && { width: `${el?.column_width}%` }),
               ...(el?.props?.style && isWebPage && addPixel(el?.props?.style, el)),
-              ...(["button", "input", "select"].includes(el?.type) && {
+              ...(["button", "input", "select", "country"].includes(el?.type) && {
                 backgroundColor: "transparent !important",
               }),
             }}

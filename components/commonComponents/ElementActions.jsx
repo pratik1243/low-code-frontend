@@ -6,7 +6,7 @@ import { copyItems, pasteItems } from "../../utils/utilFunctions";
 import { FormContext } from "../FormCreate";
 
 const ElementActions = ({ data, deleteFunction }) => {
-  const { forms, setForms, currentElement } = useContext(FormContext);
+  const { forms, setForms, currentElement, breakPoint } = useContext(FormContext);
   const [copyText, setCopyText] = useState("Copy");
 
   const renderTooltip = (text, props) => (
@@ -48,7 +48,7 @@ const ElementActions = ({ data, deleteFunction }) => {
       {data.type == "container" ? (
         <div
           role="button"
-          onClick={(e) => pasteItems(e, data, forms, setForms)}
+          onClick={(e) => pasteItems(e, data, forms, setForms, breakPoint)}
         >
           <OverlayTrigger
             placement="top"

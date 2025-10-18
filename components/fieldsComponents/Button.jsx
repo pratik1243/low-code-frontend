@@ -13,7 +13,7 @@ import { addPixel, errorMessageFunc } from "../../utils/utilFunctions";
 const ButtonComp = ({ ele, path }) => {
   const router = useRouter();
   const isWebPage = path.includes("web-page");
-  const { forms, setForms } = useContext(isWebPage ? PageContext : FormContext);
+  const { forms, setForms, breakPoint } = useContext(isWebPage ? PageContext : FormContext);
   const fieldArray = ele?.props?.fields.map((el) => el?.value);
 
   const iconType = {
@@ -28,7 +28,7 @@ const ButtonComp = ({ ele, path }) => {
     let isFieldsInvalid = false;
     const formData = {};
 
-    const validateForms = forms.map((el, i) => {
+    const validateForms = forms[breakPoint].map((el, i) => {
       const nestedForm = el?.content?.map((eles, id) => {
         if (fieldArray.includes(eles?.props?.name)) {
           formData[eles?.props?.name] =
@@ -75,7 +75,8 @@ const ButtonComp = ({ ele, path }) => {
       router.push(ele?.props?.redirectUrl?.page_route);
     }
     if (fieldArray.length > 0) {
-      setForms(validateForms);
+      // setForms(validateForms);
+      setForms({...forms, [breakPoint]: validateForms })
     }
     if (!isFieldsInvalid) {
       console.log("hjjhh0", formData);
@@ -83,7 +84,7 @@ const ButtonComp = ({ ele, path }) => {
   };
   return (
     <Button
-      variant={"primary"}
+      variant={"primary"}      
       style={{
         ...(ele?.props?.style && isWebPage && addPixel(ele?.props?.style, ele)),
       }}
@@ -93,7 +94,7 @@ const ButtonComp = ({ ele, path }) => {
       {ele?.props?.iconPosition == "start" && ele?.props?.iconName && (
         <IconComponent size={20} />
       )}{" "}
-      &nbsp;{ele?.props?.text || "Button"} &nbsp;
+      &nbsp;{ele?.props?.text || "Button"}{ele?.props?.iconPosition == "end" && <>&nbsp;</>}
       {ele?.props?.iconPosition == "end" && ele?.props?.iconName && (
         <IconComponent size={20} />
       )}

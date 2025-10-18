@@ -1,4 +1,5 @@
 import { Readable } from "stream";
+import { useState, useEffect } from "react";
 
 export function generateId(length) {
   let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -29,6 +30,7 @@ export const fieldsData = [
       animation_delay: "",
       floatLabel: false,
       standard: false,
+      isPassword: false,
     },
     form: {
       regex: "",
@@ -598,9 +600,10 @@ export function nestedStructure(
   forms,
   currentElement,
   property,
-  properType
+  properType,
+  breakPoint
 ) {
-  const updateForms = forms?.map((el, i) => {
+  const updateForms = forms[breakPoint]?.map((el, i) => {
     const nestedForm = el?.content?.map((ele, id) => {
       if (ele.id === currentElement?.id) {
         return {
@@ -709,8 +712,14 @@ export function updateforms(e, el, attribute, value, optionIndex, style) {
   };
 }
 
-export function updateNestedForms(forms, ele, value, currentStep = null) {
-  const updateForms = forms.map((el, i) => {
+export function updateNestedForms(
+  forms,
+  ele,
+  value,
+  currentStep = null,
+  breakPoint
+) {
+  const updateForms = forms[breakPoint]?.map((el, i) => {
     const nestedForm = el?.content?.map((eles, id) => {
       if (eles.id === ele.id) {
         return {
@@ -787,13 +796,13 @@ export function debounce(func, delay) {
   };
 }
 
-export function pasteItems(e, ele, forms, setForms) {
+export function pasteItems(e, ele, forms, setForms, breakPoint) {
   e.stopPropagation();
   navigator.clipboard.readText().then((data) => {
     try {
       const json = JSON.parse(data);
       const { id, ...newJsonData } = json;
-      const updateData = forms.map((el, i) => {
+      const updateData = forms[breakPoint].map((el, i) => {
         if (ele?.id === el?.id && el?.type === "container") {
           return {
             ...el,
@@ -808,7 +817,7 @@ export function pasteItems(e, ele, forms, setForms) {
         }
         return el;
       });
-      setForms(updateData);
+      setForms({ ...forms, [breakPoint]: updateData });
     } catch (err) {
       console.error("Not valid JSON:", err);
     }
