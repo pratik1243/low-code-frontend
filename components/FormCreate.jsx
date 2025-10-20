@@ -10,6 +10,7 @@ import FormTemplate from "./FormTemplate";
 import { IoSaveOutline } from "react-icons/io5";
 import { setLoader } from "../redux/slices/loaderSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { responsiveScreenSizes } from "../utils/utilFunctions";
 import { setSnackbarProps } from "../redux/slices/snackbarSlice";
 import AddImages from "./commonComponents/AddImages";
 import Select from "react-select";
@@ -31,15 +32,13 @@ const FormCreate = () => {
   const [itemDrag, setItemDrag] = useState(false);
   const [height, setHeight] = useState(false);
   const [containerId, setContainerId] = useState();
+  const [containerIndex, setContainerIndex] = useState();
   const [breakPoint, setBreakPoint] = useState("lg");
   const [pagesList, setPagesList] = useState([]);
   const [showCurrentElement, setShowCurrentElement] = useState(false);
   const [openImageModel, setOpenImageModel] = useState(false);
-
   const token = useSelector((user) => user.auth.authDetails.token);
-  const requestUserId = useSelector(
-    (user) => user.auth.authDetails.request_user_id
-  );
+  const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
 
   const savePage = async () => {
     try {
@@ -140,17 +139,20 @@ const FormCreate = () => {
         payload: {
           page_id: params.id,
           request_user_id: requestUserId,
-          break_point: breakPoint,
+          break_point: null,
         },
       };
       const response = await commonPostApiFunction(requestData, token);
       dispatch(setLoader(false));
       if (response.status == 200) {
-        const dataArray =  response?.data?.responseData;
+        const dataArray = response?.data?.responseData;
         setData(dataArray);
         setForms({
           ...forms,
-          [breakPoint]: dataArray?.page_data?.length > 0 ? dataArray?.page_data : forms.lg,
+          lg: dataArray?.page_data?.lg,
+          md: dataArray?.page_data?.md?.length > 0 ? dataArray?.page_data?.md : dataArray?.page_data?.lg,
+          sm: dataArray?.page_data?.sm?.length > 0 ? dataArray?.page_data?.sm : dataArray?.page_data?.lg,
+          xs: dataArray?.page_data?.xs?.length > 0 ? dataArray?.page_data?.xs : dataArray?.page_data?.lg,
         });
       } else {
         alert(response.data.message);
@@ -160,7 +162,14 @@ const FormCreate = () => {
     }
   };
 
-  const fetchPagesList = async () => {
+  const onScreenSizeChange = (data) => {
+    let sizeData = data ? data?.value : "lg";
+    setBreakPoint(sizeData);
+    fetchPagesList(sizeData);
+    setCurrentElement();
+  };
+
+  const fetchPagesList = async (size = "lg") => {
     try {
       dispatch(setLoader(true));
       const requestData = {
@@ -174,9 +183,11 @@ const FormCreate = () => {
         let data = response?.data?.responseData;
         for (let index = 0; index < data?.length; index++) {
           page_list.push({
-            page_route: data[index]?.page_route ? `/web-page/${data[index]?.page_route}` : null,
+            page_route: data[index]?.page_route
+              ? `/web-page/${data[index]?.page_route}`
+              : null,
             page_name: data[index]?.page_name,
-            page_data: data[index]?.page_data[breakPoint],
+            page_data: data[index]?.page_data[size],
             page_item_url: `/page/${data[index]?.page_id}`,
           });
         }
@@ -197,7 +208,9 @@ const FormCreate = () => {
       dispatch(setLoader(false));
     }
     fetchPagesList();
-  }, [breakPoint]);
+  }, []);
+
+  console.log('currentElement', containerId, containerIndex);
 
   return (
     <div className="mx-4 mt-4 element-create-sec">
@@ -209,6 +222,8 @@ const FormCreate = () => {
           height,
           setHeight,
           pagesList,
+          containerIndex,
+          setContainerIndex,
           setItemDrag,
           currentElement,
           containerId,
@@ -247,23 +262,10 @@ const FormCreate = () => {
               <Col lg={2} md={2} sm={12} xs={12}>
                 <Select
                   isClearable
-                  placeholder={"Select Screen"}
-                  options={[
-                    { label: "Large Screen", value: "lg" },
-                    { label: "Medium Screen", value: "md" },
-                    { label: "Small Screen", value: "sm" },
-                    { label: "Extra Small Screen", value: "xs" },
-                  ]}
+                  placeholder={"Select Screen Size"}
+                  options={responsiveScreenSizes}
                   onChange={(data) => {
-                    if (data === null) {
-                      setBreakPoint("lg");
-                    } else {
-                      setBreakPoint(data?.value);
-                      setForms({
-                        ...forms,
-                        [data?.value]: forms.lg,
-                      });
-                    }
+                    onScreenSizeChange(data);
                   }}
                 />
               </Col>

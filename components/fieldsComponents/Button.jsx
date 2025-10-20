@@ -75,7 +75,6 @@ const ButtonComp = ({ ele, path }) => {
       router.push(ele?.props?.redirectUrl?.page_route);
     }
     if (fieldArray.length > 0) {
-      // setForms(validateForms);
       setForms({...forms, [breakPoint]: validateForms })
     }
     if (!isFieldsInvalid) {

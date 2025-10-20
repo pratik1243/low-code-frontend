@@ -207,21 +207,21 @@ export const fieldsData = [
       error_message: "",
     },
   },
-  {
-    label_text: "Stepper",
-    type: "stepper",
-    column_width: 100,
-    props: {
-      hidden: false,
-      align: "",
-      width: 100,
-      style: {},
-      stepContent: [],
-      containerType: "",
-      animation: "",
-      animation_delay: "",
-    },
-  },
+  // {
+  //   label_text: "Stepper",
+  //   type: "stepper",
+  //   column_width: 100,
+  //   props: {
+  //     hidden: false,
+  //     align: "",
+  //     width: 100,
+  //     style: {},
+  //     stepContent: [],
+  //     containerType: "",
+  //     animation: "",
+  //     animation_delay: "",
+  //   },
+  // },
   {
     label_text: "Card Box",
     type: "card_box",
@@ -480,6 +480,13 @@ export const containerClasses = {
   "Border Card": "border-card",
   "Border Shadow Card": "border-shadow-card",
 };
+
+export const responsiveScreenSizes = [
+  { label: "Large Screen", value: "lg" },
+  { label: "Medium Screen", value: "md" },
+  { label: "Small Screen", value: "sm" },
+  { label: "Extra Small Screen", value: "xs" },
+];
 
 export function errorMessageFunc(el, value) {
   let field_name =
@@ -802,7 +809,7 @@ export function pasteItems(e, ele, forms, setForms, breakPoint) {
     try {
       const json = JSON.parse(data);
       const { id, ...newJsonData } = json;
-      const updateData = forms[breakPoint].map((el, i) => {
+      const updateData = forms.map((el, i) => {
         if (ele?.id === el?.id && el?.type === "container") {
           return {
             ...el,
@@ -819,7 +826,7 @@ export function pasteItems(e, ele, forms, setForms, breakPoint) {
       });
       setForms({ ...forms, [breakPoint]: updateData });
     } catch (err) {
-      console.error("Not valid JSON:", err);
+      setForms({ ...forms, [breakPoint]: [] });
     }
   });
 }

@@ -109,6 +109,7 @@ input {
 }
 
 .main-content-sec .element-column.selected-card {
+  border-width: 1.6px !important;
   border-color: rgb(247 165 83) !important;
 }
 
@@ -295,7 +296,7 @@ input {
   right: 0;
   left: 0;
   padding: 5px 0px;
-  top: 50px;
+  top: 52px;
   display: none;
   max-height: 200px;
   overflow-y: auto;
@@ -551,13 +552,13 @@ input {
 
 .main-content-sec .element-column:hover .delete-element-btn,
 .card-sec .element-column:hover .delete-element-btn2 {
-  width: 86px;
+  width: 114px;
   transform: translateX(0px);
   box-shadow: -1px 1px 3px #8080804a;
 }
 
 .w-65:hover .delete-element-btn {
-  width: 63px !important;
+  width: 87px !important;
 }
 
 .delete-element-btn,
@@ -582,7 +583,7 @@ input {
 
 .delete-element-btn .inner-btn-sec,
 .delete-element-btn2 .inner-btn-sec {
-  width: 78px;
+  width: 106px;
   position: relative;
 }
 
@@ -1051,7 +1052,7 @@ hr {
   font-size: 20px;
 }
 
-.element-input-field.standard-input .password-btn{
+.element-input-field.standard-input .password-btn {
   right: 2px;
   top: 7px;
 }
@@ -1302,4 +1303,20 @@ hr {
 
 .no-option:hover {
   background-color: transparent !important;
+}
+
+.select-container-sec {
+  position: absolute;
+  margin-left: 2px;
+  display: inline-block;
+}
+
+.select-container-sec input {
+  transform: scale(1.3);
+  margin-right: 9px;
+  cursor: pointer;
+}
+
+.select-container-sec label {
+  cursor: pointer;
 }

@@ -65,7 +65,6 @@ const AddContent = ({
       }
       return el;
     });
-    // setForms(updateForms);
     setForms({ ...forms, [breakPoint]: updateForms });
   };
 
@@ -126,7 +125,6 @@ const AddContent = ({
       }
       return el;
     });
-    // setForms(updateForms);
     setForms({ ...forms, [breakPoint]: updateForms });
   };
 

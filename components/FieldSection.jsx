@@ -7,7 +7,7 @@ const FieldSection = () => {
 
   const onClickAddFields = (items) => {
     const updatedForms = forms[breakPoint].map((el, i) => {
-      if (containerId === i && currentElement?.type == "container") {
+      if (containerId == i && currentElement?.type == "container") {
         return {
           ...el,
           content: [
@@ -19,17 +19,15 @@ const FieldSection = () => {
       return el;
     });
 
-    if (currentElement?.type === "container") {
-      // setForms(updatedForms);
-      setForms({
-        ...forms,
-        [breakPoint]: updatedForms,
-      });
-    } else {
-      // setForms([...forms, { ...items, id: generateId(4) }]);
+    if (containerId == null) {
       setForms({
         ...forms,
         [breakPoint]: [...forms[breakPoint], { ...items, id: generateId(4) }],
+      });
+    } else {
+      setForms({
+        ...forms,
+        [breakPoint]: updatedForms,
       });
     }
   };

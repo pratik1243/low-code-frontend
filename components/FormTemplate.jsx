@@ -10,6 +10,7 @@ const FormTemplate = () => {
     forms,
     setForms,
     currentElement,
+    containerId,
     setCurrentElement,
     setShowCurrentElement,
     setContainerId,
@@ -31,7 +32,6 @@ const FormTemplate = () => {
     }
     copiedItems.splice(dragIndex, 1);
     copiedItems.splice(dropIndex, 0, draggedItem);
-    // setForms(copiedItems);
     setForms({ ...forms, [breakPoint]: copiedItems });
     conatinerIndex = null;
     dragIndex = null;
@@ -44,19 +44,13 @@ const FormTemplate = () => {
   const deleteItem = (e, id) => {
     e.stopPropagation();
     const formData = forms[breakPoint].filter((el) => el.id !== id);
-    // setForms(formData);
     setForms({ ...forms, [breakPoint]: formData });
     setCurrentElement();
   };
 
-  const onClickElement = (ele, index) => {
-    if (ele.type == "container") {
-      setContainerId(index);
-    } else {
-      setContainerId();
-    }
-    setCurrentElement(ele);
-    setShowCurrentElement(true);
+  const onClickElement = (e, ele, index) => {
+    setContainerId(e.target.checked ? index : null);
+    setCurrentElement(e.target.checked ? ele : null);
   };
 
   const onDragOver = (e) => {
@@ -78,12 +72,9 @@ const FormTemplate = () => {
               key={index}
               draggable
               className={`position-relative element-column column_${ele?.id} ${
-                currentElement?.id === ele?.id
-                  ? `selected ${
-                      currentElement.type == "container" ? "selected-card" : ""
-                    }`
-                  : ""
-              } ${ele?.props?.hidden ? "hidden" : ""} ${
+                containerId === index ? "selected-card" : ""
+              }                  
+               ${ele?.props?.hidden ? "hidden" : ""} ${
                 ["stepper", "slider", "card_box"].includes(ele?.type)
                   ? "w-65"
                   : ""
@@ -91,13 +82,25 @@ const FormTemplate = () => {
               style={{
                 ...(ele?.column_width && { width: `${ele?.column_width}%` }),
               }}
-              onClick={() => onClickElement(ele, index)}
               onDragOver={(e) => onDragOver(e)}
               onDragStart={(e) => onDragStart(e, index)}
               onDrop={(e) => onDropItem(e, index)}
             >
+              {ele.type == "container" && (
+                <div className="d-flex align-items-center select-container-sec">
+                  <input
+                    type="checkbox"
+                    checked={containerId === index ? true : false}
+                    id={`select-container-${index}`}
+                    onChange={(e) => {
+                      onClickElement(e, ele, index);
+                    }}
+                  />{" "}
+                  <label htmlFor={`select-container-${index}`}>Select Container</label>
+                </div>
+              )}
               {!pathname.includes("web-page") && ele?.type == "container" && (
-                <div className="d-flex justify-content-center w-100 drag-indicator mb-1">
+                <div className="d-flex justify-content-center w-100 drag-indicator mb-3">
                   <MdOutlineDragIndicator />
                 </div>
               )}

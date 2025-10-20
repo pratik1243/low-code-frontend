@@ -5,7 +5,7 @@ import { FormContext } from "../FormCreate";
 import Select from "react-select";
 
 const ButtonProps = ({ onCustomizeElement, currentField }) => {
-  const { forms, pagesList, breakPoint } = useContext(FormContext);
+  const { forms, pagesList, breakPoint, showCurrentElement } = useContext(FormContext);
 
   const getFields = (element) => {
     let fields = [];
@@ -23,7 +23,7 @@ const ButtonProps = ({ onCustomizeElement, currentField }) => {
     return fields;
   };
 
-  const fieldOptions = useMemo(() => getFields(forms[breakPoint]), [forms[breakPoint]]);
+  const fieldOptions = useMemo(() => getFields(forms[breakPoint]), [showCurrentElement]);
 
   return (
     <>

@@ -1,12 +1,21 @@
 import React, { useContext, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { MdDeleteOutline, MdContentCopy, MdContentPaste } from "react-icons/md";
+import { IoSettingsOutline } from "react-icons/io5";
+import { TbSettings } from "react-icons/tb";
 import { HiOutlineDocumentDuplicate } from "react-icons/hi";
 import { copyItems, pasteItems } from "../../utils/utilFunctions";
 import { FormContext } from "../FormCreate";
 
-const ElementActions = ({ data, deleteFunction }) => {
-  const { forms, setForms, currentElement, breakPoint } = useContext(FormContext);
+const ElementActions = ({ data, deleteFunction, containerIndex = null }) => {
+  const {
+    forms,
+    setForms,
+    setCurrentElement,
+    setContainerIndex,
+    breakPoint,
+    setShowCurrentElement,
+  } = useContext(FormContext);
   const [copyText, setCopyText] = useState("Copy");
 
   const renderTooltip = (text, props) => (
@@ -26,6 +35,46 @@ const ElementActions = ({ data, deleteFunction }) => {
 
   return (
     <div className="d-flex align-items-center inner-btn-sec">
+      <div
+        role="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          setCurrentElement(data);
+          setContainerIndex(containerIndex);
+          setShowCurrentElement(true);
+        }}
+      >
+        <OverlayTrigger
+          placement="top"
+          overlay={(props) => renderTooltip("Customize", props)}
+        >
+          <TbSettings size={21} />
+        </OverlayTrigger>
+      </div>
+      {data.type == "container" ? (
+        <div
+          role="button"
+          onClick={(e) => {
+            pasteItems(e, data, forms[breakPoint], setForms, breakPoint);
+          }}
+        >
+          <OverlayTrigger
+            placement="top"
+            overlay={(props) => renderTooltip("Paste", props)}
+          >
+            <MdContentPaste size={18} />
+          </OverlayTrigger>
+        </div>
+      ) : (
+        <div role="button">
+          <OverlayTrigger
+            placement="top"
+            overlay={(props) => renderTooltip("Duplicate", props)}
+          >
+            <HiOutlineDocumentDuplicate size={19} />
+          </OverlayTrigger>
+        </div>
+      )}
       <div role="button" onClick={deleteFunction}>
         <OverlayTrigger
           placement="top"
@@ -43,30 +92,7 @@ const ElementActions = ({ data, deleteFunction }) => {
             <MdContentCopy size={18} />
           </OverlayTrigger>
         </div>
-      )}
-
-      {data.type == "container" ? (
-        <div
-          role="button"
-          onClick={(e) => pasteItems(e, data, forms, setForms, breakPoint)}
-        >
-          <OverlayTrigger
-            placement="top"
-            overlay={(props) => renderTooltip("Paste", props)}
-          >
-            <MdContentPaste size={19} />
-          </OverlayTrigger>
-        </div>
-      ) : (
-        <div role="button">
-          <OverlayTrigger
-            placement="top"
-            overlay={(props) => renderTooltip("Duplicate", props)}
-          >
-            <HiOutlineDocumentDuplicate size={19} />
-          </OverlayTrigger>
-        </div>
-      )}
+      )}     
     </div>
   );
 };

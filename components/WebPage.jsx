@@ -23,11 +23,9 @@ const WebPage = () => {
   const [currentElement, setCurrentElement] = useState();
   const [breakPoint, setBreakPoint] = useState("lg");
   const token = useSelector((user) => user.auth.authDetails.token);
-  const requestUserId = useSelector(
-    (user) => user.auth.authDetails.request_user_id
-  );
+  const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
 
-  const fetchPage = async () => {
+  const fetchPage = async (size = "lg") => {
     try {
       dispatch(setLoader(true));
       const requestData = {
@@ -36,7 +34,7 @@ const WebPage = () => {
           payload: {
             page_route: params.id,
             request_user_id: requestUserId,
-            break_point: breakPoint,
+            break_point: size,
           },
         }),
       };
@@ -45,13 +43,13 @@ const WebPage = () => {
       if (response.status == 200 && params.id) {
         setForms({
           ...forms,
-          [breakPoint]: response?.data?.responseData?.page_data,
+          [size]: response?.data?.responseData?.page_data,
         });
       } else {
-        setForms({ ...forms, [breakPoint]: [] });
+        setForms({ ...forms, [size]: [] });
       }
     } catch (error) {
-      setForms({ ...forms, [breakPoint]: [] });
+      setForms({ ...forms, [size]: [] });
       setPagesList([]);
     }
   };
@@ -76,12 +74,11 @@ const WebPage = () => {
       }
     };
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
-    fetchPage();
+    fetchPage(breakPoint);
   }, [breakPoint]);
 
   return (

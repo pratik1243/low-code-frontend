@@ -77,7 +77,6 @@ const Stepper = ({ ele, path }) => {
       }
       return el;
     });
-    // setForms(validateForms);
     setForms({...forms, [breakPoint]: validateForms })
 
     if (checkErrorMessages(ele?.props?.stepContent[currentStep]?.content)) {

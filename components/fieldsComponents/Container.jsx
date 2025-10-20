@@ -19,17 +19,17 @@ const Container = ({ ele, path, index, currentStep = null }) => {
     setCurrentElement,
     currentElement,
     setShowCurrentElement,
-    breakPoint
+    breakPoint,
   } = useContext(isWebPage ? PageContext : FormContext);
 
-  const onClickElement = (e, el) => {
-    e.stopPropagation();
-    setCurrentElement(el);
-    if (!isWebPage) {
-      setContainerId(index);
-      setShowCurrentElement(true);
-    }
-  };
+  // const onClickElement = () => {
+  //   e.stopPropagation();
+  //   setCurrentElement(el);
+  //   if (!isWebPage) {
+  //     setContainerId(index);
+  //     //setShowCurrentElement(true);
+  //   }
+  // };
 
   const deleteNestedItem = (e, id, ind) => {
     e.stopPropagation();
@@ -42,8 +42,7 @@ const Container = ({ ele, path, index, currentStep = null }) => {
       }
       return el;
     });
-    // setForms(updateData);
-    setForms({...forms, [breakPoint]: updateData });
+    setForms({ ...forms, [breakPoint]: updateData });
     setCurrentElement();
   };
 
@@ -58,8 +57,7 @@ const Container = ({ ele, path, index, currentStep = null }) => {
     }
     copiedItems?.[containerIndex]?.content?.splice(dragIndex, 1);
     copiedItems?.[containerIndex]?.content?.splice(dropIndex, 0, draggedItem);
-    // setForms(copiedItems);
-    setForms({...forms, [breakPoint]: copiedItems });
+    setForms({ ...forms, [breakPoint]: copiedItems });
     dragIndex = null;
     dragIndex2 = null;
   };
@@ -86,13 +84,13 @@ const Container = ({ ele, path, index, currentStep = null }) => {
       } ${ele?.props?.style?.backgroundImage ? "background-image-props" : ""}`}
       style={{
         ...(isWebPage && {
-          backgroundColor: ele?.props?.containerBackground
+          backgroundColor: ele?.props?.containerBackground,
         }),
       }}
     >
       {ele?.content?.length == 0 && (
         <h5 className="no-data">Select container to add elements here</h5>
-      )}
+      )}     
       {ele?.content?.map((el, i) => {
         return (
           <div
@@ -100,7 +98,7 @@ const Container = ({ ele, path, index, currentStep = null }) => {
             draggable={!isWebPage}
             className={`position-relative element-column column_${el?.id} ${
               (isWebPage && alignment[el?.props?.align?.value]) || ""
-            } ${currentElement?.id === el?.id ? "selected" : ""} ${
+            } ${
               el?.props?.hidden && isWebPage
                 ? "hide"
                 : el?.props?.hidden
@@ -119,7 +117,6 @@ const Container = ({ ele, path, index, currentStep = null }) => {
                 backgroundColor: "transparent !important",
               }),
             }}
-            onClick={(e) => onClickElement(e, el)}
             onDragOver={(e) => onDragOver(e)}
             onDragStart={(e) => onDragStart(e, i, index)}
             onDrop={(e) => onDropItem(e, i, index)}
@@ -137,6 +134,7 @@ const Container = ({ ele, path, index, currentStep = null }) => {
                 <div className="delete-element-btn2">
                   <ElementActions
                     data={el}
+                    containerIndex={index}
                     deleteFunction={(e) => deleteNestedItem(e, el.id, index)}
                   />
                 </div>

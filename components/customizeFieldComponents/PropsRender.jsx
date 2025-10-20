@@ -20,9 +20,10 @@ import InputProps from "./InputProps";
 import SliderProps from "./SliderProps";
 import SpacingProps from "./SpacingProps";
 import TextProps from "./TextProps";
+import { useMemo } from "react";
 
 const PropsRender = ({ open }) => {
-  const { forms, setForms, currentElement, containerId, breakPoint } =
+  const { forms, setForms, currentElement, breakPoint, containerIndex } =
     useContext(FormContext);
 
   const onCustomizeElement = (
@@ -87,15 +88,15 @@ const PropsRender = ({ open }) => {
 
   const renderCurrentField = (form) => {
     const fields = filterCurrent(form);
-    const nestedFields = filterCurrent(form?.[containerId]?.content);
-    if (form?.[containerId]?.content?.length > 0) {
-      return currentElement?.type == "container" ? form?.[containerId] : nestedFields;
+    const nestedFields = filterCurrent(form?.[containerIndex]?.content);
+    if (form?.[containerIndex]?.content?.length > 0) {
+      return currentElement?.type == "container" ? form?.[containerIndex] : nestedFields;
     } else {
       return fields;
     }
   };
 
-  const currentField = renderCurrentField(forms[breakPoint]);
+  const currentField = useMemo(() => renderCurrentField(forms[breakPoint]), [forms[breakPoint]]);
 
   const renderProps = () => {
     if (["input", "select", "country"].includes(currentField?.type)) {
@@ -242,7 +243,7 @@ const PropsRender = ({ open }) => {
             <div className="mb-3">
               <Row>
                 {!["input", "select", "country"].includes(
-                  currentField.type
+                  currentField?.type
                 ) && (
                   <Col lg={6} md={6} sm={12} xs={12}>
                     <Row>
@@ -285,7 +286,7 @@ const PropsRender = ({ open }) => {
                     </Row>
                   </Col>
                 )}
-                {currentField.type == "container" && (
+                {currentField?.type == "container" && (
                   <Col lg={6} md={6} sm={12} xs={12}>
                     <div className="customize-prop-sec">
                       <Row>
@@ -332,7 +333,7 @@ const PropsRender = ({ open }) => {
                   </Col>
                 )}
 
-                {currentField.type == "slider" && (
+                {currentField?.type == "slider" && (
                   <Col lg={6} md={6} sm={12} xs={12}>
                     <Row>
                       <Col lg={9} md={9}>
