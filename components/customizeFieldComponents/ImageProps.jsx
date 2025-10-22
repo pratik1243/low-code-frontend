@@ -127,8 +127,8 @@ const ImageProps = ({ currentField, onCustomizeElement }) => {
               <div className="mb-2">
                 <FiUpload size={21} />
               </div>
-              Click or <span className="click-text">Drag & Drop Image</span> to upload
-              (jpg, png and jpeg)
+              Click or <span className="click-text">Drag & Drop Image</span> to
+              upload (jpg, png and jpeg)
             </div>
             <label htmlFor="upload-image"></label>
           </div>
@@ -148,6 +148,22 @@ const ImageProps = ({ currentField, onCustomizeElement }) => {
                   onCustomizeElement(e, "align", "select", forms);
                 }}
               />
+            </div>
+          </Col>
+
+          <Col lg={6} md={6} sm={12} xs={12}>
+            <div className="d-flex">
+              <input
+                type="checkbox"
+                id="checkbox-fullwidth"
+                checked={currentField?.props?.fullWidth || ""}
+                onChange={(e) => {
+                  onCustomizeElement(e, "fullWidth", "checkbox", forms);
+                }}
+              />
+              <label htmlFor="checkbox-fullwidth" className="mb-0">
+                Full Width
+              </label>
             </div>
           </Col>
 

@@ -57,7 +57,7 @@ const CreateDB = () => {
         <Modal.Body>
           <div className="page-create-sec">
             <div>
-              <label>Database Name</label>
+              <label>Database Name <span className="color-red">*</span></label>
               <input
                 type="text"
                 name="database_name"

@@ -48,7 +48,9 @@ const FormCreate = () => {
         payload: {
           page_id: pageData?.page_id,
           page_name: pageData?.page_name,
-          page_route: pageData?.page_link,
+          page_route: pageData?.base_page_link
+            ? `${pageData?.base_page_link}/${pageData?.page_link}`
+            : pageData?.page_link,
           page_data: { lg: forms.lg, md: forms.md, sm: forms.sm, xs: forms.xs },
           request_user_id: requestUserId,
         },
@@ -91,7 +93,9 @@ const FormCreate = () => {
           datas: {
             page_id: data?.page_id,
             page_name: data?.page_name,
-            page_route: data?.page_link,
+            page_route: data?.base_page_link
+              ? `${data?.base_page_link}/${data?.page_link}`
+              : data?.page_link,
             page_data: {
               lg: forms.lg,
               md: forms.md,
@@ -150,9 +154,18 @@ const FormCreate = () => {
         setForms({
           ...forms,
           lg: dataArray?.page_data?.lg,
-          md: dataArray?.page_data?.md?.length > 0 ? dataArray?.page_data?.md : dataArray?.page_data?.lg,
-          sm: dataArray?.page_data?.sm?.length > 0 ? dataArray?.page_data?.sm : dataArray?.page_data?.lg,
-          xs: dataArray?.page_data?.xs?.length > 0 ? dataArray?.page_data?.xs : dataArray?.page_data?.lg,
+          md:
+            dataArray?.page_data?.md?.length > 0
+              ? dataArray?.page_data?.md
+              : dataArray?.page_data?.lg,
+          sm:
+            dataArray?.page_data?.sm?.length > 0
+              ? dataArray?.page_data?.sm
+              : dataArray?.page_data?.lg,
+          xs:
+            dataArray?.page_data?.xs?.length > 0
+              ? dataArray?.page_data?.xs
+              : dataArray?.page_data?.lg,
         });
       } else {
         alert(response.data.message);
@@ -210,7 +223,7 @@ const FormCreate = () => {
     fetchPagesList();
   }, []);
 
-  console.log('currentElement', containerId, containerIndex);
+  console.log("currentElement", containerId, containerIndex);
 
   return (
     <div className="mx-4 mt-4 element-create-sec">
@@ -295,7 +308,6 @@ const FormCreate = () => {
           </Col>
         </Row>
         <FieldCustomizeSection />
-        {openImageModel && <AddImages />}
       </FormContext>
     </div>
   );

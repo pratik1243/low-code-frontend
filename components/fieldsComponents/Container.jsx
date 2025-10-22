@@ -90,7 +90,7 @@ const Container = ({ ele, path, index, currentStep = null }) => {
     >
       {ele?.content?.length == 0 && (
         <h5 className="no-data">Select container to add elements here</h5>
-      )}     
+      )}
       {ele?.content?.map((el, i) => {
         return (
           <div
@@ -106,14 +106,19 @@ const Container = ({ ele, path, index, currentStep = null }) => {
                 : ""
             } ${
               (isWebPage && el?.type == "heading") ||
-              (isWebPage && el?.type == "paragraph")
+              (isWebPage && el?.type == "paragraph") ||
+              (isWebPage && el?.type == "icon")
                 ? textAlign[el?.props?.align?.value] || ""
                 : ""
             } ${isWebPage ? "d-flex" : ""}`}
             style={{
               ...(el?.column_width && { width: `${el?.column_width}%` }),
-              ...(el?.props?.style && isWebPage && addPixel(el?.props?.style, el)),
-              ...(["button", "input", "select", "country"].includes(el?.type) && {
+              ...(el?.props?.style &&
+                isWebPage &&
+                addPixel(el?.props?.style, el)),
+              ...(["button", "input", "select", "country"].includes(
+                el?.type
+              ) && {
                 backgroundColor: "transparent !important",
               }),
             }}

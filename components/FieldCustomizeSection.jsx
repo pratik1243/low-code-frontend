@@ -1,35 +1,56 @@
 "use client";
 import React, { useContext, useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal, Offcanvas } from "react-bootstrap";
 import { FormContext } from "./FormCreate";
 import PropsRender from "./customizeFieldComponents/PropsRender";
+import AddImages from "./commonComponents/AddImages";
 
 const FieldCustomizeSection = () => {
-  const { currentElement, showCurrentElement, setShowCurrentElement } = useContext(FormContext);
+  const {
+    currentElement,
+    showCurrentElement,
+    setShowCurrentElement,
+    openImageModel,
+    setOpenImageModel,
+  } = useContext(FormContext);
+
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
 
+  const handleClose = () => {
+    setShow(false);
+    setShow1(false);
+    setOpenImageModel(false);
+    setShowCurrentElement(false);
+  };
+
   return (
-    <Modal
+    <Offcanvas
       show={showCurrentElement}
-      className={"field-sec-customize-modal"}
-      fullscreen={["select", "card_box", "slider"].includes(currentElement?.type) ? false : show}
-      size={show1 ? "xl" : "lg"}
-      onHide={() => {
-        setShow(false);
-        setShow1(false);
-        setShowCurrentElement(false);
-      }}
+      onHide={handleClose}
+      className="field-sec-customize-panel"
     >
-      <Modal.Header closeButton>
-        <Modal.Title>Customize Element</Modal.Title>
-      </Modal.Header>
-      <Modal.Body className="p-0">
-        {currentElement && (
+      <Offcanvas.Header closeButton>
+        <Offcanvas.Title>
+          {currentElement
+            ? `${
+                show1
+                  ? "Add Icons"
+                  : openImageModel
+                  ? "Add Images"
+                  : "Customize Element"
+              }`
+            : ""}
+        </Offcanvas.Title>
+      </Offcanvas.Header>
+      <Offcanvas.Body className="p-0">
+        {openImageModel ? (
+          <AddImages />
+        ) : currentElement ? (
           <PropsRender open={{ show, show1, setShow, setShow1 }} />
-        )}
-      </Modal.Body>
-    </Modal>
+        ) : null}
+      </Offcanvas.Body>
+    </Offcanvas>
   );
 };
 

@@ -5,7 +5,7 @@ const nextConfig = {
     optimizeCss: true,
   },
   images: {
-    domains: ["localhost"],
+    domains: ["localhost"],    
   },
 };
 

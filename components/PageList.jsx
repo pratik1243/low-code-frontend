@@ -20,12 +20,11 @@ const PageList = () => {
   const [formData, setFormData] = useState({
     page_name: "",
     page_link: "",
+    base_page_link: ""
   });
 
   const token = useSelector((user) => user.auth.authDetails.token);
-  const requestUserId = useSelector(
-    (user) => user.auth.authDetails?.request_user_id
-  );
+  const requestUserId = useSelector((user) => user.auth.authDetails?.request_user_id);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -153,7 +152,7 @@ const PageList = () => {
         <Modal.Body>
           <div className="page-create-sec">
             <div>
-              <label>Page Name</label>
+              <label>Page Name <span className="text-danger">*</span></label>
               <input
                 type="text"
                 name="page_name"
@@ -161,9 +160,17 @@ const PageList = () => {
                 onChange={(e) => formChange(e)}
               />
             </div>
-
             <div className="mt-4">
-              <label>Page Route</label>
+              <label>Base Page Route <span className="text-danger">*</span></label>
+              <input
+                type="text"
+                name="base_page_link"
+                placeholder="Enter base route"
+                onChange={(e) => formChange(e)}
+              />
+            </div>
+            <div className="mt-4">
+              <label>Page Route <span className="text-danger">*</span></label>
               <input
                 type="text"
                 name="page_link"

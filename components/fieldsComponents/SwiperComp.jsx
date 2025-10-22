@@ -35,6 +35,7 @@ const SwiperComp = ({ ele, path }) => {
           slidesPerView={ele?.props?.slidesPerView?.value || 1}
           navigation={ele?.props?.navigation}
           loop={ele?.props?.loop}
+          className={`${!ele?.props?.paginationInside ? 'paginationInside' : ''}`}
           pagination={{ clickable: true }}
           {...(ele?.props?.delay?.value && {
             autoplay: { delay: ele?.props?.delay?.value },

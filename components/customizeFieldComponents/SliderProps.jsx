@@ -42,6 +42,19 @@ const SliderProps = ({ onCustomizeElement, currentField }) => {
               <label htmlFor="checkbox-navigation">Navigation</label>
             </div>
           </Col>
+          <Col lg={4} md={4} sm={12} xs={12}>
+            <div className={`d-flex`}>
+              <input
+                type="checkbox"
+                id="checkbox-pag-inside"
+                checked={currentField?.props?.paginationInside || ""}
+                onChange={(e) => {
+                  onCustomizeElement(e, "paginationInside", "checkbox", forms);
+                }}
+              />
+              <label htmlFor="checkbox-pag-inside">Indicator inside slider</label>
+            </div>
+          </Col>
         </Row>
       </div>
 

@@ -11,7 +11,7 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-text-fill-color: #aaa9a9 !important;
+  -webkit-text-fill-color: #000 !important;
   transition: background-color 5000s ease-in-out 0s !important;
   box-shadow: 0 0 0px 1000px transparent inset !important;
   -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
@@ -505,6 +505,7 @@ input {
   margin-bottom: 6px;
   display: block;
   text-transform: capitalize;
+  font-size: 14px;
 }
 
 .page-create-sec input {
@@ -826,7 +827,7 @@ hr {
   padding-top: 10px !important;
 }
 
-.swiper-pagination {
+.paginationInside .swiper-pagination {
   position: relative !important;
   margin-top: 15px;
 }
@@ -1065,10 +1066,10 @@ hr {
 .icons-list {
   display: grid;
   gap: 20px;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   padding: 20px;
-  height: 365px;
-  overflow-y: auto;
+  /* height: 84%;
+  overflow-y: auto; */
 }
 
 .no-grid {
@@ -1106,7 +1107,10 @@ hr {
   padding: 23px;
   background-color: var(--white-color);
   border-bottom: 1px solid var(--grey-color);
-  top: 69px;
+  position: sticky;
+  left: 0;
+  right: 0;
+  top: 0;
 }
 
 .icon-search-input input {
@@ -1194,7 +1198,7 @@ hr {
 
 .uploaded-images-sec {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   padding: 20px;
   grid-column-gap: 20px;
 }
@@ -1267,10 +1271,10 @@ hr {
   grid-gap: 30px;
 }
 
-.field-sec-customize-modal .modal-body {
+/* .field-sec-customize-modal .modal-body {
   height: 460px !important;
   overflow-y: auto;
-}
+} */
 
 .select-image-btn {
   position: absolute;
@@ -1319,4 +1323,29 @@ hr {
 
 .select-container-sec label {
   cursor: pointer;
+}
+
+.field-sec-customize-panel {
+  width: 800px !important;
+}
+
+.field-sec-customize-panel .offcanvas-header {
+  border-bottom: 1px solid var(--grey-color) !important;
+}
+
+.no-color {
+  color: unset !important;
+}
+
+/* .full-image img {
+  width: 100% !important;
+} */
+
+.web-div .swiper .column-sec {
+  width: 100%;
+}
+
+.web-div .swiper,
+.web-div .swiper .swiper-wrapper {
+  padding: 0px !important;
 }

@@ -3,7 +3,8 @@ import Image from "next/image";
 import React, { useContext } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Modal, Spinner } from "react-bootstrap";
+import { Button, Modal, Spinner } from "react-bootstrap";
+import { IoMdArrowBack } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { setSnackbarProps } from "../../redux/slices/snackbarSlice";
 import { nestedStructure, updateforms } from "../../utils/utilFunctions";
@@ -12,14 +13,7 @@ import { FormContext } from "../FormCreate";
 const AddImages = () => {
   const dispatch = useDispatch();
   const token = useSelector((user) => user.auth.authDetails.token);
-  const {
-    openImageModel,
-    setOpenImageModel,
-    forms,
-    setForms,
-    currentElement,
-    breakPoint,
-  } = useContext(FormContext);
+  const { setOpenImageModel, forms, setForms, currentElement, breakPoint } = useContext(FormContext);
   const [uploadedImages, setUploadImages] = useState([]);
   const [loader, setLoader] = useState(false);
   const contType = ["container", "card_box"].includes(currentElement?.type);
@@ -109,49 +103,50 @@ const AddImages = () => {
   }, []);
 
   return (
-    <Modal
-      show={openImageModel}
-      fullscreen
-      onHide={() => {
-        setOpenImageModel(false);
-      }}
-    >
-      <Modal.Header closeButton>
-        <Modal.Title>Select Images</Modal.Title>
-      </Modal.Header>
-      <Modal.Body className="p-0">
-        {loader ? (
-          <div className="text-center my-5">
-            <Spinner animation="border" variant="primary" />
-            <h5 className="mt-2">Please wait loading icons...</h5>
+    <div>
+      {loader ? (
+        <div className="text-center my-5">
+          <Spinner animation="border" variant="primary" />
+          <h5 className="mt-2">Please wait loading icons...</h5>
+        </div>
+      ) : (
+        <div className="uploaded-images-sec">
+          <div className="mb-4">
+            <Button
+              variant={"primary"}
+              className="go-back-btn"
+              onClick={() => {
+                setOpenImageModel(false);
+                setUploadImages([]);
+              }}
+            >
+              <IoMdArrowBack size={18} /> &nbsp;&nbsp;Go Back
+            </Button>
           </div>
-        ) : (
-          <div className="uploaded-images-sec">
-            {uploadedImages.length > 0 &&
-              uploadedImages?.map((el, i) => {
-                return (
-                  <div
-                    key={i}
-                    className="d-flex align-items-center image-select-sec"
-                    onClick={() => {
-                      selectCurrentImage(el);
-                    }}
-                  >
-                    <Image
-                      src={`http://localhost:8000/image/${el._id}`}
-                      height={50}
-                      width={50}
-                      alt={`uploaded-image-${i}`}
-                    />
+          {uploadedImages.length > 0 &&
+            uploadedImages?.map((el, i) => {
+              return (
+                <div
+                  key={i}
+                  className="d-flex align-items-center image-select-sec"
+                  onClick={() => {
+                    selectCurrentImage(el);
+                  }}
+                >
+                  <Image
+                    src={`http://localhost:8000/image/${el._id}`}
+                    height={50}
+                    width={50}
+                    alt={`uploaded-image-${i}`}
+                  />
 
-                    <div className="image-name">{el?.name}</div>
-                  </div>
-                );
-              })}
-          </div>
-        )}
-      </Modal.Body>
-    </Modal>
+                  <div className="image-name">{el?.name}</div>
+                </div>
+              );
+            })}
+        </div>
+      )}
+    </div>
   );
 };
 

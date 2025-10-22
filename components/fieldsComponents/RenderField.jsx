@@ -102,6 +102,7 @@ const RenderField = ({
 
   return (
     <div
+      className={`column-sec`}
       {...(ele?.props?.animation?.value &&
         path.includes("web-page") && {
           "data-aos": ele?.props?.animation?.value,

@@ -71,7 +71,7 @@ const ElementActions = ({ data, deleteFunction, containerIndex = null }) => {
             placement="top"
             overlay={(props) => renderTooltip("Duplicate", props)}
           >
-            <HiOutlineDocumentDuplicate size={19} />
+            <HiOutlineDocumentDuplicate size={19.5} />
           </OverlayTrigger>
         </div>
       )}

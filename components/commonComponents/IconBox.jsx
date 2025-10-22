@@ -60,7 +60,7 @@ const IconBox = ({ onCustomizeElement, goBack }) => {
     <>
       <div className="icon-search-input">
         <Row>
-          <Col lg={2} md={2}>
+          <Col lg={3} md={3}>
             <Button
               variant={"primary"}
               className="go-back-btn"
@@ -72,7 +72,7 @@ const IconBox = ({ onCustomizeElement, goBack }) => {
               <IoMdArrowBack size={18} /> &nbsp;&nbsp;Go Back
             </Button>
           </Col>
-          <Col lg={10} md={10}>
+          <Col lg={9} md={9}>
             <div className="position-relative">
               <input
                 type="text"
@@ -93,7 +93,7 @@ const IconBox = ({ onCustomizeElement, goBack }) => {
 
       <div className={`icons-list ${loader ? "no-grid" : ""}`}>
         {loader ? (
-          <div className="text-center my-5">
+          <div className="text-center mt-5">
             <Spinner animation="border" variant="primary" />
             <h5 className="mt-2">Please wait loading icons...</h5>
           </div>

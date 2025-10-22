@@ -30,9 +30,9 @@ const WebPage = () => {
       dispatch(setLoader(true));
       const requestData = {
         key: "hfgftrj",
-        ...(params.id && {
+        ...(params?.slug?.join('/') && {
           payload: {
-            page_route: params.id,
+            page_route: params?.slug?.join('/'),
             request_user_id: requestUserId,
             break_point: size,
           },
@@ -40,7 +40,7 @@ const WebPage = () => {
       };
       const response = await commonPostApiFunction(requestData, token);
       dispatch(setLoader(false));
-      if (response.status == 200 && params.id) {
+      if (response.status == 200) {
         setForms({
           ...forms,
           [size]: response?.data?.responseData?.page_data,
@@ -109,14 +109,14 @@ const WebPage = () => {
                         ? "input-style"
                         : ""
                     } ${
-                      ele?.type == "heading" || ele?.type == "paragraph"
+                      ele?.type == "heading" || ele?.type == "paragraph" || ele?.type == "icon"
                         ? textAlign[ele?.props?.align?.value] || ""
                         : ""
                     } ${
                       !["select", "country"].includes(ele?.type)
                         ? "overflow-hide"
                         : ""
-                    }`}
+                    } ${ele?.type === "slider" ? "no-color" : ""}`}
                     style={{
                       ...(ele?.column_width && {
                         width: `${ele?.column_width}%`,
