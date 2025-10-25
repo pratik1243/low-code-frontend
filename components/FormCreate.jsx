@@ -152,7 +152,9 @@ const FormCreate = () => {
         let data = response?.data?.responseData;
         for (let index = 0; index < data?.length; index++) {
           page_list.push({
-            page_route: data[index]?.page_route ? `/web-page/${data[index]?.page_route}` : null,
+            page_route: data[index]?.page_route
+              ? `/web-page/${data[index]?.page_route}`
+              : null,
             page_name: data[index]?.page_name,
             page_data: data[index]?.page_data[size],
             page_item_url: `/page/${data[index]?.page_id}`,
@@ -206,30 +208,33 @@ const FormCreate = () => {
         <Row>
           <Col lg={12} md={12} sm={12} xs={12} className="mb-3">
             <Row className="align-items-center">
-              <Col lg={2} md={2} sm={12} xs={12}>
+              <Col lg={5} md={5} sm={12} xs={12}>
                 <h4>{data?.page_name}</h4>
               </Col>
-              <Col lg={4} md={4} sm={12} xs={12}>
+              <Col lg={1} md={1} sm={12} xs={12}>
                 <div className="publish-btn-sec">
-                  <button onClick={() => router.push("/page-list")}>
-                    <IoMdArrowBack /> Go Back
+                  <button
+                    onClick={() => {
+                      localStorage.setItem("page-data", null);
+                      router.push("/page-list");
+                    }}
+                  >
+                    <IoMdArrowBack /> Back
                   </button>
                 </div>
               </Col>
-              <Col lg={2} md={2} sm={12} xs={12}>
-                <Select
-                  isClearable
-                  placeholder={"Select Screen Size"}
-                  options={responsiveScreenSizes}
-                  onChange={(data) => {
-                    onScreenSizeChange(data);
-                  }}
-                />
-              </Col>
-              <Col lg={2} md={2} sm={12} xs={12}>
-                <div className="publish-btn-sec">
+              <Col lg={4} md={4} sm={12} xs={12}>
+                <div className="publish-btn-sec d-flex align-items-center">
+                  <Select
+                    isClearable
+                    placeholder={"Select Screen Size"}
+                    options={responsiveScreenSizes}
+                    onChange={(data) => {
+                      onScreenSizeChange(data);
+                    }}
+                  />
                   <button
-                    style={{ float: "right" }}
+                    className="font-select-btn"
                     onClick={() => {
                       setFontModal(true);
                     }}

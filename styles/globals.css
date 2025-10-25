@@ -80,8 +80,7 @@ input {
 
 .main-content-sec {
   padding: 14px;
-  /* padding-top: 47px !important; */
-  /* padding-bottom: 0px; */
+  padding-top: 16px !important;
   display: flex;
   flex-wrap: wrap;
 }
@@ -1419,15 +1418,45 @@ hr {
 .data-prop-sec {
   position: sticky;
   right: 0px;
-  top: 0;
+  top: 0px;
+  left: 0px;
   background: white;
-  padding: 5px 7px;
-  border-bottom: 1px solid var(--grey-color);
-  border-left: 1px solid var(--grey-color);
-  border-right: 1px solid var(--grey-color);
+  padding: 7px 12px;
+  box-shadow: -1px 0px 2.5px #8080804a;
   justify-content: space-between;
-  border-bottom-left-radius: 6px;
-  width: 82px;
   margin-left: auto;
-  z-index: 1000;
+  z-index: 110;
+  border-bottom: 1px solid var(--grey-color);
+}
+
+.data-prop-sec p {
+  font-size: 14.5px;
+}
+
+.data-prop-sec div[role="button"] {
+  margin-left: 5px;
+}
+
+.font-select-btn {
+  margin-left: 20px !important;
+  width: 40%;
+  text-overflow: ellipsis;
+  display: inline-block !important;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.publish-btn-sec .css-b62m3t-container {
+  width: 60%;
+}
+
+.image-full-width-check input {
+  outline: none;
+  margin-right: 10px;
+  transform: scale(1.5);
+}
+
+.image-full-width-check {
+  margin-top: 54px;
+  margin-left: 9px;
 }

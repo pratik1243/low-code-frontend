@@ -152,7 +152,7 @@ const ImageProps = ({ currentField, onCustomizeElement }) => {
           </Col>
 
           <Col lg={6} md={6} sm={12} xs={12}>
-            <div className="d-flex">
+            <div className="d-flex align-items-center image-full-width-check">
               <input
                 type="checkbox"
                 id="checkbox-fullwidth"

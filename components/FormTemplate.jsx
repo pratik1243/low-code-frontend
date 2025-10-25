@@ -25,6 +25,7 @@ const FormTemplate = () => {
   } = useContext(FormContext);
 
   const pathname = usePathname();
+  const [copyText, setCopyText] = useState("Copy");
 
   const renderTooltip = (text, props) => (
     <Tooltip id="button-tooltip" {...props}>
@@ -70,36 +71,74 @@ const FormTemplate = () => {
     e.preventDefault();
   };
 
+  const copyFunction = (e) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(JSON.stringify(forms[breakPoint]));
+    copyItems();
+  };
+
+  const pasteItems = (e) => {
+    e.stopPropagation();
+    navigator.clipboard.readText().then((data) => {
+      try {
+        const jsonData = JSON.parse(data);
+        setForms({
+          ...forms,
+          [breakPoint]: [...forms[breakPoint], ...jsonData],
+        });
+      } catch (err) {
+        setForms({ ...forms, [breakPoint]: [] });
+      }
+    });
+  };
+
+  const copyItems = () => {
+    setCopyText("Copied");
+    let timer = setTimeout(() => {
+      setCopyText("Copy");
+      clearInterval(timer);
+    }, 1000);
+  };
+
+  const deleteAllFunc = () => {
+    setForms({ ...forms, [breakPoint]: [] });
+  };
+
   return (
     <div className={`main-div scrollable position-relative`}>
-      <div className="d-flex align-items-center data-prop-sec">
-        <div role="button">
-          <OverlayTrigger
-            placement="top"
-            overlay={(props) => renderTooltip("Paste", props)}
-          >
-            <MdContentPaste size={18} />
-          </OverlayTrigger>
+      <div className="d-flex align-items-center justify-content-between data-prop-sec">
+        <div>
+          <p>Adjust columns to fit items in rows</p>
         </div>
-        <div role="button">
-          <OverlayTrigger
-            placement="top"
-            overlay={(props) => renderTooltip("Delete", props)}
-          >
-            <MdDeleteOutline size={21} />
-          </OverlayTrigger>
-        </div>
-        <div role="button">
-          <OverlayTrigger
-            placement="top"
-            overlay={(props) => renderTooltip("Copy", props)}
-          >
-            <MdContentCopy size={18} />
-          </OverlayTrigger>
+        <div className="d-flex align-items-center">
+          <div role="button" onClick={pasteItems}>
+            <OverlayTrigger
+              placement="top"
+              overlay={(props) => renderTooltip("Paste", props)}
+            >
+              <MdContentPaste size={18} />
+            </OverlayTrigger>
+          </div>
+          <div role="button" onClick={deleteAllFunc}>
+            <OverlayTrigger
+              placement="top"
+              overlay={(props) => renderTooltip("Clear All", props)}
+            >
+              <MdDeleteOutline size={21} />
+            </OverlayTrigger>
+          </div>
+          <div role="button" onClick={copyFunction}>
+            <OverlayTrigger
+              placement="top"
+              overlay={(props) => renderTooltip(copyText, props)}
+            >
+              <MdContentCopy size={18} />
+            </OverlayTrigger>
+          </div>
         </div>
       </div>
       {forms[breakPoint] && forms[breakPoint]?.length == 0 && (
-        <h4 className="text-center w-100 p-3 mb-0">
+        <h4 className="text-center w-100 p-3 mb-3 mt-5">
           Click on elements to add...
         </h4>
       )}
@@ -138,7 +177,7 @@ const FormTemplate = () => {
                       }}
                     />{" "}
                     <label htmlFor={`select-container-${index}`}>
-                      Select Container
+                      Select Container {index + 1}
                     </label>
                   </div>
                 )}

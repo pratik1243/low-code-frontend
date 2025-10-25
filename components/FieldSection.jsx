@@ -3,7 +3,7 @@ import { fieldsData, generateId } from "../utils/utilFunctions";
 import { FormContext } from "./FormCreate";
 
 const FieldSection = () => {
-  const { forms, setForms, currentElement, containerId, breakPoint } =  useContext(FormContext);
+  const { forms, setForms, currentElement, containerId, breakPoint } = useContext(FormContext);
 
   const onClickAddFields = (items) => {
     const updatedForms = forms[breakPoint].map((el, i) => {
@@ -23,7 +23,13 @@ const FieldSection = () => {
       ...forms,
       [breakPoint]:
         containerId == undefined
-          ? [...forms[breakPoint], { ...items, id: generateId(4) }]
+          ? [
+              ...forms[breakPoint],
+              {
+                ...items,
+                id: generateId(4),
+              },
+            ]
           : updatedForms,
     });
   };

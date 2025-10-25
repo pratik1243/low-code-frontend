@@ -11,8 +11,8 @@ const ElementActions = ({ data, deleteFunction, containerIndex = null }) => {
   const {
     forms,
     setForms,
-    setContainerIndex,
     breakPoint,
+    setContainerIndex,
     setCurrentElement,
     setShowCurrentElement,
   } = useContext(FormContext);
@@ -36,9 +36,25 @@ const ElementActions = ({ data, deleteFunction, containerIndex = null }) => {
 
   const onDuplicateFields = () => {
     const { id, ...dataObj } = data;
+
+    const updatedForms = forms[breakPoint].map((el, i) => {
+      if (containerIndex == i) {
+        return {
+          ...el,
+          content: [
+            ...el?.content,
+            { ...dataObj, id: generateId(4), isContainer: true },
+          ],
+        };
+      }
+      return el;
+    });
+
     setForms({
       ...forms,
-      [breakPoint]: [...forms[breakPoint], { ...dataObj, id: generateId(4) }],
+      [breakPoint]: containerIndex == undefined
+        ? [...forms[breakPoint], { ...dataObj, id: generateId(4) }]
+        : updatedForms,
     });
   };
 

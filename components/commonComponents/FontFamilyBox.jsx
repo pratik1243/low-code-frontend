@@ -13,6 +13,7 @@ const FontFamilyBox = ({ setFontModal }) => {
   const token = useSelector((user) => user.auth.authDetails.token);
   const [loader, setLoader] = useState(false);
   const [fonts, setFonts] = useState([]);
+  const [fontValue, setFonValue] = useState("");
 
   const fetchFonts = async (e) => {
     setLoader(true);
@@ -35,6 +36,7 @@ const FontFamilyBox = ({ setFontModal }) => {
 
   const clearValue = () => {
     setFonts([]);
+    setFonValue("");
   };
 
   const debouncedHandler = debounce(fetchFonts, 500);
@@ -47,6 +49,10 @@ const FontFamilyBox = ({ setFontModal }) => {
             <div className="position-relative">
               <input
                 type="text"
+                value={fontValue}
+                onInput={(e) => {
+                  setFonValue(e.target.value);
+                }}
                 onChange={debouncedHandler}
                 placeholder="Search fonts here..."
               />
@@ -72,11 +78,15 @@ const FontFamilyBox = ({ setFontModal }) => {
           fonts.length > 0 &&
           fonts.map((ele, i) => {
             return (
-              <div key={i} className="font-sec" onClick={() =>{
-                setSelectedFont(ele);
-                setFontModal(false);
-              }} >
-                {ele?.split('-').join(' ')}
+              <div
+                key={i}
+                className="font-sec"
+                onClick={() => {
+                  setSelectedFont(ele);
+                  setFontModal(false);
+                }}
+              >
+                {ele?.split("-").join(" ")}
               </div>
             );
           })
