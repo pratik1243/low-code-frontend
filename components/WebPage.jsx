@@ -1,7 +1,7 @@
 "use client";
 import Aos from "aos";
 import React, { createContext, useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { commonPostApiFunction } from "../services/commonApiFunc";
 import RenderField from "./fieldsComponents/RenderField";
 import { addPixel, alignment, textAlign } from "../utils/utilFunctions";
@@ -13,6 +13,7 @@ export const PageContext = createContext();
 
 const WebPage = () => {
   const params = useParams();
+  const path = usePathname();
   const dispatch = useDispatch();
   const [forms, setForms] = useState({
     lg: [],
@@ -20,10 +21,11 @@ const WebPage = () => {
     sm: [],
     xs: [],
   });
-  const [currentElement, setCurrentElement] = useState();
+  const [currentElement, setCurrentElement] = useState();  
+  const [selectedFont, setSelectedFont] = useState("Roboto");
   const [breakPoint, setBreakPoint] = useState("lg");
   const token = useSelector((user) => user.auth.authDetails.token);
-  const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
+  //const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
 
   const fetchPage = async (size = "lg") => {
     try {
@@ -33,7 +35,7 @@ const WebPage = () => {
         ...(params?.slug?.join('/') && {
           payload: {
             page_route: params?.slug?.join('/'),
-            request_user_id: requestUserId,
+            // request_user_id: requestUserId,
             break_point: size,
           },
         }),
@@ -41,23 +43,25 @@ const WebPage = () => {
       const response = await commonPostApiFunction(requestData, token);
       dispatch(setLoader(false));
       if (response.status == 200) {
+        setSelectedFont(response?.data?.responseData?.font_family);
         setForms({
           ...forms,
           [size]: response?.data?.responseData?.page_data,
         });
       } else {
+        //setSelectedFont("Roboto");
         setForms({ ...forms, [size]: [] });
       }
     } catch (error) {
+      //setSelectedFont("Roboto");
       setForms({ ...forms, [size]: [] });
-      setPagesList([]);
     }
   };
 
   useEffect(() => {
     Aos.init({
       duration: 1000,
-      once: true,
+      // once: true,
     });
   }, []);
 
@@ -79,7 +83,19 @@ const WebPage = () => {
 
   useEffect(() => {
     fetchPage(breakPoint);
-  }, [breakPoint]);
+  }, [breakPoint, path?.toString()]);
+
+  
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.href = `https://fonts.googleapis.com/css2?family=${selectedFont?.replace(/ /g, "+")}:wght@400&display=swap`;
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, [selectedFont]);
+
 
   return (
     <div>
@@ -93,7 +109,7 @@ const WebPage = () => {
         }}
       >
         <LayoutComp>
-          <div className="d-flex web-div">
+          <div className="d-flex web-div" style={{ fontFamily: selectedFont }}>
             {forms[breakPoint]?.length > 0 &&
               forms[breakPoint]?.map((ele, index) => {
                 if (ele?.props?.hidden) {
@@ -121,8 +137,7 @@ const WebPage = () => {
                       ...(ele?.column_width && {
                         width: `${ele?.column_width}%`,
                       }),
-                      ...(ele?.props?.style &&
-                        addPixel(ele?.props?.style, ele)),
+                      ...(ele?.props?.style && addPixel(ele?.props?.style, ele)),
                       ...(ele?.props?.imageData && {
                         backgroundImage: ele?.props?.imageData?.url,
                       }),

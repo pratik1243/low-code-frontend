@@ -24,8 +24,8 @@ const ImageComp = ({ ele, path, index }) => {
           ) : (
             <Image
               src={`http://localhost:8000/image/${ele?.props?.imageData?.url}`}
-              height={path.includes("web-page") ? ele?.props?.height : 200}
-              width={path.includes("web-page") ? ele?.props?.width : 200}
+              height={path.includes("web-page") ? ele?.props?.height : 100}
+              width={path.includes("web-page") ? ele?.props?.width : 100}
               alt={`image-${index}`}
               quality={90}
             />

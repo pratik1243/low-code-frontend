@@ -1,9 +1,10 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
-import React, { createContext, useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import React, { createContext, useEffect, useMemo, useState } from "react";
+import { Button, Col, Modal, Row } from "react-bootstrap";
 import { commonPostApiFunction } from "../services/commonApiFunc";
 import FieldCustomizeSection from "./FieldCustomizeSection";
+import FontFamilyBox from "./commonComponents/FontFamilyBox";
 import { IoMdArrowBack } from "react-icons/io";
 import FieldSection from "./FieldSection";
 import FormTemplate from "./FormTemplate";
@@ -12,7 +13,6 @@ import { setLoader } from "../redux/slices/loaderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { responsiveScreenSizes } from "../utils/utilFunctions";
 import { setSnackbarProps } from "../redux/slices/snackbarSlice";
-import AddImages from "./commonComponents/AddImages";
 import Select from "react-select";
 
 export const FormContext = createContext();
@@ -30,29 +30,47 @@ const FormCreate = () => {
   const [data, setData] = useState();
   const [currentElement, setCurrentElement] = useState();
   const [itemDrag, setItemDrag] = useState(false);
+  const [selectedFont, setSelectedFont] = useState();
   const [height, setHeight] = useState(false);
   const [containerId, setContainerId] = useState();
   const [containerIndex, setContainerIndex] = useState();
   const [breakPoint, setBreakPoint] = useState("lg");
   const [pagesList, setPagesList] = useState([]);
+  const [fontModal, setFontModal] = useState(false);
   const [showCurrentElement, setShowCurrentElement] = useState(false);
   const [openImageModel, setOpenImageModel] = useState(false);
   const token = useSelector((user) => user.auth.authDetails.token);
-  const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
+  const requestUserId = useSelector(
+    (user) => user.auth.authDetails.request_user_id
+  );
 
-  const savePage = async () => {
+  function dataPayload(data) {
+    return {
+      page_id: data?.page_id,
+      page_name: data?.page_name,
+      request_user_id: requestUserId,
+      page_data: {
+        font_family: selectedFont,
+        lg: forms.lg,
+        md: forms.md,
+        sm: forms.sm,
+        xs: forms.xs,
+      },
+      page_route: data?.base_page_link
+        ? `${data?.base_page_link}/${data?.page_link}`
+        : data?.page_link,
+    };
+  }
+
+  const savePage = async (isEdit) => {
     try {
       const pageData = JSON.parse(localStorage.getItem("page-data"));
       const requestData = {
-        key: "bvghtyy",
+        key: isEdit ? "khftrey" : "bvghtyy",
         payload: {
-          page_id: pageData?.page_id,
-          page_name: pageData?.page_name,
-          page_route: pageData?.base_page_link
-            ? `${pageData?.base_page_link}/${pageData?.page_link}`
-            : pageData?.page_link,
-          page_data: { lg: forms.lg, md: forms.md, sm: forms.sm, xs: forms.xs },
-          request_user_id: requestUserId,
+          ...(isEdit
+            ? { id: data._id, datas: { ...dataPayload(data) } }
+            : { ...dataPayload(pageData) }),
         },
       };
       const response = await commonPostApiFunction(requestData, token);
@@ -84,57 +102,6 @@ const FormCreate = () => {
     }
   };
 
-  const editPage = async () => {
-    try {
-      const requestData = {
-        key: "khftrey",
-        payload: {
-          id: data._id,
-          datas: {
-            page_id: data?.page_id,
-            page_name: data?.page_name,
-            page_route: data?.base_page_link
-              ? `${data?.base_page_link}/${data?.page_link}`
-              : data?.page_link,
-            page_data: {
-              lg: forms.lg,
-              md: forms.md,
-              sm: forms.sm,
-              xs: forms.xs,
-            },
-            request_user_id: requestUserId,
-          },
-        },
-      };
-      const response = await commonPostApiFunction(requestData, token);
-      if (response.status == 200) {
-        dispatch(
-          setSnackbarProps({
-            variant: "Success",
-            message: response?.data?.message,
-            open: true,
-          })
-        );
-      } else {
-        dispatch(
-          setSnackbarProps({
-            variant: "Danger",
-            message: response?.data?.message,
-            open: true,
-          })
-        );
-      }
-    } catch (error) {
-      dispatch(
-        setSnackbarProps({
-          variant: "Danger",
-          message: response?.data?.message,
-          open: true,
-        })
-      );
-    }
-  };
-
   const fetchPage = async () => {
     try {
       dispatch(setLoader(true));
@@ -151,21 +118,10 @@ const FormCreate = () => {
       if (response.status == 200) {
         const dataArray = response?.data?.responseData;
         setData(dataArray);
+        setSelectedFont(response?.data?.responseData?.page_data?.font_family);
         setForms({
           ...forms,
           lg: dataArray?.page_data?.lg,
-          md:
-            dataArray?.page_data?.md?.length > 0
-              ? dataArray?.page_data?.md
-              : dataArray?.page_data?.lg,
-          sm:
-            dataArray?.page_data?.sm?.length > 0
-              ? dataArray?.page_data?.sm
-              : dataArray?.page_data?.lg,
-          xs:
-            dataArray?.page_data?.xs?.length > 0
-              ? dataArray?.page_data?.xs
-              : dataArray?.page_data?.lg,
         });
       } else {
         alert(response.data.message);
@@ -196,9 +152,7 @@ const FormCreate = () => {
         let data = response?.data?.responseData;
         for (let index = 0; index < data?.length; index++) {
           page_list.push({
-            page_route: data[index]?.page_route
-              ? `/web-page/${data[index]?.page_route}`
-              : null,
+            page_route: data[index]?.page_route ? `/web-page/${data[index]?.page_route}` : null,
             page_name: data[index]?.page_name,
             page_data: data[index]?.page_data[size],
             page_item_url: `/page/${data[index]?.page_id}`,
@@ -223,8 +177,6 @@ const FormCreate = () => {
     fetchPagesList();
   }, []);
 
-  console.log("currentElement", containerId, containerIndex);
-
   return (
     <div className="mx-4 mt-4 element-create-sec">
       <FormContext
@@ -240,6 +192,7 @@ const FormCreate = () => {
           setItemDrag,
           currentElement,
           containerId,
+          setSelectedFont,
           setContainerId,
           setCurrentElement,
           breakPoint,
@@ -256,21 +209,12 @@ const FormCreate = () => {
               <Col lg={2} md={2} sm={12} xs={12}>
                 <h4>{data?.page_name}</h4>
               </Col>
-              <Col lg={6} md={6} sm={12} xs={12}>
-                <Row className="align-items-center">
-                  <Col lg={3} md={3} sm={12} xs={12}>
-                    <div className="publish-btn-sec">
-                      <button onClick={() => router.push("/page-list")}>
-                        <IoMdArrowBack /> Go Back
-                      </button>
-                    </div>
-                  </Col>
-                  <Col lg={6} md={6} sm={12} xs={12}>
-                    <p className="mb-0 text-right">
-                      Abjust columns width to fit elements in row
-                    </p>
-                  </Col>
-                </Row>
+              <Col lg={4} md={4} sm={12} xs={12}>
+                <div className="publish-btn-sec">
+                  <button onClick={() => router.push("/page-list")}>
+                    <IoMdArrowBack /> Go Back
+                  </button>
+                </div>
               </Col>
               <Col lg={2} md={2} sm={12} xs={12}>
                 <Select
@@ -285,12 +229,21 @@ const FormCreate = () => {
               <Col lg={2} md={2} sm={12} xs={12}>
                 <div className="publish-btn-sec">
                   <button
+                    style={{ float: "right" }}
                     onClick={() => {
-                      if (params.id !== "create") {
-                        editPage();
-                      } else {
-                        savePage();
-                      }
+                      setFontModal(true);
+                    }}
+                  >
+                    {selectedFont?.split("-").join(" ") || "Select Font"}
+                  </button>
+                </div>
+              </Col>
+              <Col lg={2} md={2} sm={12} xs={12}>
+                <div className="publish-btn-sec">
+                  <button
+                    className="w-100"
+                    onClick={() => {
+                      savePage(params.id !== "create");
                     }}
                   >
                     <IoSaveOutline /> Publish Changes
@@ -308,6 +261,22 @@ const FormCreate = () => {
           </Col>
         </Row>
         <FieldCustomizeSection />
+
+        <Modal
+          size={"lg"}
+          show={fontModal}
+          className="font-box"
+          onHide={() => {
+            setFontModal(false);
+          }}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Add Font Family</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <FontFamilyBox setFontModal={setFontModal} />
+          </Modal.Body>
+        </Modal>
       </FormContext>
     </div>
   );

@@ -3,11 +3,11 @@ import { fieldsData, generateId } from "../utils/utilFunctions";
 import { FormContext } from "./FormCreate";
 
 const FieldSection = () => {
-  const { forms, setForms, currentElement, containerId, breakPoint } = useContext(FormContext);
+  const { forms, setForms, currentElement, containerId, breakPoint } =  useContext(FormContext);
 
   const onClickAddFields = (items) => {
     const updatedForms = forms[breakPoint].map((el, i) => {
-      if (containerId == i && currentElement?.type == "container") {
+      if (containerId == i) {
         return {
           ...el,
           content: [
@@ -19,21 +19,20 @@ const FieldSection = () => {
       return el;
     });
 
-    if (containerId == null) {
-      setForms({
-        ...forms,
-        [breakPoint]: [...forms[breakPoint], { ...items, id: generateId(4) }],
-      });
-    } else {
-      setForms({
-        ...forms,
-        [breakPoint]: updatedForms,
-      });
-    }
+    setForms({
+      ...forms,
+      [breakPoint]:
+        containerId == undefined
+          ? [...forms[breakPoint], { ...items, id: generateId(4) }]
+          : updatedForms,
+    });
   };
 
-  const noContentFields = fieldsData.filter((el) => !["stepper", "slider", "container", "card_box"].includes(el?.type));
-  const FilterFieldsData = currentElement?.type === "container" ? noContentFields : fieldsData;
+  const noContentFields = fieldsData.filter(
+    (el) => !["stepper", "slider", "container", "card_box"].includes(el?.type)
+  );
+  const FilterFieldsData =
+    currentElement?.type === "container" ? noContentFields : fieldsData;
 
   return (
     <div className="field-option-sec">

@@ -8,5 +8,6 @@ export const endPointsUrl = {
   cgdretl: "login",
   arqewtv: "register",
   aeqwxfrt: "get-icons",
-  nfraterm: "get-images"
+  nfraterm: "get-images",
+  qsdervbg: "get-fonts"
 };

@@ -1,5 +1,4 @@
 import { Readable } from "stream";
-import { useState, useEffect } from "react";
 
 export function generateId(length) {
   let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -581,7 +580,7 @@ export const RegisterSchema = {
 export function addPixel(styles, el) {
   let obj = {};
   for (const key in styles) {
-    if (key.includes("padding")) {
+    if (key.includes("padding") || key.includes("fontSize")) {
       obj[key] = `${styles[key]}px`;
     } else {
       obj[key] = styles[key]?.value ? styles[key]?.value : styles[key];

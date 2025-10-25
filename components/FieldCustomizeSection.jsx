@@ -8,6 +8,7 @@ import AddImages from "./commonComponents/AddImages";
 const FieldCustomizeSection = () => {
   const {
     currentElement,
+    setCurrentElement,
     showCurrentElement,
     setShowCurrentElement,
     openImageModel,
@@ -20,6 +21,7 @@ const FieldCustomizeSection = () => {
   const handleClose = () => {
     setShow(false);
     setShow1(false);
+    setCurrentElement();
     setOpenImageModel(false);
     setShowCurrentElement(false);
   };

@@ -11,11 +11,22 @@ const TextField = ({
   containerBackground = null,
 }) => {
   const isWebPage = path.includes("web-page");
-  const { forms, setForms, breakPoint } = useContext(isWebPage ? PageContext : FormContext);
+  const { forms, setForms, breakPoint } = useContext(
+    isWebPage ? PageContext : FormContext
+  );
   const [showPassword, setShowPassword] = useState(false);
 
   const setValidations = (e) => {
-    setForms({...forms, [breakPoint]: updateNestedForms(forms, ele, e.target.value, currentStep, breakPoint) });
+    setForms({
+      ...forms,
+      [breakPoint]: updateNestedForms(
+        forms,
+        ele,
+        e.target.value,
+        currentStep,
+        breakPoint
+      ),
+    });
   };
 
   return (
@@ -52,7 +63,7 @@ const TextField = ({
           }
           id={ele?.id}
           value={ele?.props?.value}
-          className={ele?.name}
+          className={`${ele?.name} ${ele?.props?.standard ? 'no-standard-border' : ''}`}
           placeholder={ele?.props?.placeholder || "Enter placeholder"}
           onChange={(e) => setValidations(e)}
           {...(ele?.props?.maxLength > "0" && {

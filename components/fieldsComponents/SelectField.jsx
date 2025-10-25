@@ -66,7 +66,7 @@ const SelectField = ({
           type="text"
           id={ele?.id}
           value={ele?.props?.value || ""}
-          className={ele?.name}
+          className={`${ele?.name} ${ele?.props?.standard ? 'no-standard-border' : ''}`}
           placeholder={ele?.props?.placeholder || "Enter placeholder"}
           onChange={(e) => {
             setValidations(e.target.value);

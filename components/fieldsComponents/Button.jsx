@@ -83,12 +83,12 @@ const ButtonComp = ({ ele, path }) => {
   };
   return (
     <Button
-      variant={"primary"}      
+      variant={"primary"}  
       style={{
         ...(ele?.props?.style && isWebPage && addPixel(ele?.props?.style, ele)),
       }}
       onClick={events}
-      className="w-100"
+      className="d-flex align-items-center justify-content-center w-100"
     >
       {ele?.props?.iconPosition == "start" && ele?.props?.iconName && (
         <IconComponent size={20} />
