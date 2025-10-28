@@ -21,7 +21,7 @@ const AddImages = () => {
   const getImages = async () => {
     try {
       setLoader(true);
-      const response = await axios.get("http://localhost:8000/get-images", {
+      const response = await axios.get("https://low-code-backend-vyps.vercel.app/get-images", {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -87,7 +87,7 @@ const AddImages = () => {
 
   const selectCurrentImage = (image) => {
     setOpenImageModel(false);
-    const backgroundImage = `url('http://localhost:8000/image/${image?._id}')`;
+    const backgroundImage = `url('https://low-code-backend-vyps.vercel.app/image/${image?._id}')`;
     const imageData = {
       url: contType ? backgroundImage : image?._id,
       filename: image?.name,
@@ -134,7 +134,7 @@ const AddImages = () => {
                   }}
                 >
                   <Image
-                    src={`http://localhost:8000/image/${el._id}`}
+                    src={`https://low-code-backend-vyps.vercel.app/${el._id}`}
                     height={50}
                     width={50}
                     alt={`uploaded-image-${i}`}

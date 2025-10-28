@@ -22,7 +22,7 @@ export async function POST(request) {
           form.append(key, value);
         }
       }
-      response = await axios.post(`http://localhost:8000/upload-image`, form, {
+      response = await axios.post(`https://low-code-backend-vyps.vercel.app/upload-image`, form, {
         headers: {
           ...form.getHeaders(),
           Authorization: `Bearer ${token}`,
@@ -31,7 +31,7 @@ export async function POST(request) {
     } else {
       const data = await request.json();
       const payload = data?.payload;
-      response = await axios.post(`http://localhost:8000/${endPointsUrl?.[data?.key]}`, payload, {
+      response = await axios.post(`https://low-code-backend-vyps.vercel.app/${endPointsUrl?.[data?.key]}`, payload, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,

@@ -22,7 +22,7 @@ const CountryField = ({
 
   const getCountries = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/countries-list", {
+      const response = await axios.get("https://low-code-backend-vyps.vercel.app/countries-list", {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
