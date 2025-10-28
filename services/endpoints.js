@@ -1,13 +1,13 @@
 export const endPointsUrl = {
-  hfgftrj: "page-data",
-  kgasderq: "pages-list",
-  bvghtyy: "save-page",
-  khftrey: "edit-page",
-  mfgtrwo: "upload-image",
-  bdgerty: "create-collection",
-  cgdretl: "login",
-  arqewtv: "register",
-  aeqwxfrt: "get-icons",
-  nfraterm: "get-images",
-  qsdervbg: "get-fonts"
+  hfgftrj: "/api/page-data",
+  kgasderq: "/api/pages-list",
+  bvghtyy: "/api/save-page",
+  khftrey: "/api/edit-page",
+  mfgtrwo: "/api/upload-image",
+  bdgerty: "/api/create-collection",
+  cgdretl: "/api/login",
+  arqewtv: "/api/register",
+  aeqwxfrt: "/api/get-icons",
+  nfraterm: "/api/get-images",
+  qsdervbg: "/api/get-fonts"
 };
