@@ -22,7 +22,7 @@ export async function POST(request) {
           form.append(key, value);
         }
       }
-      response = await axios.post(`https://low-code-backend-vyps.vercel.app/upload-image`, form, {
+      response = await axios.post(`https://low-code-backend-vyps.vercel.app/api/upload-image`, form, {
         headers: {
           ...form.getHeaders(),
           Authorization: `Bearer ${token}`,
