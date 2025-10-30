@@ -26,7 +26,6 @@ const Login = () => {
       const response = await axios.post(`https://low-code-backend.vercel.app/api/login`, data, {
          headers: {
           "Access-Control-Allow-Origin": "https://low-code-frontend-delta.vercel.app",
-          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
           "Access-Control-Allow-Headers": "Content-Type, Authorization",
          },
       });
