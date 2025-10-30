@@ -23,7 +23,7 @@ const Login = () => {
   const loginUser = async (data) => {
     try {
       dispatch(setLoader(true));
-      const response = await axios.post(`https://low-code-backend-vyps.vercel.app/api/login`, data, { withCredentials: true });
+      const response = await axios.post(`https://low-code-backend-vyps.vercel.app/api/login`, data);
       dispatch(setLoader(false));
       if (response.status == 200) {
         router.push("/page-list");
