@@ -39,7 +39,15 @@ export async function POST(request) {
         }
       );
     }
-    return Response.json(response.data);
+    const res = new Response(JSON.stringify(response.data), {
+      status: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "https://low-code-frontend-delta.vercel.app",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+      },
+    });
+    return res;
   } catch (error) {
     return Response.json({ message: "Something Went Wrong!90" });
   }
