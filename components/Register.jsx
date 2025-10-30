@@ -24,7 +24,12 @@ const Register = () => {
         ...data,
         request_user_id: generateId(10),
       };
-      const response = await axios.post(`https://low-code-backend.vercel.app/api/register`, requestData);
+      const response = await axios.post(`https://low-code-backend.vercel.app/api/register`, requestData, {
+         headers: {
+          "Access-Control-Allow-Origin": "https://low-code-frontend-delta.vercel.app",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+         },
+      });
       dispatch(setLoader(false));
       if (response.status == 200) {
         router.push("/login");
