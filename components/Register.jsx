@@ -24,7 +24,7 @@ const Register = () => {
         ...data,
         request_user_id: generateId(10),
       };
-      const response = await axios.post(`https://low-code-backend-vyps.vercel.app/api/register`, requestData);
+      const response = await axios.post(`https://low-code-backend.vercel.app/api/register`, requestData);
       dispatch(setLoader(false));
       if (response.status == 200) {
         router.push("/login");
