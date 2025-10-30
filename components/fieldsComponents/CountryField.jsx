@@ -5,6 +5,7 @@ import { FormContext } from "../FormCreate";
 import { addPixel, updateNestedForms } from "../../utils/utilFunctions";
 import { useSelector } from "react-redux";
 import { IoIosClose } from "react-icons/io";
+import { API_BASE_URL } from "../../services/endpoints";
 
 const CountryField = ({
   ele,
@@ -22,7 +23,7 @@ const CountryField = ({
 
   const getCountries = async () => {
     try {
-      const response = await axios.get("https://low-code-backend.vercel.app/api/countries-list", {
+      const response = await axios.get(`${API_BASE_URL}/countries-list`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

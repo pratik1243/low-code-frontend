@@ -11,3 +11,5 @@ export const endPointsUrl = {
   nfraterm: "/api/get-images",
   qsdervbg: "/api/get-fonts"
 };
+
+export const API_BASE_URL = "https://low-code-backend.vercel.app/api";

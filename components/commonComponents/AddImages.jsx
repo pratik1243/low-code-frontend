@@ -7,6 +7,7 @@ import { Button, Modal, Spinner } from "react-bootstrap";
 import { IoMdArrowBack } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { setSnackbarProps } from "../../redux/slices/snackbarSlice";
+import { API_BASE_URL } from "../../services/endpoints";
 import { nestedStructure, updateforms } from "../../utils/utilFunctions";
 import { FormContext } from "../FormCreate";
 
@@ -21,7 +22,7 @@ const AddImages = () => {
   const getImages = async () => {
     try {
       setLoader(true);
-      const response = await axios.get("https://low-code-backend.vercel.app/api/get-images", {
+      const response = await axios.get(`${API_BASE_URL}/get-images`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -87,7 +88,7 @@ const AddImages = () => {
 
   const selectCurrentImage = (image) => {
     setOpenImageModel(false);
-    const backgroundImage = `url('https://low-code-backend.vercel.app/api/image/${image?._id}')`;
+    const backgroundImage = `url('${API_BASE_URL}/${image?._id}')`;
     const imageData = {
       url: contType ? backgroundImage : image?._id,
       filename: image?.name,
@@ -134,7 +135,7 @@ const AddImages = () => {
                   }}
                 >
                   <Image
-                    src={`https://low-code-backend.vercel.app/api/${el._id}`}
+                    src={`${API_BASE_URL}/image/${el._id}`}
                     height={50}
                     width={50}
                     alt={`uploaded-image-${i}`}

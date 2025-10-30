@@ -12,7 +12,7 @@ import { Button, Col, Row } from "react-bootstrap";
 import lowCodeImg from "../public/low-code-img.png";
 import { formAction, LoginSchema } from "../utils/utilFunctions";
 import InputField from "./commonComponents/InputField";
-import { useEffect } from "react";
+import { API_BASE_URL } from "../services/endpoints";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -23,12 +23,7 @@ const Login = () => {
   const loginUser = async (data) => {
     try {
       dispatch(setLoader(true));
-      const response = await axios.post(`https://low-code-backend.vercel.app/api/login`, data, {
-         headers: {
-          "Access-Control-Allow-Origin": "https://low-code-frontend-delta.vercel.app",
-          "Access-Control-Allow-Headers": "Content-Type, Authorization",
-         },
-      });
+      const response = await axios.post(`${API_BASE_URL}/login`, data);
       dispatch(setLoader(false));
       if (response.status == 200) {
         router.push("/page-list");

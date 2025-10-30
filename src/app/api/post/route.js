@@ -1,6 +1,6 @@
 import axios from "axios";
 import FormData from "form-data";
-import { endPointsUrl } from "../../../../services/endpoints";
+import { API_BASE_URL, endPointsUrl } from "../../../../services/endpoints";
 
 export async function POST(request) {
   try {
@@ -22,7 +22,7 @@ export async function POST(request) {
           form.append(key, value);
         }
       }
-      response = await axios.post(`https://low-code-backend.vercel.app/api/upload-image`, form, {
+      response = await axios.post(`${API_BASE_URL}/upload-image`, form, {
         headers: {
           ...form.getHeaders(),
           Authorization: `Bearer ${token}`,
@@ -31,7 +31,7 @@ export async function POST(request) {
     } else {
       const data = await request.json();
       const payload = data?.payload;
-      response = await axios.post(`https://low-code-backend.vercel.app/${endPointsUrl?.[data?.key]}`, payload, {
+      response = await axios.post(`${API_BASE_URL}/${endPointsUrl?.[data?.key]}`, payload, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -39,16 +39,8 @@ export async function POST(request) {
         }
       );
     }
-    const res = new Response(JSON.stringify(response.data), {
-      status: 200,
-      headers: {
-        "Access-Control-Allow-Origin": "https://low-code-frontend-delta.vercel.app",
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      },
-    });
-    return res;
+    return Response.json(response.data);
   } catch (error) {
-    return Response.json({ message: "Something Went Wrong!90" });
+    return Response.json({ message: "Something Went Wrong!" });
   }
 }

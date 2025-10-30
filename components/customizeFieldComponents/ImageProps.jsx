@@ -10,6 +10,7 @@ import { LuFileImage } from "react-icons/lu";
 import { IoCloseSharp } from "react-icons/io5";
 import Select from "react-select";
 import { alignmentOptions } from "../../utils/utilFunctions";
+import { API_BASE_URL } from "../../services/endpoints";
 
 const ImageProps = ({ currentField, onCustomizeElement }) => {
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ const ImageProps = ({ currentField, onCustomizeElement }) => {
       const response = await commonPostApiFunction(requestData, token);
       dispatch(setLoader(false));
       if (response.status == 200) {
-        const backgroundImage = `url('https://low-code-backend-vyps.vercel.app/api/image/${response?.data?.id}')`;
+        const backgroundImage = `url('${API_BASE_URL}/image/${response?.data?.id}')`;
         const imageData = {
           url: contType ? backgroundImage : response?.data?.id,
           filename: file?.name,
