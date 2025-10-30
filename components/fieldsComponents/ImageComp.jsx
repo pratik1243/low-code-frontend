@@ -17,13 +17,13 @@ const ImageComp = ({ ele, path, index }) => {
         <>
           {ele?.props?.fullWidth && path.includes("web-page") ? (
             <Image
-              src={`https://low-code-backend-vyps.vercel.app/api/image/${ele?.props?.imageData?.url}`}
+              src={`https://low-code-backend.vercel.app/api/image/${ele?.props?.imageData?.url}`}
               alt={`image-${index}`}
               fill
             />
           ) : (
             <Image
-              src={`https://low-code-backend-vyps.vercel.app/api/image/${ele?.props?.imageData?.url}`}
+              src={`https://low-code-backend.vercel.app/api/image/${ele?.props?.imageData?.url}`}
               height={path.includes("web-page") ? ele?.props?.height : 100}
               width={path.includes("web-page") ? ele?.props?.width : 100}
               alt={`image-${index}`}
