@@ -31,7 +31,8 @@ export async function POST(request) {
     } else {
       const data = await request.json();
       const payload = data?.payload;
-      response = await axios.post(`${API_BASE_URL}/${endPointsUrl?.[data?.key]}`, payload, {
+      const endPointKey = endPointsUrl?.[data?.key];
+      response = await axios.post(`${API_BASE_URL}/${endPointKey}`, payload, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
