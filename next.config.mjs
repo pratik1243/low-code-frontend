@@ -5,7 +5,7 @@ const nextConfig = {
   //   optimizeCss: true,
   // },
   images: {
-    domains: ["localhost"],    
+    domains: ["low-code-backend.vercel.app", "localhost"],    
   },
 };
 
