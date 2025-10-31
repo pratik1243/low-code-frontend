@@ -190,9 +190,15 @@ input {
   transition: ease-in-out 0.5s;
 }
 
-.field-customize-sec .customize-prop-sec input[type="text"]:focus {
+.field-customize-sec .customize-prop-sec input[type="text"]:focus,
+.field-customize-sec .customize-prop-sec input[type="number"]:focus {
   box-shadow: 0 0 0 1.5px #00b2aa30;
   border-color: #00b2aa !important;
+}
+
+.field-customize-sec .customize-prop-sec input[aria-haspopup="true"]:focus {
+  box-shadow: none !important;
+  border: none !important;
 }
 
 .element-input-field {
