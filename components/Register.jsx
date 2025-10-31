@@ -8,14 +8,19 @@ import axios from "axios";
 import { Button, Col, Row } from "react-bootstrap";
 import Link from "next/link";
 import Image from "next/image";
-import lowCodeImg from "../public/low-code-img.png";
+import loginBg from "../public/login-bg-img.png";
 import InputField from "./commonComponents/InputField";
 import { API_BASE_URL } from "../services/endpoints";
+import { MdLockOutline } from "react-icons/md";
+import { FiMail } from "react-icons/fi";
+import { FaRegUserCircle } from "react-icons/fa";
 
 const Register = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const [registerDetails, setRegisterDetails] = useState(RegisterSchema.fields.values);
+  const [registerDetails, setRegisterDetails] = useState(
+    RegisterSchema.fields.values
+  );
   const [errors, setErrors] = useState(RegisterSchema.fields);
 
   const registerUser = async (data) => {
@@ -25,7 +30,10 @@ const Register = () => {
         ...data,
         request_user_id: generateId(10),
       };
-      const response = await axios.post(`${API_BASE_URL}/register`, requestData);
+      const response = await axios.post(
+        `${API_BASE_URL}/register`,
+        requestData
+      );
       dispatch(setLoader(false));
       if (response.status == 200) {
         router.push("/login");
@@ -38,72 +46,81 @@ const Register = () => {
   };
 
   return (
-    <div className="login-sec register">
+    <div className="login-sec">
       <Row className="row-sec">
         <Col lg={6} md={6}>
-          <h3>Create Account</h3>
-          <InputField
-            label={"Full Name"}
-            name={"full_name"}
-            placeholder={"Enter full name"}
-            required
-            value={registerDetails?.full_name}
-            setValue={setRegisterDetails}
-            errorProps={{ errors, setErrors }}
-            validationSchema={RegisterSchema.fields}
-          />
+          <div className="left-panel">
+            <div className="inner-left-sec">
+              <h3>Sign Up</h3>
+              <InputField
+                label={"Full Name"}
+                name={"full_name"}
+                placeholder={"Enter full name"}
+                required
+                startIcon={<FaRegUserCircle size={19} />}
+                value={registerDetails?.full_name}
+                setValue={setRegisterDetails}
+                errorProps={{ errors, setErrors }}
+                validationSchema={RegisterSchema.fields}
+              />
 
-          <InputField
-            label={"Email Id"}
-            name={"email"}
-            placeholder={"Enter email"}
-            required
-            value={registerDetails?.email}
-            setValue={setRegisterDetails}
-            errorProps={{ errors, setErrors }}
-            validationSchema={RegisterSchema.fields}
-          />
+              <InputField
+                label={"Email Id"}
+                name={"email"}
+                placeholder={"Enter email"}
+                required
+                value={registerDetails?.email}
+                startIcon={<FiMail size={19} />}
+                setValue={setRegisterDetails}
+                errorProps={{ errors, setErrors }}
+                validationSchema={RegisterSchema.fields}
+              />
 
-          <InputField
-            label={"Password"}
-            name={"password"}
-            placeholder={"Enter password"}
-            required
-            passwordBtn
-            value={registerDetails?.password}
-            setValue={setRegisterDetails}
-            errorProps={{ errors, setErrors }}
-            validationSchema={RegisterSchema.fields}
-          />
+              <InputField
+                label={"Password"}
+                name={"password"}
+                placeholder={"Enter password"}
+                required
+                passwordBtn
+                startIcon={<MdLockOutline size={22} />}
+                value={registerDetails?.password}
+                setValue={setRegisterDetails}
+                errorProps={{ errors, setErrors }}
+                validationSchema={RegisterSchema.fields}
+              />
 
-          <div className="text-sec text-center">
-            <Button
-              variant="primary"
-              onClick={() => {
-                formAction(
-                  registerDetails,
-                  setErrors,
-                  RegisterSchema.fields.errors,
-                  (values) => {
-                    registerUser(values);
-                  }
-                );
-              }}
-            >
-              Sign Up
-            </Button>
-            <p className="mb-0">
-              Already registered an account? <Link href={"/login"}>Login</Link>
-            </p>
+              <div className="text-sec text-center">
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    formAction(
+                      registerDetails,
+                      setErrors,
+                      RegisterSchema.fields.errors,
+                      (values) => {
+                        registerUser(values);
+                      }
+                    );
+                  }}
+                >
+                  Create Account
+                </Button>
+                <p className="mb-0">
+                  Already registered user?{" "}
+                  <Link href={"/login"}>Click here</Link>
+                </p>
+              </div>
+            </div>
           </div>
         </Col>
         <Col lg={6} md={6}>
           <div className="logo-sec">
             {" "}
             <Image
-              src={lowCodeImg}
-              height={190}
-              width={270}
+              src={loginBg}
+              height={550}
+              width={550}
+              quality={90}
               alt="low-code-img"
             />
           </div>

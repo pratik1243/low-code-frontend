@@ -9,10 +9,12 @@ import { setLoader } from "../redux/slices/loaderSlice";
 import { setAuthDetails } from "../redux/slices/authSlice";
 import { setSnackbarProps } from "../redux/slices/snackbarSlice";
 import { Button, Col, Row } from "react-bootstrap";
-import lowCodeImg from "../public/low-code-img.png";
 import { formAction, LoginSchema } from "../utils/utilFunctions";
 import InputField from "./commonComponents/InputField";
 import { API_BASE_URL } from "../services/endpoints";
+import loginBg from "../public/login-bg-img.png";
+import { MdLockOutline } from "react-icons/md";
+import { FiMail } from "react-icons/fi";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -71,60 +73,66 @@ const Login = () => {
     <div className="login-sec">
       <Row>
         <Col lg={6} md={6}>
-          <h3>Log In</h3>
-          <InputField
-            label={"Email Id"}
-            name={"email"}
-            placeholder={"Enter email"}
-            required
-            value={loginDetails?.email}
-            setValue={setLoginDetails}
-            errorProps={{ errors, setErrors }}
-            validationSchema={LoginSchema.fields}
-          />
-          <InputField
-            label={"Password"}
-            name={"password"}
-            placeholder={"Enter phone number"}
-            required
-            passwordBtn
-            value={loginDetails?.password}
-            setValue={setLoginDetails}
-            errorProps={{ errors, setErrors }}
-            validationSchema={LoginSchema.fields}
-          />
-          <div className="text-sec text-center">
-            <Button
-              variant="primary"
-              onClick={() => {
-                formAction(
-                  loginDetails,
-                  setErrors,
-                  LoginSchema.fields.errors,
-                  (values) => {
-                    loginUser(values);
-                  }
-                );
-              }}
-            >
-              Login
-            </Button>
-            <p className="mb-0">
-              Not registered yet?{" "}
-              <Link href={"/register"}>Create an Account</Link>
-            </p>
-          </div>
-        </Col>
-
-        <Col lg={6} md={6}>
           <div className="logo-sec">
             {" "}
             <Image
-              src={lowCodeImg}
-              height={190}
-              width={270}
+              src={loginBg}
+              height={550}
+              width={550}
+              quality={90}
               alt="low-code-img"
             />
+          </div>
+        </Col>
+        <Col lg={6} md={6}>
+          <div className="left-panel">
+            <div className="inner-left-sec">
+              <h3>Log In</h3>
+              <InputField
+                label={"Email Id"}
+                name={"email"}
+                placeholder={"Enter email"}
+                required
+                startIcon={<FiMail size={19} />}
+                value={loginDetails?.email}
+                setValue={setLoginDetails}
+                errorProps={{ errors, setErrors }}
+                validationSchema={LoginSchema.fields}
+              />
+              <InputField
+                label={"Password"}
+                name={"password"}
+                placeholder={"Enter password"}
+                required
+                passwordBtn
+                startIcon={<MdLockOutline size={22} />}
+                value={loginDetails?.password}
+                setValue={setLoginDetails}
+                errorProps={{ errors, setErrors }}
+                validationSchema={LoginSchema.fields}
+              />
+              <div className="text-sec text-center">
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    formAction(
+                      loginDetails,
+                      setErrors,
+                      LoginSchema.fields.errors,
+                      (values) => {
+                        loginUser(values);
+                      }
+                    );
+                  }}
+                >
+                  Continue
+                </Button>
+                <p className="mb-0">
+                  Haven't created account yet?{" "}
+                  <Link href={"/register"}>Click here</Link>
+                </p>
+              </div>
+            </div>
           </div>
         </Col>
       </Row>

@@ -8,6 +8,7 @@ const InputField = ({
   label,
   name,
   value,
+  startIcon,
   placeholder,
   required,
   onChange,
@@ -57,7 +58,7 @@ const InputField = ({
 
   return (
     <div className={`input-field ${marginBottom ? "mb-3" : ""} float-label`}>
-      <label htmlFor={name}>{label}</label>
+      <label htmlFor={name}>{label} {required && <span className="required">*</span>}</label>
       <input
         type={passwordBtn ? (showPassword ? "text" : "password") : type}
         id={name}
@@ -68,6 +69,7 @@ const InputField = ({
         required={required}
         onChange={(e) => onFieldChange(e)}
       />
+      {startIcon && <div className="start-input-icon">{startIcon}</div>}
       {passwordBtn && (
         <div
           role="button"
