@@ -67,7 +67,7 @@ const CountryField = ({
   return (
     <div className="mb-3 position-relative" ref={boxRef}>
       <div
-        className={`element-input-field ${
+        className={`element-input-field select-inp ${
           (ele?.props?.floatLabel || ele?.props?.standard) && isWebPage
             ? "float-label"
             : "normal-input"

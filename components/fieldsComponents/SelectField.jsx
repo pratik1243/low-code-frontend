@@ -42,7 +42,7 @@ const SelectField = ({
   return (
     <div className="mb-3 position-relative" ref={boxRef}>
       <div
-        className={`element-input-field ${open ? "index-1" : ""} ${
+        className={`element-input-field select-inp ${open ? "index-1" : ""} ${
           (ele?.props?.floatLabel || ele?.props?.standard) && isWebPage
             ? "float-label"
             : "normal-input"
