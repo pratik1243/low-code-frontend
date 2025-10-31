@@ -201,6 +201,10 @@ input {
   border: none !important;
 }
 
+.element-input-field.float-label .password-btn {
+  top: 10px !important;
+}
+
 .element-input-field {
   position: relative;
   /* z-index: 1; */
