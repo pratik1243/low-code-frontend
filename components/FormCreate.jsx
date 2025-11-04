@@ -122,7 +122,7 @@ const FormCreate = () => {
         setSelectedFont(response?.data?.responseData?.page_data?.font_family);
         setForms({
           ...forms,
-          [sizeData]: dataArray?.page_data?.[sizeData],
+          [sizeData]: dataArray?.page_data?.[sizeData] || [],
         });
       } else {
         alert(response.data.message);
