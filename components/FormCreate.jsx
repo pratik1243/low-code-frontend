@@ -102,7 +102,7 @@ const FormCreate = () => {
     }
   };
 
-  const fetchPage = async (sizeData) => {
+  const fetchPage = async (sizeData = "lg") => {
     try {
       dispatch(setLoader(true));
       const requestData = {
