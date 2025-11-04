@@ -102,7 +102,7 @@ const FormCreate = () => {
     }
   };
 
-  const fetchPage = async () => {
+  const fetchPage = async (sizeData) => {
     try {
       dispatch(setLoader(true));
       const requestData = {
@@ -110,7 +110,7 @@ const FormCreate = () => {
         payload: {
           page_id: params.id,
           request_user_id: requestUserId,
-          break_point: null,
+          break_point: sizeData,
         },
       };
       const response = await commonPostApiFunction(requestData, token);
@@ -121,7 +121,7 @@ const FormCreate = () => {
         setSelectedFont(response?.data?.responseData?.page_data?.font_family);
         setForms({
           ...forms,
-          lg: dataArray?.page_data?.lg,
+          [sizeData]: dataArray?.page_data?.[sizeData],
         });
       } else {
         alert(response.data.message);
@@ -133,8 +133,9 @@ const FormCreate = () => {
 
   const onScreenSizeChange = (data) => {
     let sizeData = data ? data?.value : "lg";
-    setBreakPoint(sizeData);
     fetchPagesList(sizeData);
+    setBreakPoint(sizeData);
+    fetchPage(sizeData);
     setCurrentElement();
   };
 
