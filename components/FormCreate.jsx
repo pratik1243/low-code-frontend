@@ -118,6 +118,7 @@ const FormCreate = () => {
       if (response.status == 200) {
         const dataArray = response?.data?.responseData;
         setData(dataArray);
+        setBreakPoint(sizeData);
         setSelectedFont(response?.data?.responseData?.page_data?.font_family);
         setForms({
           ...forms,
@@ -134,7 +135,6 @@ const FormCreate = () => {
   const onScreenSizeChange = (data) => {
     let sizeData = data ? data?.value : "lg";
     fetchPagesList(sizeData);
-    setBreakPoint(sizeData);
     fetchPage(sizeData);
     setCurrentElement();
   };
