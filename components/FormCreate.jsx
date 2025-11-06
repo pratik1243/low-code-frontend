@@ -75,6 +75,9 @@ const FormCreate = () => {
       };
       const response = await commonPostApiFunction(requestData, token);
       if (response.status == 200) {
+        if(!isEdit){
+          router.push('/page-list');
+        }
         dispatch(
           setSnackbarProps({
             variant: "Success",
@@ -122,7 +125,7 @@ const FormCreate = () => {
         setSelectedFont(response?.data?.responseData?.page_data?.font_family);
         setForms({
           ...forms,
-          [sizeData]: dataArray?.page_data?.[sizeData] || [],
+          [sizeData]: dataArray?.page_data || [],
         });
       } else {
         alert(response.data.message);

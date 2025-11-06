@@ -1068,7 +1068,16 @@ hr {
 
 .logout-btn,
 .add-page-btn,
-.page-create-btn,
+.page-create-btn {
+  background-color: #00b2aa !important;
+  border-color: #00b2aa !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 7px;
+  padding: 6px 16px !important;
+}
+
 .login-sec .btn-primary {
   background-color: #00b2aa !important;
   border-color: #00b2aa !important;
