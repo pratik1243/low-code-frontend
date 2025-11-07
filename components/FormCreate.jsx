@@ -105,7 +105,7 @@ const FormCreate = () => {
     }
   };
 
-  const fetchPage = async (sizeData = "lg") => {
+  const fetchPage = async () => {
     try {
       dispatch(setLoader(true));
       const requestData = {
@@ -113,7 +113,7 @@ const FormCreate = () => {
         payload: {
           page_id: params.id,
           request_user_id: requestUserId,
-          break_point: sizeData,
+          break_point: null,
         },
       };
       const response = await commonPostApiFunction(requestData, token);
