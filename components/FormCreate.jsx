@@ -121,14 +121,16 @@ const FormCreate = () => {
       if (response.status == 200) {
         const dataArray = response?.data?.responseData;
         setData(dataArray);
-        setBreakPoint(sizeData);
-        setSelectedFont(response?.data?.responseData?.page_data?.font_family);
+        setSelectedFont(dataArray?.page_data?.font_family);
         setForms({
           ...forms,
-          [sizeData]: dataArray?.page_data || [],
+          lg: dataArray?.page_data?.lg?.length > 0 ? dataArray?.page_data?.lg : forms?.lg,
+          md: dataArray?.page_data?.md?.length > 0 ? dataArray?.page_data?.md : forms?.md,
+          sm: dataArray?.page_data?.sm?.length > 0 ? dataArray?.page_data?.sm : forms?.sm,
+          xs: dataArray?.page_data?.xs?.length > 0 ? dataArray?.page_data?.xs : forms?.xs
         });
       } else {
-        alert(response.data.message);
+        dispatch(setLoader(false));
       }
     } catch (error) {
       dispatch(setLoader(false));
@@ -138,7 +140,7 @@ const FormCreate = () => {
   const onScreenSizeChange = (data) => {
     let sizeData = data ? data?.value : "lg";
     fetchPagesList(sizeData);
-    fetchPage(sizeData);
+    setBreakPoint(sizeData);
     setCurrentElement();
   };
 
