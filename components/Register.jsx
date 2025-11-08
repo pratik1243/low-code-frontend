@@ -38,32 +38,32 @@ const Register = () => {
       dispatch(setLoader(false));
       if (response.status == 200) {
         router.push("/login");
-        dispatch(
-          setSnackbarProps({
-            variant: "Success",
-            message: response?.data?.message,
-            open: true,
-          })
-        );
+        // dispatch(
+        //   setSnackbarProps({
+        //     variant: "Success",
+        //     message: response?.data?.message,
+        //     open: true,
+        //   })
+        // );
       } else {
         dispatch(setLoader(false));
-        dispatch(
-          setSnackbarProps({
-            variant: "Danger",
-            message: response?.data?.message,
-            open: true,
-          })
-        );
+        // dispatch(
+        //   setSnackbarProps({
+        //     variant: "Danger",
+        //     message: response?.data?.message,
+        //     open: true,
+        //   })
+        // );
       }
     } catch (error) {
       dispatch(setLoader(false));
-      dispatch(
-        setSnackbarProps({
-          variant: "Danger",
-          message: error,
-          open: true,
-        })
-      );
+      // dispatch(
+      //   setSnackbarProps({
+      //     variant: "Danger",
+      //     message: error,
+      //     open: true,
+      //   })
+      // );
     }
   };
 
