@@ -14,6 +14,7 @@ import { API_BASE_URL } from "../services/endpoints";
 import { MdLockOutline } from "react-icons/md";
 import { FiMail } from "react-icons/fi";
 import { FaRegUserCircle } from "react-icons/fa";
+import { setSnackbarProps } from "../redux/slices/snackbarSlice";
 
 const Register = () => {
   const dispatch = useDispatch();
