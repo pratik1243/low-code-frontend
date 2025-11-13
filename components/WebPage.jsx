@@ -119,7 +119,7 @@ const WebPage = () => {
                   <div
                     key={index}
                     className={`d-flex ${
-                      ele?.type == "card_box" ? "background-image-props" : ""
+                      ele?.type == "card_box" || ele?.props?.imageData ? "background-image-props" : ""
                     } ${alignment[ele?.props?.align?.value] || ""} ${
                       ["input", "select", "country"].includes(ele?.type)
                         ? "input-style"
