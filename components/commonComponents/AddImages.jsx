@@ -88,7 +88,7 @@ const AddImages = () => {
 
   const selectCurrentImage = (image) => {
     setOpenImageModel(false);
-    const backgroundImage = `url('${API_BASE_URL}/${image?._id}')`;
+    const backgroundImage = `url('${API_BASE_URL}/image/${image?._id}')`;
     const imageData = {
       url: contType ? backgroundImage : image?._id,
       filename: image?.name,
