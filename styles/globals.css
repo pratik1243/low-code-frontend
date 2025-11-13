@@ -121,6 +121,10 @@ input {
   opacity: 0.5;
 }
 
+.element-create-sec {
+  padding-bottom: 30px !important;
+} 
+
 .field-customize-sec {
   padding: 20px;
   background-color: #f8f8f8;
