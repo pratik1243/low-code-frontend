@@ -12,7 +12,7 @@ const FieldCustomizeSection = () => {
     showCurrentElement,
     setShowCurrentElement,
     openImageModel,
-    setOpenImageModel,
+    setOpenImageModel
   } = useContext(FormContext);
 
   const [show, setShow] = useState(false);

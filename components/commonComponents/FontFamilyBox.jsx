@@ -7,9 +7,10 @@ import { MdOutlineClear } from "react-icons/md";
 import { debounce } from "../../utils/utilFunctions";
 import { Col, Row, Spinner, Button } from "react-bootstrap";
 import { commonPostApiFunction } from "../../services/commonApiFunc";
+import { IoMdArrowBack } from "react-icons/io";
 
-const FontFamilyBox = ({ setFontModal }) => {
-  const { setSelectedFont } = useContext(FormContext);
+const FontFamilyBox = () => {
+  const { setSelectedFont, setFontModal } = useContext(FormContext);
   const token = useSelector((user) => user.auth.authDetails.token);
   const [loader, setLoader] = useState(false);
   const [fonts, setFonts] = useState([]);
@@ -42,10 +43,21 @@ const FontFamilyBox = ({ setFontModal }) => {
   const debouncedHandler = debounce(fetchFonts, 500);
 
   return (
-    <>
+    <div className="font-box">
       <div className="font-search-input">
         <Row>
-          <Col lg={12} md={12}>
+          <Col lg={2} md={2}>
+            <Button
+              variant={"primary"}
+              className="go-back-btn"
+              onClick={() => {
+                setFontModal(false);
+              }}
+            >
+              <IoMdArrowBack size={18} /> &nbsp;&nbsp;Back
+            </Button>
+          </Col>
+          <Col lg={10} md={10}>
             <div className="position-relative">
               <input
                 type="text"
@@ -92,7 +104,7 @@ const FontFamilyBox = ({ setFontModal }) => {
           })
         )}
       </div>
-    </>
+    </div>
   );
 };
 

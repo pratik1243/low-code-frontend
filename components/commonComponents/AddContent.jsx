@@ -138,7 +138,7 @@ const AddContent = ({
         }}
       >
         <IoMdArrowBack />
-        &nbsp;&nbsp;Go Back
+        &nbsp;&nbsp;Back
       </Button>
       <div className="d-flex mt-4 mb-4">
         {!["card_box", "slider"].includes(currentField?.type) && (
@@ -169,7 +169,7 @@ const AddContent = ({
               placeholder={"Select page item"}
               options={pagesList}
               getOptionLabel={(e) => e.page_name}
-              getOptionValue={(e) => e.page_data[breakPoint]}
+              getOptionValue={(e) => e.page_data}
               value={pageItem || ""}
               onChange={(e) => setPageItem(e)}
             />

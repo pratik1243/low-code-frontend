@@ -104,7 +104,7 @@ const AddImages = () => {
   }, []);
 
   return (
-    <div>
+    <div className="image-customize-sec">
       {loader ? (
         <div className="text-center my-5">
           <Spinner animation="border" variant="primary" />
@@ -121,7 +121,7 @@ const AddImages = () => {
                 setUploadImages([]);
               }}
             >
-              <IoMdArrowBack size={18} /> &nbsp;&nbsp;Go Back
+              <IoMdArrowBack size={18} /> &nbsp;&nbsp;Back
             </Button>
           </div>
           {uploadedImages.length > 0 &&

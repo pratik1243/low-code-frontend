@@ -65,6 +65,7 @@ input {
   border-radius: 4px;
   background-color: var(--white-color);
   cursor: pointer;
+  font-size: 15px;
 }
 
 .field-option-sec .field-option:last-child {
@@ -562,6 +563,7 @@ input {
   justify-content: center;
   color: #00b2aa;
   text-transform: capitalize;
+  font-size: 15px;
 }
 
 .publish-btn-sec button svg {
@@ -1219,7 +1221,7 @@ hr {
   padding: 10px 15px;
   border-radius: 4px;
   outline: none;
-  border: 1px solid var(--grey-color);
+  border: 1px solid var(--grey-color);  
 }
 
 .font-box .font-search-input button {
@@ -1228,11 +1230,11 @@ hr {
   padding-right: 20px;
 }
 
-.font-box .modal-body {
+/* .font-box {
   padding: 0px !important;
   max-height: 400px;
   overflow-y: auto;
-}
+} */
 
 .font-box .fonts-list {
   padding: 20px;
@@ -1301,9 +1303,13 @@ hr {
 .go-back-btn {
   display: flex !important;
   align-items: center;
+  font-size: 15px !important;
+  margin-right: 30px !important;
 }
 
-.icons-list .spinner-border {
+.icons-list .spinner-border,
+.fonts-list .spinner-border,
+.image-customize-sec .spinner-border {
   color: #00b2aa !important;
 }
 
@@ -1500,16 +1506,26 @@ hr {
 }
 
 .font-select-btn {
-  margin-left: 20px !important;
-  width: 40%;
-  text-overflow: ellipsis;
-  display: inline-block !important;
-  white-space: nowrap;
-  overflow: hidden;
+  background-color: var(--white-color);
+  padding: 8px 20px;
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid #00b2aa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #00b2aa;
+  text-transform: capitalize;
+  font-size: 15px;
+  margin-top: 15px !important;
 }
 
 .publish-btn-sec .css-b62m3t-container {
   width: 60%;
+}
+
+.publish-btn-sec .css-hlgwow {
+  padding: 0px 8px !important;
 }
 
 .image-full-width-check input {
@@ -1521,4 +1537,21 @@ hr {
 .image-full-width-check {
   margin-top: 54px;
   margin-left: 9px;
+}
+
+.web-settings-btn {
+  margin-left: 27px;
+}
+
+#react-select-3-placeholder {
+  font-size: 14px !important;
+}
+
+.setting-box {
+  width: 700px !important;
+}
+
+.setting-box .offcanvas-body {
+  background-color: #f8f8f8;
+  border-top: 1px solid var(--grey-color);
 }

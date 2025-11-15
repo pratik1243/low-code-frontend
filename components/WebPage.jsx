@@ -25,6 +25,8 @@ const WebPage = () => {
   const [selectedFont, setSelectedFont] = useState("Roboto");
   const [breakPoint, setBreakPoint] = useState("lg");
   const token = useSelector((user) => user.auth.authDetails.token);
+  const [scrollAnimationType, setScrollAnimationType] = useState();
+  const [pageBackground, setPageBackground] = useState("");
   //const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
 
   const fetchPage = async (size = "lg") => {
@@ -41,12 +43,16 @@ const WebPage = () => {
         }),
       };
       const response = await commonPostApiFunction(requestData, token);
+      console.log('response', response?.data?.responseData?.screenSize);
       dispatch(setLoader(false));
       if (response.status == 200) {
         setSelectedFont(response?.data?.responseData?.font_family);
+        setFieldType(response?.data?.responseData?.field_type);
+        setScrollAnimationType(response?.data?.responseData?.scroll_animation_type);
+        setPageBackground(response?.data?.responseData?.page_background);        
         setForms({
           ...forms,
-          [size]: response?.data?.responseData?.page_data,
+          lg: response?.data?.responseData?.screenSize,
         });
       } else {
         //setSelectedFont("Roboto");
@@ -61,7 +67,7 @@ const WebPage = () => {
   useEffect(() => {
     Aos.init({
       duration: 1000,
-      // once: true,
+      once: scrollAnimationType == "Once" ? true : false,
     });
   }, []);
 
@@ -90,12 +96,12 @@ const WebPage = () => {
     const link = document.createElement("link");
     link.href = `https://fonts.googleapis.com/css2?family=${selectedFont?.replace(/ /g, "+")}:wght@400&display=swap`;
     link.rel = "stylesheet";
+    document.body.style.backgroundColor = pageBackground;
     document.head.appendChild(link);
     return () => {
       document.head.removeChild(link);
     };
   }, [selectedFont]);
-
 
   return (
     <div>

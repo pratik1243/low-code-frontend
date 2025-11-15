@@ -4,7 +4,6 @@ import React, { createContext, useEffect, useMemo, useState } from "react";
 import { Button, Col, Modal, Row } from "react-bootstrap";
 import { commonPostApiFunction } from "../services/commonApiFunc";
 import FieldCustomizeSection from "./FieldCustomizeSection";
-import FontFamilyBox from "./commonComponents/FontFamilyBox";
 import { IoMdArrowBack } from "react-icons/io";
 import FieldSection from "./FieldSection";
 import FormTemplate from "./FormTemplate";
@@ -13,7 +12,9 @@ import { setLoader } from "../redux/slices/loaderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { responsiveScreenSizes } from "../utils/utilFunctions";
 import { setSnackbarProps } from "../redux/slices/snackbarSlice";
+import { IoSettingsOutline } from "react-icons/io5";
 import Select from "react-select";
+import SettingBox from "./commonComponents/SettingBox";
 
 export const FormContext = createContext();
 
@@ -32,11 +33,15 @@ const FormCreate = () => {
   const [itemDrag, setItemDrag] = useState(false);
   const [selectedFont, setSelectedFont] = useState();
   const [height, setHeight] = useState(false);
+  const [fieldType, setFieldType] = useState();
+  const [scrollAnimationType, setScrollAnimationType] = useState();
+  const [pageBackground, setPageBackground] = useState("");
   const [containerId, setContainerId] = useState();
   const [containerIndex, setContainerIndex] = useState();
   const [breakPoint, setBreakPoint] = useState("lg");
   const [pagesList, setPagesList] = useState([]);
   const [fontModal, setFontModal] = useState(false);
+  const [openSettingModel, setOpenSettingModel] = useState(false);
   const [showCurrentElement, setShowCurrentElement] = useState(false);
   const [openImageModel, setOpenImageModel] = useState(false);
   const token = useSelector((user) => user.auth.authDetails.token);
@@ -51,10 +56,15 @@ const FormCreate = () => {
       request_user_id: requestUserId,
       page_data: {
         font_family: selectedFont,
-        lg: forms.lg,
-        md: forms.md,
-        sm: forms.sm,
-        xs: forms.xs,
+        field_type: fieldType,
+        page_background: pageBackground,
+        scroll_animation_type: scrollAnimationType,
+        screenSize: {
+          lg: forms.lg,
+          md: forms.md,
+          sm: forms.sm,
+          xs: forms.xs,
+        },
       },
       page_route: data?.base_page_link
         ? `${data?.base_page_link}/${data?.page_link}`
@@ -75,8 +85,8 @@ const FormCreate = () => {
       };
       const response = await commonPostApiFunction(requestData, token);
       if (response.status == 200) {
-        if(!isEdit){
-          router.push('/page-list');
+        if (!isEdit) {
+          router.push("/page-list");
         }
         dispatch(
           setSnackbarProps({
@@ -122,12 +132,19 @@ const FormCreate = () => {
         const dataArray = response?.data?.responseData;
         setData(dataArray);
         setSelectedFont(dataArray?.page_data?.font_family);
+        setFieldType(dataArray?.page_data?.field_type);
+        setScrollAnimationType(dataArray?.page_data?.scroll_animation_type);
+        setPageBackground(dataArray?.page_data?.page_background);        
         setForms({
           ...forms,
-          lg: dataArray?.page_data?.lg?.length > 0 ? dataArray?.page_data?.lg : forms?.lg,
-          md: dataArray?.page_data?.md?.length > 0 ? dataArray?.page_data?.md : forms?.md,
-          sm: dataArray?.page_data?.sm?.length > 0 ? dataArray?.page_data?.sm : forms?.sm,
-          xs: dataArray?.page_data?.xs?.length > 0 ? dataArray?.page_data?.xs : forms?.xs
+          lg: dataArray?.screenSize?.lg?.length > 0
+            ? dataArray?.screenSize?.lg : forms?.lg,
+          md: dataArray?.screenSize?.md?.length > 0
+            ? dataArray?.screenSize?.md : forms?.md,
+          sm: dataArray?.screenSize?.sm?.length > 0
+            ? dataArray?.screenSize?.sm : forms?.sm,
+          xs: dataArray?.screenSize?.xs?.length > 0
+            ? dataArray?.screenSize?.xs : forms?.xs,
         });
       } else {
         dispatch(setLoader(false));
@@ -158,11 +175,9 @@ const FormCreate = () => {
         let data = response?.data?.responseData;
         for (let index = 0; index < data?.length; index++) {
           page_list.push({
-            page_route: data[index]?.page_route
-              ? `/web-page/${data[index]?.page_route}`
-              : null,
+            page_route: data[index]?.page_route ? `/web-page/${data[index]?.page_route}` : null,
             page_name: data[index]?.page_name,
-            page_data: data[index]?.page_data[size],
+            page_data: data[index]?.page_data?.screenSize[size],
             page_item_url: `/page/${data[index]?.page_id}`,
           });
         }
@@ -196,6 +211,8 @@ const FormCreate = () => {
           setHeight,
           pagesList,
           containerIndex,
+          openSettingModel,
+          setOpenSettingModel,
           setContainerIndex,
           setItemDrag,
           currentElement,
@@ -204,7 +221,16 @@ const FormCreate = () => {
           setContainerId,
           setCurrentElement,
           breakPoint,
+          fontModal,
+          setFontModal,
           setBreakPoint,
+          selectedFont,
+          fieldType,
+          setFieldType,
+          setScrollAnimationType,
+          setPageBackground,
+          scrollAnimationType,
+          pageBackground,
           showCurrentElement,
           openImageModel,
           setOpenImageModel,
@@ -214,7 +240,7 @@ const FormCreate = () => {
         <Row>
           <Col lg={12} md={12} sm={12} xs={12} className="mb-3">
             <Row className="align-items-center">
-              <Col lg={5} md={5} sm={12} xs={12}>
+              <Col lg={6} md={6} sm={12} xs={12}>
                 <h4>{data?.page_name}</h4>
               </Col>
               <Col lg={1} md={1} sm={12} xs={12}>
@@ -225,11 +251,11 @@ const FormCreate = () => {
                       router.push("/page-list");
                     }}
                   >
-                    <IoMdArrowBack /> Back
+                    <IoMdArrowBack size={17} /> Back
                   </button>
                 </div>
               </Col>
-              <Col lg={4} md={4} sm={12} xs={12}>
+              <Col lg={3} md={3} sm={12} xs={12}>
                 <div className="publish-btn-sec d-flex align-items-center">
                   <Select
                     isClearable
@@ -240,12 +266,12 @@ const FormCreate = () => {
                     }}
                   />
                   <button
-                    className="font-select-btn"
+                    className="web-settings-btn"
                     onClick={() => {
-                      setFontModal(true);
+                      setOpenSettingModel(true);
                     }}
                   >
-                    {selectedFont?.split("-").join(" ") || "Select Font"}
+                    <IoSettingsOutline size={18} /> Settings
                   </button>
                 </div>
               </Col>
@@ -257,7 +283,7 @@ const FormCreate = () => {
                       savePage(params.id !== "create");
                     }}
                   >
-                    <IoSaveOutline /> Publish Changes
+                    <IoSaveOutline size={17} /> Publish Changes
                   </button>
                 </div>
               </Col>
@@ -271,23 +297,9 @@ const FormCreate = () => {
             <FieldSection />
           </Col>
         </Row>
-        <FieldCustomizeSection />
 
-        <Modal
-          size={"lg"}
-          show={fontModal}
-          className="font-box"
-          onHide={() => {
-            setFontModal(false);
-          }}
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>Add Font Family</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <FontFamilyBox setFontModal={setFontModal} />
-          </Modal.Body>
-        </Modal>
+        <FieldCustomizeSection />
+        <SettingBox />
       </FormContext>
     </div>
   );

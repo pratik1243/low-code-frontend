@@ -71,7 +71,7 @@ const IconBox = ({ onCustomizeElement, goBack }) => {
                 setIcons([]);
               }}
             >
-              <IoMdArrowBack size={18} /> &nbsp;&nbsp;Go Back
+              <IoMdArrowBack size={18} /> &nbsp;&nbsp;Back
             </Button>
           </Col>
           <Col lg={9} md={9}>
