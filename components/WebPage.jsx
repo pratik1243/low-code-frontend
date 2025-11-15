@@ -47,7 +47,6 @@ const WebPage = () => {
       dispatch(setLoader(false));
       if (response.status == 200) {
         setSelectedFont(response?.data?.responseData?.font_family);
-        setFieldType(response?.data?.responseData?.field_type);
         setScrollAnimationType(response?.data?.responseData?.scroll_animation_type);
         setPageBackground(response?.data?.responseData?.page_background);        
         setForms({
