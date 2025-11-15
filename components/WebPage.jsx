@@ -51,7 +51,7 @@ const WebPage = () => {
         setPageBackground(response?.data?.responseData?.page_background);        
         setForms({
           ...forms,
-          lg: response?.data?.responseData?.screenSize,
+          [size]: response?.data?.responseData?.screenSize,
         });
       } else {
         //setSelectedFont("Roboto");
