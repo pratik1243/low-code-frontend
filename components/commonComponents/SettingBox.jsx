@@ -55,7 +55,9 @@ function SettingBox() {
                       variant={"primary"}
                       size="sm"
                       className="clear-background-btn"
-                      onClick={() => {}}
+                      onClick={() => {
+                        setPageBackground("");
+                      }}
                     >
                       Clear
                     </Button>
