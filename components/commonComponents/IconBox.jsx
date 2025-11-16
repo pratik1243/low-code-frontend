@@ -75,7 +75,7 @@ const IconBox = ({ onCustomizeElement, goBack }) => {
             </Button>
           </Col>
           <Col lg={10} md={10}>
-            <div className="position-relative icon-pl">
+            <div className="position-relative">
               <input
                 type="text"
                 value={iconValue}
