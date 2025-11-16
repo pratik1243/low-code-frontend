@@ -131,10 +131,10 @@ const FormCreate = () => {
       if (response.status == 200) {
         const dataArray = response?.data?.responseData;
         setData(dataArray);
-        setSelectedFont(dataArray?.page_data?.font_family);
-        setFieldType(dataArray?.page_data?.field_type);
-        setScrollAnimationType(dataArray?.page_data?.scroll_animation_type);
-        setPageBackground(dataArray?.page_data?.page_background);        
+        setSelectedFont(dataArray?.font_family);
+        setFieldType(dataArray?.field_type);
+        setScrollAnimationType(dataArray?.scroll_animation_type);
+        setPageBackground(dataArray?.page_background);        
         setForms({
           ...forms,
           lg: dataArray?.screenSize?.lg?.length > 0

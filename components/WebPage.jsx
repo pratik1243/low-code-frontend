@@ -21,11 +21,10 @@ const WebPage = () => {
     sm: [],
     xs: [],
   });
-  const [currentElement, setCurrentElement] = useState();  
+  const [currentElement, setCurrentElement] = useState();
   const [selectedFont, setSelectedFont] = useState("Roboto");
   const [breakPoint, setBreakPoint] = useState("lg");
   const token = useSelector((user) => user.auth.authDetails.token);
-  const [scrollAnimationType, setScrollAnimationType] = useState();
   const [pageBackground, setPageBackground] = useState("");
   //const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
 
@@ -34,42 +33,37 @@ const WebPage = () => {
       dispatch(setLoader(true));
       const requestData = {
         key: "hfgftrj",
-        ...(params?.slug?.join('/') && {
+        ...(params?.slug?.join("/") && {
           payload: {
-            page_route: params?.slug?.join('/'),
+            page_route: params?.slug?.join("/"),
             // request_user_id: requestUserId,
             break_point: size,
           },
         }),
       };
       const response = await commonPostApiFunction(requestData, token);
-      console.log('response', response?.data?.responseData?.screenSize);
+      console.log("response", response?.data?.responseData?.screenSize);
       dispatch(setLoader(false));
       if (response.status == 200) {
         setSelectedFont(response?.data?.responseData?.font_family);
-        setFieldType(response?.data?.responseData?.field_type);
-        setScrollAnimationType(response?.data?.responseData?.scroll_animation_type);
-        setPageBackground(response?.data?.responseData?.page_background);        
+        setPageBackground(response?.data?.responseData?.page_background);
         setForms({
           ...forms,
-          lg: response?.data?.responseData?.screenSize,
+          [size]: response?.data?.responseData?.screenSize,
+        });
+        Aos.init({
+          duration: 1000,
+          once: response?.data?.responseData?.scroll_animation_type?.value === "Once"
         });
       } else {
-        //setSelectedFont("Roboto");
+        setSelectedFont("Roboto");
         setForms({ ...forms, [size]: [] });
       }
     } catch (error) {
-      //setSelectedFont("Roboto");
+      setSelectedFont("Roboto");
       setForms({ ...forms, [size]: [] });
     }
   };
-
-  useEffect(() => {
-    Aos.init({
-      duration: 1000,
-      once: scrollAnimationType == "Once" ? true : false,
-    });
-  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -91,7 +85,6 @@ const WebPage = () => {
     fetchPage(breakPoint);
   }, [breakPoint, path?.toString()]);
 
-  
   useEffect(() => {
     const link = document.createElement("link");
     link.href = `https://fonts.googleapis.com/css2?family=${selectedFont?.replace(/ /g, "+")}:wght@400&display=swap`;
@@ -125,13 +118,17 @@ const WebPage = () => {
                   <div
                     key={index}
                     className={`d-flex ${
-                      ele?.type == "card_box" || ele?.props?.imageData ? "background-image-props" : ""
+                      ele?.type == "card_box" || ele?.props?.imageData
+                        ? "background-image-props"
+                        : ""
                     } ${alignment[ele?.props?.align?.value] || ""} ${
                       ["input", "select", "country"].includes(ele?.type)
                         ? "input-style"
                         : ""
                     } ${
-                      ele?.type == "heading" || ele?.type == "paragraph" || ele?.type == "icon"
+                      ele?.type == "heading" ||
+                      ele?.type == "paragraph" ||
+                      ele?.type == "icon"
                         ? textAlign[ele?.props?.align?.value] || ""
                         : ""
                     } ${
@@ -143,7 +140,8 @@ const WebPage = () => {
                       ...(ele?.column_width && {
                         width: `${ele?.column_width}%`,
                       }),
-                      ...(ele?.props?.style && addPixel(ele?.props?.style, ele)),
+                      ...(ele?.props?.style &&
+                        addPixel(ele?.props?.style, ele)),
                       ...(ele?.props?.imageData && {
                         backgroundImage: ele?.props?.imageData?.url,
                       }),

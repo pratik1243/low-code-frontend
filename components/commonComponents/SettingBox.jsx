@@ -6,6 +6,9 @@ import FontFamilyBox from "./FontFamilyBox";
 
 function SettingBox() {
   const {
+    forms,
+    breakPoint,
+    setForms,
     openSettingModel,
     setOpenSettingModel,
     fontModal,
@@ -18,6 +21,57 @@ function SettingBox() {
     scrollAnimationType,
     pageBackground,
   } = useContext(FormContext);
+
+  const onClickSetFieldType = (value) => {
+    const updatedForms = forms[breakPoint].map((el, i) => {
+      const nestedContent = el?.content?.map((ele, id) => {
+        if (["input", "select", "country"].includes(ele?.type)) {
+          return {
+            ...ele,
+            props: {
+              ...ele?.props,
+              ...(value === "Standard"
+                ? { standard: true, floatLabel: false }
+                : value === "Outlined"
+                ? { floatLabel: true, standard: false }
+                : {
+                    standard: false,
+                    floatLabel: false,
+                  }),
+            },
+          };
+        }
+        return ele;
+      });
+      if (el?.type === "container") {
+        return { ...el, content: nestedContent };
+      } else if (["input", "select", "country"].includes(el?.type)) {
+        return {
+          ...el,
+          props: {
+            ...el?.props,
+            ...(value === "Standard"
+              ? { standard: true, floatLabel: false }
+              : value === "Outlined"
+              ? { floatLabel: true, standard: false }
+              : {
+                  standard: false,
+                  floatLabel: false,
+                }),
+          },
+        };
+      } else {
+        return el;
+      }
+    });
+
+    setForms({
+      ...forms,
+      [breakPoint]: updatedForms,
+    });
+  };
+
+  console.log('fieldType', pageBackground);
 
   return (
     <Offcanvas
@@ -55,7 +109,9 @@ function SettingBox() {
                       variant={"primary"}
                       size="sm"
                       className="clear-background-btn"
-                      onClick={() => {}}
+                      onClick={() => {
+                        setPageBackground("");
+                      }}
                     >
                       Clear
                     </Button>
@@ -71,9 +127,10 @@ function SettingBox() {
                     value={fieldType || ""}
                     onChange={(e) => {
                       setFieldType(e);
+                      onClickSetFieldType(e?.value);
                     }}
                     options={[
-                      { label: "Outlined", value: "Outlined" },
+                      { label: "Float Label", value: "Outlined" },
                       { label: "Standard", value: "Standard" },
                       { label: "Default", value: "Default" },
                     ]}
