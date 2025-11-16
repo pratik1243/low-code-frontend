@@ -1555,3 +1555,7 @@ hr {
   background-color: #f8f8f8;
   border-top: 1px solid var(--grey-color);
 }
+
+.icon-pl {
+  padding-left: 11px;
+}
