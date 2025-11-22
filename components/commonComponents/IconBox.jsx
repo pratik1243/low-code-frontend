@@ -66,7 +66,7 @@ const IconBox = ({ onCustomizeElement = null, goBack, setIcon = null }) => {
     <>
       <div className="icon-search-input">
         <Row>
-          <Col lg={3} md={3}>
+          <Col lg={2} md={2}>
             <Button
               variant={"primary"}
               className="go-back-btn"
@@ -78,7 +78,7 @@ const IconBox = ({ onCustomizeElement = null, goBack, setIcon = null }) => {
               <IoMdArrowBack size={18} /> &nbsp;&nbsp;Back
             </Button>
           </Col>
-          <Col lg={9} md={9}>
+          <Col lg={10} md={10}>
             <div className="position-relative">
               <input
                 type="text"

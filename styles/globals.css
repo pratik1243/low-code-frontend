@@ -1230,7 +1230,7 @@ hr {
 }
 
 .font-box .font-search-input button {
-  height: 45px;
+  height: 41px;
   padding-left: 20px;
   padding-right: 20px;
 }
@@ -1604,4 +1604,8 @@ hr {
 .nav-logo-upload-sec .remove-btn {
   cursor: pointer;
   font-size: 21px;
+}
+
+.icon-pl {
+  padding-left: 11px;
 }

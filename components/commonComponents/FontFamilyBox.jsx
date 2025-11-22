@@ -45,7 +45,7 @@ const FontFamilyBox = () => {
   return (
     <div className="font-box">
       <div className="font-search-input">
-        <Row>
+        <Row className="align-items-center">
           <Col lg={2} md={2}>
             <Button
               variant={"primary"}
@@ -58,7 +58,7 @@ const FontFamilyBox = () => {
             </Button>
           </Col>
           <Col lg={10} md={10}>
-            <div className="position-relative">
+            <div className="position-relative icon-pl">
               <input
                 type="text"
                 value={fontValue}
