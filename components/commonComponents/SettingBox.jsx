@@ -3,6 +3,9 @@ import Select from "react-select";
 import { Button, Col, Container, Offcanvas, Row } from "react-bootstrap";
 import { FormContext } from "../FormCreate";
 import FontFamilyBox from "./FontFamilyBox";
+import NavbarCustomize from "./NavbarCustomize";
+import IconBox from "./IconBox";
+import { useState } from "react";
 
 function SettingBox() {
   const {
@@ -16,11 +19,19 @@ function SettingBox() {
     selectedFont,
     fieldType,
     setFieldType,
+    navSettings,
+    setNavSettings,
     setScrollAnimationType,
     setPageBackground,
     scrollAnimationType,
     pageBackground,
+    showIconBox,
+    navbarProps,
+    setNavbarProps,
+    setShowIconBox,
   } = useContext(FormContext);
+
+  const [menuIndex, setMenuIndex] = useState(null);
 
   const onClickSetFieldType = (value) => {
     const updatedForms = forms[breakPoint].map((el, i) => {
@@ -71,7 +82,7 @@ function SettingBox() {
     });
   };
 
-  console.log('fieldType', pageBackground);
+  console.log("navbarProps", navbarProps);
 
   return (
     <Offcanvas
@@ -85,8 +96,30 @@ function SettingBox() {
         <Offcanvas.Title>Page Settings</Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body className="p-0">
-        {fontModal ? (
+        {showIconBox ? (
+          <IconBox
+            setIcon={(iconName) => {
+              const updateMenuIems = navbarProps.menus?.menuList?.map(
+                (el, i) => {
+                  if (i === menuIndex) {
+                    return { ...el, icon: iconName };
+                  }
+                  return el;
+                }
+              );
+              setNavbarProps({
+                ...navbarProps,
+                menus: { ...navbarProps.menus, menuList: updateMenuIems },
+              });
+            }}
+            goBack={() => {
+              setShowIconBox(false);
+            }}
+          />
+        ) : fontModal ? (
           <FontFamilyBox />
+        ) : navSettings ? (
+          <NavbarCustomize setMenuIndex={setMenuIndex} />
         ) : (
           <Container className="mt-3">
             <div className="p-2">
@@ -155,17 +188,29 @@ function SettingBox() {
                   />
                 </div>
               </div>
-              <div className="mb-4">
-                <button
-                  className="font-select-btn"
-                  onClick={() => {
-                    setFontModal(true);
-                  }}
-                >
-                  {selectedFont && "Selected font -"}{" "}
-                  {selectedFont?.split("-").join(" ") || "Select Font Family"}
-                </button>
-              </div>
+              <Row>
+                <Col lg={6} md={6}>
+                  <button
+                    className="font-select-btn w-100"
+                    onClick={() => {
+                      setFontModal(true);
+                    }}
+                  >
+                    {selectedFont && "Selected font -"}{" "}
+                    {selectedFont?.split("-").join(" ") || "Select Font Family"}
+                  </button>
+                </Col>
+                <Col lg={6} md={6}>
+                  <button
+                    className="font-select-btn w-100"
+                    onClick={() => {
+                      setNavSettings(true);
+                    }}
+                  >
+                    Navbar Customization
+                  </button>
+                </Col>
+              </Row>
             </div>
           </Container>
         )}

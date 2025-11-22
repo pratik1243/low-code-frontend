@@ -1,33 +1,57 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
+import * as FaIcons from "react-icons/fa";
+import * as MdIcons from "react-icons/md";
+import * as HiIcons from "react-icons/hi";
+import * as AiIcons from "react-icons/ai";
 import React, { useContext } from "react";
-import { Col, Row } from "react-bootstrap";
+import { API_BASE_URL } from "../../services/endpoints";
 import { PageContext } from "../WebPage";
 
 const NavbarComp = () => {
-  const { forms, setForms, pagesList } = useContext(PageContext);
+  const { navbarProps } = useContext(PageContext);
+  const iconType = {
+    ...FaIcons,
+    ...MdIcons,
+    ...HiIcons,
+    ...AiIcons,
+  };
 
   return (
     <div className="navbar-section">
-      <Row>
-        <Col lg={6} md={6}></Col>
-
-        <Col lg={6} md={6}>
-          <div className="nav-link-sec">
-            {pagesList.map((ele, i) => {
-              if (ele?.page_route) {
-                return (
-                  <Link key={i} href={`/web-page/${ele?.page_route}`}>
-                    {ele?.page_name}
-                  </Link>
-                );
-              } else {
-                return null;
-              }
-            })}
-          </div>
-        </Col>
-      </Row>
+      {navbarProps?.logo?.logoUrl && (
+        <div style={{ width: `${navbarProps?.logo?.columnWidth}%` }}>
+          <Image
+            src={`${API_BASE_URL}/image/${navbarProps?.logo?.logoUrl}`}
+            width={navbarProps?.logo?.width || 100}
+            height={navbarProps?.logo?.height || 40}
+            alt="nav-logo"
+          />
+        </div>
+      )}
+      <div
+        className="d-flex align-items-center"
+        style={{ width: `${navbarProps?.menus?.columnWidth}%` }}
+      >
+        {navbarProps?.menus?.menuList?.length > 0 &&
+          navbarProps?.menus?.menuList?.map((el, i) => {
+            const IconComponent = iconType[el?.icon];
+            return (
+              <div key={i} className="menu-item">
+                <Link href={el?.menuLink}>
+                  {" "}
+                  {el?.icon && (
+                    <>
+                      <IconComponent size={17} />
+                      &nbsp;&nbsp;
+                    </>
+                  )}{el?.text}{" "}
+                </Link>
+              </div>
+            );
+          })}
+      </div>
     </div>
   );
 };

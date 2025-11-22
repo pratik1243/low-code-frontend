@@ -44,10 +44,22 @@ const FormCreate = () => {
   const [openSettingModel, setOpenSettingModel] = useState(false);
   const [showCurrentElement, setShowCurrentElement] = useState(false);
   const [openImageModel, setOpenImageModel] = useState(false);
+  const [showIconBox, setShowIconBox] = useState(false);
+  const [navbarProps, setNavbarProps] = useState({
+    logo: {
+      columnWidth: 50,
+      width: "",
+      height: "",
+      logoUrl: "",
+    },
+    menus: {
+      menuList: [],
+      columnWidth: 50,
+    },
+  });
+  const [navSettings, setNavSettings] = useState(false);
   const token = useSelector((user) => user.auth.authDetails.token);
-  const requestUserId = useSelector(
-    (user) => user.auth.authDetails.request_user_id
-  );
+  const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
 
   function dataPayload(data) {
     return {
@@ -59,6 +71,7 @@ const FormCreate = () => {
         field_type: fieldType,
         page_background: pageBackground,
         scroll_animation_type: scrollAnimationType,
+        navbar_props: navbarProps,
         screenSize: {
           lg: forms.lg,
           md: forms.md,
@@ -134,17 +147,26 @@ const FormCreate = () => {
         setSelectedFont(dataArray?.font_family);
         setFieldType(dataArray?.field_type);
         setScrollAnimationType(dataArray?.scroll_animation_type);
-        setPageBackground(dataArray?.page_background);        
+        setPageBackground(dataArray?.page_background);
+        setNavbarProps(dataArray?.navbar_props);
         setForms({
           ...forms,
-          lg: dataArray?.screenSize?.lg?.length > 0
-            ? dataArray?.screenSize?.lg : forms?.lg,
-          md: dataArray?.screenSize?.md?.length > 0
-            ? dataArray?.screenSize?.md : forms?.md,
-          sm: dataArray?.screenSize?.sm?.length > 0
-            ? dataArray?.screenSize?.sm : forms?.sm,
-          xs: dataArray?.screenSize?.xs?.length > 0
-            ? dataArray?.screenSize?.xs : forms?.xs,
+          lg:
+            dataArray?.screenSize?.lg?.length > 0
+              ? dataArray?.screenSize?.lg
+              : forms?.lg,
+          md:
+            dataArray?.screenSize?.md?.length > 0
+              ? dataArray?.screenSize?.md
+              : forms?.md,
+          sm:
+            dataArray?.screenSize?.sm?.length > 0
+              ? dataArray?.screenSize?.sm
+              : forms?.sm,
+          xs:
+            dataArray?.screenSize?.xs?.length > 0
+              ? dataArray?.screenSize?.xs
+              : forms?.xs,
         });
       } else {
         dispatch(setLoader(false));
@@ -175,7 +197,9 @@ const FormCreate = () => {
         let data = response?.data?.responseData;
         for (let index = 0; index < data?.length; index++) {
           page_list.push({
-            page_route: data[index]?.page_route ? `/web-page/${data[index]?.page_route}` : null,
+            page_route: data[index]?.page_route
+              ? `/web-page/${data[index]?.page_route}`
+              : null,
             page_name: data[index]?.page_name,
             page_data: data[index]?.page_data?.screenSize[size],
             page_item_url: `/page/${data[index]?.page_id}`,
@@ -222,11 +246,15 @@ const FormCreate = () => {
           setCurrentElement,
           breakPoint,
           fontModal,
+          navSettings,
+          setNavSettings,
           setFontModal,
           setBreakPoint,
           selectedFont,
           fieldType,
           setFieldType,
+          showIconBox,
+          setShowIconBox,
           setScrollAnimationType,
           setPageBackground,
           scrollAnimationType,
@@ -234,6 +262,8 @@ const FormCreate = () => {
           showCurrentElement,
           openImageModel,
           setOpenImageModel,
+          navbarProps,
+          setNavbarProps,
           setShowCurrentElement,
         }}
       >

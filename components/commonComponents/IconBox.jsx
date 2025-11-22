@@ -13,7 +13,7 @@ import { Col, Row, Spinner, Button } from "react-bootstrap";
 import { commonPostApiFunction } from "../../services/commonApiFunc";
 import { IoMdArrowBack } from "react-icons/io";
 
-const IconBox = ({ onCustomizeElement, goBack }) => {
+const IconBox = ({ onCustomizeElement = null, goBack, setIcon = null }) => {
   const { forms } = useContext(FormContext);
   const token = useSelector((user) => user.auth.authDetails.token);
   const [loader, setLoader] = useState(false);
@@ -47,7 +47,11 @@ const IconBox = ({ onCustomizeElement, goBack }) => {
   };
 
   const setIconType = (icon) => {
-    onCustomizeElement(icon, "iconName", "select", forms);
+    if (onCustomizeElement) {
+      onCustomizeElement(icon, "iconName", "select", forms);
+    } else {
+      setIcon(icon);
+    }
     goBack();
   };
 

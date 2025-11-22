@@ -8,6 +8,7 @@ import { addPixel, alignment, textAlign } from "../utils/utilFunctions";
 import LayoutComp from "./commonComponents/LayoutComp";
 import { setLoader } from "../redux/slices/loaderSlice";
 import { useDispatch, useSelector } from "react-redux";
+import NavbarComp from "./fieldsComponents/NavbarComp";
 
 export const PageContext = createContext();
 
@@ -21,6 +22,7 @@ const WebPage = () => {
     sm: [],
     xs: [],
   });
+  const [navbarProps, setNavbarProps] = useState({});
   const [currentElement, setCurrentElement] = useState();
   const [selectedFont, setSelectedFont] = useState("Roboto");
   const [breakPoint, setBreakPoint] = useState("lg");
@@ -47,13 +49,17 @@ const WebPage = () => {
       if (response.status == 200) {
         setSelectedFont(response?.data?.responseData?.font_family);
         setPageBackground(response?.data?.responseData?.page_background);
+        setNavbarProps({
+          logo: response?.data?.responseData?.navbar_props?.logo,
+          menus: response?.data?.responseData?.navbar_props?.menus
+        });
         setForms({
           ...forms,
           [size]: response?.data?.responseData?.screenSize,
         });
         Aos.init({
           duration: 1000,
-          once: response?.data?.responseData?.scroll_animation_type?.value === "Once"
+          once: response?.data?.responseData?.scroll_animation_type?.value === "Once",
         });
       } else {
         setSelectedFont("Roboto");
@@ -83,11 +89,14 @@ const WebPage = () => {
 
   useEffect(() => {
     fetchPage(breakPoint);
-  }, [breakPoint, path?.toString()]);
+  }, [breakPoint, path]);
 
   useEffect(() => {
     const link = document.createElement("link");
-    link.href = `https://fonts.googleapis.com/css2?family=${selectedFont?.replace(/ /g, "+")}:wght@400&display=swap`;
+    link.href = `https://fonts.googleapis.com/css2?family=${selectedFont?.replace(
+      / /g,
+      "+"
+    )}:wght@400&display=swap`;
     link.rel = "stylesheet";
     document.body.style.backgroundColor = pageBackground;
     document.head.appendChild(link);
@@ -103,11 +112,14 @@ const WebPage = () => {
           forms,
           setForms,
           breakPoint,
+          navbarProps,
+          setNavbarProps,
           currentElement,
           setCurrentElement,
         }}
       >
         <LayoutComp>
+          {(navbarProps?.logo?.logoUrl || navbarProps?.menus?.menuList?.length > 0) && <NavbarComp />}
           <div className="d-flex web-div" style={{ fontFamily: selectedFont }}>
             {forms[breakPoint]?.length > 0 &&
               forms[breakPoint]?.map((ele, index) => {

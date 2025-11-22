@@ -124,7 +124,7 @@ input {
 
 .element-create-sec {
   padding-bottom: 30px !important;
-} 
+}
 
 .field-customize-sec {
   padding: 20px;
@@ -185,7 +185,8 @@ input {
 }
 
 .field-customize-sec .customize-prop-sec .customize-input,
-.modal-dialog-customize .customize-input {
+.modal-dialog-customize .customize-input,
+.setting-box .customize-prop-sec .customize-input {
   background-color: var(--white-color);
   width: 100%;
   padding: 11px;
@@ -196,7 +197,9 @@ input {
 }
 
 .field-customize-sec .customize-prop-sec input[type="text"]:focus,
-.field-customize-sec .customize-prop-sec input[type="number"]:focus {
+.field-customize-sec .customize-prop-sec input[type="number"]:focus,
+.setting-box .customize-prop-sec input[type="text"]:focus,
+.setting-box .customize-prop-sec input[type="number"]:focus {
   box-shadow: 0 0 0 1.5px #00b2aa30;
   border-color: #00b2aa !important;
 }
@@ -480,6 +483,7 @@ input {
   display: flex !important;
   justify-content: center;
   align-items: center;
+  font-size: 14.5px;
 }
 
 .customize-option-sec .page-item-link {
@@ -897,7 +901,7 @@ hr {
 }
 
 .navbar-section {
-  padding: 20px 30px;
+  padding: 10px 30px;
   box-shadow: 0 0 5px 2px #80808042;
   position: fixed;
   left: 0;
@@ -905,6 +909,7 @@ hr {
   z-index: 1200;
   top: 0;
   background-color: var(--white-color);
+  display: flex;
 }
 
 .nav-link-sec {
@@ -1221,7 +1226,7 @@ hr {
   padding: 10px 15px;
   border-radius: 4px;
   outline: none;
-  border: 1px solid var(--grey-color);  
+  border: 1px solid var(--grey-color);
 }
 
 .font-box .font-search-input button {
@@ -1554,4 +1559,49 @@ hr {
 .setting-box .offcanvas-body {
   background-color: #f8f8f8;
   border-top: 1px solid var(--grey-color);
+}
+
+.setting-box .css-19bb58m {
+  padding: 0 !important;
+  margin: 4px !important;
+}
+
+.menu-action-btn {
+  background-color: #fff !important;
+  border: 1px solid var(--grey-color) !important;
+  padding: 6px 8px !important;
+}
+
+.menu-action-btn:hover {
+  background-color: #fff !important;
+}
+
+.menu-action-btn::after {
+  display: none !important;
+}
+
+.navbar-section .menu-item {
+  margin-right: 25px;
+}
+
+.navbar-section .menu-item a {
+  text-decoration: none !important;
+  display: flex;
+  align-items: center;
+  color: #000 !important;
+}
+
+.nav-logo-upload-sec{
+  background-color: #fff;
+  padding: 10px 15px;
+  border: 1px solid var(--grey-color);
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo-upload-sec .remove-btn {
+  cursor: pointer;
+  font-size: 21px;
 }
