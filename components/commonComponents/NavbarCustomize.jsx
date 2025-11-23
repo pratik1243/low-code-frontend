@@ -424,7 +424,7 @@ function NavbarCustomize({ setMenuIndex }) {
                     >
                       <td>
                         <div className="option-input d-flex align-items-center m-2">
-                          {el?.icon && <IconComponent size={20} />}&nbsp;&nbsp;
+                          {el?.icon && <><IconComponent size={20} />&nbsp;&nbsp;</>}
                           <input
                             type={"text"}
                             className="customize-input mb-0"
