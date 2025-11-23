@@ -402,7 +402,7 @@ function NavbarCustomize({ setMenuIndex }) {
           <Button className="add-icon-btn" onClick={addNavProps}>
             <IoAddSharp size={20} /> Add Menu
           </Button>
-          <div className="customize-content-table mt-4">
+          <div className="customize-content-table menu-item-table mt-4">
             <Table bordered>
               <thead>
                 <tr>
