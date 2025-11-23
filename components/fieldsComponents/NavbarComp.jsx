@@ -19,7 +19,14 @@ const NavbarComp = () => {
   };
 
   return (
-    <div className="navbar-section">
+    <div
+      className="navbar-section"
+      style={{
+        ...(navbarProps?.navBackgroundColor && {
+          backgroundColor: navbarProps?.navBackgroundColor,
+        }),
+      }}
+    >
       {navbarProps?.logo?.logoUrl && (
         <div style={{ width: `${navbarProps?.logo?.columnWidth}%` }}>
           <Image
@@ -39,14 +46,22 @@ const NavbarComp = () => {
             const IconComponent = iconType[el?.icon];
             return (
               <div key={i} className="menu-item">
-                <Link href={el?.menuLink}>
+                <Link
+                  href={el?.menuLink}
+                  style={{
+                    ...(navbarProps?.menus?.menuColor && {
+                      color: navbarProps?.menus?.menuColor,
+                    }),
+                  }}
+                >
                   {" "}
                   {el?.icon && (
                     <>
                       <IconComponent size={17} />
                       &nbsp;&nbsp;
                     </>
-                  )}{el?.text}{" "}
+                  )}
+                  {el?.text}{" "}
                 </Link>
               </div>
             );

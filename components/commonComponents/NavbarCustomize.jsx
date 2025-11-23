@@ -319,6 +319,83 @@ function NavbarCustomize({ setMenuIndex }) {
           </Row>
         </Container>
 
+        <Container>
+          <Col lg={6} md={6}>
+            <Row>
+              <Col lg={9} md={9}>
+                <label className="mb-2">Navbar Background Color</label>
+                <input
+                  type="color"
+                  id="color-picker2"
+                  className="w-100"
+                  value={navbarProps?.navBackgroundColor || ""}
+                  onChange={(e) => {
+                    setNavbarProps({
+                      ...navbarProps,
+                      navBackgroundColor: e.target.value,
+                    });
+                  }}
+                />
+              </Col>
+              <Col lg={3} md={3}>
+                <Button
+                  variant={"primary"}
+                  size="sm"
+                  className="clear-background-btn"
+                  onClick={() => {
+                    setNavbarProps({
+                      ...navbarProps,
+                      navBackgroundColor: "",
+                    });
+                  }}
+                >
+                  Clear
+                </Button>
+              </Col>
+            </Row>
+          </Col>
+          <Col lg={6} md={6}>
+            <Row>
+              <Col lg={9} md={9}>
+                <label className="mb-2">Menu Color</label>
+                <input
+                  type="color"
+                  id="color-picker2"
+                  className="w-100"
+                  value={navbarProps?.menus?.menuColor || ""}
+                  onChange={(e) => {
+                    setNavbarProps({
+                      ...navbarProps,
+                      menus: {
+                        ...navbarProps.menus,
+                        menuColor: e.target.value,
+                      },
+                    });
+                  }}
+                />
+              </Col>
+              <Col lg={3} md={3}>
+                <Button
+                  variant={"primary"}
+                  size="sm"
+                  className="clear-background-btn"
+                  onClick={() => {
+                    setNavbarProps({
+                      ...navbarProps,
+                      menus: {
+                        ...navbarProps.menus,
+                        menuColor: "",
+                      },
+                    });
+                  }}
+                >
+                  Clear
+                </Button>
+              </Col>
+            </Row>
+          </Col>
+        </Container>
+
         <div className="mb-5 mt-5 px-2">
           <Button className="add-icon-btn" onClick={addNavProps}>
             <IoAddSharp size={20} /> Add Menu
@@ -389,13 +466,15 @@ function NavbarCustomize({ setMenuIndex }) {
                             >
                               Add Icon
                             </Dropdown.Item>
-                            <Dropdown.Item
-                              onClick={() => {
-                                removeMenuIcon(i);
-                              }}
-                            >
-                              Remove Icon
-                            </Dropdown.Item>
+                            {el?.icon && (
+                              <Dropdown.Item
+                                onClick={() => {
+                                  removeMenuIcon(i);
+                                }}
+                              >
+                                Remove Icon
+                              </Dropdown.Item>
+                            )}
                             <Dropdown.Item
                               onClick={() => {
                                 removeMenuItem(i);

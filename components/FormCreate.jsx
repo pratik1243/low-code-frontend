@@ -46,6 +46,7 @@ const FormCreate = () => {
   const [openImageModel, setOpenImageModel] = useState(false);
   const [showIconBox, setShowIconBox] = useState(false);
   const [navbarProps, setNavbarProps] = useState({
+    navBackgroundColor: "",
     logo: {
       columnWidth: 50,
       width: "",
@@ -55,6 +56,7 @@ const FormCreate = () => {
     menus: {
       menuList: [],
       columnWidth: 50,
+      menuColor: ""
     },
   });
   const [navSettings, setNavSettings] = useState(false);
