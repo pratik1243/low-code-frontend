@@ -51,7 +51,8 @@ const WebPage = () => {
         setPageBackground(response?.data?.responseData?.page_background);
         setNavbarProps({
           logo: response?.data?.responseData?.navbar_props?.logo,
-          menus: response?.data?.responseData?.navbar_props?.menus
+          menus: response?.data?.responseData?.navbar_props?.menus,
+          navBackgroundColor: response?.data?.responseData?.navbar_props?.navBackgroundColor
         });
         setForms({
           ...forms,
