@@ -1588,7 +1588,7 @@ hr {
   text-decoration: none !important;
   display: flex;
   align-items: center;
-  color: #000 !important;
+  color: #000;
 }
 
 .nav-logo-upload-sec{
