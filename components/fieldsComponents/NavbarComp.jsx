@@ -47,7 +47,7 @@ const NavbarComp = () => {
             return (
               <div key={i} className="menu-item">
                 <Link
-                  href={el?.menuLink}
+                  href={el?.menuLink?.page_route}
                   style={{
                     ...(navbarProps?.menus?.menuColor && {
                       color: navbarProps?.menus?.menuColor,
