@@ -178,6 +178,7 @@ function AddMenuContent({ menuIndex, setMenuIndex }) {
           <Button
             className="go-back-btn"
             onClick={() => {
+              setMenuIndex(null);
               setIsSubMenuOpen(false);
             }}
           >
