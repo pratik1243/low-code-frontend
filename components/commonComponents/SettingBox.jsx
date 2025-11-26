@@ -94,13 +94,12 @@ function SettingBox() {
         return ele;
       });
 
-      if (el.subMenus) {
-        return { ...el, subMenus: updateSubMenuIems };
-      } else if (i === menuIndex) {
+      if (i === menuIndex) {
         return { ...el, icon: iconName };
       } else {
-        return el;
+        return { ...el, subMenus: updateSubMenuIems };
       }
+      return el;
     });
     setNavbarProps({
       ...navbarProps,
