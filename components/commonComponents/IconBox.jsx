@@ -65,7 +65,7 @@ const IconBox = ({ onCustomizeElement = null, goBack, setIcon = null }) => {
   return (
     <>
       <div className="icon-search-input">
-        <Row>
+        <Row className="align-items-center">
           <Col lg={2} md={2}>
             <Button
               variant={"primary"}

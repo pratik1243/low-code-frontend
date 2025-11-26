@@ -9,7 +9,9 @@ import {
 import { FormContext } from "./FormCreate";
 import { usePathname } from "next/navigation";
 import ElementActions from "./commonComponents/ElementActions";
+import emptyImg from "../public/empty-box.png";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import Image from "next/image";
 
 const FormTemplate = () => {
   const {
@@ -138,9 +140,10 @@ const FormTemplate = () => {
         </div>
       </div>
       {forms[breakPoint] && forms[breakPoint]?.length == 0 && (
-        <h4 className="text-center w-100 p-3 mb-3 mt-5">
-          Click on elements to add...
-        </h4>
+        <div className="pt-4 pb-2 text-center">
+          <Image src={emptyImg} height={130} width={130} alt="menu-empty" />
+          <div className="no-menus-txt fs-5 text-dark">Click on elements to add...</div>
+        </div>
       )}
       <div className="main-content-sec">
         {forms[breakPoint]?.length > 0 &&

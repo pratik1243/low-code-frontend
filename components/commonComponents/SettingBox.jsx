@@ -82,7 +82,31 @@ function SettingBox() {
     });
   };
 
-  console.log("navbarProps", navbarProps);
+  const setMenuIcon = (iconName) => {
+    const updateMenuIems = navbarProps.menus?.menuList?.map((el, i) => {
+      const updateSubMenuIems = el.subMenus.map((ele, ind) => {
+        if (menuIndex === ind) {
+          return {
+            ...ele,
+            icon: iconName,
+          };
+        }
+        return ele;
+      });
+
+      if (el.subMenus) {
+        return { ...el, subMenus: updateSubMenuIems };
+      } else if (i === menuIndex) {
+        return { ...el, icon: iconName };
+      } else {
+        return el;
+      }
+    });
+    setNavbarProps({
+      ...navbarProps,
+      menus: { ...navbarProps.menus, menuList: updateMenuIems },
+    });
+  };
 
   return (
     <Offcanvas
@@ -99,18 +123,7 @@ function SettingBox() {
         {showIconBox ? (
           <IconBox
             setIcon={(iconName) => {
-              const updateMenuIems = navbarProps.menus?.menuList?.map(
-                (el, i) => {
-                  if (i === menuIndex) {
-                    return { ...el, icon: iconName };
-                  }
-                  return el;
-                }
-              );
-              setNavbarProps({
-                ...navbarProps,
-                menus: { ...navbarProps.menus, menuList: updateMenuIems },
-              });
+              setMenuIcon(iconName);
             }}
             goBack={() => {
               setShowIconBox(false);
@@ -119,7 +132,7 @@ function SettingBox() {
         ) : fontModal ? (
           <FontFamilyBox />
         ) : navSettings ? (
-          <NavbarCustomize setMenuIndex={setMenuIndex} />
+          <NavbarCustomize menuIndex={menuIndex} setMenuIndex={setMenuIndex} />
         ) : (
           <Container className="mt-3">
             <div className="p-2">

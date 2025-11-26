@@ -1,40 +1,20 @@
 import React from "react";
-import { useContext } from "react";
-import * as FaIcons from "react-icons/fa";
-import * as MdIcons from "react-icons/md";
-import * as HiIcons from "react-icons/hi";
-import * as AiIcons from "react-icons/ai";
+import { useContext, useState } from "react";
 import { Button, Col, Container, Dropdown, Row, Table } from "react-bootstrap";
 import { FiUpload } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoader } from "../../redux/slices/loaderSlice";
 import { setSnackbarProps } from "../../redux/slices/snackbarSlice";
-import Select from "react-select";
 import { commonPostApiFunction } from "../../services/commonApiFunc";
 import { FormContext } from "../FormCreate";
-import { IoAddSharp } from "react-icons/io5";
-import { HiDotsVertical } from "react-icons/hi";
 import { API_BASE_URL } from "../../services/endpoints";
 import Image from "next/image";
 import { IoMdArrowBack, IoMdClose } from "react-icons/io";
+import AddMenuContent from "./AddMenuContent";
 
-function NavbarCustomize({ setMenuIndex }) {
+function NavbarCustomize({ menuIndex, setMenuIndex }) {
   const dispatch = useDispatch();
-  const {
-    navbarProps,
-    setNavbarProps,
-    pagesList,
-    setShowIconBox,
-    setNavSettings,
-  } = useContext(FormContext);
-
-  const iconType = {
-    ...FaIcons,
-    ...MdIcons,
-    ...HiIcons,
-    ...AiIcons,
-  };
-
+  const { navbarProps, setNavbarProps, setNavSettings } = useContext(FormContext);
   const token = useSelector((user) => user.auth.authDetails.token);
 
   const uploadImage = async (e) => {
@@ -86,83 +66,6 @@ function NavbarCustomize({ setMenuIndex }) {
     setNavbarProps({
       ...navbarProps,
       logo: { ...navbarProps.logo, logoUrl: "" },
-    });
-  };
-
-  const onMenuItemsChange = (value, name, id) => {
-    const updateMenuIems = navbarProps.menus?.menuList?.map((el, i) => {
-      if (i === id) {
-        return { ...el, [name]: value };
-      }
-      return el;
-    });
-    setNavbarProps({
-      ...navbarProps,
-      menus: { ...navbarProps.menus, menuList: updateMenuIems },
-    });
-  };
-
-  const orderContent = (e, dropIndex) => {
-    const filterContentList = navbarProps.menus?.menuList;
-    const dragIndex = JSON.parse(e?.dataTransfer?.getData("menu-item"));
-    const draggedItem = filterContentList[dragIndex];
-    filterContentList?.splice(dragIndex, 1);
-    filterContentList?.splice(dropIndex, 0, draggedItem);
-    return filterContentList;
-  };
-
-  const onDropItem = (e, dropIndex) => {
-    e.stopPropagation();
-    setNavbarProps({
-      ...navbarProps,
-      menus: { ...navbarProps.menus, menuList: orderContent(e, dropIndex) },
-    });
-  };
-
-  const onDragStart = (e, i) => {
-    e.dataTransfer.setData("menu-item", i);
-  };
-
-  const removeMenuItem = (id) => {
-    const removedItems = navbarProps.menus?.menuList.filter((e, i) => i !== id);
-    setNavbarProps({
-      ...navbarProps,
-      menus: { ...navbarProps.menus, menuList: removedItems },
-    });
-  };
-
-  const onDragOver = (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-  };
-
-  const removeMenuIcon = (id) => {
-    const updateMenuIems = navbarProps.menus?.menuList?.map((el, i) => {
-      if (i === id) {
-        return { ...el, icon: "" };
-      }
-      return el;
-    });
-    setNavbarProps({
-      ...navbarProps,
-      menus: { ...navbarProps.menus, menuList: updateMenuIems },
-    });
-  };
-
-  const addNavProps = () => {
-    setNavbarProps({
-      ...navbarProps,
-      menus: {
-        ...navbarProps.menus,
-        menuList: [
-          ...navbarProps.menus.menuList,
-          {
-            text: "",
-            menuLink: "",
-            icon: "",
-          },
-        ],
-      },
     });
   };
 
@@ -397,103 +300,7 @@ function NavbarCustomize({ setMenuIndex }) {
             </Col>
           </Row>
         </Container>
-
-        <div className="mb-5 mt-5 px-2">
-          <Button className="add-icon-btn" onClick={addNavProps}>
-            <IoAddSharp size={20} /> Add Menu
-          </Button>
-          <div className="customize-content-table menu-item-table mt-4">
-            <Table bordered>
-              <thead>
-                <tr>
-                  <th>Menu Label</th>
-                  <th>Menu Link</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody className="customize-option-sec mt-4">
-                {navbarProps?.menus?.menuList?.map((el, i) => {
-                  const IconComponent = iconType[el?.icon];
-                  return (
-                    <tr
-                      key={i}
-                      draggable
-                      onDragOver={(e) => onDragOver(e)}
-                      onDragStart={(e) => onDragStart(e, i)}
-                      onDrop={(e) => onDropItem(e, i)}
-                    >
-                      <td>
-                        <div className="option-input d-flex align-items-center m-2">
-                          {el?.icon && <><IconComponent size={20} />&nbsp;&nbsp;</>}
-                          <input
-                            type={"text"}
-                            className="customize-input mb-0"
-                            placeholder="Enter menu text"
-                            value={el?.text || ""}
-                            onChange={(e) => {
-                              onMenuItemsChange(e.target.value, "text", i);
-                            }}
-                          />
-                        </div>
-                      </td>
-                      <td>
-                        <div className="option-input m-2">
-                          <Select
-                            isClearable
-                            placeholder={"Select page link"}
-                            options={pagesList}
-                            value={el?.menuLink || ""}
-                            getOptionLabel={(e) => e.page_name}
-                            getOptionValue={(e) => e.page_route}
-                            onChange={(data) => {
-                              onMenuItemsChange(data, "menuLink", i);
-                            }}
-                          />
-                        </div>
-                      </td>
-                      <td className="text-center">
-                        <Dropdown className="mt-2">
-                          <Dropdown.Toggle
-                            variant={"light"}
-                            className="menu-action-btn"
-                          >
-                            <HiDotsVertical />
-                          </Dropdown.Toggle>
-                          <Dropdown.Menu>
-                            <Dropdown.Item
-                              onClick={() => {
-                                setShowIconBox(true);
-                                setMenuIndex(i);
-                              }}
-                            >
-                              Add Icon
-                            </Dropdown.Item>
-                            {el?.icon && (
-                              <Dropdown.Item
-                                onClick={() => {
-                                  removeMenuIcon(i);
-                                }}
-                              >
-                                Remove Icon
-                              </Dropdown.Item>
-                            )}
-                            <Dropdown.Item
-                              onClick={() => {
-                                removeMenuItem(i);
-                              }}
-                            >
-                              Delete
-                            </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </Table>
-          </div>
-        </div>
+        <AddMenuContent menuIndex={menuIndex} setMenuIndex={setMenuIndex} />
       </Container>
     </div>
   );

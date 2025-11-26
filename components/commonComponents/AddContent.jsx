@@ -8,6 +8,8 @@ import { LuExternalLink } from "react-icons/lu";
 import { addContentProps, nestedStructure } from "../../utils/utilFunctions";
 import { IoMdArrowBack } from "react-icons/io";
 import { MdDeleteOutline } from "react-icons/md";
+import Image from "next/image";
+import emptyImg from "../../public/empty-box.png";
 
 const AddContent = ({
   currentField,
@@ -15,14 +17,18 @@ const AddContent = ({
   onCustomizeElement,
   goBack,
 }) => {
-  const { forms, setForms, currentElement, pagesList, breakPoint } = useContext(FormContext);
+  const { forms, setForms, currentElement, pagesList, breakPoint } =
+    useContext(FormContext);
   const [optionValue, setOptionValue] = useState("");
   const [pageItem, setPageItem] = useState("");
   const stepList = ["stepper", "slider", "card_box"];
   const stepList2 = ["stepper", "slider", "select", "card_box"];
 
   const orderContent = (e, dropIndex, i, id = undefined) => {
-    const filterContentList = id !== undefined ? forms[breakPoint][id]?.content[i]?.props[addContentType] : forms[breakPoint][i]?.props[addContentType];
+    const filterContentList =
+      id !== undefined
+        ? forms[breakPoint][id]?.content[i]?.props[addContentType]
+        : forms[breakPoint][i]?.props[addContentType];
     const dragIndex = JSON.parse(e?.dataTransfer?.getData("element"));
     const draggedItem = filterContentList[dragIndex];
     filterContentList?.splice(dragIndex, 1);
@@ -186,83 +192,101 @@ const AddContent = ({
         </button>
       </div>
       <div className="customize-content-table">
-        <Table bordered>
+        <Table>
           <thead>
             <tr>
               {!["card_box", "slider"].includes(currentField?.type) && (
                 <th>
-                  <div className="mx-2 my-1">
+                  <div className="my-1">
                     {contentLabel[currentField?.type]} Label
                   </div>
                 </th>
               )}
               {stepList.includes(currentField?.type) && (
                 <th>
-                  <div className="mx-2 my-1">Page Item</div>
+                  <div className="my-1">Page Item</div>
                 </th>
               )}
               <th>
-                <div className="mx-2 my-1">Action</div>
+                <div className="my-1">Action</div>
               </th>
             </tr>
           </thead>
-          <tbody className="customize-option-sec mt-4">
-            {currentField?.props?.[addContentType]?.map((ele, i) => {
-              return (
-                <tr
-                  key={i}
-                  draggable
-                  onDragOver={(e) => onDragOver(e)}
-                  onDragStart={(e) => onDragStart(e, i)}
-                  onDrop={(e) => onDropItem(e, i)}
-                >
-                  {!["card_box", "slider"].includes(currentField?.type) && (
-                    <td>
-                      <div className="option-input m-2">
-                        <input
-                          type="text"
-                          value={ele?.value}
-                          onChange={(e) =>
-                            onCustomizeElement(
-                              e,
-                              addContentType,
-                              "input",
-                              forms,
-                              "",
-                              i
-                            )
-                          }
-                        />
-                      </div>
+          {currentField?.props?.[addContentType]?.length == 0 ? (
+            <tbody>
+              <tr>
+                <td colSpan={3} className="text-center">
+                  <div className="py-3">
+                    <Image
+                      src={emptyImg}
+                      height={80}
+                      width={80}
+                      alt="menu-empty"
+                    />
+                    <div className="no-menus-txt">No Data Found</div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          ) : (
+            <tbody className="customize-option-sec mt-4">
+              {currentField?.props?.[addContentType]?.map((ele, i) => {
+                return (
+                  <tr
+                    key={i}
+                    draggable
+                    onDragOver={(e) => onDragOver(e)}
+                    onDragStart={(e) => onDragStart(e, i)}
+                    onDrop={(e) => onDropItem(e, i)}
+                  >
+                    {!["card_box", "slider"].includes(currentField?.type) && (
+                      <td>
+                        <div className="option-input m-2">
+                          <input
+                            type="text"
+                            value={ele?.value}
+                            onChange={(e) =>
+                              onCustomizeElement(
+                                e,
+                                addContentType,
+                                "input",
+                                forms,
+                                "",
+                                i
+                              )
+                            }
+                          />
+                        </div>
+                      </td>
+                    )}
+                    {stepList.includes(currentField?.type) && (
+                      <td>
+                        <div className="d-flex align-items-center m-2 mt-3">
+                          <LuExternalLink className="redirect-page" />{" "}
+                          <a
+                            href={ele?.url}
+                            target="_blank"
+                            className="page-item-link"
+                          >
+                            {ele?.label}
+                          </a>
+                        </div>
+                      </td>
+                    )}
+                    <td className="text-center">
+                      <Button
+                        variant="danger delete-content-btn"
+                        className="m-2"
+                        onClick={() => removeOption(ele?.label, addContentType)}
+                      >
+                        <MdDeleteOutline size={19} /> &nbsp;Delete
+                      </Button>
                     </td>
-                  )}
-                  {stepList.includes(currentField?.type) && (
-                    <td>
-                      <div className="d-flex align-items-center m-2 mt-3">
-                        <LuExternalLink className="redirect-page" />{" "}
-                        <a
-                          href={ele?.url}
-                          target="_blank"
-                          className="page-item-link"
-                        >
-                          {ele?.label}
-                        </a>
-                      </div>
-                    </td>
-                  )}
-                  <td className="text-center">
-                    <Button
-                      variant="danger delete-content-btn"
-                      className="m-2"
-                      onClick={() => removeOption(ele?.label, addContentType)}
-                    >
-                      <MdDeleteOutline size={19} /> &nbsp;Delete
-                    </Button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
+                  </tr>
+                );
+              })}
+            </tbody>
+          )}
         </Table>
       </div>
     </div>
