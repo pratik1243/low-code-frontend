@@ -49,6 +49,12 @@ const NavbarComp = () => {
               <div key={i} className="menu-item">
                 {el?.subMenus?.length > 0 ? (
                   <a>
+                    {el?.icon && (
+                      <>
+                        <IconComponent size={17} />
+                        &nbsp;&nbsp;
+                      </>
+                    )}
                     <span
                       style={{
                         ...(navbarProps?.menus?.menuColor && {
