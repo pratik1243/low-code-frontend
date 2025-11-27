@@ -147,6 +147,7 @@ function NavbarCustomize() {
               <label htmlFor="upload-image"></label>
             </div>
           )}
+          <hr className="mt-5" />
         </div>
         <Container className="mb-4">
           <Row>
@@ -299,6 +300,7 @@ function NavbarCustomize() {
               </Row>
             </Col>
           </Row>
+          <hr className="mt-5" />
         </Container>
         <AddMenuContent />
       </Container>
