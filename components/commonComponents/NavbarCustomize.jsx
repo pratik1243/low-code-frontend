@@ -147,7 +147,7 @@ function NavbarCustomize({ menuIndex, setMenuIndex }) {
               <label htmlFor="upload-image"></label>
             </div>
           )}
-          <hr />
+          <hr className="mt-5" />
         </div>
         <Container className="mb-4">
           <Row>
@@ -300,7 +300,7 @@ function NavbarCustomize({ menuIndex, setMenuIndex }) {
               </Row>
             </Col>
           </Row>
-          <hr />
+          <hr className="mt-5" />
         </Container>
         <AddMenuContent menuIndex={menuIndex} setMenuIndex={setMenuIndex} />
       </Container>
