@@ -12,7 +12,7 @@ import Image from "next/image";
 import { IoMdArrowBack, IoMdClose } from "react-icons/io";
 import AddMenuContent from "./AddMenuContent";
 
-function NavbarCustomize({ menuIndex, setMenuIndex }) {
+function NavbarCustomize() {
   const dispatch = useDispatch();
   const { navbarProps, setNavbarProps, setNavSettings } = useContext(FormContext);
   const token = useSelector((user) => user.auth.authDetails.token);
@@ -300,7 +300,7 @@ function NavbarCustomize({ menuIndex, setMenuIndex }) {
             </Col>
           </Row>
         </Container>
-        <AddMenuContent menuIndex={menuIndex} setMenuIndex={setMenuIndex} />
+        <AddMenuContent />
       </Container>
     </div>
   );

@@ -60,6 +60,8 @@ const FormCreate = () => {
     },
   });
   const [navSettings, setNavSettings] = useState(false);
+  const [menuIndex, setMenuIndex] = useState(null);
+  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const token = useSelector((user) => user.auth.authDetails.token);
   const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
 
@@ -265,6 +267,10 @@ const FormCreate = () => {
           openImageModel,
           setOpenImageModel,
           navbarProps,
+          menuIndex,
+          setMenuIndex,
+          isSubMenuOpen,
+          setIsSubMenuOpen,
           setNavbarProps,
           setShowCurrentElement,
         }}

@@ -12,10 +12,17 @@ import { IoMdArrowBack } from "react-icons/io";
 import emptyImg from "../../public/empty-box.png";
 import Image from "next/image";
 
-function AddMenuContent({ menuIndex, setMenuIndex }) {
-  const { navbarProps, setNavbarProps, pagesList, setShowIconBox } =
-    useContext(FormContext);
-  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
+function AddMenuContent() {
+  const {
+    navbarProps,
+    setNavbarProps,
+    pagesList,
+    setShowIconBox,
+    menuIndex,
+    setMenuIndex,
+    isSubMenuOpen,
+    setIsSubMenuOpen,
+  } = useContext(FormContext);
 
   const iconType = {
     ...FaIcons,

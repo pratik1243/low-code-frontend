@@ -29,9 +29,9 @@ function SettingBox() {
     navbarProps,
     setNavbarProps,
     setShowIconBox,
+    setIsSubMenuOpen,
+    menuIndex,
   } = useContext(FormContext);
-
-  const [menuIndex, setMenuIndex] = useState(null);
 
   const onClickSetFieldType = (value) => {
     const updatedForms = forms[breakPoint].map((el, i) => {
@@ -124,6 +124,10 @@ function SettingBox() {
           <IconBox
             setIcon={(iconName) => {
               setMenuIcon(iconName);
+              if (!menuIndex) {
+                setIsSubMenuOpen(false);
+                setNavSettings(true);
+              }
             }}
             goBack={() => {
               setShowIconBox(false);
@@ -132,7 +136,7 @@ function SettingBox() {
         ) : fontModal ? (
           <FontFamilyBox />
         ) : navSettings ? (
-          <NavbarCustomize menuIndex={menuIndex} setMenuIndex={setMenuIndex} />
+          <NavbarCustomize />
         ) : (
           <Container className="mt-3">
             <div className="p-2">
