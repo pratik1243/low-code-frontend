@@ -1697,3 +1697,12 @@ hr {
   font-size: 15px;
   margin-top: 7px;
 }
+
+.menu-icon-box .modal-body {
+  padding: 0px !important;
+}
+
+.menu-icon-box .modal-body .icons-list {
+  max-height: 350px;
+  overflow-y: scroll;
+}

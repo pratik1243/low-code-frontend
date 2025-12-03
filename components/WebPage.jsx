@@ -44,7 +44,6 @@ const WebPage = () => {
         }),
       };
       const response = await commonPostApiFunction(requestData, token);
-      console.log("response", response?.data?.responseData?.screenSize);
       dispatch(setLoader(false));
       if (response.status == 200) {
         setSelectedFont(response?.data?.responseData?.font_family);

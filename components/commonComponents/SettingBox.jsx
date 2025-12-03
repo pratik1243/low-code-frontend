@@ -29,6 +29,7 @@ function SettingBox() {
     navbarProps,
     setNavbarProps,
     setShowIconBox,
+    isSubMenuOpen,
     setIsSubMenuOpen,
     menuIndex,
   } = useContext(FormContext);
@@ -82,31 +83,6 @@ function SettingBox() {
     });
   };
 
-  const setMenuIcon = (iconName) => {
-    const updateMenuIems = navbarProps.menus?.menuList?.map((el, i) => {
-      const updateSubMenuIems = el.subMenus.map((ele, ind) => {
-        if (menuIndex === ind) {
-          return {
-            ...ele,
-            icon: iconName,
-          };
-        }
-        return ele;
-      });
-
-      if (i === menuIndex) {
-        return { ...el, icon: iconName };
-      } else {
-        return { ...el, subMenus: updateSubMenuIems };
-      }
-      return el;
-    });
-    setNavbarProps({
-      ...navbarProps,
-      menus: { ...navbarProps.menus, menuList: updateMenuIems },
-    });
-  };
-
   return (
     <Offcanvas
       show={openSettingModel}
@@ -119,20 +95,7 @@ function SettingBox() {
         <Offcanvas.Title>Page Settings</Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body className="p-0">
-        {showIconBox ? (
-          <IconBox
-            setIcon={(iconName) => {
-              setMenuIcon(iconName);
-              if (!menuIndex) {
-                setIsSubMenuOpen(false);
-                setNavSettings(true);
-              }
-            }}
-            goBack={() => {
-              setShowIconBox(false);
-            }}
-          />
-        ) : fontModal ? (
+        {fontModal ? (
           <FontFamilyBox />
         ) : navSettings ? (
           <NavbarCustomize />

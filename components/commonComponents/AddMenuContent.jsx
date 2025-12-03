@@ -3,7 +3,7 @@ import * as FaIcons from "react-icons/fa";
 import * as MdIcons from "react-icons/md";
 import * as HiIcons from "react-icons/hi";
 import * as AiIcons from "react-icons/ai";
-import { Button, Dropdown, Table } from "react-bootstrap";
+import { Button, Dropdown, Modal, Table } from "react-bootstrap";
 import { HiDotsVertical } from "react-icons/hi";
 import { IoAddSharp } from "react-icons/io5";
 import { FormContext } from "../FormCreate";
@@ -11,6 +11,7 @@ import Select from "react-select";
 import { IoMdArrowBack } from "react-icons/io";
 import emptyImg from "../../public/empty-box.png";
 import Image from "next/image";
+import IconBox from "./IconBox";
 
 function AddMenuContent() {
   const {
@@ -20,9 +21,12 @@ function AddMenuContent() {
     setShowIconBox,
     menuIndex,
     setMenuIndex,
+    showIconBox,
     isSubMenuOpen,
     setIsSubMenuOpen,
   } = useContext(FormContext);
+
+  const [subMenuIndex, setSubMenuIndex] = useState(null);
 
   const iconType = {
     ...FaIcons,
@@ -174,6 +178,30 @@ function AddMenuContent() {
     }
   };
 
+  const setMenuIcon = (iconName) => {
+    const updateMenuIems = navbarProps.menus?.menuList?.map((el, i) => {
+      const updateSubMenuIems = el.subMenus.map((ele, ind) => {
+        if (subMenuIndex === ind) {
+          return {
+            ...ele,
+            icon: iconName,
+          };
+        }
+        return ele;
+      });
+
+      if (i === menuIndex && !isSubMenuOpen) {
+        return { ...el, icon: iconName };
+      } else {
+        return { ...el, subMenus: updateSubMenuIems };
+      }
+    });
+    setNavbarProps({
+      ...navbarProps,
+      menus: { ...navbarProps.menus, menuList: updateMenuIems },
+    });
+  };
+
   return (
     <div className="mb-5 mt-5 px-2 menu-customize-sec">
       <div className="d-flex mt-5 align-items-center justify-content-end">
@@ -274,19 +302,30 @@ function AddMenuContent() {
                           <HiDotsVertical />
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                          <Dropdown.Item
-                            onClick={() => {
-                              setShowIconBox(true);
-                              setMenuIndex(i);
-                            }}
-                          >
-                            Add Icon
-                          </Dropdown.Item>
+                          {isSubMenuOpen ? (
+                            <Dropdown.Item
+                              onClick={() => {
+                                setShowIconBox(true);
+                                setSubMenuIndex(i);
+                              }}
+                            >
+                              Add Icon
+                            </Dropdown.Item>
+                          ) : (
+                            <Dropdown.Item
+                              onClick={() => {
+                                setShowIconBox(true);
+                                setMenuIndex(i);
+                              }}
+                            >
+                              Add Icon
+                            </Dropdown.Item>
+                          )}
                           {!isSubMenuOpen && (
                             <Dropdown.Item
                               onClick={() => {
                                 setMenuIndex(i);
-                                setIsSubMenuOpen(!isSubMenuOpen);
+                                setIsSubMenuOpen(true);
                               }}
                             >
                               Add Submenu
@@ -318,6 +357,28 @@ function AddMenuContent() {
           )}
         </Table>
       </div>
+      <Modal
+        size="lg"
+        show={showIconBox}
+        className="menu-icon-box"
+        onHide={() => setShowIconBox(false)}
+      >
+        <Modal.Header closeButton>
+          <h5>Add Menu Icon</h5>
+        </Modal.Header>
+        <Modal.Body>
+          {" "}
+          <IconBox
+            hideBackBtn 
+            setIcon={(iconName) => {
+              setMenuIcon(iconName);
+            }}  
+            goBack={()=>{
+              setShowIconBox(false);
+            }}        
+          />
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }

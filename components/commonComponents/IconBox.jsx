@@ -13,7 +13,12 @@ import { Col, Row, Spinner, Button } from "react-bootstrap";
 import { commonPostApiFunction } from "../../services/commonApiFunc";
 import { IoMdArrowBack } from "react-icons/io";
 
-const IconBox = ({ onCustomizeElement = null, goBack, setIcon = null }) => {
+const IconBox = ({
+  onCustomizeElement = null,
+  goBack,
+  setIcon = null,
+  hideBackBtn = null,
+}) => {
   const { forms } = useContext(FormContext);
   const token = useSelector((user) => user.auth.authDetails.token);
   const [loader, setLoader] = useState(false);
@@ -66,20 +71,23 @@ const IconBox = ({ onCustomizeElement = null, goBack, setIcon = null }) => {
     <>
       <div className="icon-search-input">
         <Row className="align-items-center">
-          <Col lg={2} md={2}>
-            <Button
-              variant={"primary"}
-              className="go-back-btn"
-              onClick={() => {
-                goBack();
-                setIcons([]);
-              }}
-            >
-              <IoMdArrowBack size={18} /> &nbsp;&nbsp;Back
-            </Button>
-          </Col>
-          <Col lg={10} md={10}>
-            <div className="position-relative icon-pl">
+          {!hideBackBtn && (
+            <Col lg={2} md={2}>
+              <Button
+                variant={"primary"}
+                className="go-back-btn"
+                onClick={() => {
+                  goBack();
+                  setIcons([]);
+                }}
+              >
+                <IoMdArrowBack size={18} /> &nbsp;&nbsp;Back
+              </Button>
+            </Col>
+          )}
+
+          <Col lg={!hideBackBtn ? 10 : 12} md={!hideBackBtn ? 10 : 12}>
+            <div className="position-relative">
               <input
                 type="text"
                 value={iconValue}
@@ -103,7 +111,7 @@ const IconBox = ({ onCustomizeElement = null, goBack, setIcon = null }) => {
 
       <div className={`icons-list ${loader ? "no-grid" : ""}`}>
         {loader ? (
-          <div className="text-center mt-5">
+          <div className="text-center mt-5 mb-5">
             <Spinner animation="border" variant="primary" />
             <h5 className="mt-2">Please wait loading icons...</h5>
           </div>
