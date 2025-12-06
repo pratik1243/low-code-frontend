@@ -79,7 +79,6 @@ function AddMenuContent() {
 
   const onDropItem = (e, dropIndex) => {
     e.stopPropagation();
-
     const updateSubMenuIems = navbarProps.menus?.menuList?.map((el, i) => {
       if (i === menuIndex) {
         return { ...el, subMenus: orderContent(e, dropIndex) };
@@ -123,16 +122,27 @@ function AddMenuContent() {
     e.preventDefault();
   };
 
-  const removeMenuIcon = (id) => {
+  const removeMenuIcon = (menuId) => {
+    const updateSubMenuIems = navbarProps.menus?.menuList[menuIndex]?.subMenus?.map((el, i) => {
+      if (i === menuId) {
+        return { ...el, icon: "" };
+      }
+      return el;
+    });
     const updateMenuIems = navbarProps.menus?.menuList?.map((el, i) => {
-      if (i === id) {
+      if (isSubMenuOpen) {
+        return { ...el, subMenus: updateSubMenuIems };
+      } else if (i === menuId) {
         return { ...el, icon: "" };
       }
       return el;
     });
     setNavbarProps({
       ...navbarProps,
-      menus: { ...navbarProps.menus, menuList: updateMenuIems },
+      menus: {
+        ...navbarProps.menus,
+        menuList: updateMenuIems,
+      },
     });
   };
 
@@ -200,6 +210,13 @@ function AddMenuContent() {
       ...navbarProps,
       menus: { ...navbarProps.menus, menuList: updateMenuIems },
     });
+  };
+
+  const closeIconBox = () => {
+    if (!isSubMenuOpen) {
+      setMenuIndex(null);
+    }
+    setShowIconBox(false);
   };
 
   return (
@@ -328,7 +345,9 @@ function AddMenuContent() {
                                 setIsSubMenuOpen(true);
                               }}
                             >
-                              Add Submenu
+                              {el?.subMenus?.length > 0
+                                ? "Edit Submenu"
+                                : "Add Submenu"}
                             </Dropdown.Item>
                           )}
                           {el?.icon && (
@@ -361,7 +380,7 @@ function AddMenuContent() {
         size="lg"
         show={showIconBox}
         className="menu-icon-box"
-        onHide={() => setShowIconBox(false)}
+        onHide={closeIconBox}
       >
         <Modal.Header closeButton>
           <h5>Add Menu Icon</h5>
@@ -369,13 +388,11 @@ function AddMenuContent() {
         <Modal.Body>
           {" "}
           <IconBox
-            hideBackBtn 
+            hideBackBtn
             setIcon={(iconName) => {
               setMenuIcon(iconName);
-            }}  
-            goBack={()=>{
-              setShowIconBox(false);
-            }}        
+            }}
+            goBack={closeIconBox}
           />
         </Modal.Body>
       </Modal>
