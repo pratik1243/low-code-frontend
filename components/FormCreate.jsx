@@ -15,6 +15,7 @@ import { setSnackbarProps } from "../redux/slices/snackbarSlice";
 import { IoSettingsOutline } from "react-icons/io5";
 import Select from "react-select";
 import SettingBox from "./commonComponents/SettingBox";
+import { RiExternalLinkLine } from "react-icons/ri";
 
 export const FormContext = createContext();
 
@@ -278,7 +279,7 @@ const FormCreate = () => {
         <Row>
           <Col lg={12} md={12} sm={12} xs={12} className="mb-3">
             <Row className="align-items-center">
-              <Col lg={6} md={6} sm={12} xs={12}>
+              <Col lg={4} md={4} sm={12} xs={12}>
                 <h4>{data?.page_name}</h4>
               </Col>
               <Col lg={1} md={1} sm={12} xs={12}>
@@ -293,7 +294,7 @@ const FormCreate = () => {
                   </button>
                 </div>
               </Col>
-              <Col lg={3} md={3} sm={12} xs={12}>
+              <Col lg={5} md={5} sm={12} xs={12}>
                 <div className="publish-btn-sec d-flex align-items-center">
                   <Select
                     isClearable
@@ -310,6 +311,14 @@ const FormCreate = () => {
                     }}
                   >
                     <IoSettingsOutline size={18} /> Settings
+                  </button>
+                  <button
+                    className="web-settings-btn"
+                    onClick={() => {
+                      router.push(`/web-page/${data?.page_route}`);
+                    }}
+                  >
+                    <RiExternalLinkLine size={18} /> Preview
                   </button>
                 </div>
               </Col>

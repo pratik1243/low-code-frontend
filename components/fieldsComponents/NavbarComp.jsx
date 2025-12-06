@@ -9,8 +9,10 @@ import React, { useContext } from "react";
 import { API_BASE_URL } from "../../services/endpoints";
 import { PageContext } from "../WebPage";
 import { IoIosArrowDown } from "react-icons/io";
+import { useParams } from "next/navigation";
 
 const NavbarComp = () => {
+  const params = useParams();
   const { navbarProps } = useContext(PageContext);
   const iconType = {
     ...FaIcons,
@@ -71,7 +73,7 @@ const NavbarComp = () => {
                   </a>
                 ) : (
                   <Link
-                    href={el?.menuLink?.page_route}
+                    href={el?.menuLink?.page_route || `web-page/${params?.slug?.join("/")}`}
                     style={{
                       ...(navbarProps?.menus?.menuColor && {
                         color: navbarProps?.menus?.menuColor,
@@ -97,7 +99,7 @@ const NavbarComp = () => {
                         return (
                           <div key={id} className="menu-item">
                             <Link
-                              href={ele?.menuLink?.page_route}
+                              href={ele?.menuLink?.page_route || `/web-page/${params?.slug?.join("/")}`}
                               style={{
                                 ...(navbarProps?.menus?.subMenuColor && {
                                   color: navbarProps?.menus?.subMenuColor,
