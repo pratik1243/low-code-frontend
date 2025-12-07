@@ -21,8 +21,6 @@ const NavbarComp = () => {
     ...AiIcons,
   };
 
-  console.log("navbarProps?.menuTemplate?.value", navbarProps);
-
   return (
     <div
       className="navbar-section"
