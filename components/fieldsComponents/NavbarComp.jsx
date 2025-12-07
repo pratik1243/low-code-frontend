@@ -82,7 +82,7 @@ const NavbarComp = () => {
                   <Link
                     href={
                       el?.menuLink?.page_route ||
-                      `web-page/${params?.slug?.join("/")}`
+                      `/web-page/${params?.slug?.join("/")}`
                     }
                     style={{
                       ...(navbarProps?.menus?.menuColor && {
