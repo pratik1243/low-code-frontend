@@ -257,6 +257,17 @@ export const fieldsData = [
   },
 ];
 
+export const menuTemplateList =  [
+  {
+    label: "Template 1",
+    value: "Template 1",
+  },
+  {
+    label: "Template 2",
+    value: "Template 2",
+  },
+]
+
 export const validations = [
   {
     label: "Email",

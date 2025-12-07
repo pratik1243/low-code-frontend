@@ -11,6 +11,8 @@ import { API_BASE_URL } from "../../services/endpoints";
 import Image from "next/image";
 import { IoMdArrowBack, IoMdClose } from "react-icons/io";
 import AddMenuContent from "./AddMenuContent";
+import Select from "react-select";
+import { menuTemplateList } from "../../utils/utilFunctions";
 
 function NavbarCustomize() {
   const dispatch = useDispatch();
@@ -194,7 +196,7 @@ function NavbarCustomize() {
                 <input
                   type="number"
                   min={0}
-                  max={200}
+                  max={50}
                   name="height"
                   value={navbarProps?.logo?.height || ""}
                   className="customize-input"
@@ -210,12 +212,29 @@ function NavbarCustomize() {
                 <input
                   type="number"
                   min={0}
-                  max={200}
+                  max={100}
                   name="width"
                   value={navbarProps?.logo?.width || ""}
                   className="customize-input"
                   onChange={(e) => {
                     setLogoSize(e);
+                  }}
+                />
+              </div>
+            </Col>
+            <Col lg={6} md={6} sm={12} xs={12}>
+              <div className="customize-prop-sec mt-4">
+                <label className="mb-2">Menu Template</label>
+                <Select
+                  isClearable
+                  placeholder={"Select template"}
+                  options={menuTemplateList}
+                  value={navbarProps?.menuTemplate || ""}
+                  onChange={(e) => {
+                    setNavbarProps({
+                      ...navbarProps,
+                      menuTemplate: e,
+                    });
                   }}
                 />
               </div>

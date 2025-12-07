@@ -555,7 +555,12 @@ input {
   flex-wrap: wrap;
 }
 
-.publish-btn-sec button {
+.publish-btn-sec a{
+  text-decoration: none;
+}
+
+.publish-btn-sec button,
+.publish-btn-sec a {
   background-color: var(--white-color);
   /* width: 100%; */
   padding: 8px 14px;
@@ -570,7 +575,8 @@ input {
   font-size: 15px;
 }
 
-.publish-btn-sec button svg {
+.publish-btn-sec button svg,
+.publish-btn-sec a svg {
   margin-right: 7px;
 }
 
@@ -923,7 +929,7 @@ hr {
 }
 
 .navbar-section {
-  padding: 10px 30px;
+  padding: 10px 20px;
   box-shadow: 0 0 5px 2px #80808042;
   position: fixed;
   left: 0;
@@ -1605,6 +1611,7 @@ hr {
 .navbar-section .menu-item {
   margin-right: 35px;
   position: relative;
+  
 }
 
 .navbar-section .menu-item a {
@@ -1705,4 +1712,20 @@ hr {
 .menu-icon-box .modal-body .icons-list {
   max-height: 350px;
   overflow-y: scroll;
+}
+
+.navbar-section .menu-item.template-2 .sub-menu-list {
+  /* top: 34px !important; */
+  border-radius: 0px !important;
+}
+
+.navbar-section .menu-item.template-2 .sub-menu-list .inner-sub-menu {
+  padding: 0px !important;
+  border-radius: 1px !important;
+}
+
+.navbar-section .menu-item.template-2 .sub-menu-list a {
+  border-radius: 0px !important;
+  padding: 8px 10px !important;
+  width: 100%;
 }

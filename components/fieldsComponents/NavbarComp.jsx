@@ -21,6 +21,8 @@ const NavbarComp = () => {
     ...AiIcons,
   };
 
+  console.log("navbarProps?.menuTemplate?.value", navbarProps);
+
   return (
     <div
       className="navbar-section"
@@ -48,7 +50,14 @@ const NavbarComp = () => {
           navbarProps?.menus?.menuList?.map((el, i) => {
             const IconComponent = iconType[el?.icon];
             return (
-              <div key={i} className="menu-item">
+              <div
+                key={i}
+                className={`menu-item ${
+                  navbarProps?.menuTemplate?.value === "Template 2"
+                    ? "template-2"
+                    : ""
+                }`}
+              >
                 {el?.subMenus?.length > 0 ? (
                   <a>
                     {el?.icon && (
@@ -73,7 +82,10 @@ const NavbarComp = () => {
                   </a>
                 ) : (
                   <Link
-                    href={el?.menuLink?.page_route || `web-page/${params?.slug?.join("/")}`}
+                    href={
+                      el?.menuLink?.page_route ||
+                      `web-page/${params?.slug?.join("/")}`
+                    }
                     style={{
                       ...(navbarProps?.menus?.menuColor && {
                         color: navbarProps?.menus?.menuColor,
@@ -92,14 +104,24 @@ const NavbarComp = () => {
                 )}
 
                 {el?.subMenus?.length > 0 && (
-                  <div className="sub-menu-list">
+                  <div
+                    className="sub-menu-list"
+                    style={{
+                      ...(navbarProps?.menuTemplate?.value === "Template 2" && {
+                        paddingTop: `${parseInt(navbarProps?.logo?.height / 2)}px`,
+                      }),
+                    }}
+                  >
                     <div className="inner-sub-menu">
                       {el?.subMenus.map((ele, id) => {
                         const IconSubMenuComponent = iconType[ele?.icon];
                         return (
                           <div key={id} className="menu-item">
                             <Link
-                              href={ele?.menuLink?.page_route || `/web-page/${params?.slug?.join("/")}`}
+                              href={
+                                ele?.menuLink?.page_route ||
+                                `/web-page/${params?.slug?.join("/")}`
+                              }
                               style={{
                                 ...(navbarProps?.menus?.subMenuColor && {
                                   color: navbarProps?.menus?.subMenuColor,

@@ -48,6 +48,7 @@ const FormCreate = () => {
   const [showIconBox, setShowIconBox] = useState(false);
   const [navbarProps, setNavbarProps] = useState({
     navBackgroundColor: "",
+    menuTemplate: "",
     logo: {
       columnWidth: 50,
       width: "",
@@ -57,14 +58,16 @@ const FormCreate = () => {
     menus: {
       menuList: [],
       columnWidth: 50,
-      menuColor: ""
+      menuColor: "",
     },
   });
   const [navSettings, setNavSettings] = useState(false);
   const [menuIndex, setMenuIndex] = useState(null);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const token = useSelector((user) => user.auth.authDetails.token);
-  const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
+  const requestUserId = useSelector(
+    (user) => user.auth.authDetails.request_user_id
+  );
 
   function dataPayload(data) {
     return {
@@ -312,14 +315,14 @@ const FormCreate = () => {
                   >
                     <IoSettingsOutline size={18} /> Settings
                   </button>
-                  <button
+                  <a
+                    role={"button"}
                     className="web-settings-btn"
-                    onClick={() => {
-                      router.push(`/web-page/${data?.page_route}`);
-                    }}
+                    href={`/web-page/${data?.page_route}`}
+                    target={"_blank"}
                   >
                     <RiExternalLinkLine size={18} /> Preview
-                  </button>
+                  </a>
                 </div>
               </Col>
               <Col lg={2} md={2} sm={12} xs={12}>
