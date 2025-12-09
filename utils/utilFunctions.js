@@ -265,7 +265,7 @@ export const menuTemplateList =  [
   {
     label: "Template 2",
     value: "Template 2",
-  },
+  }  
 ]
 
 export const validations = [
@@ -376,6 +376,13 @@ export const animationOptions = [
   { label: "Zoom Out Down", value: "zoom-out-down" },
   { label: "Zoom Out Left", value: "zoom-out-left" },
   { label: "Zoom Out Right", value: "zoom-out-right" },
+];
+
+export const menuAnimationOptions = [
+  { label: "Fade", value: "fade" },
+  { label: "Fade Up", value: "fade-up" },
+  { label: "Zoom In", value: "zoom-in" },
+  { label: "Collapse", value: "Collapse" },  
 ];
 
 export const alignmentOptions = [

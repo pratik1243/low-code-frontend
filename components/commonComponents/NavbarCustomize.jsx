@@ -12,11 +12,15 @@ import Image from "next/image";
 import { IoMdArrowBack, IoMdClose } from "react-icons/io";
 import AddMenuContent from "./AddMenuContent";
 import Select from "react-select";
-import { menuTemplateList } from "../../utils/utilFunctions";
+import {
+  menuTemplateList,
+  menuAnimationOptions,
+} from "../../utils/utilFunctions";
 
 function NavbarCustomize() {
   const dispatch = useDispatch();
-  const { navbarProps, setNavbarProps, setNavSettings } = useContext(FormContext);
+  const { navbarProps, setNavbarProps, setNavSettings } =
+    useContext(FormContext);
   const token = useSelector((user) => user.auth.authDetails.token);
 
   const uploadImage = async (e) => {
@@ -239,10 +243,32 @@ function NavbarCustomize() {
                 />
               </div>
             </Col>
+
+            <Col lg={6} md={6} sm={12} xs={12}>
+              <div className="customize-prop-sec mt-4">
+                <label className="mb-2">Menu Dropdown Animation</label>
+                <Select
+                  isClearable
+                  placeholder={"Select animation"}
+                  options={menuAnimationOptions}
+                  value={navbarProps?.menus?.menuDropdownAnimation || ""}
+                  onChange={(e) => {
+                    setNavbarProps({
+                      ...navbarProps,
+                      menus: {
+                        ...navbarProps.menus,
+                        menuDropdownAnimation: e,
+                      },
+                    });
+                  }}
+                />
+              </div>
+            </Col>
           </Row>
+          <hr className="mt-5" />
         </Container>
 
-        <Container>
+        <Container className="mt-5">
           <Row>
             <Col lg={6} md={6}>
               <Row>
@@ -281,7 +307,7 @@ function NavbarCustomize() {
             <Col lg={6} md={6}>
               <Row>
                 <Col lg={9} md={9}>
-                  <label className="mb-2">Menu Color</label>
+                  <label className="mb-2">Menu Text Color</label>
                   <input
                     type="color"
                     id="color-picker2"
@@ -309,6 +335,86 @@ function NavbarCustomize() {
                         menus: {
                           ...navbarProps.menus,
                           menuColor: "",
+                        },
+                      });
+                    }}
+                  >
+                    Clear
+                  </Button>
+                </Col>
+              </Row>
+            </Col>
+            <Col lg={6} md={6}>
+              <Row className="mt-4">
+                <Col lg={9} md={9}>
+                  <label className="mb-2">SubMenu Text Color</label>
+                  <input
+                    type="color"
+                    id="color-picker2"
+                    className="w-100"
+                    value={navbarProps?.menus?.subMenuColor || ""}
+                    onChange={(e) => {
+                      setNavbarProps({
+                        ...navbarProps,
+                        menus: {
+                          ...navbarProps.menus,
+                          subMenuColor: e.target.value,
+                        },
+                      });
+                    }}
+                  />
+                </Col>
+                <Col lg={3} md={3}>
+                  <Button
+                    variant={"primary"}
+                    size="sm"
+                    className="clear-background-btn"
+                    onClick={() => {
+                      setNavbarProps({
+                        ...navbarProps,
+                        menus: {
+                          ...navbarProps.menus,
+                          subMenuColor: "",
+                        },
+                      });
+                    }}
+                  >
+                    Clear
+                  </Button>
+                </Col>
+              </Row>
+            </Col>
+            <Col lg={6} md={6}>
+              <Row className="mt-4">
+                <Col lg={9} md={9}>
+                  <label className="mb-2">Menu Dropdown Color</label>
+                  <input
+                    type="color"
+                    id="color-picker2"
+                    className="w-100"
+                    value={navbarProps?.menus?.menuDropdownColor || ""}
+                    onChange={(e) => {
+                      setNavbarProps({
+                        ...navbarProps,
+                        menus: {
+                          ...navbarProps.menus,
+                          menuDropdownColor: e.target.value,
+                        },
+                      });
+                    }}
+                  />
+                </Col>
+                <Col lg={3} md={3}>
+                  <Button
+                    variant={"primary"}
+                    size="sm"
+                    className="clear-background-btn"
+                    onClick={() => {
+                      setNavbarProps({
+                        ...navbarProps,
+                        menus: {
+                          ...navbarProps.menus,
+                          menuDropdownColor: "",
                         },
                       });
                     }}

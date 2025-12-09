@@ -5,7 +5,7 @@ import * as FaIcons from "react-icons/fa";
 import * as MdIcons from "react-icons/md";
 import * as HiIcons from "react-icons/hi";
 import * as AiIcons from "react-icons/ai";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { API_BASE_URL } from "../../services/endpoints";
 import { PageContext } from "../WebPage";
 import { IoIosArrowDown } from "react-icons/io";
@@ -19,6 +19,69 @@ const NavbarComp = () => {
     ...MdIcons,
     ...HiIcons,
     ...AiIcons,
+  };
+  const [menuIndex, setMenuIndex] = useState(null);
+
+  const renderSubMenu = (el) => {
+    return (
+      <div
+        className={`sub-menu-list ${
+          navbarProps?.menus?.menuDropdownAnimation?.value == "Collapse"
+            ? "collapse-drop"
+            : navbarProps?.menus?.menuDropdownAnimation &&
+              navbarProps?.menus?.menuDropdownAnimation?.value !== "Collapse"
+            ? "anim-sub-menu-list"
+            : ""
+        }`}
+        style={{
+          ...(navbarProps?.menuTemplate?.value === "Template 2" && {
+            paddingTop: `${parseInt(navbarProps?.logo?.height / 2)}px`,
+          }),
+        }}
+        {...(navbarProps?.menus?.menuDropdownAnimation &&
+          navbarProps?.menus?.menuDropdownAnimation?.value !== "Collapse" && {
+            "data-aos": navbarProps?.menus?.menuDropdownAnimation?.value,
+            "data-aos-once": "false",
+          })}
+      >
+        <div
+          className="inner-sub-menu"
+          style={{
+            ...(navbarProps?.menus?.menuDropdownColor && {
+              backgroundColor: navbarProps?.menus?.menuDropdownColor,
+            }),
+          }}
+        >
+          {el?.subMenus.map((ele, id) => {
+            const IconSubMenuComponent = iconType[ele?.icon];
+            return (
+              <div key={id} className="menu-item">
+                <Link
+                  href={
+                    ele?.menuLink?.page_route ||
+                    `/web-page/${params?.slug?.join("/")}`
+                  }
+                  style={{
+                    ...(navbarProps?.menus?.subMenuColor && {
+                      color: navbarProps?.menus?.subMenuColor,
+                    }),
+                  }}
+                >
+                  {" "}
+                  {ele?.icon && (
+                    <>
+                      <IconSubMenuComponent size={18} />
+                      &nbsp;&nbsp;
+                    </>
+                  )}
+                  {ele?.text}{" "}
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -55,24 +118,40 @@ const NavbarComp = () => {
                     ? "template-2"
                     : ""
                 }`}
+                onMouseOver={() => {
+                  if (
+                    navbarProps?.menus?.menuDropdownAnimation &&
+                    navbarProps?.menus?.menuDropdownAnimation?.value !==
+                      "Collapse"
+                  ) {
+                    setMenuIndex(i);
+                  }
+                }}
+                onMouseOut={() => {
+                  if (
+                    navbarProps?.menus?.menuDropdownAnimation &&
+                    navbarProps?.menus?.menuDropdownAnimation?.value !==
+                      "Collapse"
+                  ) {
+                    setMenuIndex(null);
+                  }
+                }}
               >
                 {el?.subMenus?.length > 0 ? (
-                  <a>
+                  <a
+                    style={{
+                      ...(navbarProps?.menus?.menuColor && {
+                        color: navbarProps?.menus?.menuColor,
+                      }),
+                    }}
+                  >
                     {el?.icon && (
                       <>
                         <IconComponent size={17} />
                         &nbsp;&nbsp;
                       </>
                     )}
-                    <span
-                      style={{
-                        ...(navbarProps?.menus?.menuColor && {
-                          color: navbarProps?.menus?.menuColor,
-                        }),
-                      }}
-                    >
-                      {el?.text}
-                    </span>
+                    <span>{el?.text}</span>
 
                     <div className="arrow-icon">
                       <IoIosArrowDown size={20.5} />
@@ -102,44 +181,11 @@ const NavbarComp = () => {
                 )}
 
                 {el?.subMenus?.length > 0 && (
-                  <div
-                    className="sub-menu-list"
-                    style={{
-                      ...(navbarProps?.menuTemplate?.value === "Template 2" && {
-                        paddingTop: `${parseInt(navbarProps?.logo?.height / 2)}px`,
-                      }),
-                    }}
-                  >
-                    <div className="inner-sub-menu">
-                      {el?.subMenus.map((ele, id) => {
-                        const IconSubMenuComponent = iconType[ele?.icon];
-                        return (
-                          <div key={id} className="menu-item">
-                            <Link
-                              href={
-                                ele?.menuLink?.page_route ||
-                                `/web-page/${params?.slug?.join("/")}`
-                              }
-                              style={{
-                                ...(navbarProps?.menus?.subMenuColor && {
-                                  color: navbarProps?.menus?.subMenuColor,
-                                }),
-                              }}
-                            >
-                              {" "}
-                              {ele?.icon && (
-                                <>
-                                  <IconSubMenuComponent size={18} />
-                                  &nbsp;&nbsp;
-                                </>
-                              )}
-                              {ele?.text}{" "}
-                            </Link>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
+                  <>
+                    {menuIndex === i && renderSubMenu(el)}
+                    {!menuIndex && navbarProps?.menus?.menuDropdownAnimation?.value == "Collapse" && renderSubMenu(el)}
+                    {!menuIndex && !navbarProps?.menus?.menuDropdownAnimation?.value && renderSubMenu(el)}
+                  </>
                 )}
               </div>
             );

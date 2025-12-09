@@ -59,6 +59,9 @@ const FormCreate = () => {
       menuList: [],
       columnWidth: 50,
       menuColor: "",
+      subMenuColor: "",
+      menuDropdownColor: "",
+      menuDropdownAnimation: ""
     },
   });
   const [navSettings, setNavSettings] = useState(false);
