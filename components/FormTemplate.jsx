@@ -87,7 +87,7 @@ const FormTemplate = () => {
         const jsonData = JSON.parse(data);
         setForms({
           ...forms,
-          [breakPoint]: [...forms[breakPoint], ...jsonData],
+          [breakPoint]: [...forms[breakPoint], jsonData],
         });
       } catch (err) {
         setForms({ ...forms, [breakPoint]: [] });
