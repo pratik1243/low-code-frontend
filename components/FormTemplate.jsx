@@ -59,7 +59,7 @@ const FormTemplate = () => {
     const formData = forms[breakPoint].filter((el) => el.id !== id);
     setForms({ ...forms, [breakPoint]: formData });
     setCurrentElement();
-    if(containerId === index) {
+    if (containerId === index) {
       setContainerId(undefined);
     }
   };
@@ -87,7 +87,9 @@ const FormTemplate = () => {
         const jsonData = JSON.parse(data);
         setForms({
           ...forms,
-          [breakPoint]: [...forms[breakPoint], jsonData],
+          [breakPoint]: Array.isArray(jsonData)
+            ? [...forms[breakPoint], ...jsonData]
+            : [...forms[breakPoint], jsonData],
         });
       } catch (err) {
         setForms({ ...forms, [breakPoint]: [] });
@@ -114,7 +116,7 @@ const FormTemplate = () => {
           <p>Adjust column width to fit items in row</p>
         </div>
         <div className="d-flex align-items-center">
-          <div role="button" onClick={pasteItems}>
+          <div role="button" disabled={forms[breakPoint]?.length === 0} onClick={pasteItems}>
             <OverlayTrigger
               placement="top"
               overlay={(props) => renderTooltip("Paste", props)}
@@ -122,7 +124,7 @@ const FormTemplate = () => {
               <MdContentPaste size={18} />
             </OverlayTrigger>
           </div>
-          <div role="button" onClick={deleteAllFunc}>
+          <div role="button" disabled={forms[breakPoint]?.length === 0} onClick={deleteAllFunc}>
             <OverlayTrigger
               placement="top"
               overlay={(props) => renderTooltip("Clear All", props)}
@@ -130,7 +132,7 @@ const FormTemplate = () => {
               <MdDeleteOutline size={21} />
             </OverlayTrigger>
           </div>
-          <div role="button" onClick={copyFunction}>
+          <div role="button" disabled={forms[breakPoint]?.length === 0} onClick={copyFunction}>
             <OverlayTrigger
               placement="top"
               overlay={(props) => renderTooltip(copyText, props)}
@@ -143,7 +145,9 @@ const FormTemplate = () => {
       {forms[breakPoint] && forms[breakPoint]?.length == 0 && (
         <div className="pt-4 pb-2 text-center">
           <Image src={emptyImg} height={130} width={130} alt="menu-empty" />
-          <div className="no-menus-txt fs-5 text-dark">Click on elements to add...</div>
+          <div className="no-menus-txt fs-5 text-dark">
+            Click on elements to add...
+          </div>
         </div>
       )}
       <div className="main-content-sec">
