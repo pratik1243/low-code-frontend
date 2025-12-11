@@ -317,7 +317,7 @@ input {
   outline: none;
   border: 1.8px solid var(--grey-color);
   transition: all 0.4s;
-  color: #aaa9a9 !important;
+  color: #7c7a7a !important;
 }
 
 .element-input-field .dropdown-box {
