@@ -17,10 +17,8 @@ const FormTemplate = () => {
   const {
     forms,
     setForms,
-    currentElement,
     containerId,
     setCurrentElement,
-    setShowCurrentElement,
     setContainerId,
     setHeight,
     breakPoint,
@@ -56,11 +54,14 @@ const FormTemplate = () => {
     e.dataTransfer.setData("element_index", index);
   };
 
-  const deleteItem = (e, id) => {
+  const deleteItem = (e, id, index = null) => {
     e.stopPropagation();
     const formData = forms[breakPoint].filter((el) => el.id !== id);
     setForms({ ...forms, [breakPoint]: formData });
     setCurrentElement();
+    if(containerId === index) {
+      setContainerId(undefined);
+    }
   };
 
   const onClickElement = (e, ele, index) => {
@@ -198,7 +199,7 @@ const FormTemplate = () => {
                 <div className={`delete-element-btn`}>
                   <ElementActions
                     data={ele}
-                    deleteFunction={(e) => deleteItem(e, ele?.id)}
+                    deleteFunction={(e) => deleteItem(e, ele?.id, index)}
                   />
                 </div>
               </div>

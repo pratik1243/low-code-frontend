@@ -41,7 +41,7 @@ function AddMenuContent() {
 
   const onMenuItemsChange = (value, name, id) => {
     const updateMenuIems = navbarProps.menus?.menuList?.map((el, i) => {
-      const updateSubMenuIems = el.subMenus.map((ele, ind) => {
+      const updateSubMenuIems = el?.subMenus?.map((ele, ind) => {
         if (id === ind) {
           return {
             ...ele,
@@ -50,17 +50,15 @@ function AddMenuContent() {
         }
         return ele;
       });
-
-      if (isSubMenuOpen && el.subMenus) {
+      if (menuIndex === i) {
         return { ...el, subMenus: updateSubMenuIems };
-      } else if (id === i) {
+      } else if (i === id) {
         return {
           ...el,
           [name]: value,
         };
-      } else {
-        return el;
       }
+      return el;
     });
     setNavbarProps({
       ...navbarProps,
@@ -89,9 +87,7 @@ function AddMenuContent() {
       ...navbarProps,
       menus: {
         ...navbarProps.menus,
-        menuList: isSubMenuOpen
-          ? updateSubMenuIems
-          : orderContent(e, dropIndex),
+        menuList: isSubMenuOpen ? updateSubMenuIems : orderContent(e, dropIndex),
       },
     });
   };
@@ -123,26 +119,29 @@ function AddMenuContent() {
   };
 
   const removeMenuIcon = (menuId) => {
-    const updateSubMenuIems = navbarProps.menus?.menuList[menuIndex]?.subMenus?.map((el, i) => {
-      if (i === menuId) {
-        return { ...el, icon: "" };
-      }
-      return el;
-    });
     const updateMenuIems = navbarProps.menus?.menuList?.map((el, i) => {
-      if (isSubMenuOpen) {
+      const updateSubMenuIems = el?.subMenus?.map((ele, ind) => {
+        if (menuId === ind) {
+          return {
+            ...ele,
+            icon: "",
+          };
+        }
+        return ele;
+      });
+      if (menuIndex === i) {
         return { ...el, subMenus: updateSubMenuIems };
       } else if (i === menuId) {
-        return { ...el, icon: "" };
+        return {
+          ...el,
+          icon: "",
+        };
       }
       return el;
     });
     setNavbarProps({
       ...navbarProps,
-      menus: {
-        ...navbarProps.menus,
-        menuList: updateMenuIems,
-      },
+      menus: { ...navbarProps.menus, menuList: updateMenuIems },
     });
   };
 
@@ -190,7 +189,7 @@ function AddMenuContent() {
 
   const setMenuIcon = (iconName) => {
     const updateMenuIems = navbarProps.menus?.menuList?.map((el, i) => {
-      const updateSubMenuIems = el.subMenus.map((ele, ind) => {
+      const updateSubMenuIems = el?.subMenus?.map((ele, ind) => {
         if (subMenuIndex === ind) {
           return {
             ...ele,
@@ -199,12 +198,15 @@ function AddMenuContent() {
         }
         return ele;
       });
-
-      if (i === menuIndex && !isSubMenuOpen) {
-        return { ...el, icon: iconName };
-      } else {
+      if (menuIndex === i && isSubMenuOpen) {
         return { ...el, subMenus: updateSubMenuIems };
+      } else if (menuIndex === i) {
+        return {
+          ...el,
+          icon: iconName,
+        };
       }
+      return el;
     });
     setNavbarProps({
       ...navbarProps,
@@ -335,7 +337,7 @@ function AddMenuContent() {
                                 setMenuIndex(i);
                               }}
                             >
-                              Add Icon
+                             {el?.icon ?  "Edit Icon" : "Add Icon"}
                             </Dropdown.Item>
                           )}
                           {!isSubMenuOpen && (
