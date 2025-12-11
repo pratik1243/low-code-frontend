@@ -116,8 +116,8 @@ const CountryField = ({
             style={{
               ...(isWebPage && {
                 backgroundColor: ele?.props?.style?.borderColor,
-              }),
-              ...(ele?.props?.style?.borderColor && { height: "2px !important" }),
+                ...(ele?.props?.style?.borderColor && { height: "2px !important" }),
+              }),              
             }}
           ></div>
         )}
