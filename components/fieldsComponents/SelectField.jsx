@@ -90,8 +90,9 @@ const SelectField = ({
             className="standard-line"
             style={{
               ...(isWebPage && {
-                backgroundColor: ele?.props?.style?.color,
+                backgroundColor: ele?.props?.style?.borderColor,
               }),
+              ...(ele?.props?.style?.borderColor && { height: "2px !important" }),
             }}
           ></div>
         )}
