@@ -66,6 +66,7 @@ const PropsRender = ({ open }) => {
     select: "options",
     slider: "slides",
     card_box: "cards",
+    radio: "radio_options",
   };
 
   const addTextType = {
@@ -73,6 +74,7 @@ const PropsRender = ({ open }) => {
     slider: "Add Slides",
     select: "Add Options",
     card_box: "Add Cards",
+    radio: "Add Options",
   };
 
   const filterCurrent = (data) => {
@@ -90,16 +92,25 @@ const PropsRender = ({ open }) => {
     const fields = filterCurrent(form);
     const nestedFields = filterCurrent(form?.[containerIndex]?.content);
     if (form?.[containerIndex]?.content?.length > 0) {
-      return currentElement?.type == "container" ? form?.[containerIndex] : nestedFields;
+      return currentElement?.type == "container"
+        ? form?.[containerIndex]
+        : nestedFields;
     } else {
       return fields;
     }
   };
 
-  const currentField = useMemo(() => renderCurrentField(forms[breakPoint]), [forms[breakPoint]]);
+  const currentField = useMemo(
+    () => renderCurrentField(forms[breakPoint]),
+    [forms[breakPoint]]
+  );
 
   const renderProps = () => {
-    if (["input", "select", "country"].includes(currentField?.type)) {
+    if (
+      ["input", "select", "country", "checkbox", "radio"].includes(
+        currentField?.type
+      )
+    ) {
       return (
         <InputProps
           onCustomizeElement={onCustomizeElement}
@@ -488,10 +499,15 @@ const PropsRender = ({ open }) => {
                   </Col>
                 )}
 
-                {["stepper", "select", "slider", "card_box"].includes(
+                {["stepper", "select", "slider", "card_box", "radio"].includes(
                   currentField?.type
                 ) && (
-                  <Col lg={6} md={6} sm={12} xs={12}>
+                  <Col
+                    lg={currentField?.type == "radio" ? 12 : 6}
+                    md={currentField?.type == "radio" ? 12 : 6}
+                    sm={12}
+                    xs={12}
+                  >
                     <Button
                       className={`add-content-btn my-2`}
                       onClick={() => {

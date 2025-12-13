@@ -37,52 +37,50 @@ const InputProps = ({ onCustomizeElement, currentField }) => {
           </Col>
         </Row>
       </Col>
-      <Col lg={6} md={6} sm={12} xs={12}>
-        <Row>
-          <Col lg={9} md={9}>
-            <label className="mb-2">Border Color</label>
-            <input
-              type="color"
-              id="color-picker2"
-              className="w-100"
-              value={currentField?.props?.style?.borderColor || ""}
-              onChange={(e) => {
-                onCustomizeElement(e, "borderColor", "input", forms, "style");
-              }}
-            />
-          </Col>
-          <Col lg={3} md={3}>
-            <Button
-              variant={"primary"}
-              size="sm"
-              className="clear-background-btn"
-              onClick={() => {
-                onCustomizeElement("", "borderColor", "input", forms, "style");
-              }}
-            >
-              Clear
-            </Button>
-          </Col>
-        </Row>
-      </Col>
-      {!currentField?.props.standard && !currentField?.props.floatLabel && (
+      {["checkbox", "radio"].includes(currentField?.type) && (
         <Col lg={6} md={6} sm={12} xs={12}>
           <Row className="mt-4">
             <Col lg={9} md={9}>
-              <label className="mb-2">Input Background Color</label>
+              <label className="mb-2 text-capitalize">
+                {currentField?.type} Color
+              </label>
               <input
                 type="color"
-                id="color-picker1"
+                id="color-picker2"
                 className="w-100"
-                value={currentField?.props?.style?.backgroundColor || ""}
+                value={currentField?.props?.checkBoxColor || ""}
                 onChange={(e) => {
-                  onCustomizeElement(
-                    e,
-                    "backgroundColor",
-                    "input",
-                    forms,
-                    "style"
-                  );
+                  onCustomizeElement(e, "checkBoxColor", "input", forms);
+                }}
+              />
+            </Col>
+            <Col lg={3} md={3}>
+              <Button
+                variant={"primary"}
+                size="sm"
+                className="clear-background-btn"
+                onClick={() => {
+                  onCustomizeElement("", "checkBoxColor", "input", forms);
+                }}
+              >
+                Clear
+              </Button>
+            </Col>
+          </Row>
+        </Col>
+      )}
+      {!["checkbox", "radio"].includes(currentField?.type) && (
+        <Col lg={6} md={6} sm={12} xs={12}>
+          <Row>
+            <Col lg={9} md={9}>
+              <label className="mb-2">Border Color</label>
+              <input
+                type="color"
+                id="color-picker2"
+                className="w-100"
+                value={currentField?.props?.style?.borderColor || ""}
+                onChange={(e) => {
+                  onCustomizeElement(e, "borderColor", "input", forms, "style");
                 }}
               />
             </Col>
@@ -94,7 +92,7 @@ const InputProps = ({ onCustomizeElement, currentField }) => {
                 onClick={() => {
                   onCustomizeElement(
                     "",
-                    "backgroundColor",
+                    "borderColor",
                     "input",
                     forms,
                     "style"
@@ -107,6 +105,50 @@ const InputProps = ({ onCustomizeElement, currentField }) => {
           </Row>
         </Col>
       )}
+
+      {(!currentField?.props.standard && !currentField?.props.floatLabel) ||
+        (!["checkbox", "radio"].includes(currentField?.type) && (
+          <Col lg={6} md={6} sm={12} xs={12}>
+            <Row className="mt-4">
+              <Col lg={9} md={9}>
+                <label className="mb-2">Input Background Color</label>
+                <input
+                  type="color"
+                  id="color-picker1"
+                  className="w-100"
+                  value={currentField?.props?.style?.backgroundColor || ""}
+                  onChange={(e) => {
+                    onCustomizeElement(
+                      e,
+                      "backgroundColor",
+                      "input",
+                      forms,
+                      "style"
+                    );
+                  }}
+                />
+              </Col>
+              <Col lg={3} md={3}>
+                <Button
+                  variant={"primary"}
+                  size="sm"
+                  className="clear-background-btn"
+                  onClick={() => {
+                    onCustomizeElement(
+                      "",
+                      "backgroundColor",
+                      "input",
+                      forms,
+                      "style"
+                    );
+                  }}
+                >
+                  Clear
+                </Button>
+              </Col>
+            </Row>
+          </Col>
+        ))}
 
       <div className="customize-prop-sec mt-4 mb-2">
         <Row>
@@ -129,60 +171,70 @@ const InputProps = ({ onCustomizeElement, currentField }) => {
                   </div>
                 </Col>
 
-                <Col lg={3} md={3} sm={12} xs={12}>
-                  <div className="d-flex">
-                    <input
-                      type="checkbox"
-                      id="checkbox-float"
-                      checked={currentField?.props?.floatLabel || ""}
-                      onChange={(e) => {
-                        onCustomizeElement(e, "floatLabel", "checkbox", forms);
-                      }}
-                    />
-                    <label htmlFor="checkbox-float" className="mb-0">
-                      Float Label
-                    </label>
-                  </div>
-                </Col>
-
-                {currentField?.type == "input" && (
+                {!["checkbox", "radio"].includes(currentField?.type) && (
                   <Col lg={3} md={3} sm={12} xs={12}>
                     <div className="d-flex">
                       <input
                         type="checkbox"
-                        id="checkbox-password"
-                        checked={currentField?.props?.isPassword || ""}
+                        id="checkbox-float"
+                        checked={currentField?.props?.floatLabel || ""}
                         onChange={(e) => {
                           onCustomizeElement(
                             e,
-                            "isPassword",
+                            "floatLabel",
                             "checkbox",
                             forms
                           );
                         }}
                       />
-                      <label htmlFor="checkbox-password" className="mb-0">
-                        Password Button
+                      <label htmlFor="checkbox-float" className="mb-0">
+                        Float Label
                       </label>
                     </div>
                   </Col>
                 )}
 
-                <Col lg={3} md={3} sm={12} xs={12}>
-                  <div className="d-flex">
-                    <input
-                      type="checkbox"
-                      id="checkbox-standard"
-                      checked={currentField?.props?.standard || ""}
-                      onChange={(e) => {
-                        onCustomizeElement(e, "standard", "checkbox", forms);
-                      }}
-                    />
-                    <label htmlFor="checkbox-standard" className="mb-0">
-                      Standard
-                    </label>
-                  </div>
-                </Col>
+                {currentField?.type == "input" ||
+                  (!["checkbox", "radio"].includes(currentField?.type) && (
+                    <Col lg={3} md={3} sm={12} xs={12}>
+                      <div className="d-flex">
+                        <input
+                          type="checkbox"
+                          id="checkbox-password"
+                          checked={currentField?.props?.isPassword || ""}
+                          onChange={(e) => {
+                            onCustomizeElement(
+                              e,
+                              "isPassword",
+                              "checkbox",
+                              forms
+                            );
+                          }}
+                        />
+                        <label htmlFor="checkbox-password" className="mb-0">
+                          Password Button
+                        </label>
+                      </div>
+                    </Col>
+                  ))}
+
+                {!["checkbox", "radio"].includes(currentField?.type) && (
+                  <Col lg={3} md={3} sm={12} xs={12}>
+                    <div className="d-flex">
+                      <input
+                        type="checkbox"
+                        id="checkbox-standard"
+                        checked={currentField?.props?.standard || ""}
+                        onChange={(e) => {
+                          onCustomizeElement(e, "standard", "checkbox", forms);
+                        }}
+                      />
+                      <label htmlFor="checkbox-standard" className="mb-0">
+                        Standard
+                      </label>
+                    </div>
+                  </Col>
+                )}
 
                 {/* {currentField?.type === "select" && (
                 <Col lg={3} md={3} sm={12} xs={12}>
@@ -207,34 +259,47 @@ const InputProps = ({ onCustomizeElement, currentField }) => {
       {currentField?.type !== "country" && (
         <Col lg={6} md={6} sm={12} xs={12}>
           <div className="customize-prop-sec">
-            <label>Label</label>
+            <label>{currentField?.type == "radio" ? "Title" : "Label"}</label>
             <input
               type="text"
-              value={currentField?.props?.label || ""}
-              placeholder="Enter label"
+              value={
+                currentField?.type == "radio"
+                  ? currentField?.props?.title
+                  : currentField?.props?.label || ""
+              }
+              placeholder={currentField?.type == "radio" ? "Enter title" : "Enter label"}
               className="customize-input"
               onChange={(e) => {
-                onCustomizeElement(e, "label", "input", forms);
+                onCustomizeElement(
+                  e,
+                  currentField?.type == "radio" ? "title" : "label",
+                  "input",
+                  forms
+                );
               }}
             />
           </div>
         </Col>
       )}
-      <Col lg={6} md={6} sm={12} xs={12}>
-        <div className="customize-prop-sec">
-          <label>Placeholder</label>
-          <input
-            type="text"
-            value={currentField?.props?.placeholder || ""}
-            placeholder="Enter placeholder"
-            className="customize-input"
-            onChange={(e) => {
-              onCustomizeElement(e, "placeholder", "input", forms);
-            }}
-          />
-        </div>
-      </Col>
-      {!["country", "select", "country"].includes(currentField?.type) && (
+      {!["checkbox", "radio"].includes(currentField?.type) && (
+        <Col lg={6} md={6} sm={12} xs={12}>
+          <div className="customize-prop-sec">
+            <label>Placeholder</label>
+            <input
+              type="text"
+              value={currentField?.props?.placeholder || ""}
+              placeholder="Enter placeholder"
+              className="customize-input"
+              onChange={(e) => {
+                onCustomizeElement(e, "placeholder", "input", forms);
+              }}
+            />
+          </div>
+        </Col>
+      )}
+      {!["country", "select", "checkbox", "radio"].includes(
+        currentField?.type
+      ) && (
         <Col lg={6} md={6} sm={12} xs={12}>
           <div className="customize-prop-sec">
             <label>Max length</label>
@@ -264,7 +329,9 @@ const InputProps = ({ onCustomizeElement, currentField }) => {
           />
         </div>
       </Col>
-      {!["country", "select", "country"].includes(currentField?.type) && (
+      {!["country", "select", "checkbox", "radio"].includes(
+        currentField?.type
+      ) && (
         <Col lg={6} md={6} sm={12} xs={12}>
           <div className="customize-prop-sec">
             <label>Add Validation</label>

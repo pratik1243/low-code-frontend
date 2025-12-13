@@ -13,7 +13,9 @@ import { addPixel, errorMessageFunc } from "../../utils/utilFunctions";
 const ButtonComp = ({ ele, path }) => {
   const router = useRouter();
   const isWebPage = path.includes("web-page");
-  const { forms, setForms, breakPoint } = useContext(isWebPage ? PageContext : FormContext);
+  const { forms, setForms, breakPoint } = useContext(
+    isWebPage ? PageContext : FormContext
+  );
   const fieldArray = ele?.props?.fields.map((el) => el?.value);
 
   const iconType = {
@@ -24,6 +26,14 @@ const ButtonComp = ({ ele, path }) => {
   };
   const IconComponent = iconType[ele?.props?.iconName];
 
+  const getFieldValue = (data)=>{
+    return typeof data?.props?.value == "object"
+    ? data?.props?.value?.map((e) => e?.value)
+    : data?.props?.checked
+    ? data?.props?.checked
+    : data?.props?.value;
+  }
+
   const events = () => {
     let isFieldsInvalid = false;
     const formData = {};
@@ -31,18 +41,15 @@ const ButtonComp = ({ ele, path }) => {
     const validateForms = forms[breakPoint].map((el, i) => {
       const nestedForm = el?.content?.map((eles, id) => {
         if (fieldArray.includes(eles?.props?.name)) {
-          formData[eles?.props?.name] =
-            typeof eles?.props?.value == "object"
-              ? eles?.props?.value?.map((e) => e?.value)
-              : eles?.props?.value;
-          if (errorMessageFunc(eles, eles?.props?.value) !== "") {
+          formData[eles?.props?.name] = getFieldValue(eles);
+          if (errorMessageFunc(eles, (eles?.props?.checked || eles?.props?.value)) !== "")  {
             isFieldsInvalid = true;
           }
           return {
             ...eles,
             form: {
               ...eles?.form,
-              error_message: errorMessageFunc(eles, eles?.props?.value),
+              error_message: errorMessageFunc(eles, (eles?.props?.checked || eles?.props?.value)),
             },
           };
         }
@@ -53,18 +60,15 @@ const ButtonComp = ({ ele, path }) => {
         return { ...el, content: nestedForm };
       } else {
         if (fieldArray.includes(el?.props?.name)) {
-          formData[el?.props?.name] =
-            typeof el?.props?.value == "object"
-              ? el?.props?.value?.map((e) => e?.value)
-              : el?.props?.value;
-          if (errorMessageFunc(el, el?.props?.value) !== "") {
+          formData[el?.props?.name] = getFieldValue(el);
+          if (errorMessageFunc(el, (el?.props?.checked || el?.props?.value)) !== "") {
             isFieldsInvalid = true;
           }
           return {
             ...el,
             form: {
               ...el?.form,
-              error_message: errorMessageFunc(el, el?.props?.value),
+              error_message: errorMessageFunc(el, (el?.props?.checked || el?.props?.value)),
             },
           };
         }
@@ -75,7 +79,7 @@ const ButtonComp = ({ ele, path }) => {
       router.push(ele?.props?.redirectUrl?.page_route);
     }
     if (fieldArray.length > 0) {
-      setForms({...forms, [breakPoint]: validateForms })
+      setForms({ ...forms, [breakPoint]: validateForms });
     }
     if (!isFieldsInvalid) {
       console.log("hjjhh0", formData);
@@ -83,7 +87,7 @@ const ButtonComp = ({ ele, path }) => {
   };
   return (
     <Button
-      variant={"primary"}  
+      variant={"primary"}
       style={{
         ...(ele?.props?.style && isWebPage && addPixel(ele?.props?.style, ele)),
       }}
@@ -93,7 +97,8 @@ const ButtonComp = ({ ele, path }) => {
       {ele?.props?.iconPosition == "start" && ele?.props?.iconName && (
         <IconComponent size={20} />
       )}{" "}
-      &nbsp;{ele?.props?.text || "Button"}{ele?.props?.iconPosition == "end" && <>&nbsp;</>}
+      &nbsp;{ele?.props?.text || "Button"}
+      {ele?.props?.iconPosition == "end" && <>&nbsp;</>}
       {ele?.props?.iconPosition == "end" && ele?.props?.iconName && (
         <IconComponent size={20} />
       )}

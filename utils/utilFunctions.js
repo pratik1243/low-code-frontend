@@ -194,12 +194,34 @@ export const fieldsData = [
     column_width: 100,
     props: {
       label: "",
-      value: "",
+      checked: false,
+      checkBoxColor: "",
       required: false,
       hidden: false,
       name: "",
       align: "",
       width: 100,
+      style: {},
+      animation: "",
+      animation_delay: "",
+    },
+    form: {
+      error_message: "",
+    },
+  },
+  {
+    label_text: "Radio Button Group",
+    type: "radio",
+    column_width: 100,
+    props: {
+      value: "",
+      title: "",
+      required: false,
+      hidden: false,
+      name: "",
+      radio_options: [],
+      width: 100,
+      align: "",
       style: {},
       animation: "",
       animation_delay: "",
@@ -257,7 +279,7 @@ export const fieldsData = [
   },
 ];
 
-export const menuTemplateList =  [
+export const menuTemplateList = [
   {
     label: "Template 1",
     value: "Template 1",
@@ -265,8 +287,8 @@ export const menuTemplateList =  [
   {
     label: "Template 2",
     value: "Template 2",
-  }  
-]
+  },
+];
 
 export const validations = [
   {
@@ -382,7 +404,7 @@ export const menuAnimationOptions = [
   { label: "Fade", value: "fade" },
   { label: "Fade Up", value: "fade-up" },
   { label: "Zoom In", value: "zoom-in" },
-  { label: "Collapse", value: "Collapse" },  
+  { label: "Collapse", value: "Collapse" },
 ];
 
 export const alignmentOptions = [
@@ -700,6 +722,14 @@ export function addContentProps(el, type, pageItem, optionValue) {
   };
 }
 
+export const addContentOptions = [
+  "options",
+  "stepContent",
+  "slides",
+  "cards",
+  "radio_options"
+]
+
 export function updateforms(e, el, attribute, value, optionIndex, style) {
   return {
     ...el,
@@ -724,12 +754,7 @@ export function updateforms(e, el, attribute, value, optionIndex, style) {
                   },
                 }
               : {
-                  [attribute]: [
-                    "options",
-                    "stepContent",
-                    "slides",
-                    "cards",
-                  ].includes(attribute)
+                  [attribute]: addContentOptions.includes(attribute)
                     ? options(el, value, attribute, optionIndex)
                     : value,
                 }),
@@ -752,7 +777,9 @@ export function updateNestedForms(
           ...eles,
           props: {
             ...eles?.props,
-            value: value,
+            ...(typeof value == "boolean"
+              ? { checked: value }
+              : { value: value }),
           },
           form: {
             ...eles?.form,
@@ -783,7 +810,9 @@ export function updateNestedForms(
         ...el,
         props: {
           ...el?.props,
-          value: value,
+          ...(typeof value == "boolean"
+            ? { checked: value }
+            : { value: value }),
         },
         form: {
           ...el?.form,

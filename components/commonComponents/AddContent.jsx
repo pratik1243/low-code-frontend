@@ -22,7 +22,7 @@ const AddContent = ({
   const [optionValue, setOptionValue] = useState("");
   const [pageItem, setPageItem] = useState("");
   const stepList = ["stepper", "slider", "card_box"];
-  const stepList2 = ["stepper", "slider", "select", "card_box"];
+  const stepList2 = ["stepper", "slider", "select", "card_box", "radio"];
 
   const orderContent = (e, dropIndex, i, id = undefined) => {
     const filterContentList =
