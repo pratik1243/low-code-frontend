@@ -11,6 +11,7 @@ const ImageComp = ({ ele, path, index }) => {
           ele?.props?.fullWidth && {
             height: `${ele?.props?.height}px`,
             width: "100%",
+            position: "relative"
           }),
       }}
     >
@@ -21,6 +22,8 @@ const ImageComp = ({ ele, path, index }) => {
               src={`${API_BASE_URL}/image/${ele?.props?.imageData?.url}`}
               alt={`image-${index}`}
               fill
+              objectFit="cover"
+              objectPosition="center"
             />
           ) : (
             <Image
