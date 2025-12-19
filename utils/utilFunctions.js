@@ -210,7 +210,7 @@ export const fieldsData = [
     },
   },
   {
-    label_text: "Radio Button Group",
+    label_text: "Radio Group",
     type: "radio",
     column_width: 100,
     props: {
