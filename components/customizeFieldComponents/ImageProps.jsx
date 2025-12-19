@@ -137,20 +137,24 @@ const ImageProps = ({ currentField, onCustomizeElement }) => {
       </Col>
       {currentField?.type == "image" && (
         <>
-          <Col lg={6} md={6} sm={12} xs={12}>
-            <div className="customize-prop-sec mb-2">
-              <label>{currentField?.type.split("_").join(" ")} Alignment</label>
-              <Select
-                isClearable
-                placeholder={"Select alignment"}
-                options={alignmentOptions}
-                value={currentField?.props?.align || ""}
-                onChange={(e) => {
-                  onCustomizeElement(e, "align", "select", forms);
-                }}
-              />
-            </div>
-          </Col>
+          {!currentField?.props?.fullWidth && (
+            <Col lg={6} md={6} sm={12} xs={12}>
+              <div className="customize-prop-sec mb-2">
+                <label>
+                  {currentField?.type.split("_").join(" ")} Alignment
+                </label>
+                <Select
+                  isClearable
+                  placeholder={"Select alignment"}
+                  options={alignmentOptions}
+                  value={currentField?.props?.align || ""}
+                  onChange={(e) => {
+                    onCustomizeElement(e, "align", "select", forms);
+                  }}
+                />
+              </div>
+            </Col>
+          )}
 
           <Col lg={6} md={6} sm={12} xs={12}>
             <div className="d-flex align-items-center image-full-width-check">
