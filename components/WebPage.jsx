@@ -130,7 +130,7 @@ const WebPage = () => {
                 return (
                   <div
                     key={index}
-                    className={`d-flex ${
+                    className={`${!ele?.props?.fullWidth  ? 'd-flex' : ''} ${
                       ele?.type == "card_box" || ele?.props?.imageData
                         ? "background-image-props"
                         : ""

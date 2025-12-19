@@ -22,7 +22,7 @@ const ImageComp = ({ ele, path, index }) => {
               src={`${API_BASE_URL}/image/${ele?.props?.imageData?.url}`}
               alt={`image-${index}`}
               layout="fill"
-              objectFit="cover"
+              //objectFit="cover"
               objectPosition="center"
             />
           ) : (

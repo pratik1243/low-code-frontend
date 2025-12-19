@@ -110,7 +110,7 @@ const Container = ({ ele, path, index, currentStep = null }) => {
               (isWebPage && el?.type == "icon")
                 ? textAlign[el?.props?.align?.value] || ""
                 : ""
-            } ${isWebPage ? "d-flex" : ""}`}
+            } ${!el?.props?.fullWidth && isWebPage ? 'd-flex' : ''}`}
             style={{
               ...(el?.column_width && { width: `${el?.column_width}%` }),
               ...(el?.props?.style &&
