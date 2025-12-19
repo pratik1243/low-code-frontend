@@ -85,11 +85,12 @@ const FormTemplate = () => {
     navigator.clipboard.readText().then((data) => {
       try {
         const jsonData = JSON.parse(data);
+        const { isContainer, ...newJsonData } = jsonData;
         setForms({
           ...forms,
           [breakPoint]: Array.isArray(jsonData)
             ? [...forms[breakPoint], ...jsonData]
-            : [...forms[breakPoint], jsonData],
+            : [...forms[breakPoint], newJsonData],
         });
       } catch (err) {
         setForms({ ...forms, [breakPoint]: [] });
@@ -116,7 +117,11 @@ const FormTemplate = () => {
           <p>Adjust column width to fit items in row</p>
         </div>
         <div className="d-flex align-items-center">
-          <div role="button" disabled={forms[breakPoint]?.length === 0} onClick={pasteItems}>
+          <div
+            role="button"
+            disabled={forms[breakPoint]?.length === 0}
+            onClick={pasteItems}
+          >
             <OverlayTrigger
               placement="top"
               overlay={(props) => renderTooltip("Paste", props)}
@@ -124,7 +129,11 @@ const FormTemplate = () => {
               <MdContentPaste size={18} />
             </OverlayTrigger>
           </div>
-          <div role="button" disabled={forms[breakPoint]?.length === 0} onClick={deleteAllFunc}>
+          <div
+            role="button"
+            disabled={forms[breakPoint]?.length === 0}
+            onClick={deleteAllFunc}
+          >
             <OverlayTrigger
               placement="top"
               overlay={(props) => renderTooltip("Clear All", props)}
@@ -132,7 +141,11 @@ const FormTemplate = () => {
               <MdDeleteOutline size={21} />
             </OverlayTrigger>
           </div>
-          <div role="button" disabled={forms[breakPoint]?.length === 0} onClick={copyFunction}>
+          <div
+            role="button"
+            disabled={forms[breakPoint]?.length === 0}
+            onClick={copyFunction}
+          >
             <OverlayTrigger
               placement="top"
               overlay={(props) => renderTooltip(copyText, props)}

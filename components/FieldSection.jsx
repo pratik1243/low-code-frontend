@@ -34,11 +34,8 @@ const FieldSection = () => {
     });
   };
 
-  const noContentFields = fieldsData.filter(
-    (el) => !["stepper", "slider", "container", "card_box"].includes(el?.type)
-  );
-  const FilterFieldsData =
-    currentElement?.type === "container" ? noContentFields : fieldsData;
+  const noContentFields = fieldsData.filter((el) => !["stepper", "slider", "container", "card_box"].includes(el?.type));
+  const FilterFieldsData = currentElement?.type === "container" ? noContentFields : fieldsData;
 
   return (
     <div className="field-option-sec">

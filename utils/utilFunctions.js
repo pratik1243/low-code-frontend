@@ -857,7 +857,8 @@ export function pasteItems(e, ele, forms, setForms, breakPoint) {
     try {
       const json = JSON.parse(data);
       const { id, ...newJsonData } = json;
-      const updateData = forms.map((el, i) => {
+      console.log('breakPoint', breakPoint, forms);
+      const updateData = forms[breakPoint]?.map((el, i) => {
         if (ele?.id === el?.id && el?.type === "container") {
           return {
             ...el,

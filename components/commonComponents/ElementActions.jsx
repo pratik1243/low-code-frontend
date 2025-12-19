@@ -80,7 +80,7 @@ const ElementActions = ({ data, deleteFunction, containerIndex = null }) => {
         <div
           role="button"
           onClick={(e) => {
-            pasteItems(e, data, forms[breakPoint], setForms, breakPoint);
+            pasteItems(e, data, forms, setForms, breakPoint);
           }}
         >
           <OverlayTrigger

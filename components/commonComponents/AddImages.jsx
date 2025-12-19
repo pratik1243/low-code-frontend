@@ -106,9 +106,9 @@ const AddImages = () => {
   return (
     <div className="image-customize-sec">
       {loader ? (
-        <div className="text-center my-5">
+        <div className="text-center my-5 pt-3">
           <Spinner animation="border" variant="primary" />
-          <h5 className="mt-2">Please wait loading icons...</h5>
+          <h5 className="mt-2">Please wait loading images...</h5>
         </div>
       ) : (
         <div className="uploaded-images-sec">
