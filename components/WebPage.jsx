@@ -106,6 +106,8 @@ const WebPage = () => {
     };
   }, [selectedFont]);
 
+  console.log('formsforms', forms);
+
   return (
     <div>
       <PageContext

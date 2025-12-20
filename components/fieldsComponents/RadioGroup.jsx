@@ -71,7 +71,7 @@ function RadioGroup({
                   <div className="inner-radio-sec">
                     <input
                       type="radio"
-                      id={el?.value}
+                      id={`${el?.value}-${index}`}
                       name={ele?.props?.name || `radio-${index}`}
                       style={{
                         ...(isWebPage && {
@@ -93,7 +93,7 @@ function RadioGroup({
                       }}
                     ></div>
                   </div>
-                  <label htmlFor={el?.value}>{el?.label}</label>
+                  <label htmlFor={`${el?.value}-${index}`}>{el?.label}</label>
                 </div>
               );
             })}
