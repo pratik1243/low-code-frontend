@@ -157,7 +157,7 @@ function NavbarCustomize() {
         </div>
         <Container className="mb-4">
           <Row>
-            <Col lg={6} md={6} sm={12} xs={12}>
+            <Col lg={12} md={12} sm={12} xs={12}>
               <div className="customize-checkbox mb-3">
                 <div className="d-flex align-items-center">
                   <input
