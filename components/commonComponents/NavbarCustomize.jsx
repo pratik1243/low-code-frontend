@@ -158,6 +158,24 @@ function NavbarCustomize() {
         <Container className="mb-4">
           <Row>
             <Col lg={6} md={6} sm={12} xs={12}>
+              <div className="customize-checkbox mb-3">
+                <div className="d-flex align-items-center">
+                  <input
+                    type="checkbox"
+                    id="checkbox-hidden"
+                    checked={navbarProps?.hidden || ""}
+                    onChange={(e) => {
+                      setNavbarProps({
+                        ...navbarProps,
+                        hidden: e.target.checked,
+                      });
+                    }}
+                  />
+                  <label htmlFor="checkbox-hidden">Hidden</label>
+                </div>
+              </div>
+            </Col>
+            <Col lg={6} md={6} sm={12} xs={12}>
               <label className="mb-2">
                 Logo Column Width ({navbarProps?.logo?.columnWidth || ""}%)
               </label>

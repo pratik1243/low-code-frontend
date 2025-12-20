@@ -49,10 +49,11 @@ const WebPage = () => {
         setSelectedFont(response?.data?.responseData?.font_family);
         setPageBackground(response?.data?.responseData?.page_background);
         setNavbarProps({
+          hidden: response?.data?.responseData?.navbar_props?.hidden,
           logo: response?.data?.responseData?.navbar_props?.logo,
           menus: response?.data?.responseData?.navbar_props?.menus,
           menuTemplate: response?.data?.responseData?.navbar_props?.menuTemplate,
-          navBackgroundColor: response?.data?.responseData?.navbar_props?.navBackgroundColor
+          navBackgroundColor: response?.data?.responseData?.navbar_props?.navBackgroundColor,
         });
         setForms({
           ...forms,
@@ -106,8 +107,6 @@ const WebPage = () => {
     };
   }, [selectedFont]);
 
-  console.log('formsforms', forms);
-
   return (
     <div>
       <PageContext
@@ -122,7 +121,7 @@ const WebPage = () => {
         }}
       >
         <LayoutComp>
-          {(navbarProps?.logo?.logoUrl || navbarProps?.menus?.menuList?.length > 0) && <NavbarComp />}
+          {(!navbarProps?.hidden && (navbarProps?.logo?.logoUrl || navbarProps?.menus?.menuList?.length > 0)) && <NavbarComp />}
           <div className="d-flex web-div" style={{ fontFamily: selectedFont }}>
             {forms[breakPoint]?.length > 0 &&
               forms[breakPoint]?.map((ele, index) => {
@@ -132,7 +131,7 @@ const WebPage = () => {
                 return (
                   <div
                     key={index}
-                    className={`${!ele?.props?.fullWidth  ? 'd-flex' : ''} ${
+                    className={`${!ele?.props?.fullWidth ? "d-flex" : ""} ${
                       ele?.type == "card_box" || ele?.props?.imageData
                         ? "background-image-props"
                         : ""

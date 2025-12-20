@@ -47,6 +47,7 @@ const FormCreate = () => {
   const [openImageModel, setOpenImageModel] = useState(false);
   const [showIconBox, setShowIconBox] = useState(false);
   const [navbarProps, setNavbarProps] = useState({
+    hidden: false,
     navBackgroundColor: "",
     menuTemplate: "",
     logo: {
