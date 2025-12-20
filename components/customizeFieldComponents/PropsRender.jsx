@@ -298,50 +298,97 @@ const PropsRender = ({ open }) => {
                   </Col>
                 )}
                 {currentField?.type == "container" && (
-                  <Col lg={6} md={6} sm={12} xs={12}>
-                    <div className="customize-prop-sec">
-                      <Row>
-                        <Col lg={9} md={9}>
-                          <label className="mb-2">
-                            Container Background Color
-                          </label>
-                          <input
-                            type="color"
-                            id="color-picker3"
-                            className="w-100"
-                            value={
-                              currentField?.props?.containerBackground || ""
-                            }
-                            onChange={(e) => {
-                              onCustomizeElement(
-                                e,
-                                "containerBackground",
-                                "input",
-                                forms
-                              );
-                            }}
-                          />
-                        </Col>
-                        <Col lg={3} md={3}>
-                          <Button
-                            variant={"primary"}
-                            size="sm"
-                            className="clear-background-btn"
-                            onClick={() => {
-                              onCustomizeElement(
-                                "",
-                                "containerBackground",
-                                "input",
-                                forms
-                              );
-                            }}
-                          >
-                            Clear
-                          </Button>
-                        </Col>
-                      </Row>
-                    </div>
-                  </Col>
+                  <>
+                    <Col lg={6} md={6} sm={12} xs={12}>
+                      <div className="customize-prop-sec">
+                        <Row>
+                          <Col lg={9} md={9}>
+                            <label className="mb-2">
+                              Container Background Color
+                            </label>
+                            <input
+                              type="color"
+                              id="color-picker3"
+                              className="w-100"
+                              value={
+                                currentField?.props?.containerBackground || ""
+                              }
+                              onChange={(e) => {
+                                onCustomizeElement(
+                                  e,
+                                  "containerBackground",
+                                  "input",
+                                  forms
+                                );
+                              }}
+                            />
+                          </Col>
+                          <Col lg={3} md={3}>
+                            <Button
+                              variant={"primary"}
+                              size="sm"
+                              className="clear-background-btn"
+                              onClick={() => {
+                                onCustomizeElement(
+                                  "",
+                                  "containerBackground",
+                                  "input",
+                                  forms
+                                );
+                              }}
+                            >
+                              Clear
+                            </Button>
+                          </Col>
+                        </Row>
+                      </div>
+                    </Col>
+
+                    {currentField?.props?.containerTemplate && (
+                      <Col lg={6} md={6} sm={12} xs={12}>
+                        <Row className="mb-4">
+                          <Col lg={9} md={9}>
+                            <label className="mb-2">Border Color</label>
+                            <input
+                              type="color"
+                              id="color-picker2"
+                              className="w-100"
+                              value={
+                                currentField?.props?.style?.borderColor || ""
+                              }
+                              onChange={(e) => {
+                                onCustomizeElement(
+                                  e,
+                                  "borderColor",
+                                  "input",
+                                  forms,
+                                  "style"
+                                );
+                              }}
+                            />
+                          </Col>
+                          <Col lg={3} md={3}>
+                            <Button
+                              variant={"primary"}
+                              size="sm"
+                              className="clear-background-btn"
+                              onClick={() => {
+                                onCustomizeElement(
+                                  "",
+                                  "borderColor",
+                                  "input",
+                                  forms,
+                                  "style"
+                                );
+                              }}
+                            >
+                              Clear
+                            </Button>
+                          </Col>
+                        </Row>
+                      </Col>
+                    )}
+                  </>
                 )}
 
                 {currentField?.type == "slider" && (

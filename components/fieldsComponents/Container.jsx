@@ -85,6 +85,9 @@ const Container = ({ ele, path, index, currentStep = null }) => {
       style={{
         ...(isWebPage && {
           backgroundColor: ele?.props?.containerBackground,
+          ...(ele?.props?.style?.borderColor && ele?.props?.containerTemplate?.value && {
+            border: `2px solid ${ele?.props?.style?.borderColor}`
+          })
         }),
       }}
     >
