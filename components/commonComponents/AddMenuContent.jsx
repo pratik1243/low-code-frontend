@@ -52,7 +52,7 @@ function AddMenuContent() {
       });
       if (menuIndex === i) {
         return { ...el, subMenus: updateSubMenuIems };
-      } else if (i === id) {
+      } else if (i === id && !isSubMenuOpen) {
         return {
           ...el,
           [name]: value,
