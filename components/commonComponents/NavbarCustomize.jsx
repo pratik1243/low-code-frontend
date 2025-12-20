@@ -158,7 +158,7 @@ function NavbarCustomize() {
         <Container className="mb-4">
           <Row>
             <Col lg={12} md={12} sm={12} xs={12}>
-              <div className="customize-checkbox mb-3">
+              <div className="customize-checkbox mb-4">
                 <div className="d-flex align-items-center">
                   <input
                     type="checkbox"
@@ -171,7 +171,7 @@ function NavbarCustomize() {
                       });
                     }}
                   />
-                  <label htmlFor="checkbox-hidden">Hidden</label>
+                  <label htmlFor="checkbox-hidden">Hide Navbar</label>
                 </div>
               </div>
             </Col>
