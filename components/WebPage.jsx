@@ -73,39 +73,38 @@ const WebPage = () => {
     }
   };
 
+  const handleResize = () => {
+    if (window.innerWidth >= 768 && window.innerWidth < 992) {
+      setBreakPoint("md");
+    } else if (window.innerWidth >= 576 && window.innerWidth < 768) {
+      setBreakPoint("sm");
+    } else if (window.innerWidth < 576) {
+      setBreakPoint("xs");
+    } else {
+      setBreakPoint("lg");
+    }
+  };
+
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768 && window.innerWidth < 992) {
-        setBreakPoint("md");
-      } else if (window.innerWidth >= 576 && window.innerWidth < 768) {
-        setBreakPoint("sm");
-      } else if (window.innerWidth < 576) {
-        setBreakPoint("xs");
-      } else {
-        setBreakPoint("lg");
-      }
-    };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
-    fetchPage(breakPoint);
-  }, [breakPoint, path]);
-
-  useEffect(() => {
+    handleResize();
     const link = document.createElement("link");
-    link.href = `https://fonts.googleapis.com/css2?family=${selectedFont?.replace(
-      / /g,
-      "+"
-    )}:wght@400&display=swap`;
+    link.href = `https://fonts.googleapis.com/css2?family=${selectedFont?.replace(/ /g, "+")}:wght@400&display=swap`;
     link.rel = "stylesheet";
     document.body.style.backgroundColor = pageBackground;
     document.head.appendChild(link);
     return () => {
       document.head.removeChild(link);
     };
-  }, [selectedFont]);
+  }, []);
+  
+  useEffect(() => {
+    fetchPage(breakPoint);
+  }, [breakPoint, path]);
 
   return (
     <div>
