@@ -86,18 +86,19 @@ const WebPage = () => {
   };
 
   useEffect(() => {
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
     const link = document.createElement("link");
     link.href = `https://fonts.googleapis.com/css2?family=${selectedFont?.replace(/ /g, "+")}:wght@400&display=swap`;
     link.rel = "stylesheet";
     document.body.style.backgroundColor = pageBackground;
     document.head.appendChild(link);
-    
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
     return () => {
       document.head.removeChild(link);
-      window.removeEventListener("resize", handleResize);
     };
   }, [selectedFont]);
   
