@@ -4,7 +4,7 @@ import * as MdIcons from "react-icons/md";
 import * as HiIcons from "react-icons/hi";
 import * as AiIcons from "react-icons/ai";
 
-function IconComponent({ icon, size, color = "#000" }) {
+function IconComponent({ icon, size, color }) {
   const iconType = {
     ...FaIcons,
     ...MdIcons,
