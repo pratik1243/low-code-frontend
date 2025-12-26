@@ -194,8 +194,8 @@ const InputProps = ({ onCustomizeElement, currentField }) => {
                   </Col>
                 )}
 
-                {currentField?.type == "input" ||
-                  (!["checkbox", "radio"].includes(currentField?.type) && (
+                {currentField?.type == "input" &&
+                  !["checkbox", "radio"].includes(currentField?.type) && (
                     <Col lg={3} md={3} sm={12} xs={12}>
                       <div className="d-flex">
                         <input
@@ -216,7 +216,7 @@ const InputProps = ({ onCustomizeElement, currentField }) => {
                         </label>
                       </div>
                     </Col>
-                  ))}
+                  )}
 
                 {!["checkbox", "radio"].includes(currentField?.type) && (
                   <Col lg={3} md={3} sm={12} xs={12}>
@@ -267,7 +267,9 @@ const InputProps = ({ onCustomizeElement, currentField }) => {
                   ? currentField?.props?.title
                   : currentField?.props?.label || ""
               }
-              placeholder={currentField?.type == "radio" ? "Enter title" : "Enter label"}
+              placeholder={
+                currentField?.type == "radio" ? "Enter title" : "Enter label"
+              }
               className="customize-input"
               onChange={(e) => {
                 onCustomizeElement(

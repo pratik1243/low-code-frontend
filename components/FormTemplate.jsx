@@ -60,7 +60,7 @@ const FormTemplate = () => {
     setForms({ ...forms, [breakPoint]: formData });
     setCurrentElement();
     if (containerId === index) {
-      setContainerId(undefined);
+      setContainerId(null);
     }
   };
 

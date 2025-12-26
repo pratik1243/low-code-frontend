@@ -64,6 +64,7 @@ const TextProps = ({ onCustomizeElement, currentField }) => {
           <input
             type="number"
             className="customize-input"
+            placeholder="Enter font size"
             value={currentField?.props?.style?.fontSize || ""}
             onChange={(e) => {
               onCustomizeElement(e, "fontSize", "input", forms, "style");

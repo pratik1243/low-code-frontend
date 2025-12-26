@@ -37,7 +37,7 @@ const FormCreate = () => {
   const [fieldType, setFieldType] = useState();
   const [scrollAnimationType, setScrollAnimationType] = useState();
   const [pageBackground, setPageBackground] = useState("");
-  const [containerId, setContainerId] = useState();
+  const [containerId, setContainerId] = useState(null);
   const [containerIndex, setContainerIndex] = useState();
   const [breakPoint, setBreakPoint] = useState("lg");
   const [pagesList, setPagesList] = useState([]);
@@ -190,7 +190,7 @@ const FormCreate = () => {
 
   const onScreenSizeChange = (data) => {
     let sizeData = data ? data?.value : "lg";
-    fetchPagesList(sizeData);
+    //fetchPagesList(sizeData);
     setBreakPoint(sizeData);
     setCurrentElement();
   };
@@ -209,12 +209,11 @@ const FormCreate = () => {
         let data = response?.data?.responseData;
         for (let index = 0; index < data?.length; index++) {
           page_list.push({
-            page_route: data[index]?.page_route
-              ? `/web-page/${data[index]?.page_route}`
-              : null,
+            page_route: data[index]?.page_route ? `/web-page/${data[index]?.page_route}` : null,
             page_name: data[index]?.page_name,
-            page_data: data[index]?.page_data?.screenSize[size],
+            page_data: data[index]?.page_data?.screenSize,
             page_item_url: `/page/${data[index]?.page_id}`,
+            // page_data: data[index]?.page_data?.screenSize[size],
           });
         }
         setPagesList(page_list);

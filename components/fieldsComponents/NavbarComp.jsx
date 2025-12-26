@@ -1,25 +1,16 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import * as FaIcons from "react-icons/fa";
-import * as MdIcons from "react-icons/md";
-import * as HiIcons from "react-icons/hi";
-import * as AiIcons from "react-icons/ai";
 import React, { useContext, useState } from "react";
 import { API_BASE_URL } from "../../services/endpoints";
 import { PageContext } from "../WebPage";
 import { IoIosArrowDown } from "react-icons/io";
 import { useParams } from "next/navigation";
+import IconComponent from "../commonComponents/IconComponent";
 
 const NavbarComp = () => {
   const params = useParams();
   const { navbarProps } = useContext(PageContext);
-  const iconType = {
-    ...FaIcons,
-    ...MdIcons,
-    ...HiIcons,
-    ...AiIcons,
-  };
   const [menuIndex, setMenuIndex] = useState(null);
 
   const renderSubMenu = (el) => {
@@ -53,7 +44,6 @@ const NavbarComp = () => {
           }}
         >
           {el?.subMenus.map((ele, id) => {
-            const IconSubMenuComponent = iconType[ele?.icon];
             return (
               <div key={id} className="menu-item">
                 <Link
@@ -70,7 +60,7 @@ const NavbarComp = () => {
                   {" "}
                   {ele?.icon && (
                     <>
-                      <IconSubMenuComponent size={18} />
+                      <IconComponent icon={ele?.icon} size={18} />
                       &nbsp;&nbsp;
                     </>
                   )}
@@ -109,7 +99,6 @@ const NavbarComp = () => {
       >
         {navbarProps?.menus?.menuList?.length > 0 &&
           navbarProps?.menus?.menuList?.map((el, i) => {
-            const IconComponent = iconType[el?.icon];
             return (
               <div
                 key={i}
@@ -147,7 +136,7 @@ const NavbarComp = () => {
                   >
                     {el?.icon && (
                       <>
-                        <IconComponent size={17} />
+                        <IconComponent icon={el?.icon} size={17} />
                         &nbsp;&nbsp;
                       </>
                     )}
@@ -172,7 +161,7 @@ const NavbarComp = () => {
                     {" "}
                     {el?.icon && (
                       <>
-                        <IconComponent size={17} />
+                        <IconComponent icon={el?.icon} size={17} />
                         &nbsp;&nbsp;
                       </>
                     )}

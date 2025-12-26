@@ -1,9 +1,5 @@
 "use client";
 import React, { useContext } from "react";
-import * as FaIcons from "react-icons/fa";
-import * as MdIcons from "react-icons/md";
-import * as HiIcons from "react-icons/hi";
-import * as AiIcons from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { FormContext } from "../FormCreate";
 import { useState } from "react";
@@ -12,6 +8,7 @@ import { debounce } from "../../utils/utilFunctions";
 import { Col, Row, Spinner, Button } from "react-bootstrap";
 import { commonPostApiFunction } from "../../services/commonApiFunc";
 import { IoMdArrowBack } from "react-icons/io";
+import IconComponent from "./IconComponent";
 
 const IconBox = ({
   onCustomizeElement = null,
@@ -24,13 +21,6 @@ const IconBox = ({
   const [loader, setLoader] = useState(false);
   const [icons, setIcons] = useState([]);
   const [iconValue, setIconValue] = useState("");
-
-  const iconType = {
-    ...FaIcons,
-    ...MdIcons,
-    ...HiIcons,
-    ...AiIcons,
-  };
 
   const fetchIcons = async (e) => {
     setLoader(true);
@@ -118,14 +108,13 @@ const IconBox = ({
         ) : (
           icons.length > 0 &&
           icons.map((ele, i) => {
-            const IconComponent = iconType[ele];
             return (
               <div
                 key={i}
                 className="icon-sec"
                 onClick={() => setIconType(ele)}
               >
-                {IconComponent ? <IconComponent /> : null}
+                <IconComponent icon={ele} />
                 <span className="icon-text">{ele?.slice(2)}</span>
               </div>
             );

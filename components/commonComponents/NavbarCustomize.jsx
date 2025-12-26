@@ -220,6 +220,7 @@ function NavbarCustomize() {
                   min={0}
                   max={50}
                   name="height"
+                  placeholder="Enter height"
                   value={navbarProps?.logo?.height || ""}
                   className="customize-input"
                   onChange={(e) => {
@@ -236,6 +237,7 @@ function NavbarCustomize() {
                   min={0}
                   max={100}
                   name="width"
+                  placeholder="Enter width"
                   value={navbarProps?.logo?.width || ""}
                   className="customize-input"
                   onChange={(e) => {

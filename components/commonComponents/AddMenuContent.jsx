@@ -1,8 +1,4 @@
 import React, { useContext, useState } from "react";
-import * as FaIcons from "react-icons/fa";
-import * as MdIcons from "react-icons/md";
-import * as HiIcons from "react-icons/hi";
-import * as AiIcons from "react-icons/ai";
 import { Button, Dropdown, Modal, Table } from "react-bootstrap";
 import { HiDotsVertical } from "react-icons/hi";
 import { IoAddSharp } from "react-icons/io5";
@@ -12,6 +8,7 @@ import { IoMdArrowBack } from "react-icons/io";
 import emptyImg from "../../public/empty-box.png";
 import Image from "next/image";
 import IconBox from "./IconBox";
+import IconComponent from "./IconComponent";
 
 function AddMenuContent() {
   const {
@@ -27,13 +24,6 @@ function AddMenuContent() {
   } = useContext(FormContext);
 
   const [subMenuIndex, setSubMenuIndex] = useState(null);
-
-  const iconType = {
-    ...FaIcons,
-    ...MdIcons,
-    ...HiIcons,
-    ...AiIcons,
-  };
 
   const menuList = isSubMenuOpen
     ? navbarProps?.menus?.menuList[menuIndex]?.subMenus
@@ -269,7 +259,6 @@ function AddMenuContent() {
           ) : (
             <tbody className="customize-option-sec mt-4">
               {menuList?.map((el, i) => {
-                const IconComponent = iconType[el?.icon];
                 return (
                   <tr
                     key={i}
@@ -282,7 +271,7 @@ function AddMenuContent() {
                       <div className="option-input d-flex align-items-center m-2">
                         {el?.icon && (
                           <>
-                            <IconComponent size={20} />
+                            <IconComponent size={20} icon={el?.icon} />
                             &nbsp;&nbsp;
                           </>
                         )}

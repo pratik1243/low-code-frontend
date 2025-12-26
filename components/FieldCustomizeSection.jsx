@@ -21,7 +21,7 @@ const FieldCustomizeSection = () => {
   const handleClose = () => {
     setShow(false);
     setShow1(false);
-    //setCurrentElement();
+    setCurrentElement();
     setOpenImageModel(false);
     setShowCurrentElement(false);
   };

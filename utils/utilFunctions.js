@@ -658,7 +658,7 @@ export function nestedStructure(
           ...ele,
           ...(properType == "addContent"
             ? {
-                ...property(ele, data?.type, data?.pageItem, data?.optionValue),
+                ...property(ele, data?.type, data?.pageItem, data?.optionValue, breakPoint),
               }
             : {
                 ...property(
@@ -701,7 +701,7 @@ export function nestedStructure(
   return updateForms;
 }
 
-export function addContentProps(el, type, pageItem, optionValue) {
+export function addContentProps(el, type, pageItem, optionValue, breakPoint = "lg") {
   return {
     props: {
       ...el?.props,
@@ -710,7 +710,7 @@ export function addContentProps(el, type, pageItem, optionValue) {
         {
           ...(["stepContent", "slides", "cards"].includes(type)
             ? {
-                content: pageItem?.page_data,
+                content: pageItem?.page_data[breakPoint],
                 url: pageItem?.page_item_url,
                 label: pageItem?.page_name,
               }

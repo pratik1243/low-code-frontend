@@ -3,7 +3,7 @@ import { fieldsData, generateId } from "../utils/utilFunctions";
 import { FormContext } from "./FormCreate";
 
 const FieldSection = () => {
-  const { forms, setForms, currentElement, containerId, breakPoint } = useContext(FormContext);
+  const { forms, setForms, containerId, breakPoint } = useContext(FormContext);
 
   const onClickAddFields = (items) => {
     const updatedForms = forms[breakPoint].map((el, i) => {
@@ -22,7 +22,7 @@ const FieldSection = () => {
     setForms({
       ...forms,
       [breakPoint]:
-        containerId == undefined
+        containerId == null
           ? [
               ...forms[breakPoint],
               {
@@ -35,7 +35,7 @@ const FieldSection = () => {
   };
 
   const noContentFields = fieldsData.filter((el) => !["stepper", "slider", "container", "card_box"].includes(el?.type));
-  const FilterFieldsData = currentElement?.type === "container" ? noContentFields : fieldsData;
+  const FilterFieldsData = containerId !== null ? noContentFields : fieldsData;
 
   return (
     <div className="field-option-sec">

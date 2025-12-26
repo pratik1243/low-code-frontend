@@ -32,7 +32,7 @@ function RadioGroup({
   return (
     <>
       {!isWebPage ? (
-        <div>Radio Button Group</div>
+        <div>Radio Group</div>
       ) : (
         <div className="radio-box-section">
           <label

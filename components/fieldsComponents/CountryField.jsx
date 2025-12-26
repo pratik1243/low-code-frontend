@@ -15,7 +15,9 @@ const CountryField = ({
 }) => {
   const isWebPage = path.includes("web-page");
   const boxRef = useRef(null);
-  const { forms, setForms, breakPoint } = useContext(isWebPage ? PageContext : FormContext);
+  const { forms, setForms, breakPoint } = useContext(
+    isWebPage ? PageContext : FormContext
+  );
   const token = useSelector((user) => user.auth.authDetails.token);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
@@ -26,7 +28,6 @@ const CountryField = ({
       const response = await axios.get(`${API_BASE_URL}/countries-list`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
       });
       if (response.status == 200) {
@@ -41,7 +42,16 @@ const CountryField = ({
 
   const setValidations = (value) => {
     setValue(value);
-    setForms({...forms, [breakPoint]: updateNestedForms(forms, ele, value, currentStep, breakPoint) });
+    setForms({
+      ...forms,
+      [breakPoint]: updateNestedForms(
+        forms,
+        ele,
+        value,
+        currentStep,
+        breakPoint
+      ),
+    });
   };
 
   const filterOptions = countriesList.filter((el) =>
@@ -91,7 +101,9 @@ const CountryField = ({
           type="text"
           id={ele?.id}
           value={ele?.props?.value || ""}
-          className={`${ele?.name} ${ele?.props?.standard ? 'no-standard-border' : ''}`}
+          className={`${ele?.name} ${
+            ele?.props?.standard ? "no-standard-border" : ""
+          }`}
           placeholder={ele?.props?.placeholder || "Enter placeholder"}
           onChange={(e) => {
             setValidations(e.target.value);
@@ -116,8 +128,10 @@ const CountryField = ({
             style={{
               ...(isWebPage && {
                 backgroundColor: ele?.props?.style?.borderColor,
-                ...(ele?.props?.style?.borderColor && { height: "2px !important" }),
-              }),              
+                ...(ele?.props?.style?.borderColor && {
+                  height: "2px !important",
+                }),
+              }),
             }}
           ></div>
         )}

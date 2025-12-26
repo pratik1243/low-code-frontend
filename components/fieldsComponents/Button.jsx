@@ -1,14 +1,11 @@
 import React from "react";
-import * as FaIcons from "react-icons/fa";
-import * as MdIcons from "react-icons/md";
-import * as HiIcons from "react-icons/hi";
-import * as AiIcons from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import Button from "react-bootstrap/Button";
 import { FormContext } from "../FormCreate";
 import { PageContext } from "../WebPage";
 import { useContext } from "react";
 import { addPixel, errorMessageFunc } from "../../utils/utilFunctions";
+import IconComponent from "../commonComponents/IconComponent";
 
 const ButtonComp = ({ ele, path }) => {
   const router = useRouter();
@@ -17,14 +14,6 @@ const ButtonComp = ({ ele, path }) => {
     isWebPage ? PageContext : FormContext
   );
   const fieldArray = ele?.props?.fields.map((el) => el?.value);
-
-  const iconType = {
-    ...FaIcons,
-    ...MdIcons,
-    ...HiIcons,
-    ...AiIcons,
-  };
-  const IconComponent = iconType[ele?.props?.iconName];
 
   const getFieldValue = (data)=>{
     return typeof data?.props?.value == "object"
@@ -95,12 +84,12 @@ const ButtonComp = ({ ele, path }) => {
       className="d-flex align-items-center justify-content-center w-100"
     >
       {ele?.props?.iconPosition == "start" && ele?.props?.iconName && (
-        <IconComponent size={20} />
+        <IconComponent icon={ele?.props?.iconName} size={20} />
       )}{" "}
       &nbsp;{ele?.props?.text || "Button"}
       {ele?.props?.iconPosition == "end" && <>&nbsp;</>}
       {ele?.props?.iconPosition == "end" && ele?.props?.iconName && (
-        <IconComponent size={20} />
+        <IconComponent icon={ele?.props?.iconName} size={20} />
       )}
     </Button>
   );
