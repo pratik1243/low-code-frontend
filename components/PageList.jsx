@@ -11,6 +11,7 @@ import { generateId } from "../utils/utilFunctions";
 import { MdDeleteOutline } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
 import { IoIosAdd } from "react-icons/io";
+import { setPageCreateDetails } from "../redux/slices/pageCreateSlice";
 
 const PageList = () => {
   const router = useRouter();
@@ -20,7 +21,8 @@ const PageList = () => {
   const [formData, setFormData] = useState({
     page_name: "",
     page_link: "",
-    base_page_link: ""
+    base_page_link: "",
+    page_item: false,
   });
 
   const token = useSelector((user) => user.auth.authDetails.token);
@@ -31,7 +33,7 @@ const PageList = () => {
 
   const onPageCreate = () => {
     const data = { ...formData, page_id: `${generateId(4)}` };
-    localStorage.setItem("page-data", JSON.stringify(data));
+    dispatch(setPageCreateDetails(data));
     router.push("/page/create");
   };
 
@@ -47,7 +49,6 @@ const PageList = () => {
 
       if (response.status == 200) {
         setPagesList(response.data.responseData);
-        localStorage.setItem("page-data", null);
         dispatch(
           setSnackbarProps({
             variant: "Success",
@@ -77,7 +78,10 @@ const PageList = () => {
   };
   const formChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({
+      ...formData,
+      [name]: name == "page_item" ? e.target.checked : value,
+    });
   };
 
   useEffect(() => {
@@ -147,12 +151,14 @@ const PageList = () => {
       </Container>
       <Modal show={show} onHide={handleClose} size={"lg"}>
         <Modal.Header closeButton>
-          <Modal.Title>Create Page</Modal.Title>
+          <Modal.Title>Create Page {formData.page_item && "Item"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="page-create-sec">
             <div>
-              <label>Page Name <span className="text-danger">*</span></label>
+              <label>
+                Page Name <span className="text-danger">*</span>
+              </label>
               <input
                 type="text"
                 name="page_name"
@@ -160,23 +166,45 @@ const PageList = () => {
                 onChange={(e) => formChange(e)}
               />
             </div>
+            {!formData.page_item && (
+              <>
+                <div className="mt-4">
+                  <label>
+                    Base Page Route <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="base_page_link"
+                    placeholder="Enter base route"
+                    onChange={(e) => formChange(e)}
+                  />
+                </div>
+                <div className="mt-4">
+                  <label>
+                    Page Route <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="page_link"
+                    placeholder="Enter page route"
+                    onChange={(e) => formChange(e)}
+                  />
+                </div>
+              </>
+            )}
+
             <div className="mt-4">
-              <label>Base Page Route <span className="text-danger">*</span></label>
-              <input
-                type="text"
-                name="base_page_link"
-                placeholder="Enter base route"
-                onChange={(e) => formChange(e)}
-              />
-            </div>
-            <div className="mt-4">
-              <label>Page Route <span className="text-danger">*</span></label>
-              <input
-                type="text"
-                name="page_link"
-                placeholder="Enter page route"
-                onChange={(e) => formChange(e)}
-              />
+              <div className="d-flex check-box">
+                <input
+                  type="checkbox"
+                  id="is-page-item"
+                  name="page_item"
+                  onChange={(e) => formChange(e)}
+                />
+                <label htmlFor="is-page-item" className="mb-0">
+                  Create as page item
+                </label>
+              </div>
             </div>
           </div>
         </Modal.Body>
@@ -184,14 +212,30 @@ const PageList = () => {
           <Button variant="outline-secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button
-            variant="primary"
-            className="page-create-btn"
-            disabled={formData.page_name ? false : true}
-            onClick={onPageCreate}
-          >
-            Create Page
-          </Button>
+          {formData.page_item ? (
+            <Button
+              variant="primary"
+              className="page-create-btn"
+              onClick={onPageCreate}
+              disabled={!formData.page_name}
+            >
+              Create Page Item
+            </Button>
+          ) : (
+            <Button
+              variant="primary"
+              className="page-create-btn"
+              disabled={
+                formData.page_name &&
+                (formData.base_page_link || formData.page_link)
+                  ? false
+                  : true
+              }
+              onClick={onPageCreate}
+            >
+              Create Page
+            </Button>
+          )}
         </Modal.Footer>
       </Modal>
     </div>

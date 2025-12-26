@@ -8,6 +8,8 @@ import { debounce } from "../../utils/utilFunctions";
 import { Col, Row, Spinner, Button } from "react-bootstrap";
 import { commonPostApiFunction } from "../../services/commonApiFunc";
 import { IoMdArrowBack } from "react-icons/io";
+import Image from "next/image";
+import emptyImg from "../../public/empty-box.png";
 
 const FontFamilyBox = () => {
   const { setSelectedFont, setFontModal } = useContext(FormContext);
@@ -80,28 +82,34 @@ const FontFamilyBox = () => {
         </Row>
       </div>
 
-      <div className={`fonts-list ${loader ? "no-grid" : ""}`}>
+      <div className={`fonts-list ${loader || fonts.length == 0 ? "no-grid" : ""}`}>
         {loader ? (
           <div className="text-center mt-5 mb-5">
             <Spinner animation="border" variant="primary" />
             <h5 className="mt-2">Please wait loading fonts...</h5>
           </div>
+        ) : fonts.length > 0 ? (
+          <>
+            {fonts.map((ele, i) => {
+              return (
+                <div
+                  key={i}
+                  className="font-sec"
+                  onClick={() => {
+                    setSelectedFont(ele);
+                    setFontModal(false);
+                  }}
+                >
+                  {ele?.split("-").join(" ")}
+                </div>
+              );
+            })}
+          </>
         ) : (
-          fonts.length > 0 &&
-          fonts.map((ele, i) => {
-            return (
-              <div
-                key={i}
-                className="font-sec"
-                onClick={() => {
-                  setSelectedFont(ele);
-                  setFontModal(false);
-                }}
-              >
-                {ele?.split("-").join(" ")}
-              </div>
-            );
-          })
+          <div className="py-4 empty-icon-box text-center">
+            <Image src={emptyImg} height={160} width={160} alt="menu-empty" />
+            <div className="no-menus-txt mt-3 fs-5">No Fonts Found!</div>
+          </div>
         )}
       </div>
     </div>

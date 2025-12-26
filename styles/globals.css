@@ -541,7 +541,7 @@ input {
   font-size: 14px;
 }
 
-.page-create-sec input {
+.page-create-sec input[type="text"] {
   background-color: var(--white-color);
   width: 100%;
   padding: 8px 10px;
@@ -551,12 +551,36 @@ input {
   margin-bottom: 12px;
 }
 
+.page-create-sec .check-box {
+  margin-left: 4px;
+  margin-bottom: 10px;
+}
+
+.page-create-sec .check-box input[type="checkbox"] {
+  transform: scale(1.5);
+  margin-right: 10px;
+  outline: none;
+}
+
+.page-create-sec .check-box label {
+  cursor: pointer;
+  text-transform: unset;
+}
+
 .web-div {
   flex-wrap: wrap;
 }
 
-.publish-btn-sec a{
+.publish-btn-sec a {
   text-decoration: none;
+}
+
+.publish-btn-sec button:disabled,
+.publish-btn-sec a[disabled] {
+  color: #878480 !important;
+  background-color: #f2f2f2 !important;
+  border-color: #cccccc !important;
+  pointer-events: none;
 }
 
 .publish-btn-sec button,
@@ -1601,7 +1625,6 @@ hr {
 .navbar-section .menu-item {
   margin-right: 35px;
   position: relative;
-  
 }
 
 .navbar-section .menu-item a {
@@ -1754,7 +1777,6 @@ hr {
   border: none !important;
 }
 
-
 .check-box-section {
   display: block;
   position: relative;
@@ -1788,13 +1810,13 @@ hr {
   border: 2px solid var(--grey-color);
 }
 
-.check-box-section.default .checkmark{
+.check-box-section.default .checkmark {
   border-color: #b7b4b4;
 }
 
 .check-box-section input:checked ~ .checkmark {
-  background-color: #2196F3;
-  border-color: #2196F3;
+  background-color: #2196f3;
+  border-color: #2196f3;
 }
 
 .checkmark:after {
@@ -1862,7 +1884,7 @@ hr {
 }
 
 .radio-box-section .radio-btn-sec.checked input[type="radio"] {
-  border-color: #2196F3;
+  border-color: #2196f3;
 }
 
 .radio-box-section .radio-btn-sec.checked .inner-radio-sec .radio-dot {
@@ -1873,9 +1895,13 @@ hr {
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  background-color: #2196F3;
+  background-color: #2196f3;
 }
 
 .radio-box-section .radio-btns input[type="radio"]:focus {
-  outline: none;  
+  outline: none;
+}
+
+.css-3iigni-container {
+  width: 100% !important;
 }

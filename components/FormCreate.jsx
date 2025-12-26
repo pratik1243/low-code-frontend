@@ -16,6 +16,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import Select from "react-select";
 import SettingBox from "./commonComponents/SettingBox";
 import { RiExternalLinkLine } from "react-icons/ri";
+import { setPageCreateDetails } from "../redux/slices/pageCreateSlice";
 
 export const FormContext = createContext();
 
@@ -62,7 +63,7 @@ const FormCreate = () => {
       menuColor: "",
       subMenuColor: "",
       menuDropdownColor: "",
-      menuDropdownAnimation: ""
+      menuDropdownAnimation: "",
     },
   });
   const [navSettings, setNavSettings] = useState(false);
@@ -72,6 +73,7 @@ const FormCreate = () => {
   const requestUserId = useSelector(
     (user) => user.auth.authDetails.request_user_id
   );
+  const pageData = useSelector((user) => user.pageCreate.pageCreateDetails);
 
   function dataPayload(data) {
     return {
@@ -99,7 +101,6 @@ const FormCreate = () => {
 
   const savePage = async (isEdit) => {
     try {
-      const pageData = JSON.parse(localStorage.getItem("page-data"));
       const requestData = {
         key: isEdit ? "khftrey" : "bvghtyy",
         payload: {
@@ -113,6 +114,7 @@ const FormCreate = () => {
         if (!isEdit) {
           router.push("/page-list");
         }
+        dispatch(setPageCreateDetails(null));
         dispatch(
           setSnackbarProps({
             variant: "Success",
@@ -190,12 +192,11 @@ const FormCreate = () => {
 
   const onScreenSizeChange = (data) => {
     let sizeData = data ? data?.value : "lg";
-    //fetchPagesList(sizeData);
     setBreakPoint(sizeData);
     setCurrentElement();
   };
 
-  const fetchPagesList = async (size = "lg") => {
+  const fetchPagesList = async () => {
     try {
       dispatch(setLoader(true));
       const requestData = {
@@ -209,11 +210,12 @@ const FormCreate = () => {
         let data = response?.data?.responseData;
         for (let index = 0; index < data?.length; index++) {
           page_list.push({
-            page_route: data[index]?.page_route ? `/web-page/${data[index]?.page_route}` : null,
+            page_route: data[index]?.page_route
+              ? `/web-page/${data[index]?.page_route}`
+              : null,
             page_name: data[index]?.page_name,
             page_data: data[index]?.page_data?.screenSize,
             page_item_url: `/page/${data[index]?.page_id}`,
-            // page_data: data[index]?.page_data?.screenSize[size],
           });
         }
         setPagesList(page_list);
@@ -285,14 +287,19 @@ const FormCreate = () => {
         <Row>
           <Col lg={12} md={12} sm={12} xs={12} className="mb-3">
             <Row className="align-items-center">
-              <Col lg={4} md={4} sm={12} xs={12}>
-                <h4>{data?.page_name}</h4>
+              <Col
+                lg={4}
+                md={4}
+                sm={12}
+                xs={12}
+              >
+                <h4>{pageData?.page_name || data?.page_name}</h4>
               </Col>
               <Col lg={1} md={1} sm={12} xs={12}>
                 <div className="publish-btn-sec">
                   <button
                     onClick={() => {
-                      localStorage.setItem("page-data", null);
+                      dispatch(setPageCreateDetails(null));
                       router.push("/page-list");
                     }}
                   >
@@ -304,6 +311,7 @@ const FormCreate = () => {
                 <div className="publish-btn-sec d-flex align-items-center">
                   <Select
                     isClearable
+                    isDisabled={pageData?.page_item || data?.page_item}
                     placeholder={"Select Screen Size"}
                     options={responsiveScreenSizes}
                     onChange={(data) => {
@@ -312,6 +320,7 @@ const FormCreate = () => {
                   />
                   <button
                     className="web-settings-btn"
+                    disabled={pageData?.page_item || data?.page_item}
                     onClick={() => {
                       setOpenSettingModel(true);
                     }}
@@ -320,6 +329,7 @@ const FormCreate = () => {
                   </button>
                   <a
                     role={"button"}
+                    disabled={pageData?.page_item || data?.page_item}
                     className="web-settings-btn"
                     href={`/web-page/${data?.page_route}`}
                     target={"_blank"}
@@ -328,6 +338,7 @@ const FormCreate = () => {
                   </a>
                 </div>
               </Col>
+
               <Col lg={2} md={2} sm={12} xs={12}>
                 <div className="publish-btn-sec">
                   <button

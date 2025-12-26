@@ -9,6 +9,8 @@ import { Col, Row, Spinner, Button } from "react-bootstrap";
 import { commonPostApiFunction } from "../../services/commonApiFunc";
 import { IoMdArrowBack } from "react-icons/io";
 import IconComponent from "./IconComponent";
+import emptyImg from "../../public/empty-box.png";
+import Image from "next/image";
 
 const IconBox = ({
   onCustomizeElement = null,
@@ -99,26 +101,34 @@ const IconBox = ({
         </Row>
       </div>
 
-      <div className={`icons-list ${loader ? "no-grid" : ""}`}>
+      <div
+        className={`icons-list ${loader || icons.length == 0 ? "no-grid" : ""}`}
+      >
         {loader ? (
           <div className="text-center mt-5 mb-5">
             <Spinner animation="border" variant="primary" />
             <h5 className="mt-2">Please wait loading icons...</h5>
           </div>
+        ) : icons.length > 0 ? (
+          <>
+            {icons.map((ele, i) => {
+              return (
+                <div
+                  key={i}
+                  className="icon-sec"
+                  onClick={() => setIconType(ele)}
+                >
+                  <IconComponent icon={ele} />
+                  <span className="icon-text">{ele?.slice(2)}</span>
+                </div>
+              );
+            })}
+          </>
         ) : (
-          icons.length > 0 &&
-          icons.map((ele, i) => {
-            return (
-              <div
-                key={i}
-                className="icon-sec"
-                onClick={() => setIconType(ele)}
-              >
-                <IconComponent icon={ele} />
-                <span className="icon-text">{ele?.slice(2)}</span>
-              </div>
-            );
-          })
+          <div className="py-4 empty-icon-box text-center">
+            <Image src={emptyImg} height={160} width={160} alt="menu-empty" />
+            <div className="no-menus-txt mt-3 fs-5">No Icons Found!</div>
+          </div>
         )}
       </div>
     </>
