@@ -76,13 +76,15 @@ const PageList = () => {
     }
   };
 
-  const deletePage = async (data) => {
+  const deletePage = async (e, id) => {
+    e.stopPropagation();
     try {
       dispatch(setLoader(true));
       const response = await axios.post(`${API_BASE_URL}/delete-page/${id}`, data);
       dispatch(setLoader(false));
       if (response.status == 200) {
-        toast.success(response?.data?.message, snackProps);        
+        toast.success(response?.data?.message, snackProps);
+        fetchPagesList();
       } else {
         dispatch(setLoader(false));
         toast.error(response?.data?.message, snackProps);
@@ -151,7 +153,9 @@ const PageList = () => {
                     }}
                   >
                     {ele?.page_name}
-                    <MdDeleteOutline size={24} color="red" />
+                    <div role="button" onClick={(e)=> deletePage(e, ele?._id)}>
+                      <MdDeleteOutline size={24} color="red" />
+                    </div>                    
                   </div>
                 </Col>
               );
