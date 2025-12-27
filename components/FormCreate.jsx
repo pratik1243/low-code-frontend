@@ -1,7 +1,7 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
-import React, { createContext, useEffect, useMemo, useState } from "react";
-import { Button, Col, Modal, Row } from "react-bootstrap";
+import React, { createContext, useEffect, useRef, useState } from "react";
+import { Col, Row } from "react-bootstrap";
 import { commonPostApiFunction } from "../services/commonApiFunc";
 import FieldCustomizeSection from "./FieldCustomizeSection";
 import { IoMdArrowBack } from "react-icons/io";
@@ -24,6 +24,7 @@ const FormCreate = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const params = useParams();
+  const elementContainerRef = useRef(null);
   const [forms, setForms] = useState({
     lg: [],
     md: [],
@@ -262,6 +263,7 @@ const FormCreate = () => {
           setIsSubMenuOpen,
           setNavbarProps,
           setShowCurrentElement,
+          elementContainerRef
         }}
       >
         <Row>

@@ -3,11 +3,12 @@ import { fieldsData, generateId } from "../utils/utilFunctions";
 import { FormContext } from "./FormCreate";
 
 const FieldSection = () => {
-  const { forms, setForms, containerId, breakPoint } = useContext(FormContext);
+  const { forms, setForms, containerId, breakPoint, elementContainerRef } = useContext(FormContext);
+  const noContentTypes = ["stepper", "slider", "container", "card_box"];
 
   const onClickAddFields = (items) => {
     const updatedForms = forms[breakPoint].map((el, i) => {
-      if (containerId == i) {
+      if (containerId == el?.id) {
         return {
           ...el,
           content: [
@@ -34,7 +35,7 @@ const FieldSection = () => {
     });
   };
 
-  const noContentFields = fieldsData.filter((el) => !["stepper", "slider", "container", "card_box"].includes(el?.type));
+  const noContentFields = fieldsData.filter((el) => !noContentTypes.includes(el?.type));
   const FilterFieldsData = containerId !== null ? noContentFields : fieldsData;
 
   return (

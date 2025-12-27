@@ -1905,3 +1905,11 @@ hr {
 .css-3iigni-container {
   width: 100% !important;
 }
+
+.main-content-sec:has(.drag-indicator:active) .element-column::after {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: 100;
+  inset: 0;
+}

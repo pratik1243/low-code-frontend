@@ -12,6 +12,7 @@ import ElementActions from "./commonComponents/ElementActions";
 import emptyImg from "../public/empty-box.png";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import Image from "next/image";
+import { generateId } from "../utils/utilFunctions";
 
 const FormTemplate = () => {
   const {
@@ -22,10 +23,12 @@ const FormTemplate = () => {
     setContainerId,
     setHeight,
     breakPoint,
+    elementContainerRef,
   } = useContext(FormContext);
 
   const pathname = usePathname();
   const [copyText, setCopyText] = useState("Copy");
+  const [containerDrag, setContainerDrag] = useState(false);
 
   const renderTooltip = (text, props) => (
     <Tooltip id="button-tooltip" {...props}>
@@ -54,18 +57,18 @@ const FormTemplate = () => {
     e.dataTransfer.setData("element_index", index);
   };
 
-  const deleteItem = (e, id, index = null) => {
+  const deleteItem = (e, id) => {
     e.stopPropagation();
     const formData = forms[breakPoint].filter((el) => el.id !== id);
     setForms({ ...forms, [breakPoint]: formData });
     setCurrentElement();
-    if (containerId === index) {
+    if (containerId === id) {
       setContainerId(null);
     }
   };
 
-  const onClickElement = (e, ele, index) => {
-    setContainerId(e.target.checked ? index : null);
+  const onClickElement = (e, ele) => {
+    setContainerId(e.target.checked ? ele?.id : null);
     setCurrentElement(e.target.checked ? ele : null);
   };
 
@@ -90,7 +93,7 @@ const FormTemplate = () => {
           ...forms,
           [breakPoint]: Array.isArray(jsonData)
             ? [...forms[breakPoint], ...jsonData]
-            : [...forms[breakPoint], newJsonData],
+            : [...forms[breakPoint], { ...newJsonData, id: generateId(4) }],
         });
       } catch (err) {
         setForms({ ...forms, [breakPoint]: [] });
@@ -173,7 +176,7 @@ const FormTemplate = () => {
                 className={`position-relative element-column column_${
                   ele?.id
                 } ${
-                  containerId === index ? "selected-card" : ""
+                  containerId === ele?.id ? "selected-card" : ""
                 }                  
                ${ele?.props?.hidden ? "hidden" : ""} ${
                   ["stepper", "slider", "card_box"].includes(ele?.type)
@@ -191,13 +194,13 @@ const FormTemplate = () => {
                   <div className="d-flex align-items-center select-container-sec">
                     <input
                       type="checkbox"
-                      checked={containerId === index ? true : false}
-                      id={`select-container-${index}`}
+                      checked={containerId === ele?.id ? true : false}
+                      id={`select-container-${ele?.id}`}
                       onChange={(e) => {
-                        onClickElement(e, ele, index);
+                        onClickElement(e, ele);
                       }}
                     />{" "}
-                    <label htmlFor={`select-container-${index}`}>
+                    <label htmlFor={`select-container-${ele?.id}`}>
                       Select Container {index + 1}
                     </label>
                   </div>
@@ -216,13 +219,14 @@ const FormTemplate = () => {
                 <div className={`delete-element-btn`}>
                   <ElementActions
                     data={ele}
-                    deleteFunction={(e) => deleteItem(e, ele?.id, index)}
+                    deleteFunction={(e) => deleteItem(e, ele?.id)}
                   />
                 </div>
               </div>
             );
           })}
       </div>
+      {/* <div ref={elementContainerRef}>pppp</div> */}
     </div>
   );
 };

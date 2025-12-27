@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   addPixel,
   alignment,
@@ -15,22 +15,10 @@ const Container = ({ ele, path, index, currentStep = null }) => {
   const {
     forms,
     setForms,
-    setContainerId,
     setCurrentElement,
-    currentElement,
-    setShowCurrentElement,
     breakPoint,
   } = useContext(isWebPage ? PageContext : FormContext);
-
-  // const onClickElement = () => {
-  //   e.stopPropagation();
-  //   setCurrentElement(el);
-  //   if (!isWebPage) {
-  //     setContainerId(index);
-  //     //setShowCurrentElement(true);
-  //   }
-  // };
-
+  
   const deleteNestedItem = (e, id, ind) => {
     e.stopPropagation();
     const updateData = forms[breakPoint].map((el, i) => {
@@ -70,7 +58,7 @@ const Container = ({ ele, path, index, currentStep = null }) => {
 
   const onDragOver = (e) => {
     e.stopPropagation();
-    e.preventDefault();
+    e.preventDefault();    
   };
 
   return (
