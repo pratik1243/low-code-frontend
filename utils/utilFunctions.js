@@ -691,8 +691,7 @@ export function nestedStructure(
                   ele,
                   data?.type,
                   data?.pageItem,
-                  data?.optionValue,
-                  breakPoint
+                  data?.optionValue
                 ),
               }
             : {
@@ -740,8 +739,7 @@ export function addContentProps(
   el,
   type,
   pageItem,
-  optionValue,
-  breakPoint = "lg"
+  optionValue
 ) {
   return {
     props: {
@@ -751,7 +749,7 @@ export function addContentProps(
         {
           ...(["stepContent", "slides", "cards"].includes(type)
             ? {
-                content: pageItem?.page_data[breakPoint],
+                content: pageItem?.page_data?.lg,
                 url: pageItem?.page_item_url,
                 label: pageItem?.page_name,
               }
