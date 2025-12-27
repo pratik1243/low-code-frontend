@@ -4,8 +4,7 @@ import { Button, Col, Container, Offcanvas, Row } from "react-bootstrap";
 import { FormContext } from "../FormCreate";
 import FontFamilyBox from "./FontFamilyBox";
 import NavbarCustomize from "./NavbarCustomize";
-import IconBox from "./IconBox";
-import { useState } from "react";
+import { fieldVariantOptions, scrollAnimationOtions } from "../../utils/utilFunctions";
 
 function SettingBox() {
   const {
@@ -24,14 +23,7 @@ function SettingBox() {
     setScrollAnimationType,
     setPageBackground,
     scrollAnimationType,
-    pageBackground,
-    showIconBox,
-    navbarProps,
-    setNavbarProps,
-    setShowIconBox,
-    isSubMenuOpen,
-    setIsSubMenuOpen,
-    menuIndex,
+    pageBackground
   } = useContext(FormContext);
 
   const onClickSetFieldType = (value) => {
@@ -141,11 +133,7 @@ function SettingBox() {
                       setFieldType(e);
                       onClickSetFieldType(e?.value);
                     }}
-                    options={[
-                      { label: "Float Label", value: "Outlined" },
-                      { label: "Standard", value: "Standard" },
-                      { label: "Default", value: "Default" },
-                    ]}
+                    options={fieldVariantOptions}
                   />
                 </div>
               </div>
@@ -159,11 +147,7 @@ function SettingBox() {
                     onChange={(e) => {
                       setScrollAnimationType(e);
                     }}
-                    options={[
-                      { label: "Once", value: "Once" },
-                      { label: "Every Time", value: "Every Time" },
-                      { label: "None", value: "None" },
-                    ]}
+                    options={scrollAnimationOtions}
                   />
                 </div>
               </div>

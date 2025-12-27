@@ -17,8 +17,7 @@ const AddContent = ({
   onCustomizeElement,
   goBack,
 }) => {
-  const { forms, setForms, currentElement, pagesList, breakPoint } =
-    useContext(FormContext);
+  const { forms, setForms, currentElement, pagesList, breakPoint } = useContext(FormContext);
   const [optionValue, setOptionValue] = useState("");
   const [pageItem, setPageItem] = useState("");
   const stepList = ["stepper", "slider", "card_box"];

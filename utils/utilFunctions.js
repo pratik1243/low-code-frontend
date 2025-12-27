@@ -284,7 +284,7 @@ export const snackProps = {
   autoClose: 3000,
   hideProgressBar: false,
   closeOnClick: true,
-}
+};
 
 export const menuTemplateList = [
   {
@@ -412,6 +412,28 @@ export const menuAnimationOptions = [
   { label: "Fade Up", value: "fade-up" },
   { label: "Zoom In", value: "zoom-in" },
   { label: "Collapse", value: "Collapse" },
+];
+
+export const fontWeightOptions = [
+  { label: "100", value: "100" },
+  { label: "200", value: "200" },
+  { label: "300", value: "300" },
+  { label: "400", value: "400" },
+  { label: "500", value: "500" },
+  { label: "600", value: "600" },
+  { label: "700", value: "700" },
+];
+
+export const fieldVariantOptions = [
+  { label: "Float Label", value: "Outlined" },
+  { label: "Standard", value: "Standard" },
+  { label: "Default", value: "Default" },
+];
+
+export const scrollAnimationOtions = [
+  { label: "Once", value: "Once" },
+  { label: "Every Time", value: "Every Time" },
+  { label: "None", value: "None" },
 ];
 
 export const alignmentOptions = [
@@ -665,7 +687,13 @@ export function nestedStructure(
           ...ele,
           ...(properType == "addContent"
             ? {
-                ...property(ele, data?.type, data?.pageItem, data?.optionValue, breakPoint),
+                ...property(
+                  ele,
+                  data?.type,
+                  data?.pageItem,
+                  data?.optionValue,
+                  breakPoint
+                ),
               }
             : {
                 ...property(
@@ -708,7 +736,13 @@ export function nestedStructure(
   return updateForms;
 }
 
-export function addContentProps(el, type, pageItem, optionValue, breakPoint = "lg") {
+export function addContentProps(
+  el,
+  type,
+  pageItem,
+  optionValue,
+  breakPoint = "lg"
+) {
   return {
     props: {
       ...el?.props,
@@ -734,8 +768,8 @@ export const addContentOptions = [
   "stepContent",
   "slides",
   "cards",
-  "radio_options"
-]
+  "radio_options",
+];
 
 export function updateforms(e, el, attribute, value, optionIndex, style) {
   return {
@@ -864,7 +898,7 @@ export function pasteItems(e, ele, forms, setForms, breakPoint) {
     try {
       const json = JSON.parse(data);
       const { id, ...newJsonData } = json;
-      console.log('breakPoint', breakPoint, forms);
+      console.log("breakPoint", breakPoint, forms);
       const updateData = forms[breakPoint]?.map((el, i) => {
         if (ele?.id === el?.id && el?.type === "container") {
           return {
@@ -885,41 +919,4 @@ export function pasteItems(e, ele, forms, setForms, breakPoint) {
       setForms({ ...forms, [breakPoint]: [] });
     }
   });
-}
-
-export async function parseMultipartRequest(request) {
-  const { default: Busboy } = await import("busboy");
-
-  const contentType = request.headers.get("content-type");
-  const busboy = Busboy({ headers: { "content-type": contentType } });
-
-  const fields = {};
-  const files = [];
-
-  busboy.on("file", (fieldname, stream, info) => {
-    const chunks = [];
-    stream.on("data", (chunk) => chunks.push(chunk));
-    stream.on("end", () => {
-      files.push({
-        fieldname,
-        filename: info.filename,
-        mimeType: info.mimeType,
-        buffer: Buffer.concat(chunks),
-      });
-    });
-  });
-
-  busboy.on("field", (name, value) => {
-    fields[name] = value;
-  });
-
-  const nodeStream = Readable.fromWeb(request.body);
-  nodeStream.pipe(busboy);
-
-  await new Promise((resolve, reject) => {
-    busboy.on("finish", resolve);
-    busboy.on("error", reject);
-  });
-
-  return { fields, files };
 }

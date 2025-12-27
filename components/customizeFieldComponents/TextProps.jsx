@@ -1,31 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { FormContext } from "../FormCreate";
 import Select from "react-select";
-import { headingVariantOptions } from "../../utils/utilFunctions";
+import { fontWeightOptions, headingVariantOptions } from "../../utils/utilFunctions";
 import { Button, Col, Row } from "react-bootstrap";
-import axios from "axios";
-import { useState } from "react";
-import { useSelector } from "react-redux";
 
 const TextProps = ({ onCustomizeElement, currentField }) => {
   const { forms } = useContext(FormContext);
-  // const getFonts = async () => {
-  //   try {
-  //     const response = await axios.get("http://localhost:8000/get-fonts", {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //     if (response.status == 200) {
-  //       setFontFamilyList(response?.data?.fonts);
-  //     } else {
-  //       setFontFamilyList([]);
-  //     }
-  //   } catch (error) {
-  //     setFontFamilyList([]);
-  //   }
-  // };
 
   return (
     <>
@@ -79,15 +59,7 @@ const TextProps = ({ onCustomizeElement, currentField }) => {
           <Select
             isClearable
             placeholder={"Select font weight"}
-            options={[
-              { label: "100", value: "100" },
-              { label: "200", value: "200" },
-              { label: "300", value: "300" },
-              { label: "400", value: "400" },
-              { label: "500", value: "500" },
-              { label: "600", value: "600" },
-              { label: "700", value: "700" },
-            ]}
+            options={fontWeightOptions}
             value={currentField?.props?.style?.fontWeight || ""}
             onChange={(e) => {
               onCustomizeElement(e, "fontWeight", "select", forms, "style");

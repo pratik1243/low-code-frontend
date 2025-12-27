@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Modal, Row, Spinner } from "react-bootstrap";
+import { Button, Col, Container, Modal, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthDetails } from "../redux/slices/authSlice";
 import { setLoader } from "../redux/slices/loaderSlice";
@@ -61,10 +61,19 @@ const PageList = () => {
 
   const formChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: name == "page_item" ? e.target.checked : value,
-    });
+    if (name == "page_item") {
+      setFormData({
+        ...formData,
+        page_item: e.target.checked,
+        page_link: "",
+        base_page_link: "",
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   useEffect(() => {
