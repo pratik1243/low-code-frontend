@@ -1,10 +1,9 @@
 import React from "react";
-import { useContext, useState } from "react";
-import { Button, Col, Container, Dropdown, Row, Table } from "react-bootstrap";
+import { useContext } from "react";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { FiUpload } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoader } from "../../redux/slices/loaderSlice";
-import { setSnackbarProps } from "../../redux/slices/snackbarSlice";
 import { commonPostApiFunction } from "../../services/commonApiFunc";
 import { FormContext } from "../FormCreate";
 import { API_BASE_URL } from "../../services/endpoints";
@@ -15,12 +14,13 @@ import Select from "react-select";
 import {
   menuTemplateList,
   menuAnimationOptions,
+  snackProps,
 } from "../../utils/utilFunctions";
+import { toast } from "react-toastify";
 
 function NavbarCustomize() {
   const dispatch = useDispatch();
-  const { navbarProps, setNavbarProps, setNavSettings } =
-    useContext(FormContext);
+  const { navbarProps, setNavbarProps, setNavSettings } = useContext(FormContext);
   const token = useSelector((user) => user.auth.authDetails.token);
 
   const uploadImage = async (e) => {
@@ -40,31 +40,13 @@ function NavbarCustomize() {
         setNavbarProps({
           ...navbarProps,
           logo: { ...navbarProps.logo, logoUrl: response?.data?.id },
-        });
-        dispatch(
-          setSnackbarProps({
-            variant: "Success",
-            message: "Logo Uploaded Successfully!",
-            open: true,
-          })
-        );
+        });       
+        toast.success(response?.data?.message, snackProps);
       } else {
-        dispatch(
-          setSnackbarProps({
-            variant: "Danger",
-            message: response?.data?.message,
-            open: false,
-          })
-        );
+        toast.error(response?.data?.message, snackProps);
       }
     } catch (error) {
-      dispatch(
-        setSnackbarProps({
-          variant: "Danger",
-          message: "Something Went Wrong90!",
-          open: true,
-        })
-      );
+      toast.error("Something Went Wrong!", snackProps);
     }
   };
 

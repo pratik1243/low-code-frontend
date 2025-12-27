@@ -1,22 +1,18 @@
 import axios from "axios";
 import Image from "next/image";
-import React, { useContext } from "react";
-import { useState } from "react";
-import { useEffect } from "react";
-import { Button, Modal, Spinner } from "react-bootstrap";
+import React, { useContext, useState, useEffect } from "react";
+import { Button, Spinner } from "react-bootstrap";
 import { IoMdArrowBack } from "react-icons/io";
-import { useDispatch, useSelector } from "react-redux";
-import { setSnackbarProps } from "../../redux/slices/snackbarSlice";
+import { useSelector } from "react-redux";
 import { API_BASE_URL } from "../../services/endpoints";
-import { nestedStructure, updateforms } from "../../utils/utilFunctions";
+import { nestedStructure, snackProps, updateforms } from "../../utils/utilFunctions";
 import { FormContext } from "../FormCreate";
 import emptyImg from "../../public/empty-box.png";
+import { toast } from "react-toastify";
 
 const AddImages = () => {
-  const dispatch = useDispatch();
   const token = useSelector((user) => user.auth.authDetails.token);
-  const { setOpenImageModel, forms, setForms, currentElement, breakPoint } =
-    useContext(FormContext);
+  const { setOpenImageModel, forms, setForms, currentElement, breakPoint } = useContext(FormContext);
   const [uploadedImages, setUploadImages] = useState([]);
   const [loader, setLoader] = useState(false);
   const contType = ["container", "card_box"].includes(currentElement?.type);
@@ -33,23 +29,11 @@ const AddImages = () => {
       setLoader(false);
       if (response.status == 200) {
         setUploadImages(response?.data?.images);
-      } else {
-        dispatch(
-          setSnackbarProps({
-            variant: "Danger",
-            message: response?.data?.message,
-            open: false,
-          })
-        );
+      } else {        
+        toast.success(response?.data?.message, snackProps);
       }
-    } catch (error) {
-      dispatch(
-        setSnackbarProps({
-          variant: "Danger",
-          message: "Something Went Wrong90!",
-          open: true,
-        })
-      );
+    } catch (error) {      
+      toast.error("Something Went Wrong!", snackProps);
     }
   };
 

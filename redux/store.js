@@ -5,14 +5,12 @@ import { combineReducers } from "redux";
 import loaderSlice from "./slices/loaderSlice";
 import publishSlice from "./slices/publishSlice";
 import authSlice from "./slices/authSlice";
-import snackbarSlice from "./slices/snackbarSlice";
 import pageCreateSlice from "./slices/pageCreateSlice";
 
 const rootReducer = combineReducers({
   loader: loaderSlice,
   publish: publishSlice,
   auth: authSlice,
-  snackbar: snackbarSlice,
   pageCreate: pageCreateSlice
 });
 

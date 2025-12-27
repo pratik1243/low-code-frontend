@@ -7,14 +7,14 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { setLoader } from "../redux/slices/loaderSlice";
 import { setAuthDetails } from "../redux/slices/authSlice";
-import { setSnackbarProps } from "../redux/slices/snackbarSlice";
 import { Button, Col, Row } from "react-bootstrap";
-import { formAction, LoginSchema } from "../utils/utilFunctions";
+import { formAction, LoginSchema, snackProps } from "../utils/utilFunctions";
 import InputField from "./commonComponents/InputField";
 import { API_BASE_URL } from "../services/endpoints";
 import loginBg from "../public/login-bg-img.png";
 import { MdLockOutline } from "react-icons/md";
 import { FiMail } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -36,38 +36,16 @@ const Login = () => {
             user_name: response?.data?.responseData?.user_name,
           })
         );
-        dispatch(
-          setSnackbarProps({
-            variant: "Success",
-            message: response?.data?.message,
-            open: true,
-          })
-        );
+        toast.success(response?.data?.message, snackProps);        
       } else {
         dispatch(setLoader(false));
-        dispatch(
-          setSnackbarProps({
-            variant: "Danger",
-            message: response?.data?.message,
-            open: true,
-          })
-        );
+        toast.error(response?.data?.message, snackProps);
       }
     } catch (error) {
       dispatch(setLoader(false));
-      dispatch(
-        setSnackbarProps({
-          variant: "Danger",
-          message: "Something Went Wrong!",
-          open: true,
-        })
-      );
+      toast.error("Something Went Wrong!", snackProps);
     }
   };
-
-  // useEffect(()=>{
-  //   router.push("/login");
-  // }, [])
 
   return (
     <div className="login-sec">

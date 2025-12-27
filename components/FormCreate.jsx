@@ -10,13 +10,13 @@ import FormTemplate from "./FormTemplate";
 import { IoSaveOutline } from "react-icons/io5";
 import { setLoader } from "../redux/slices/loaderSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { responsiveScreenSizes } from "../utils/utilFunctions";
-import { setSnackbarProps } from "../redux/slices/snackbarSlice";
+import { responsiveScreenSizes, snackProps } from "../utils/utilFunctions";
 import { IoSettingsOutline } from "react-icons/io5";
 import Select from "react-select";
 import SettingBox from "./commonComponents/SettingBox";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { setPageCreateDetails } from "../redux/slices/pageCreateSlice";
+import { toast } from "react-toastify";
 
 export const FormContext = createContext();
 
@@ -70,9 +70,7 @@ const FormCreate = () => {
   const [menuIndex, setMenuIndex] = useState(null);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const token = useSelector((user) => user.auth.authDetails.token);
-  const requestUserId = useSelector(
-    (user) => user.auth.authDetails.request_user_id
-  );
+  const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
   const pageData = useSelector((user) => user.pageCreate.pageCreateDetails);
 
   function dataPayload(data) {
@@ -115,30 +113,12 @@ const FormCreate = () => {
           router.push("/page-list");
         }
         dispatch(setPageCreateDetails(null));
-        dispatch(
-          setSnackbarProps({
-            variant: "Success",
-            message: response?.data?.message,
-            open: true,
-          })
-        );
+        toast.success(response?.data?.message, snackProps);
       } else {
-        dispatch(
-          setSnackbarProps({
-            variant: "Danger",
-            message: response?.data?.message,
-            open: true,
-          })
-        );
+        toast.error(response?.data?.message, snackProps);
       }
     } catch (error) {
-      dispatch(
-        setSnackbarProps({
-          variant: "Danger",
-          message: "Something Went Wrong!",
-          open: true,
-        })
-      );
+      toast.error("Something Went Wrong!", snackProps);
     }
   };
 

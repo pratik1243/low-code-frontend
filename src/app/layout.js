@@ -4,8 +4,9 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "../../styles/globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Nunito } from "next/font/google";
+import "react-toastify/dist/ReactToastify.css";
 import { Providers } from "../../redux/provider/Providers";
+import { Nunito } from "next/font/google";
 
 const nunito = Nunito({
   weight: "500",

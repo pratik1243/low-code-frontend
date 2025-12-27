@@ -279,6 +279,13 @@ export const fieldsData = [
   },
 ];
 
+export const snackProps = {
+  position: "bottom-right",
+  autoClose: 3000,
+  hideProgressBar: false,
+  closeOnClick: true,
+}
+
 export const menuTemplateList = [
   {
     label: "Template 1",

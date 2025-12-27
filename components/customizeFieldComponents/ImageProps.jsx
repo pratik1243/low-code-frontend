@@ -1,16 +1,16 @@
-import React, { useContext, useState, useEffect } from "react";
-import { Button, Col, Row } from "react-bootstrap";
+import React, { useContext } from "react";
+import { Col, Row } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoader } from "../../redux/slices/loaderSlice";
-import { setSnackbarProps } from "../../redux/slices/snackbarSlice";
 import { commonPostApiFunction } from "../../services/commonApiFunc";
 import { FiUpload } from "react-icons/fi";
 import { FormContext } from "../FormCreate";
 import { LuFileImage } from "react-icons/lu";
 import { IoCloseSharp } from "react-icons/io5";
 import Select from "react-select";
-import { alignmentOptions } from "../../utils/utilFunctions";
+import { alignmentOptions, snackProps } from "../../utils/utilFunctions";
 import { API_BASE_URL } from "../../services/endpoints";
+import { toast } from "react-toastify";
 
 const ImageProps = ({ currentField, onCustomizeElement }) => {
   const dispatch = useDispatch();
@@ -37,31 +37,13 @@ const ImageProps = ({ currentField, onCustomizeElement }) => {
           url: contType ? backgroundImage : response?.data?.id,
           filename: file?.name,
         };
-        onCustomizeElement(imageData, "imageData", "image", forms);
-        dispatch(
-          setSnackbarProps({
-            variant: "Success",
-            message: response?.data?.message,
-            open: true,
-          })
-        );
+        onCustomizeElement(imageData, "imageData", "image", forms);       
+        toast.success(response?.data?.message, snackProps);
       } else {
-        dispatch(
-          setSnackbarProps({
-            variant: "Danger",
-            message: response?.data?.message,
-            open: false,
-          })
-        );
+        toast.error(response?.data?.message, snackProps);
       }
     } catch (error) {
-      dispatch(
-        setSnackbarProps({
-          variant: "Danger",
-          message: "Something Went Wrong90!",
-          open: true,
-        })
-      );
+      toast.error("Something Went Wrong!", snackProps);
     }
   };
 

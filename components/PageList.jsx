@@ -5,13 +5,13 @@ import { Button, Col, Container, Modal, Row, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthDetails } from "../redux/slices/authSlice";
 import { setLoader } from "../redux/slices/loaderSlice";
-import { setSnackbarProps } from "../redux/slices/snackbarSlice";
 import { commonPostApiFunction } from "../services/commonApiFunc";
-import { generateId } from "../utils/utilFunctions";
+import { generateId, snackProps } from "../utils/utilFunctions";
 import { MdDeleteOutline } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
 import { IoIosAdd } from "react-icons/io";
 import { setPageCreateDetails } from "../redux/slices/pageCreateSlice";
+import { toast } from "react-toastify";
 
 const PageList = () => {
   const router = useRouter();
@@ -49,33 +49,16 @@ const PageList = () => {
 
       if (response.status == 200) {
         setPagesList(response.data.responseData);
-        dispatch(
-          setSnackbarProps({
-            variant: "Success",
-            message: response?.data?.message,
-            open: true,
-          })
-        );
+        toast.success(response?.data?.message, snackProps);
       } else {
-        dispatch(
-          setSnackbarProps({
-            variant: "Danger",
-            message: response?.data?.message,
-            open: false,
-          })
-        );
+        toast.error(response?.data?.message, snackProps);
       }
     } catch (error) {
       dispatch(setLoader(false));
-      dispatch(
-        setSnackbarProps({
-          variant: "Danger",
-          message: "Something Went Wrong!",
-          open: false,
-        })
-      );
+      toast.error("Something Went Wrong!", snackProps);
     }
   };
+
   const formChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -116,6 +99,7 @@ const PageList = () => {
                         user_name: null,
                       })
                     );
+                    toast.success("Logout Succesfully!", snackProps);
                     router.push("/login");
                   }}
                 >

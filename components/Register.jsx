@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { formAction, generateId, RegisterSchema } from "../utils/utilFunctions";
+import { formAction, generateId, RegisterSchema, snackProps } from "../utils/utilFunctions";
 import { setLoader } from "../redux/slices/loaderSlice";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -14,14 +14,12 @@ import { API_BASE_URL } from "../services/endpoints";
 import { MdLockOutline } from "react-icons/md";
 import { FiMail } from "react-icons/fi";
 import { FaRegUserCircle } from "react-icons/fa";
-import { setSnackbarProps } from "../redux/slices/snackbarSlice";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const [registerDetails, setRegisterDetails] = useState(
-    RegisterSchema.fields.values
-  );
+  const [registerDetails, setRegisterDetails] = useState(RegisterSchema.fields.values);
   const [errors, setErrors] = useState(RegisterSchema.fields);
 
   const registerUser = async (data) => {
@@ -38,32 +36,14 @@ const Register = () => {
       dispatch(setLoader(false));
       if (response.status == 200) {
         router.push("/login");
-        // dispatch(
-        //   setSnackbarProps({
-        //     variant: "Success",
-        //     message: response?.data?.message,
-        //     open: true,
-        //   })
-        // );
+        toast.success(response?.data?.message, snackProps);        
       } else {
         dispatch(setLoader(false));
-        // dispatch(
-        //   setSnackbarProps({
-        //     variant: "Danger",
-        //     message: response?.data?.message,
-        //     open: true,
-        //   })
-        // );
+        toast.error(response?.data?.message, snackProps);
       }
     } catch (error) {
       dispatch(setLoader(false));
-      // dispatch(
-      //   setSnackbarProps({
-      //     variant: "Danger",
-      //     message: error,
-      //     open: true,
-      //   })
-      // );
+      toast.error("Something Went Wrong!", snackProps);
     }
   };
 
