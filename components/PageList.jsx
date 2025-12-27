@@ -12,6 +12,7 @@ import { MdLogout } from "react-icons/md";
 import { IoIosAdd } from "react-icons/io";
 import { setPageCreateDetails } from "../redux/slices/pageCreateSlice";
 import { toast } from "react-toastify";
+import { API_BASE_URL } from "../services/endpoints";
 
 const PageList = () => {
   const router = useRouter();
@@ -80,7 +81,9 @@ const PageList = () => {
     e.stopPropagation();
     try {
       dispatch(setLoader(true));
-      const response = await axios.post(`${API_BASE_URL}/delete-page/${id}`, data);
+      const response = await axios.post(`${API_BASE_URL}/delete-page`, {
+        delete_id: id
+      });
       dispatch(setLoader(false));
       if (response.status == 200) {
         toast.success(response?.data?.message, snackProps);
