@@ -76,6 +76,23 @@ const PageList = () => {
     }
   };
 
+  const deletePage = async (data) => {
+    try {
+      dispatch(setLoader(true));
+      const response = await axios.post(`${API_BASE_URL}/delete-page/${id}`, data);
+      dispatch(setLoader(false));
+      if (response.status == 200) {
+        toast.success(response?.data?.message, snackProps);        
+      } else {
+        dispatch(setLoader(false));
+        toast.error(response?.data?.message, snackProps);
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      toast.error("Something Went Wrong!", snackProps);
+    }
+  };
+
   useEffect(() => {
     fetchPagesList();
   }, []);
