@@ -1,5 +1,4 @@
 "use client";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Modal, Row } from "react-bootstrap";
@@ -13,7 +12,6 @@ import { MdLogout } from "react-icons/md";
 import { IoIosAdd } from "react-icons/io";
 import { setPageCreateDetails } from "../redux/slices/pageCreateSlice";
 import { toast } from "react-toastify";
-import { API_BASE_URL } from "../services/endpoints";
 
 const PageList = () => {
   const router = useRouter();
@@ -78,27 +76,6 @@ const PageList = () => {
     }
   };
 
-  const deletePage = async (e, id) => {
-    e.stopPropagation();
-    try {
-      dispatch(setLoader(true));
-      const response = await axios.post(`${API_BASE_URL}/delete-page`, {
-        delete_id: id
-      });
-      dispatch(setLoader(false));
-      if (response.status == 200) {
-        toast.success(response?.data?.message, snackProps);
-        fetchPagesList();
-      } else {
-        dispatch(setLoader(false));
-        toast.error(response?.data?.message, snackProps);
-      }
-    } catch (error) {
-      dispatch(setLoader(false));
-      toast.error("Something Went Wrong!", snackProps);
-    }
-  };
-
   useEffect(() => {
     fetchPagesList();
   }, []);
@@ -157,9 +134,7 @@ const PageList = () => {
                     }}
                   >
                     {ele?.page_name}
-                    <div role="button" onClick={(e)=> deletePage(e, ele?._id)}>
-                      <MdDeleteOutline size={24} color="red" />
-                    </div>                    
+                    <MdDeleteOutline size={24} color="red" />
                   </div>
                 </Col>
               );
