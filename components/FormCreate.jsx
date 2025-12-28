@@ -92,6 +92,7 @@ const FormCreate = () => {
           xs: forms.xs,
         },
       },
+      page_item: data?.page_item,
       page_route: data?.base_page_link
         ? `${data?.base_page_link}/${data?.page_link}`
         : data?.page_link,
