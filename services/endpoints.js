@@ -3,6 +3,7 @@ export const endPointsUrl = {
   kgasderq: "/pages-list",
   bvghtyy: "/save-page",
   khftrey: "/edit-page",
+  qwesdrt: "/delete-page",
   mfgtrwo: "/upload-image",
   bdgerty: "/create-collection",
   cgdretl: "/login",

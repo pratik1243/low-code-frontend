@@ -26,7 +26,9 @@ const PageList = () => {
   });
 
   const token = useSelector((user) => user.auth.authDetails.token);
-  const requestUserId = useSelector((user) => user.auth.authDetails?.request_user_id);
+  const requestUserId = useSelector(
+    (user) => user.auth.authDetails?.request_user_id
+  );
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -73,6 +75,28 @@ const PageList = () => {
         ...formData,
         [name]: value,
       });
+    }
+  };
+
+  const deletePage = async (e, delete_id) => {
+    e.stopPropagation();
+    try {
+      dispatch(setLoader(true));
+      const requestData = {
+        key: "qwesdrt",
+        payload: { id: delete_id },
+      };
+      const response = await commonPostApiFunction(requestData, token);
+      dispatch(setLoader(false));
+      if (response.status == 200) {
+        toast.success(response?.data?.message, snackProps);
+        fetchPagesList();
+      } else {
+        toast.error(response?.data?.message, snackProps);
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      toast.error("Something Went Wrong!", snackProps);
     }
   };
 
@@ -134,7 +158,9 @@ const PageList = () => {
                     }}
                   >
                     {ele?.page_name}
-                    <MdDeleteOutline size={24} color="red" />
+                    <div role="button" onClick={(e) => deletePage(e, ele?._id)}>
+                      <MdDeleteOutline size={24} color="red" />
+                    </div>
                   </div>
                 </Col>
               );
