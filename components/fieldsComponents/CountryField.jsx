@@ -18,7 +18,7 @@ const CountryField = ({
   const { forms, setForms, breakPoint } = useContext(
     isWebPage ? PageContext : FormContext
   );
-  const token = useSelector((user) => user.auth.authDetails.token);
+  //const token = useSelector((user) => user.auth.authDetails.token);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [countriesList, setCountriesList] = useState([]);

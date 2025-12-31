@@ -315,7 +315,7 @@ input {
   padding: 12px !important;
   border-radius: 4px;
   outline: none;
-  border: 1.8px solid var(--grey-color);
+  border: 1px solid var(--grey-color);
   transition: all 0.4s;
   color: #7c7a7a !important;
 }
@@ -1939,4 +1939,151 @@ hr {
 .Toastify__close-button--light {
   color: #fff !important;
   opacity: 1 !important;
+}
+
+.country-code-sec {
+  position: absolute;
+  background-color: hsl(0, 0%, 100%);
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px hsla(0, 0%, 0%, 0.1), 0 4px 11px hsla(0, 0%, 0%, 0.1);
+  right: 0;
+  left: 0;
+  top: 49px;
+  z-index: 1200;
+}
+
+.element-input-field:not(.standard-input) .country-code-sec {
+  top: 56px !important;
+}
+
+.element-input-field:not(.float-label):not(.standard-input) .country-code-sec {
+  top: 86px !important;
+}
+
+.country-code-sec .country-code-list {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.country-code-sec .country-code-option {
+  padding: 6px 9px;
+  cursor: pointer;
+  transition: all 0.4s;
+  display: flex;
+  align-items: center;
+}
+
+.country-code-sec .country-code-option img {
+  border: 1px solid #80808082;
+  border-radius: 3px;
+}
+
+.selected-country-code {
+  position: absolute;
+  top: 13.5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.selected-country-code svg {
+  margin-left: 2.2px;
+  color: #615e5e;
+}
+
+.selected-country-code img{
+  border: 1px solid #80808082;
+  border-radius: 3px;
+}
+
+.country-code-sec .country-code-option:hover {
+  background-color: #8080801a;
+}
+
+.country-code-sec .country-code-option span {
+  display: inline-block;
+  margin-left: 11px;
+  color: #444141;
+}
+
+.country-code-sec .input-search {
+  padding: 10px 10px 4px 10px;
+  border-bottom: 1px solid #c8c2c2;
+}
+
+.country-code-sec .input-search textarea::placeholder {
+  color: #b3afaf;
+}
+
+.country-code-sec .input-search textarea {
+  outline: none;
+  border: 1px solid #b3afaf;
+  border-radius: 4px;
+  resize: none;
+  width: 100%;
+  padding: 4px 11px;
+  font-size: 15px;
+}
+
+.element-input-field:has(.country-code-sec) .selected-country-code svg {
+  transform: rotateX(180deg);
+}
+
+.element-input-field:has(.selected-country-code) input {
+  padding-left: 45px !important;
+  /* padding-bottom: 7px !important; */
+}
+
+.element-input-field:not(.standard-input):has(.selected-country-code) input {
+  padding-bottom: 12px !important;
+  padding-left: 59px !important;
+}
+
+.element-input-field:has(.selected-country-code) label {
+  left: 45px !important;
+  top: 12px !important;
+}
+
+.element-input-field:not(.standard-input):has(.selected-country-code) label {
+  left: 59px !important;
+  top: 14px !important;
+  z-index: 1;
+}
+
+.element-input-field:not(.standard-input):has(.selected-country-code):has(input:focus) label,
+.element-input-field:not(.standard-input):has(.selected-country-code):has(input:valid) label {
+  border-radius: 3px;
+  height: 16px;
+  padding: 0 2px !important;
+  left: 8px !important;
+  top: -9px !important;
+}
+
+.element-input-field:has(.selected-country-code):has(input:focus) label,
+.element-input-field:has(.selected-country-code):has(input:valid) label {
+  left: 0px !important;
+  top: -14px !important;
+}
+
+.element-input-field:not(.float-label):not(.standard-input) .selected-country-code {
+  top: 31px !important;
+}
+
+.element-input-field:not(.standard-input) .selected-country-code {
+  top: 1px !important;
+  left: 1px !important;
+  bottom: 1px !important;
+  background: #f6f6f6;
+  padding-left: 7px;
+  border-right: 1px solid #cec1c1;
+} 
+
+.element-input-field .is-border-color {
+  border-width: 1.8px !important;
+}
+
+.element-input-field:not(.standard-input):has(.is-border-color) .selected-country-code {
+  top: 1.5px !important;
+  left: 1.5px !important;
+  bottom: 1.5px !important;
 }

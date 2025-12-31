@@ -172,68 +172,100 @@ const InputProps = ({ onCustomizeElement, currentField }) => {
                 </Col>
 
                 {!["checkbox", "radio"].includes(currentField?.type) && (
-                  <Col lg={3} md={3} sm={12} xs={12}>
-                    <div className="d-flex">
-                      <input
-                        type="checkbox"
-                        id="checkbox-float"
-                        checked={currentField?.props?.floatLabel || ""}
-                        onChange={(e) => {
-                          onCustomizeElement(
-                            e,
-                            "floatLabel",
-                            "checkbox",
-                            forms
-                          );
-                        }}
-                      />
-                      <label htmlFor="checkbox-float" className="mb-0">
-                        Float Label
-                      </label>
-                    </div>
-                  </Col>
-                )}
-
-                {currentField?.type == "input" &&
-                  !["checkbox", "radio"].includes(currentField?.type) && (
+                  <>
                     <Col lg={3} md={3} sm={12} xs={12}>
                       <div className="d-flex">
                         <input
                           type="checkbox"
-                          id="checkbox-password"
-                          checked={currentField?.props?.isPassword || ""}
+                          id="checkbox-float"
+                          checked={currentField?.props?.floatLabel || ""}
                           onChange={(e) => {
                             onCustomizeElement(
                               e,
-                              "isPassword",
+                              "floatLabel",
                               "checkbox",
                               forms
                             );
                           }}
                         />
-                        <label htmlFor="checkbox-password" className="mb-0">
-                          Password Button
+                        <label htmlFor="checkbox-float" className="mb-0">
+                          Float Label
                         </label>
                       </div>
                     </Col>
-                  )}
 
-                {!["checkbox", "radio"].includes(currentField?.type) && (
-                  <Col lg={3} md={3} sm={12} xs={12}>
-                    <div className="d-flex">
-                      <input
-                        type="checkbox"
-                        id="checkbox-standard"
-                        checked={currentField?.props?.standard || ""}
-                        onChange={(e) => {
-                          onCustomizeElement(e, "standard", "checkbox", forms);
-                        }}
-                      />
-                      <label htmlFor="checkbox-standard" className="mb-0">
-                        Standard
-                      </label>
-                    </div>
-                  </Col>
+                    {currentField?.type == "input" &&
+                      currentField?.form?.regex?.value == "Password" && (
+                        <Col lg={3} md={3} sm={12} xs={12}>
+                          <div className="d-flex">
+                            <input
+                              type="checkbox"
+                              id="checkbox-password"
+                              checked={currentField?.props?.isPassword || ""}
+                              onChange={(e) => {
+                                onCustomizeElement(
+                                  e,
+                                  "isPassword",
+                                  "checkbox",
+                                  forms
+                                );
+                              }}
+                            />
+                            <label htmlFor="checkbox-password" className="mb-0">
+                              Password Button
+                            </label>
+                          </div>
+                        </Col>
+                      )}
+
+                    {currentField?.type == "input" &&
+                      currentField?.form?.regex?.value == "Phone" && (
+                        <Col lg={3} md={3} sm={12} xs={12}>
+                          <div className="d-flex">
+                            <input
+                              type="checkbox"
+                              id="checkbox-country-code"
+                              checked={currentField?.props?.countryCode || ""}
+                              onChange={(e) => {
+                                onCustomizeElement(
+                                  e,
+                                  "countryCode",
+                                  "checkbox",
+                                  forms
+                                );
+                              }}
+                            />
+                            <label
+                              htmlFor="checkbox-country-code"
+                              className="mb-0"
+                            >
+                              Country Code
+                            </label>
+                          </div>
+                        </Col>
+                      )}
+
+                    <Col lg={3} md={3} sm={12} xs={12}>
+                      <div className="d-flex">
+                        <input
+                          type="checkbox"
+                          id="checkbox-standard"
+                          checked={currentField?.props?.standard || ""}
+                          onChange={(e) => {
+                            onCustomizeElement(
+                              e,
+                              "standard",
+                              "checkbox",
+                              forms
+                            );
+                          }}
+                        />
+                        <label htmlFor="checkbox-standard" className="mb-0">
+                          Standard
+                        </label>
+                      </div>
+                    </Col>
+                  </>
                 )}
 
                 {/* {currentField?.type === "select" && (

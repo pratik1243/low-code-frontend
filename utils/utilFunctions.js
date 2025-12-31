@@ -29,6 +29,7 @@ export const fieldsData = [
       floatLabel: false,
       standard: false,
       isPassword: false,
+      countryCode: false
     },
     form: {
       regex: "",
