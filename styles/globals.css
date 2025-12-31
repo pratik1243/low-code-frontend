@@ -565,6 +565,7 @@ input {
 .page-create-sec .check-box label {
   cursor: pointer;
   text-transform: unset;
+  font-size: 15px;
 }
 
 .web-div {
