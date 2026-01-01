@@ -1,16 +1,17 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { FormContext } from "../FormCreate";
 import { useState } from "react";
 import { MdOutlineClear } from "react-icons/md";
-import { debounce } from "../../utils/utilFunctions";
+//import { debounce } from "../../utils/utilFunctions";
 import { Col, Row, Spinner, Button } from "react-bootstrap";
 import { commonPostApiFunction } from "../../services/commonApiFunc";
 import { IoMdArrowBack } from "react-icons/io";
 import IconComponent from "./IconComponent";
 import emptyImg from "../../public/empty-box.png";
 import Image from "next/image";
+import { MdSearch } from "react-icons/md";
 
 const IconBox = ({
   onCustomizeElement = null,
@@ -24,12 +25,12 @@ const IconBox = ({
   const [icons, setIcons] = useState([]);
   const [iconValue, setIconValue] = useState("");
 
-  const fetchIcons = async (e) => {
+  const fetchIcons = async (icon) => {
     setLoader(true);
     try {
       const requestData = {
         key: "aeqwxfrt",
-        payload: { icon_name: e.target.value || "" },
+        payload: { icon_name: icon || "" },
       };
       const response = await commonPostApiFunction(requestData, token);
       setLoader(false);
@@ -57,7 +58,13 @@ const IconBox = ({
     setIconValue("");
   };
 
-  const debouncedHandler = debounce(fetchIcons, 500);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (iconValue) fetchIcons(iconValue);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [iconValue]);
 
   return (
     <>
@@ -83,12 +90,15 @@ const IconBox = ({
               <input
                 type="text"
                 value={iconValue}
-                onInput={(e) => {
+                onChange={(e) => {
                   setIconValue(e.target.value);
                 }}
-                onChange={debouncedHandler}
                 placeholder="Search icons here..."
               />
+
+              {/* <div role="button" className="search-btn" onClick={fetchIcons}>
+                <MdSearch />
+              </div> */}
 
               <MdOutlineClear
                 role="button"
