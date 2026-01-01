@@ -25,12 +25,12 @@ const IconBox = ({
   const [icons, setIcons] = useState([]);
   const [iconValue, setIconValue] = useState("");
 
-  const fetchIcons = async (icon) => {
+  const fetchIcons = async () => {
     setLoader(true);
     try {
       const requestData = {
         key: "aeqwxfrt",
-        payload: { icon_name: icon || "" },
+        payload: { icon_name: iconValue || "" },
       };
       const response = await commonPostApiFunction(requestData, token);
       setLoader(false);
@@ -53,19 +53,6 @@ const IconBox = ({
     goBack();
   };
 
-  const clearValue = () => {
-    setIcons([]);
-    setIconValue("");
-  };
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (iconValue) fetchIcons(iconValue);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [iconValue]);
-
   return (
     <>
       <div className="icon-search-input">
@@ -78,6 +65,7 @@ const IconBox = ({
                 onClick={() => {
                   goBack();
                   setIcons([]);
+                  setIconValue("");
                 }}
               >
                 <IoMdArrowBack size={18} /> &nbsp;&nbsp;Back
@@ -96,21 +84,20 @@ const IconBox = ({
                 placeholder="Search icons here..."
               />
 
-              {/* <div role="button" className="search-btn" onClick={fetchIcons}>
+              <div role="button" className="search-btn" onClick={fetchIcons}>
                 <MdSearch />
-              </div> */}
+              </div>
 
-              <MdOutlineClear
+              {/* <MdOutlineClear
                 role="button"
                 size={21}
                 onClick={clearValue}
                 className="icon-clear-btn"
-              />
+              /> */}
             </div>
           </Col>
         </Row>
       </div>
-
       <div
         className={`icons-list ${loader || icons.length == 0 ? "no-grid" : ""}`}
       >
@@ -129,7 +116,7 @@ const IconBox = ({
                   onClick={() => setIconType(ele)}
                 >
                   <IconComponent icon={ele} />
-                  <span className="icon-text">{ele?.slice(2)}</span>
+                  <span className="icon-text">{ele?.name?.slice(2)}</span>
                 </div>
               );
             })}
