@@ -54,20 +54,18 @@ const CountryField = ({
     });
   };
 
+  function handleClickOutside(event) {
+    if (boxRef.current && !boxRef.current.contains(event.target)) {
+      setOpen(false);
+    }
+  }
+
   const filterOptions = countriesList.filter((el) =>
     el.label.toLowerCase().includes(value.toLowerCase())
   );
-
+  
   useEffect(() => {
-    getCountries();
-  }, []);
-
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (boxRef.current && !boxRef.current.contains(event.target)) {
-        setOpen(false);
-      }
-    }
+    getCountries();    
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);

@@ -1,9 +1,8 @@
 "use client";
-import React, { useContext, useEffect } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { useSelector } from "react-redux";
 import { FormContext } from "../FormCreate";
-import { useState } from "react";
-import { MdOutlineClear } from "react-icons/md";
+//import { MdOutlineClear } from "react-icons/md";
 //import { debounce } from "../../utils/utilFunctions";
 import { Col, Row, Spinner, Button } from "react-bootstrap";
 import { commonPostApiFunction } from "../../services/commonApiFunc";
@@ -12,6 +11,7 @@ import IconComponent from "./IconComponent";
 import emptyImg from "../../public/empty-box.png";
 import Image from "next/image";
 import { MdSearch } from "react-icons/md";
+import IconGrid from "./IconGrid";
 
 const IconBox = ({
   onCustomizeElement = null,
@@ -44,14 +44,14 @@ const IconBox = ({
     }
   };
 
-  const setIconType = (icon) => {
+  const setIconType = useCallback((icon) => {
     if (onCustomizeElement) {
       onCustomizeElement(icon, "iconName", "select", forms);
     } else {
       setIcon(icon);
     }
     goBack();
-  };
+  }, [onCustomizeElement, setIcon, goBack, forms]);
 
   return (
     <>
@@ -107,20 +107,7 @@ const IconBox = ({
             <h5 className="mt-2">Please wait loading icons...</h5>
           </div>
         ) : icons.length > 0 ? (
-          <>
-            {icons.map((ele, i) => {
-              return (
-                <div
-                  key={i}
-                  className="icon-sec"
-                  onClick={() => setIconType(ele)}
-                >
-                  <IconComponent icon={ele} />
-                  <span className="icon-text">{ele?.name?.slice(2)}</span>
-                </div>
-              );
-            })}
-          </>
+          <IconGrid setIconType={setIconType} filteredIcons={icons} />
         ) : (
           <div className="py-4 empty-icon-box text-center">
             <Image src={emptyImg} height={160} width={160} alt="menu-empty" />

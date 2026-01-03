@@ -1,14 +1,18 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { API_BASE_URL } from "../../services/endpoints";
+import { countryCallingCodes } from "../../utils/utilFunctions";
 
 function CountryCodeBox({ countryCodeOpen, setCountryCodeOpen }) {
   const boxRef = useRef(null);
   const [countryValue, setCountryValue] = useState("");
   const [countriesList, setCountriesList] = useState([]);
-  const [countryCode, setCountryCode] = useState();
+  const [countryCode, setCountryCode] = useState({
+    value: "IN",
+    label: "India",
+  });
 
   const getCountries = async () => {
     try {
@@ -59,13 +63,22 @@ function CountryCodeBox({ countryCodeOpen, setCountryCodeOpen }) {
         onClick={() => {
           setCountryCodeOpen(!countryCodeOpen);
         }}
-        className="selected-country-code"
+        className={`selected-country-code ${
+          countryCallingCodes[countryCode?.value]?.toString()?.length == 3
+            ? "three-len-code"
+            : countryCallingCodes[countryCode?.value]?.toString()?.length == 1
+            ? "one-len-code"
+            : ""
+        }`}
       >
         <ReactCountryFlag
           svg
           countryCode={countryCode?.value || "IN"}
           style={{ width: "1.4em", height: "1.1em" }}
         />
+        <span className="country-number-txt">{`+${
+          countryCallingCodes[countryCode?.value]
+        }`}</span>
         <IoMdArrowDropdown />
       </div>
 

@@ -23,7 +23,7 @@ function IconComponent({ icon, size, color }) {
     ...ImIcons,
     ...VsIcons,
   };
-  const IconComponent = iconType[icon?.name];
+  const IconComponent = iconType[icon];
   return IconComponent ? <IconComponent size={size} color={color} /> : null;
 }
 
