@@ -12,13 +12,10 @@ import ElementActions from "../commonComponents/ElementActions";
 
 const Container = ({ ele, path, index, currentStep = null }) => {
   const isWebPage = path.includes("web-page");
-  const {
-    forms,
-    setForms,
-    setCurrentElement,
-    breakPoint,
-  } = useContext(isWebPage ? PageContext : FormContext);
-  
+  const { forms, setForms, setCurrentElement, breakPoint } = useContext(
+    isWebPage ? PageContext : FormContext
+  );
+
   const deleteNestedItem = (e, id, ind) => {
     e.stopPropagation();
     const updateData = forms[breakPoint].map((el, i) => {
@@ -43,9 +40,14 @@ const Container = ({ ele, path, index, currentStep = null }) => {
     if (dragIndex2) {
       return;
     }
-    copiedItems?.[containerIndex]?.content?.splice(dragIndex, 1);
-    copiedItems?.[containerIndex]?.content?.splice(dropIndex, 0, draggedItem);
-    setForms({ ...forms, [breakPoint]: copiedItems });
+    if (draggedItem) {
+      copiedItems?.[containerIndex]?.content?.splice(dragIndex, 1);
+      copiedItems?.[containerIndex]?.content?.splice(dropIndex, 0, draggedItem);
+      setForms({
+        ...forms,
+        [breakPoint]: copiedItems,
+      });
+    }
     dragIndex = null;
     dragIndex2 = null;
   };
@@ -58,7 +60,7 @@ const Container = ({ ele, path, index, currentStep = null }) => {
 
   const onDragOver = (e) => {
     e.stopPropagation();
-    e.preventDefault();    
+    e.preventDefault();
   };
 
   return (
@@ -73,9 +75,10 @@ const Container = ({ ele, path, index, currentStep = null }) => {
       style={{
         ...(isWebPage && {
           backgroundColor: ele?.props?.containerBackground,
-          ...(ele?.props?.style?.borderColor && ele?.props?.containerTemplate?.value && {
-            border: `2px solid ${ele?.props?.style?.borderColor}`
-          })
+          ...(ele?.props?.style?.borderColor &&
+            ele?.props?.containerTemplate?.value && {
+              border: `2px solid ${ele?.props?.style?.borderColor}`,
+            }),
         }),
       }}
     >
@@ -101,7 +104,7 @@ const Container = ({ ele, path, index, currentStep = null }) => {
               (isWebPage && el?.type == "icon")
                 ? textAlign[el?.props?.align?.value] || ""
                 : ""
-            } ${!el?.props?.fullWidth && isWebPage ? 'd-flex' : ''}`}
+            } ${!el?.props?.fullWidth && isWebPage ? "d-flex" : ""}`}
             style={{
               ...(el?.column_width && { width: `${el?.column_width}%` }),
               ...(el?.props?.style &&

@@ -646,6 +646,7 @@ input {
   transition: all 0.4s;
   overflow: hidden;
   transform: translateX(20px);
+  z-index: 190;
 }
 
 .delete-element-btn .inner-btn-sec,
@@ -1558,7 +1559,7 @@ hr {
   box-shadow: -1px 0px 2.5px #8080804a;
   justify-content: space-between;
   margin-left: auto;
-  z-index: 110;
+  z-index: 200;
   border-bottom: 1px solid var(--grey-color);
 }
 
@@ -1924,7 +1925,8 @@ hr {
   width: 100% !important;
 }
 
-.main-content-sec:has(.drag-indicator:active) .element-column::after {
+.main-content-sec:has(.drag-indicator:active) .element-column::after,
+.main-content-sec:has(.no-container-element:active) .element-column::after {
   content: "";
   display: block;
   position: absolute;

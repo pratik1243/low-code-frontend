@@ -22,13 +22,11 @@ const FormTemplate = () => {
     setCurrentElement,
     setContainerId,
     setHeight,
-    breakPoint,
-    elementContainerRef,
+    breakPoint    
   } = useContext(FormContext);
 
   const pathname = usePathname();
   const [copyText, setCopyText] = useState("Copy");
-  const [containerDrag, setContainerDrag] = useState(false);
 
   const renderTooltip = (text, props) => (
     <Tooltip id="button-tooltip" {...props}>
@@ -113,6 +111,8 @@ const FormTemplate = () => {
     setForms({ ...forms, [breakPoint]: [] });
   };
 
+  console.log('forms', forms);
+
   return (
     <div className={`main-div scrollable position-relative`}>
       <div className="d-flex align-items-center justify-content-between data-prop-sec">
@@ -173,9 +173,9 @@ const FormTemplate = () => {
               <div
                 key={index}
                 draggable
-                className={`position-relative element-column column_${
-                  ele?.id
-                } ${
+                className={`position-relative ${
+                  ele?.type !== "container" ? "no-container-element" : ""
+                } element-column column_${ele?.id} ${
                   containerId === ele?.id ? "selected-card" : ""
                 }                  
                ${ele?.props?.hidden ? "hidden" : ""} ${
@@ -211,7 +211,9 @@ const FormTemplate = () => {
                   </div>
                 )}
                 <div
-                  className={ele?.type !== "container" ? "field-render" : ""}
+                  className={`${
+                    ele?.type !== "container" ? "field-render" : ""
+                  }`}
                 >
                   <RenderField ele={ele} index={index} />
                 </div>

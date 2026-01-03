@@ -26,10 +26,12 @@ function SettingBox() {
     pageBackground
   } = useContext(FormContext);
 
+  const fields = ["input", "select", "country"];
+
   const onClickSetFieldType = (value) => {
     const updatedForms = forms[breakPoint].map((el, i) => {
       const nestedContent = el?.content?.map((ele, id) => {
-        if (["input", "select", "country"].includes(ele?.type)) {
+        if (fields.includes(ele?.type)) {
           return {
             ...ele,
             props: {
@@ -49,7 +51,7 @@ function SettingBox() {
       });
       if (el?.type === "container") {
         return { ...el, content: nestedContent };
-      } else if (["input", "select", "country"].includes(el?.type)) {
+      } else if (fields.includes(el?.type)) {
         return {
           ...el,
           props: {

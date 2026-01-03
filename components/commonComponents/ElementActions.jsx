@@ -76,7 +76,7 @@ const ElementActions = ({ data, deleteFunction, containerIndex = null }) => {
           <TbSettings size={21} />
         </OverlayTrigger>
       </div>
-      {data.type == "container" ? (
+      {data?.type == "container" ? (
         <div
           role="button"
           onClick={(e) => {
@@ -108,7 +108,7 @@ const ElementActions = ({ data, deleteFunction, containerIndex = null }) => {
           <MdDeleteOutline size={21} />
         </OverlayTrigger>
       </div>
-      {!["stepper", "slider", "card_box"].includes(data.type) && (
+      {!["stepper", "slider", "card_box"].includes(data?.type) && (
         <div role="button" onClick={copyFunction}>
           <OverlayTrigger
             placement="top"
