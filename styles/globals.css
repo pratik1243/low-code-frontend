@@ -1998,7 +1998,7 @@ hr {
 
 .selected-country-code {
   position: absolute;
-  top: 13.5px;
+  top: 13px;
   cursor: pointer;
   display: flex;
   align-items: center;
