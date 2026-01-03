@@ -111,8 +111,6 @@ const FormTemplate = () => {
     setForms({ ...forms, [breakPoint]: [] });
   };
 
-  console.log('forms', forms);
-
   return (
     <div className={`main-div scrollable position-relative`}>
       <div className="d-flex align-items-center justify-content-between data-prop-sec">
