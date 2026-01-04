@@ -192,10 +192,9 @@ const FormCreate = () => {
         let data = response?.data?.responseData;
         for (let index = 0; index < data?.length; index++) {
           page_list.push({
-            page_route: data[index]?.page_route
-              ? `/web-page/${data[index]?.page_route}`
-              : null,
+            page_route: data[index]?.page_route ? `/web-page/${data[index]?.page_route}` : null,
             page_name: data[index]?.page_name,
+            page_item: data[index]?.page_item,
             page_data: data[index]?.page_data?.screenSize,
             page_item_url: `/page/${data[index]?.page_id}`,
           });

@@ -5,8 +5,7 @@ import { FormContext } from "../FormCreate";
 import Select from "react-select";
 
 const ButtonProps = ({ onCustomizeElement, currentField }) => {
-  const { forms, pagesList, breakPoint, showCurrentElement } =
-    useContext(FormContext);
+  const { forms, pagesList, breakPoint, showCurrentElement } = useContext(FormContext);
 
   const getFields = (element) => {
     let fields = [];
@@ -34,6 +33,7 @@ const ButtonProps = ({ onCustomizeElement, currentField }) => {
   };
 
   const fieldOptions = useMemo(() => getFields(forms[breakPoint]), [showCurrentElement]);
+  const filterPageItemList = pagesList?.filter(el=> el?.page_item === false);
 
   return (
     <>
@@ -216,7 +216,7 @@ const ButtonProps = ({ onCustomizeElement, currentField }) => {
           <Select
             isClearable
             placeholder={"Select page"}
-            options={pagesList}
+            options={filterPageItemList}
             getOptionLabel={(e) => e.page_name}
             getOptionValue={(e) => e.page_route}
             value={currentField?.props?.redirectUrl || ""}

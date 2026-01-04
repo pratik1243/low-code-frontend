@@ -133,6 +133,8 @@ const AddContent = ({
     setForms({ ...forms, [breakPoint]: updateForms });
   };
 
+  const filterPageList = pagesList?.filter(el=> el?.page_item === true);
+
   return (
     <div className="customize-prop-sec p-4 modal-dialog-customize">
       <Button
@@ -172,7 +174,7 @@ const AddContent = ({
             <Select
               isClearable
               placeholder={"Select page item"}
-              options={pagesList}
+              options={filterPageList}
               getOptionLabel={(e) => e.page_name}
               getOptionValue={(e) => e.page_data}
               value={pageItem || ""}
