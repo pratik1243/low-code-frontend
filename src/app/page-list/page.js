@@ -1,5 +1,6 @@
 import React from 'react'
-import PageList from '../../../components/PageList'
+import dynamic from "next/dynamic";
+const PageList = dynamic(() => import("../../../components/PageList"));
 
 const PageListComp = () => {
   return (

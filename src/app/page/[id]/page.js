@@ -1,10 +1,9 @@
-import React from 'react'
-import FormCreate from '../../../../components/FormCreate'
+import React from "react";
+import dynamic from "next/dynamic";
+const FormCreate = dynamic(() => import("../../../../components/FormCreate"));
 
 const FormCreatePage = () => {
-  return (
-    <FormCreate />
-  )
-}
+  return <FormCreate />;
+};
 
-export default FormCreatePage
+export default FormCreatePage;
