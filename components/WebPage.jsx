@@ -176,7 +176,11 @@ const WebPage = () => {
                     {ele?.props?.gradientColor && (
                       <div
                         className="gradient-layer"
-                        style={{ backgroundImage: ele?.props?.gradientColor }}
+                        style={{ ...(ele?.props?.gradientColor?.startsWith('linear-gradient') ? {
+                          backgroundImage: ele?.props?.gradientColor
+                        } : {
+                          background: ele?.props?.gradientColor
+                        }), }}
                       ></div>
                     )}
                   </div>
