@@ -2152,3 +2152,17 @@ hr {
 .element-input-field:not(.standard-input):has(.selected-country-code.three-len-code) label {
   left: 93px !important;
 }
+
+.element-column .link-button {
+  padding: 0 !important;
+  background-color: transparent !important;
+  background: transparent !important;
+  border: none !important;
+  width: fit-content !important;
+  display: inline;
+}
+
+.element-column .column-sec:has(.link-button) {
+  width: fit-content !important;
+  display: inline !important;
+}

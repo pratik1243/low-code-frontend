@@ -492,7 +492,7 @@ const PropsRender = ({ open }) => {
                 {["button", "icon"].includes(currentField?.type) && (
                   <Col lg={6} md={6} sm={12} xs={12}>
                     <Button
-                      className="add-icon-btn"
+                      className={`add-icon-btn ${currentField?.props?.isLink ? 'mt-4' : ''}`}
                       onClick={() => {
                         handleShow1(true);
                       }}

@@ -15,13 +15,13 @@ const ButtonComp = ({ ele, path }) => {
   );
   const fieldArray = ele?.props?.fields.map((el) => el?.value);
 
-  const getFieldValue = (data)=>{
+  const getFieldValue = (data) => {
     return typeof data?.props?.value == "object"
-    ? data?.props?.value?.map((e) => e?.value)
-    : data?.props?.checked
-    ? data?.props?.checked
-    : data?.props?.value;
-  }
+      ? data?.props?.value?.map((e) => e?.value)
+      : data?.props?.checked
+      ? data?.props?.checked
+      : data?.props?.value;
+  };
 
   const events = () => {
     let isFieldsInvalid = false;
@@ -31,14 +31,22 @@ const ButtonComp = ({ ele, path }) => {
       const nestedForm = el?.content?.map((eles, id) => {
         if (fieldArray.includes(eles?.props?.name)) {
           formData[eles?.props?.name] = getFieldValue(eles);
-          if (errorMessageFunc(eles, (eles?.props?.checked || eles?.props?.value)) !== "")  {
+          if (
+            errorMessageFunc(
+              eles,
+              eles?.props?.checked || eles?.props?.value
+            ) !== ""
+          ) {
             isFieldsInvalid = true;
           }
           return {
             ...eles,
             form: {
               ...eles?.form,
-              error_message: errorMessageFunc(eles, (eles?.props?.checked || eles?.props?.value)),
+              error_message: errorMessageFunc(
+                eles,
+                eles?.props?.checked || eles?.props?.value
+              ),
             },
           };
         }
@@ -50,14 +58,19 @@ const ButtonComp = ({ ele, path }) => {
       } else {
         if (fieldArray.includes(el?.props?.name)) {
           formData[el?.props?.name] = getFieldValue(el);
-          if (errorMessageFunc(el, (el?.props?.checked || el?.props?.value)) !== "") {
+          if (
+            errorMessageFunc(el, el?.props?.checked || el?.props?.value) !== ""
+          ) {
             isFieldsInvalid = true;
           }
           return {
             ...el,
             form: {
               ...el?.form,
-              error_message: errorMessageFunc(el, (el?.props?.checked || el?.props?.value)),
+              error_message: errorMessageFunc(
+                el,
+                el?.props?.checked || el?.props?.value
+              ),
             },
           };
         }
@@ -81,7 +94,9 @@ const ButtonComp = ({ ele, path }) => {
         ...(ele?.props?.style && isWebPage && addPixel(ele?.props?.style, ele)),
       }}
       onClick={events}
-      className="d-flex align-items-center justify-content-center w-100"
+      className={`d-flex align-items-center justify-content-center w-100 ${
+        isWebPage && ele?.props?.isLink ? "link-button" : ""
+      }`}
     >
       {ele?.props?.iconPosition == "start" && ele?.props?.iconName && (
         <IconComponent icon={ele?.props?.iconName} size={20} />

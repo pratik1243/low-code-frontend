@@ -81,6 +81,14 @@ const FormTemplate = () => {
     copyItems();
   };
 
+  const filterContainerItems = (jsonData) => {
+    const filterJsonData = jsonData?.map((ele) => {
+      const { isContainer, ...newData } = ele;
+      return { ...newData };
+    });
+    return filterJsonData;
+  };
+
   const pasteItems = (e) => {
     e.stopPropagation();
     navigator.clipboard.readText().then((data) => {
@@ -90,7 +98,7 @@ const FormTemplate = () => {
         setForms({
           ...forms,
           [breakPoint]: Array.isArray(jsonData)
-            ? [...forms[breakPoint], ...jsonData]
+            ? [...forms[breakPoint], ...filterContainerItems(jsonData)]
             : [...forms[breakPoint], { ...newJsonData, id: generateId(4) }],
         });
       } catch (err) {

@@ -5,7 +5,8 @@ import { FormContext } from "../FormCreate";
 import Select from "react-select";
 
 const ButtonProps = ({ onCustomizeElement, currentField }) => {
-  const { forms, pagesList, breakPoint, showCurrentElement } = useContext(FormContext);
+  const { forms, pagesList, breakPoint, showCurrentElement } =
+    useContext(FormContext);
 
   const getFields = (element) => {
     let fields = [];
@@ -32,8 +33,11 @@ const ButtonProps = ({ onCustomizeElement, currentField }) => {
     return fields;
   };
 
-  const fieldOptions = useMemo(() => getFields(forms[breakPoint]), [showCurrentElement]);
-  const filterPageItemList = pagesList?.filter(el=> el?.page_item === false);
+  const fieldOptions = useMemo(
+    () => getFields(forms[breakPoint]),
+    [showCurrentElement]
+  );
+  const filterPageItemList = pagesList?.filter((el) => el?.page_item === false);
 
   return (
     <>
@@ -65,76 +69,111 @@ const ButtonProps = ({ onCustomizeElement, currentField }) => {
           </Col>
         </Row>
       </Col>
+      {!currentField?.props?.isLink && (
+        <>
+          {" "}
+          <Col lg={6} md={6} sm={12} xs={12}>
+            <Row className="mt-4">
+              <Col lg={9} md={9}>
+                <label className="mb-2">Border Color</label>
+                <input
+                  type="color"
+                  id="color-picker2"
+                  className="w-100"
+                  value={currentField?.props?.style?.borderColor || ""}
+                  onChange={(e) => {
+                    onCustomizeElement(
+                      e,
+                      "borderColor",
+                      "input",
+                      forms,
+                      "style"
+                    );
+                  }}
+                />
+              </Col>
+              <Col lg={3} md={3}>
+                <Button
+                  variant={"primary"}
+                  size="sm"
+                  className="clear-background-btn"
+                  onClick={() => {
+                    onCustomizeElement(
+                      "",
+                      "borderColor",
+                      "input",
+                      forms,
+                      "style"
+                    );
+                  }}
+                >
+                  Clear
+                </Button>
+              </Col>
+            </Row>
+          </Col>
+          <Col lg={6} md={6} sm={12} xs={12}>
+            <Row className="mt-4">
+              <Col lg={9} md={9}>
+                <label className="mb-2">Button Background Color</label>
+                <input
+                  type="color"
+                  id="color-picker1"
+                  className="w-100"
+                  value={currentField?.props?.style?.backgroundColor || ""}
+                  onChange={(e) => {
+                    onCustomizeElement(
+                      e,
+                      "backgroundColor",
+                      "input",
+                      forms,
+                      "style"
+                    );
+                  }}
+                />
+              </Col>
+              <Col lg={3} md={3}>
+                <Button
+                  variant={"primary"}
+                  size="sm"
+                  className="clear-background-btn"
+                  onClick={() => {
+                    onCustomizeElement(
+                      "",
+                      "backgroundColor",
+                      "input",
+                      forms,
+                      "style"
+                    );
+                  }}
+                >
+                  Clear
+                </Button>
+              </Col>
+            </Row>
+          </Col>
+        </>
+      )}
+
       <Col lg={6} md={6} sm={12} xs={12}>
-        <Row className="mt-4">
-          <Col lg={9} md={9}>
-            <label className="mb-2">Border Color</label>
+        <div className="customize-checkbox mt-4">
+          <div className="d-flex">
             <input
-              type="color"
-              id="color-picker2"
-              className="w-100"
-              value={currentField?.props?.style?.borderColor || ""}
+              type="checkbox"
+              id="checkbox-islink"
+              checked={currentField?.props?.isLink || ""}
               onChange={(e) => {
-                onCustomizeElement(e, "borderColor", "input", forms, "style");
+                onCustomizeElement(e, "isLink", "checkbox", forms);
               }}
             />
-          </Col>
-          <Col lg={3} md={3}>
-            <Button
-              variant={"primary"}
-              size="sm"
-              className="clear-background-btn"
-              onClick={() => {
-                onCustomizeElement("", "borderColor", "input", forms, "style");
-              }}
-            >
-              Clear
-            </Button>
-          </Col>
-        </Row>
-      </Col>
-      <Col lg={6} md={6} sm={12} xs={12}>
-        <Row className="mt-4">
-          <Col lg={9} md={9}>
-            <label className="mb-2">Button Background Color</label>
-            <input
-              type="color"
-              id="color-picker1"
-              className="w-100"
-              value={currentField?.props?.style?.backgroundColor || ""}
-              onChange={(e) => {
-                onCustomizeElement(
-                  e,
-                  "backgroundColor",
-                  "input",
-                  forms,
-                  "style"
-                );
-              }}
-            />
-          </Col>
-          <Col lg={3} md={3}>
-            <Button
-              variant={"primary"}
-              size="sm"
-              className="clear-background-btn"
-              onClick={() => {
-                onCustomizeElement(
-                  "",
-                  "backgroundColor",
-                  "input",
-                  forms,
-                  "style"
-                );
-              }}
-            >
-              Clear
-            </Button>
-          </Col>
-        </Row>
+            <label htmlFor="checkbox-islink" className="mb-0">
+              Show it as link
+            </label>
+          </div>
+        </div>
       </Col>
       <Col lg={12} md={12} sm={12} xs={12}>
-        <Row className="mt-4">
+        <Row className="mt-2">
           <Col lg={3} md={3} sm={12} xs={12}>
             <div className="d-flex align-items-center">
               <input
@@ -226,22 +265,38 @@ const ButtonProps = ({ onCustomizeElement, currentField }) => {
           />
         </div>
       </Col>
-
-      <Col lg={6} md={6} sm={12} xs={12}>
-        <div className="customize-prop-sec">
-          <label>fields to be submmited</label>
-          <Select
-            isClearable
-            isMulti
-            placeholder={"Select fields"}
-            options={fieldOptions}
-            value={currentField?.props?.fields || ""}
-            onChange={(e) => {
-              onCustomizeElement(e, "fields", "select", forms);
-            }}
-          />
-        </div>
-      </Col>
+      {!currentField?.props?.isLink ? (
+        <Col lg={6} md={6} sm={12} xs={12}>
+          <div className="customize-prop-sec">
+            <label>fields to be submmited</label>
+            <Select
+              isClearable
+              isMulti
+              placeholder={"Select fields"}
+              options={fieldOptions}
+              value={currentField?.props?.fields || ""}
+              onChange={(e) => {
+                onCustomizeElement(e, "fields", "select", forms);
+              }}
+            />
+          </div>
+        </Col>
+      ) : (
+        <Col lg={6} md={6} sm={12} xs={12}>
+          <div className="customize-prop-sec">
+            <label>Redirect External Link</label>
+            <input
+              type="text"
+              value={currentField?.props?.external_link || ""}
+              placeholder="Enter link"
+              className="customize-input"
+              onChange={(e) => {
+                onCustomizeElement(e, "external_link", "input", forms);
+              }}
+            />
+          </div>
+        </Col>
+      )}
     </>
   );
 };

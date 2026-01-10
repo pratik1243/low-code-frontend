@@ -99,6 +99,8 @@ export const fieldsData = [
       iconName: "",
       hover_color: "",
       align: "",
+      external_link: "",
+      isLink: false,
       redirectUrl: "",
       width: 100,
       style: {},
