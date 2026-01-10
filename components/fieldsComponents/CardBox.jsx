@@ -46,6 +46,17 @@ const CardBox = ({ ele, path, index }) => {
                     >
                       {" "}
                       <RenderField ele={eles} index={id} />{" "}
+
+                      {eles?.props?.gradientColor && (
+                      <div
+                        className="gradient-layer"
+                        style={{ ...(eles?.props?.gradientColor?.startsWith('linear-gradient') ? {
+                          backgroundImage: eles?.props?.gradientColor
+                        } : {
+                          background: eles?.props?.gradientColor
+                        }), }}
+                      ></div>
+                      )}
                     </div>
                   );
                 })}
