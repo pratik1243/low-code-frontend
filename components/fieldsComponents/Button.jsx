@@ -77,7 +77,9 @@ const ButtonComp = ({ ele, path }) => {
       }
       return el;
     });
-    if (ele?.props?.redirectUrl?.page_route) {
+    if (ele?.props?.external_link) {
+      router.push(ele?.props?.external_link);
+    } else if (ele?.props?.redirectUrl?.page_route) {
       router.push(ele?.props?.redirectUrl?.page_route);
     }
     if (fieldArray.length > 0) {
