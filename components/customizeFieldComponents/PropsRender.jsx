@@ -1,6 +1,13 @@
 "use client";
-import React, { useContext } from "react";
-import { Button, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import React, { useContext, useMemo, useState, useEffect } from "react";
+import {
+  Button,
+  Col,
+  Modal,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import Select from "react-select";
 import {
   alignmentOptions,
@@ -20,11 +27,14 @@ import InputProps from "./InputProps";
 import SliderProps from "./SliderProps";
 import SpacingProps from "./SpacingProps";
 import TextProps from "./TextProps";
-import { useMemo } from "react";
+import ColorPicker from "react-best-gradient-color-picker";
 
 const PropsRender = ({ open }) => {
   const { forms, setForms, currentElement, breakPoint, containerIndex } =
     useContext(FormContext);
+
+  const [gradientColor, setGradientColor] = useState("rgba(255,255,255,1)");
+  const [gradientShow, setGradientShow] = useState(false);
 
   const onCustomizeElement = (
     e,
@@ -388,6 +398,16 @@ const PropsRender = ({ open }) => {
                         </Row>
                       </Col>
                     )}
+                    <Col lg={6} md={6} sm={12} xs={12}>
+                      <Button
+                        className="add-icon-btn mt-4 mb-4"
+                        onClick={() => {
+                          setGradientShow(true);
+                        }}
+                      >
+                        Add Gradient
+                      </Button>
+                    </Col>
                   </>
                 )}
 
@@ -492,7 +512,9 @@ const PropsRender = ({ open }) => {
                 {["button", "icon"].includes(currentField?.type) && (
                   <Col lg={6} md={6} sm={12} xs={12}>
                     <Button
-                      className={`add-icon-btn ${currentField?.props?.isLink ? 'mt-4' : ''}`}
+                      className={`add-icon-btn ${
+                        currentField?.props?.isLink ? "mt-4" : ""
+                      }`}
                       onClick={() => {
                         handleShow1(true);
                       }}
@@ -587,6 +609,40 @@ const PropsRender = ({ open }) => {
           </div>
         </>
       )}
+
+      <Modal
+        size="md"
+        show={gradientShow}
+        className="gradient-box"
+        onHide={() => {
+          setGradientShow(false);
+        }}
+      >
+        <Modal.Header closeButton>
+          <h5>Add Gradient</h5>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="p-3">
+            {" "}
+            <ColorPicker
+              value={currentField?.props?.gradientColor}
+              onChange={(e) => {
+                onCustomizeElement(e, "gradientColor", "select", forms);
+              }}
+            />
+            <Button
+              variant={"primary"}
+              size="sm"
+              className="clear-background-btn w-100"
+              onClick={() => {
+                onCustomizeElement("", "gradientColor", "select", forms);
+              }}
+            >
+              Clear Gradient
+            </Button>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

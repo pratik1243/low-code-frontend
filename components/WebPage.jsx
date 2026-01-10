@@ -52,8 +52,10 @@ const WebPage = () => {
           hidden: response?.data?.responseData?.navbar_props?.hidden,
           logo: response?.data?.responseData?.navbar_props?.logo,
           menus: response?.data?.responseData?.navbar_props?.menus,
-          menuTemplate: response?.data?.responseData?.navbar_props?.menuTemplate,
-          navBackgroundColor: response?.data?.responseData?.navbar_props?.navBackgroundColor,
+          menuTemplate:
+            response?.data?.responseData?.navbar_props?.menuTemplate,
+          navBackgroundColor:
+            response?.data?.responseData?.navbar_props?.navBackgroundColor,
         });
         setForms({
           ...forms,
@@ -61,7 +63,9 @@ const WebPage = () => {
         });
         Aos.init({
           duration: 1000,
-          once: response?.data?.responseData?.scroll_animation_type?.value === "Once",
+          once:
+            response?.data?.responseData?.scroll_animation_type?.value ===
+            "Once",
         });
       } else {
         setSelectedFont("Roboto");
@@ -91,10 +95,13 @@ const WebPage = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {    
+  useEffect(() => {
     const link = document.createElement("link");
-    if(selectedFont){
-      link.href = `https://fonts.googleapis.com/css2?family=${selectedFont?.replace(/ /g, "+")}:wght@400&display=swap`;
+    if (selectedFont) {
+      link.href = `https://fonts.googleapis.com/css2?family=${selectedFont?.replace(
+        / /g,
+        "+"
+      )}:wght@400&display=swap`;
       link.rel = "stylesheet";
       document.body.style.backgroundColor = pageBackground;
       document.head.appendChild(link);
@@ -103,7 +110,7 @@ const WebPage = () => {
       document.head.removeChild(link);
     };
   }, [selectedFont]);
-  
+
   useEffect(() => {
     fetchPage(breakPoint);
   }, [breakPoint, path]);
@@ -122,7 +129,9 @@ const WebPage = () => {
         }}
       >
         <LayoutComp>
-          {(!navbarProps?.hidden && (navbarProps?.logo?.logoUrl || navbarProps?.menus?.menuList?.length > 0)) && <NavbarComp />}
+          {!navbarProps?.hidden &&
+            (navbarProps?.logo?.logoUrl ||
+              navbarProps?.menus?.menuList?.length > 0) && <NavbarComp />}
           <div className="d-flex web-div" style={{ fontFamily: selectedFont }}>
             {forms[breakPoint]?.length > 0 &&
               forms[breakPoint]?.map((ele, index) => {
@@ -132,7 +141,7 @@ const WebPage = () => {
                 return (
                   <div
                     key={index}
-                    className={`${!ele?.props?.fullWidth ? "d-flex" : ""} ${
+                    className={`position-relative ${!ele?.props?.fullWidth ? "d-flex" : ""} ${
                       ele?.type == "card_box" || ele?.props?.imageData
                         ? "background-image-props"
                         : ""
@@ -163,6 +172,13 @@ const WebPage = () => {
                     }}
                   >
                     <RenderField ele={ele} index={index} />
+
+                    {ele?.props?.gradientColor && (
+                      <div
+                        className="gradient-layer"
+                        style={{ backgroundImage: ele?.props?.gradientColor }}
+                      ></div>
+                    )}
                   </div>
                 );
               })}

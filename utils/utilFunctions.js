@@ -133,6 +133,7 @@ export const fieldsData = [
       },
       containerTemplate: "",
       containerBackground: "",
+      gradientColor: ""
     },
   },
   {

@@ -692,9 +692,11 @@ hr {
 }
 
 .card-sec {
-  /* border-radius: 6px; */
   display: flex;
   flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+  /* border-radius: 6px; */
   /* background-color: #fff; */
 }
 
@@ -2165,4 +2167,14 @@ hr {
 .element-column .column-sec:has(.link-button) {
   width: fit-content !important;
   display: inline !important;
+}
+
+.gradient-layer {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.gradient-box .modal-dialog {
+  max-width: 359px !important;
 }
