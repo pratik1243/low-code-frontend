@@ -38,7 +38,7 @@ const CardBox = ({ ele, path, index }) => {
                         }),
                         ...(eles?.props?.style &&
                           addPixel(eles?.props?.style, eles)),
-                        ...(ele?.props?.imageData && {
+                        ...(eles?.props?.imageData && {
                           backgroundImage: ele?.props?.imageData?.url,
                         }),
                       }}
