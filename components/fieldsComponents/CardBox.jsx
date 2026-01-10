@@ -31,7 +31,8 @@ const CardBox = ({ ele, path, index }) => {
                           : eles?.props?.hidden
                           ? "hidden"
                           : ""
-                      } ${textAlign[eles?.props?.align?.value] || ""} d-flex`}
+                      } ${eles?.props?.imageData ? "background-image-props" : ""} 
+                      ${textAlign[eles?.props?.align?.value] || ""} d-flex`}
                       style={{
                         ...(eles?.column_width && {
                           width: `${eles?.column_width}%`,
