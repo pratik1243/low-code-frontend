@@ -2176,5 +2176,10 @@ hr {
 }
 
 .gradient-box .modal-dialog {
-  max-width: 359px !important;
+  max-width: 359px !important;  
+}
+
+.gradient-box .modal-dialog .modal-body {
+  max-height: 461px;
+  overflow-y: auto;
 }
