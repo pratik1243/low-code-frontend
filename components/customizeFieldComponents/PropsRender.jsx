@@ -633,7 +633,7 @@ const PropsRender = ({ open }) => {
             <Button
               variant={"primary"}
               size="sm"
-              className="clear-background-btn w-100"
+              className="clear-background-btn w-100 mt-5"
               onClick={() => {
                 onCustomizeElement("", "gradientColor", "select", forms);
               }}
