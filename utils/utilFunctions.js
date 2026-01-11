@@ -790,10 +790,10 @@ export const containerClasses = {
 };
 
 export const responsiveScreenSizes = [
-  { label: "Large Screen", value: "lg" },
-  { label: "Medium Screen", value: "md" },
-  { label: "Small Screen", value: "sm" },
-  { label: "Extra Small Screen", value: "xs" },
+  { label: "Desktop", value: "lg" },
+  { label: "Laptop", value: "md" },
+  { label: "Tablet", value: "sm" },
+  { label: "Mobile", value: "xs" },
 ];
 
 export function errorMessageFunc(el, value) {
