@@ -581,7 +581,7 @@ const PropsRender = ({ open }) => {
                 ) && (
                   <Col lg={6} md={6} sm={12} xs={12}>
                     <Button
-                      className="add-icon-btn mt-4 mb-4"
+                      className="add-icon-btn mt-2 mb-2"
                       onClick={() => {
                         setGradientShow(true);
                       }}
