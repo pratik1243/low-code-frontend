@@ -1531,6 +1531,11 @@ hr {
   width: 100% !important;
 } */
 
+.column-sec {
+  position: relative;
+  z-index: 1;
+}
+
 .web-div .swiper .column-sec {
   width: 100%;
 }
