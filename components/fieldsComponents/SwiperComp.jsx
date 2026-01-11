@@ -4,6 +4,7 @@ import { Navigation, Autoplay, Pagination } from "swiper/modules";
 import { addPixel, alignment, textAlign } from "../../utils/utilFunctions";
 import RenderField from "./RenderField";
 import { useEffect } from "react";
+import GraidentLayer from "../commonComponents/GraidentLayer";
 
 const SwiperComp = ({ ele, path }) => {
   const isWebPage = path.includes("web-page");
@@ -35,7 +36,9 @@ const SwiperComp = ({ ele, path }) => {
           slidesPerView={ele?.props?.slidesPerView?.value || 1}
           navigation={ele?.props?.navigation}
           loop={ele?.props?.loop}
-          className={`${!ele?.props?.paginationInside ? 'paginationInside' : ''}`}
+          className={`${
+            !ele?.props?.paginationInside ? "paginationInside" : ""
+          }`}
           pagination={{ clickable: true }}
           {...(ele?.props?.delay?.value && {
             autoplay: { delay: ele?.props?.delay?.value },
@@ -67,6 +70,9 @@ const SwiperComp = ({ ele, path }) => {
                     >
                       {" "}
                       <RenderField ele={eles} index={id} />{" "}
+                      {eles?.props?.gradientColor && (
+                        <GraidentLayer data={eles} />
+                      )}
                     </div>
                   );
                 })}

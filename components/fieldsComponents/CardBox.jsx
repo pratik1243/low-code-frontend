@@ -1,5 +1,6 @@
 import React from "react";
 import { addPixel, alignment, textAlign } from "../../utils/utilFunctions";
+import GraidentLayer from "../commonComponents/GraidentLayer";
 import RenderField from "./RenderField";
 
 const CardBox = ({ ele, path, index }) => {
@@ -13,7 +14,9 @@ const CardBox = ({ ele, path, index }) => {
         <div
           className="card-main-section"
           style={{
-            gridTemplateColumns: `repeat(${parseInt(ele?.props?.style?.gridTemplateColumns)}, 1fr)`,
+            gridTemplateColumns: `repeat(${parseInt(
+              ele?.props?.style?.gridTemplateColumns
+            )}, 1fr)`,
           }}
         >
           {ele?.props?.cards?.map((el, i) => {
@@ -31,7 +34,9 @@ const CardBox = ({ ele, path, index }) => {
                           : eles?.props?.hidden
                           ? "hidden"
                           : ""
-                      } ${eles?.props?.imageData ? "background-image-props" : ""} 
+                      } ${
+                        eles?.props?.imageData ? "background-image-props" : ""
+                      } 
                       ${textAlign[eles?.props?.align?.value] || ""} d-flex`}
                       style={{
                         ...(eles?.column_width && {
@@ -46,16 +51,8 @@ const CardBox = ({ ele, path, index }) => {
                     >
                       {" "}
                       <RenderField ele={eles} index={id} />{" "}
-
                       {eles?.props?.gradientColor && (
-                      <div
-                        className="gradient-layer"
-                        style={{ ...(eles?.props?.gradientColor?.startsWith('linear-gradient') ? {
-                          backgroundImage: eles?.props?.gradientColor
-                        } : {
-                          background: eles?.props?.gradientColor
-                        }), }}
-                      ></div>
+                        <GraidentLayer data={eles} />
                       )}
                     </div>
                   );

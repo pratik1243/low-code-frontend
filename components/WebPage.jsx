@@ -9,6 +9,7 @@ import LayoutComp from "./commonComponents/LayoutComp";
 import { setLoader } from "../redux/slices/loaderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import NavbarComp from "./fieldsComponents/NavbarComp";
+import GraidentLayer from "./commonComponents/GraidentLayer";
 
 export const PageContext = createContext();
 
@@ -141,7 +142,9 @@ const WebPage = () => {
                 return (
                   <div
                     key={index}
-                    className={`position-relative ${!ele?.props?.fullWidth ? "d-flex" : ""} ${
+                    className={`position-relative ${
+                      !ele?.props?.fullWidth ? "d-flex" : ""
+                    } ${
                       ele?.type == "card_box" || ele?.props?.imageData
                         ? "background-image-props"
                         : ""
@@ -173,16 +176,7 @@ const WebPage = () => {
                   >
                     <RenderField ele={ele} index={index} />
 
-                    {ele?.props?.gradientColor && (
-                      <div
-                        className="gradient-layer"
-                        style={{ ...(ele?.props?.gradientColor?.startsWith('linear-gradient') ? {
-                          backgroundImage: ele?.props?.gradientColor
-                        } : {
-                          background: ele?.props?.gradientColor
-                        }), }}
-                      ></div>
-                    )}
+                    {ele?.props?.gradientColor && <GraidentLayer data={ele} />}
                   </div>
                 );
               })}
