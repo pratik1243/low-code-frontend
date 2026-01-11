@@ -401,19 +401,6 @@ const PropsRender = ({ open }) => {
                   </>
                 )}
 
-                {["container", "slider", "card_box"].includes(currentField?.type) && (
-                  <Col lg={6} md={6} sm={12} xs={12}>
-                    <Button
-                      className="add-icon-btn mt-4 mb-4"
-                      onClick={() => {
-                        setGradientShow(true);
-                      }}
-                    >
-                      Add Gradient
-                    </Button>
-                  </Col>
-                )}
-
                 {currentField?.type == "slider" && (
                   <Col lg={6} md={6} sm={12} xs={12}>
                     <Row>
@@ -585,6 +572,21 @@ const PropsRender = ({ open }) => {
                       }}
                     >
                       {addTextType[currentField?.type]}
+                    </Button>
+                  </Col>
+                )}
+
+                {["container", "slider", "card_box"].includes(
+                  currentField?.type
+                ) && (
+                  <Col lg={6} md={6} sm={12} xs={12}>
+                    <Button
+                      className="add-icon-btn mt-4 mb-4"
+                      onClick={() => {
+                        setGradientShow(true);
+                      }}
+                    >
+                      Add Gradient
                     </Button>
                   </Col>
                 )}
