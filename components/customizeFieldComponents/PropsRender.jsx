@@ -30,10 +30,8 @@ import TextProps from "./TextProps";
 import ColorPicker from "react-best-gradient-color-picker";
 
 const PropsRender = ({ open }) => {
-  const { forms, setForms, currentElement, breakPoint, containerIndex } =
-    useContext(FormContext);
+  const { forms, setForms, currentElement, breakPoint, containerIndex } = useContext(FormContext);
 
-  const [gradientColor, setGradientColor] = useState("rgba(255,255,255,1)");
   const [gradientShow, setGradientShow] = useState(false);
 
   const onCustomizeElement = (
@@ -628,7 +626,7 @@ const PropsRender = ({ open }) => {
           <div className="p-3">
             {" "}
             <ColorPicker
-              value={currentField?.props?.gradientColor}
+              value={currentField?.props?.gradientColor || "rgba(255,255,255,1)"}
               onChange={(e) => {
                 onCustomizeElement(e, "gradientColor", "select", forms);
               }}
