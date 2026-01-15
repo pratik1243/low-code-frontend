@@ -1611,8 +1611,8 @@ hr {
 }
 
 .image-full-width-check {
-  margin-top: 54px;
-  margin-left: 9px;
+  /* margin-top: 54px; */
+  margin-left: 5px;
 }
 
 .web-settings-btn {

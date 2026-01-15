@@ -37,7 +37,7 @@ const ImageProps = ({ currentField, onCustomizeElement }) => {
           url: contType ? backgroundImage : response?.data?.id,
           filename: file?.name,
         };
-        onCustomizeElement(imageData, "imageData", "image", forms);       
+        onCustomizeElement(imageData, "imageData", "image", forms);
         toast.success(response?.data?.message, snackProps);
       } else {
         toast.error(response?.data?.message, snackProps);
@@ -139,9 +139,32 @@ const ImageProps = ({ currentField, onCustomizeElement }) => {
           )}
 
           <Col lg={6} md={6} sm={12} xs={12}>
+            <div className="customize-prop-sec">
+              <label className="mb-2">Border Radius</label>
+              <input
+                type="number"
+                className="customize-input"
+                placeholder="Enter border radius"
+                max={100}
+                min={0}
+                value={currentField?.props?.style?.borderRadius || "0"}
+                onChange={(e) => {
+                  onCustomizeElement(
+                    e,
+                    "borderRadius",
+                    "input",
+                    forms,
+                    "style"
+                  );
+                }}
+              />
+            </div>
+          </Col>
+
+          <Col lg={6} md={6} sm={12} xs={12}>
             <div
               className={`d-flex align-items-center image-full-width-check ${
-                currentField?.props?.fullWidth ? "mt-0" : ""
+                currentField?.props?.fullWidth ? "mt-5" : "mt-2"
               }`}
             >
               <input

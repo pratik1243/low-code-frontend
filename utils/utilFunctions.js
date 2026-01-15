@@ -148,6 +148,7 @@ export const fieldsData = [
       },
       height: 100,
       width: 100,
+      gradientColor: "",
       fullWidth: false,
       style: {},
     },
@@ -889,7 +890,7 @@ export const RegisterSchema = {
 export function addPixel(styles, el) {
   let obj = {};
   for (const key in styles) {
-    if (key.includes("padding") || key.includes("fontSize")) {
+    if (key.includes("padding") || key.includes("fontSize") || key.includes("borderRadius")) {
       obj[key] = `${styles[key]}px`;
     } else {
       obj[key] = styles[key]?.value ? styles[key]?.value : styles[key];

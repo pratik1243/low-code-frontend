@@ -1,17 +1,19 @@
 import Image from "next/image";
 import React from "react";
 import { API_BASE_URL } from "../../services/endpoints";
+import GraidentLayer from "../commonComponents/GraidentLayer";
 
 const ImageComp = ({ ele, path, index }) => {
   return (
     <div
-      className={`${!path.includes("web-page") ? "img-border" : ""}`}
+      className={`position-relative ${
+        !path.includes("web-page") ? "img-border" : ""
+      }`}
       style={{
         ...(path.includes("web-page") &&
           ele?.props?.fullWidth && {
             height: `${ele?.props?.height}px`,
             width: "100%",
-            position: "relative"
           }),
       }}
     >
@@ -22,8 +24,12 @@ const ImageComp = ({ ele, path, index }) => {
               src={`${API_BASE_URL}/image/${ele?.props?.imageData?.url}`}
               alt={`image-${index}`}
               layout="fill"
-              //objectFit="cover"
               objectPosition="center"
+              style={{
+                ...(ele?.props?.style?.borderRadius && {
+                  borderRadius: `${ele?.props?.style?.borderRadius}px`,
+                }),
+              }}
             />
           ) : (
             <Image
@@ -32,8 +38,14 @@ const ImageComp = ({ ele, path, index }) => {
               width={path.includes("web-page") ? ele?.props?.width : 100}
               alt={`image-${index}`}
               quality={90}
+              style={{
+                ...(ele?.props?.style?.borderRadius && {
+                  borderRadius: `${ele?.props?.style?.borderRadius}px`,
+                }),
+              }}
             />
           )}
+          {ele?.props?.gradientColor && <GraidentLayer data={ele} />}
         </>
       ) : !path.includes("web-page") ? (
         <div>Image</div>

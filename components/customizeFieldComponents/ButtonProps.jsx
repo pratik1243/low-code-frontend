@@ -152,11 +152,33 @@ const ButtonProps = ({ onCustomizeElement, currentField }) => {
               </Col>
             </Row>
           </Col>
+          <Col lg={6} md={6} sm={12} xs={12}>
+            <div className="customize-prop-sec mt-4">
+              <label className="mb-2 fs-6">Border Radius</label>
+              <input
+                type="number"
+                className="customize-input"
+                placeholder="Enter border radius"
+                max={100}
+                min={0}
+                value={currentField?.props?.style?.borderRadius || "0"}
+                onChange={(e) => {
+                  onCustomizeElement(
+                    e,
+                    "borderRadius",
+                    "input",
+                    forms,
+                    "style"
+                  );
+                }}
+              />
+            </div>
+          </Col>
         </>
       )}
 
       <Col lg={6} md={6} sm={12} xs={12}>
-        <div className="customize-checkbox mt-4">
+        <div className={`customize-checkbox ${currentField?.props?.isLink ? "mt-4" : "mt-5"}`}>
           <div className="d-flex">
             <input
               type="checkbox"

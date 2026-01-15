@@ -447,7 +447,7 @@ const PropsRender = ({ open }) => {
                 {currentField?.type == "card_box" && (
                   <Col lg={6} md={6} sm={12} xs={12}>
                     <div className="customize-prop-sec">
-                      <label>Columns Per Rows</label>
+                      <label>Cards Per Rows</label>
                       <input
                         type="number"
                         min={1}
@@ -574,7 +574,7 @@ const PropsRender = ({ open }) => {
                   </Col>
                 )}
 
-                {["container", "slider", "card_box"].includes(
+                {["container", "slider", "card_box", "image"].includes(
                   currentField?.type
                 ) && (
                   <Col lg={6} md={6} sm={12} xs={12}>
