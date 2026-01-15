@@ -695,7 +695,7 @@ hr {
   display: flex;
   flex-wrap: wrap;
   position: relative;
-  z-index: 1;
+  /* z-index: 1; */
   /* border-radius: 6px; */
   /* background-color: #fff; */
 }
@@ -1238,18 +1238,18 @@ hr {
 
 .icon-search-input .search-btn {
   color: #fff;
-    background-color: #00b2aa;
-    
-    font-size: 20px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    padding: 0px 10px;
-    display: grid;
-    place-items: center;
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
+  background-color: #00b2aa;
+
+  font-size: 20px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0px 10px;
+  display: grid;
+  place-items: center;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 
 .icon-search-input input {
@@ -1533,6 +1533,10 @@ hr {
 
 .column-sec {
   position: relative;
+}
+
+.column-sec.aos-init.aos-animate,
+.position-relative:has(.gradient-layer) .column-sec:has(.card-sec) {
   z-index: 1;
 }
 
@@ -2017,7 +2021,7 @@ hr {
   color: #615e5e;
 }
 
-.selected-country-code img{
+.selected-country-code img {
   border: 1px solid #80808082;
   border-radius: 3px;
   margin-right: 4px;
@@ -2077,8 +2081,14 @@ hr {
   z-index: 1;
 }
 
-.element-input-field:not(.standard-input):has(.selected-country-code):has(input:focus) label,
-.element-input-field:not(.standard-input):has(.selected-country-code):has(input:valid) label {
+.element-input-field:not(.standard-input):has(.selected-country-code):has(
+    input:focus
+  )
+  label,
+.element-input-field:not(.standard-input):has(.selected-country-code):has(
+    input:valid
+  )
+  label {
   border-radius: 3px;
   height: 16px;
   padding: 0 2px !important;
@@ -2092,13 +2102,16 @@ hr {
   top: -14px !important;
 }
 
-.element-input-field:not(.float-label):not(.standard-input):has(input:focus) label,
-.element-input-field:not(.float-label):not(.standard-input):has(input:valid) label {
+.element-input-field:not(.float-label):not(.standard-input):has(input:focus)
+  label,
+.element-input-field:not(.float-label):not(.standard-input):has(input:valid)
+  label {
   height: auto !important;
   padding: 0px !important;
 }
 
-.element-input-field:not(.float-label):not(.standard-input) .selected-country-code {
+.element-input-field:not(.float-label):not(.standard-input)
+  .selected-country-code {
   top: 31px !important;
 }
 
@@ -2109,13 +2122,14 @@ hr {
   background: #f6f6f6;
   padding-left: 7px;
   border-right: 1px solid #cec1c1;
-} 
+}
 
 .element-input-field .is-border-color {
   border-width: 1.8px !important;
 }
 
-.element-input-field:not(.standard-input):has(.is-border-color) .selected-country-code {
+.element-input-field:not(.standard-input):has(.is-border-color)
+  .selected-country-code {
   top: 1.5px !important;
   left: 1.5px !important;
   bottom: 1.5px !important;
@@ -2131,11 +2145,17 @@ hr {
   font-size: 13px;
 }
 
-.element-input-field:not(.standard-input):has(.selected-country-code.three-len-code) input {
+.element-input-field:not(.standard-input):has(
+    .selected-country-code.three-len-code
+  )
+  input {
   padding-left: 92px !important;
 }
 
-.element-input-field:not(.standard-input):has(.selected-country-code.one-len-code) input {
+.element-input-field:not(.standard-input):has(
+    .selected-country-code.one-len-code
+  )
+  input {
   padding-left: 75px !important;
 }
 
@@ -2151,12 +2171,18 @@ hr {
   padding-left: 78px !important;
 }
 
-.element-input-field:not(.standard-input):has(.selected-country-code.one-len-code) label,
+.element-input-field:not(.standard-input):has(
+    .selected-country-code.one-len-code
+  )
+  label,
 .element-input-field:has(.selected-country-code.three-len-code) label {
   left: 78px !important;
 }
 
-.element-input-field:not(.standard-input):has(.selected-country-code.three-len-code) label {
+.element-input-field:not(.standard-input):has(
+    .selected-country-code.three-len-code
+  )
+  label {
   left: 93px !important;
 }
 
@@ -2181,7 +2207,7 @@ hr {
 }
 
 .gradient-box .modal-dialog {
-  max-width: 359px !important;  
+  max-width: 359px !important;
 }
 
 .gradient-box .modal-dialog .modal-body {
