@@ -84,8 +84,7 @@ const TextField = ({
             ...(ele?.props?.style &&
               isWebPage &&
               addPixel(ele?.props?.style, ele)),
-            ...((ele?.props?.standard || ele?.props?.floatLabel) &&
-              isWebPage && {
+            ...((ele?.props?.standard && isWebPage) && {
                 backgroundColor: "transparent",
               }),
           }}

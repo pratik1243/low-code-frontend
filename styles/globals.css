@@ -2214,3 +2214,9 @@ hr {
   max-height: 461px;
   overflow-y: auto;
 }
+
+.web-div hr {
+  border: none;
+  height: 1.5px;
+  background-color: rgb(122, 119, 119);
+}

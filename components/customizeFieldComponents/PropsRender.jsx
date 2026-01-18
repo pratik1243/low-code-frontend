@@ -30,7 +30,8 @@ import TextProps from "./TextProps";
 import ColorPicker from "react-best-gradient-color-picker";
 
 const PropsRender = ({ open }) => {
-  const { forms, setForms, currentElement, breakPoint, containerIndex } = useContext(FormContext);
+  const { forms, setForms, currentElement, breakPoint, containerIndex } =
+    useContext(FormContext);
 
   const [gradientShow, setGradientShow] = useState(false);
 
@@ -267,7 +268,11 @@ const PropsRender = ({ open }) => {
                   <Col lg={6} md={6} sm={12} xs={12}>
                     <Row>
                       <Col lg={9} md={9}>
-                        <label className="mb-2">Column Background Color</label>
+                        <label className="mb-2">
+                          {currentField?.type == "divider"
+                            ? "Divider Color"
+                            : "Column Background Color"}
+                        </label>
                         <input
                           type="color"
                           id="color-picker"
@@ -591,12 +596,15 @@ const PropsRender = ({ open }) => {
               </Row>
             </div>
 
-            <hr className="mt-3" />
-
-            <SpacingProps
-              onCustomizeElement={onCustomizeElement}
-              currentField={currentField}
-            />
+            {currentField?.type !== "divider" && (
+              <>
+                <hr className="mt-3" />
+                <SpacingProps
+                  onCustomizeElement={onCustomizeElement}
+                  currentField={currentField}
+                />
+              </>
+            )}
 
             {currentField?.type !== "card_box" && (
               <>
@@ -626,7 +634,9 @@ const PropsRender = ({ open }) => {
           <div className="p-3">
             {" "}
             <ColorPicker
-              value={currentField?.props?.gradientColor || "rgba(255,255,255,1)"}
+              value={
+                currentField?.props?.gradientColor || "rgba(255,255,255,1)"
+              }
               onChange={(e) => {
                 onCustomizeElement(e, "gradientColor", "select", forms);
               }}

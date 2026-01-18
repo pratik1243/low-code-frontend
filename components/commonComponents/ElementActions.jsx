@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { MdDeleteOutline, MdContentCopy, MdContentPaste } from "react-icons/md";
-import { IoSettingsOutline } from "react-icons/io5";
+//import { IoSettingsOutline } from "react-icons/io5";
 import { TbSettings } from "react-icons/tb";
 import { HiOutlineDocumentDuplicate } from "react-icons/hi";
 import { copyItems, generateId, pasteItems } from "../../utils/utilFunctions";

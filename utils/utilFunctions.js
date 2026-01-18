@@ -358,19 +358,19 @@ export const validations = [
 ];
 
 export const validationsRegex = {
-  Email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-  Phone: /^[6-9]\d{9}$/,
-  Password: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/,
+  "Email": /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  "Phone": /^[6-9]\d{9}$/,
+  "Password": /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/,
   "Only Letters": /^[A-Za-z]+$/,
   "Only Numbers": /^\d+$/,
-  Alphanumeric: /^[A-Za-z0-9]+$/,
-  Url: /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)([/\w .-]*)*\/?$/,
+  "Alphanumeric": /^[A-Za-z0-9]+$/,
+  "Url": /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)([/\w .-]*)*\/?$/,
   "Aadhar Number": /^\d{4}\s?\d{4}\s?\d{4}$/,
   "PAN Number": /^[A-Z]{5}[0-9]{4}[A-Z]$/,
   "Account Number": /^\d{9,18}$/,
   "Card Number": /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13})$/,
-  IFSC: /^[A-Z]{4}0[A-Z0-9]{6}$/,
-  CVV: /^[0-9]{3,4}$/,
+  "IFSC": /^[A-Z]{4}0[A-Z0-9]{6}$/,
+  "CVV": /^[0-9]{3,4}$/,
 };
 
 export const headingVariantOptions = [
