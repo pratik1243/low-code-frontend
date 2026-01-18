@@ -1,7 +1,7 @@
 "use client";
 import Select from "react-select";
 import { IoAddSharp } from "react-icons/io5";
-import React, { useContext, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { FormContext } from "../FormCreate";
 import { LuExternalLink } from "react-icons/lu";
@@ -22,12 +22,12 @@ const AddContent = ({
   const [pageItem, setPageItem] = useState("");
   const stepList = ["stepper", "slider", "card_box"];
   const stepList2 = ["stepper", "slider", "select", "card_box", "radio"];
+  const pageOptions = currentField?.props?.[addContentType]?.map((el) => el?.label);
 
   const orderContent = (e, dropIndex, i, id = undefined) => {
-    const filterContentList =
-      id !== undefined
-        ? forms[breakPoint][id]?.content[i]?.props[addContentType]
-        : forms[breakPoint][i]?.props[addContentType];
+    const filterContentList = id !== undefined ? 
+    forms[breakPoint][id]?.content[i]?.props[addContentType]
+    : forms[breakPoint][i]?.props[addContentType];
     const dragIndex = JSON.parse(e?.dataTransfer?.getData("element"));
     const draggedItem = filterContentList[dragIndex];
     filterContentList?.splice(dragIndex, 1);
@@ -133,7 +133,11 @@ const AddContent = ({
     setForms({ ...forms, [breakPoint]: updateForms });
   };
 
-  const filterPageList = pagesList?.filter(el=> el?.page_item === true);
+  const filterPageList = useMemo(() => {
+    return pagesList?.filter((el) => {
+      return el?.page_item === true && !pageOptions?.includes(el?.page_name);
+    });
+  }, [pageItem]);
 
   return (
     <div className="customize-prop-sec p-4 modal-dialog-customize">
