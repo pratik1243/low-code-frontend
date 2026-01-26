@@ -1,7 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { formAction, generateId, RegisterSchema, snackProps } from "../utils/utilFunctions";
+import {
+  formAction,
+  generateId,
+  RegisterSchema,
+  snackProps,
+} from "../utils/utilFunctions";
 import { setLoader } from "../redux/slices/loaderSlice";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -19,7 +24,9 @@ import { toast } from "react-toastify";
 const Register = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const [registerDetails, setRegisterDetails] = useState(RegisterSchema.fields.values);
+  const [registerDetails, setRegisterDetails] = useState(
+    RegisterSchema.fields.values
+  );
   const [errors, setErrors] = useState(RegisterSchema.fields);
 
   const registerUser = async (data) => {
@@ -29,14 +36,16 @@ const Register = () => {
         ...data,
         request_user_id: generateId(10),
       };
-      const response = await axios.post(
-        `${API_BASE_URL}/register`,
-        requestData
-      );
+      const response = await axios.post(`${API_BASE_URL}/register`, requestData);
       dispatch(setLoader(false));
       if (response.status == 200) {
-        router.push("/login");
-        toast.success(response?.data?.message, snackProps);        
+        if (response?.data?.message == "User email and password already exists") {
+          dispatch(setLoader(false));
+          toast.error(response?.data?.message, snackProps);
+        } else {
+          router.push("/login");
+          toast.success(response?.data?.message, snackProps);
+        }
       } else {
         dispatch(setLoader(false));
         toast.error(response?.data?.message, snackProps);
