@@ -133,7 +133,7 @@ export const fieldsData = [
       },
       containerTemplate: "",
       containerBackground: "",
-      gradientColor: ""
+      gradientColor: "",
     },
   },
   {
@@ -358,19 +358,19 @@ export const validations = [
 ];
 
 export const validationsRegex = {
-  "Email": /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-  "Phone": /^[6-9]\d{9}$/,
-  "Password": /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/,
+  Email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  Phone: /^[6-9]\d{9}$/,
+  Password: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/,
   "Only Letters": /^[A-Za-z]+$/,
   "Only Numbers": /^\d+$/,
-  "Alphanumeric": /^[A-Za-z0-9]+$/,
-  "Url": /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)([/\w .-]*)*\/?$/,
+  Alphanumeric: /^[A-Za-z0-9]+$/,
+  Url: /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)([/\w .-]*)*\/?$/,
   "Aadhar Number": /^\d{4}\s?\d{4}\s?\d{4}$/,
   "PAN Number": /^[A-Z]{5}[0-9]{4}[A-Z]$/,
   "Account Number": /^\d{9,18}$/,
   "Card Number": /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13})$/,
-  "IFSC": /^[A-Z]{4}0[A-Z0-9]{6}$/,
-  "CVV": /^[0-9]{3,4}$/,
+  IFSC: /^[A-Z]{4}0[A-Z0-9]{6}$/,
+  CVV: /^[0-9]{3,4}$/,
 };
 
 export const headingVariantOptions = [
@@ -890,7 +890,11 @@ export const RegisterSchema = {
 export function addPixel(styles, el) {
   let obj = {};
   for (const key in styles) {
-    if (key.includes("padding") || key.includes("fontSize") || key.includes("borderRadius")) {
+    if (
+      key.includes("padding") ||
+      key.includes("fontSize") ||
+      key.includes("borderRadius")
+    ) {
       obj[key] = `${styles[key]}px`;
     } else {
       obj[key] = styles[key]?.value ? styles[key]?.value : styles[key];
@@ -1098,9 +1102,7 @@ export function updateNestedForms(
 
 export function copyItems(e, ele) {
   e.stopPropagation();
-  navigator.clipboard.writeText(
-    JSON.stringify(ele.type == "container" ? ele.content : ele)
-  );
+  navigator.clipboard.writeText(JSON.stringify(ele));
 }
 
 function containerData(json) {
@@ -1127,17 +1129,17 @@ export function pasteItems(e, ele, forms, setForms, breakPoint) {
     try {
       const json = JSON.parse(data);
       const { id, ...newJsonData } = json;
+      const jsonObj = { ...newJsonData, id: generateId(4), isContainer: true };
       const updateData = forms[breakPoint]?.map((el, i) => {
         if (ele?.id === el?.id && el?.type === "container") {
           return {
             ...el,
             content:
-              json.length > 1
-                ? [...el?.content, ...containerData(json)]
-                : [
-                    ...el?.content,
-                    { ...newJsonData, id: generateId(4), isContainer: true },
-                  ],
+              newJsonData.type == "container"
+                ? [...el?.content, ...containerData(newJsonData?.content)]
+                : newJsonData.length > 1
+                ? [...el?.content, ...containerData(newJsonData)]
+                : [...el?.content, jsonObj],
           };
         }
         return el;
