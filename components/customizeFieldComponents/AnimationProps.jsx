@@ -27,6 +27,7 @@ const AnimationProps = ({ onCustomizeElement, currentField }) => {
               isClearable
               placeholder={"Select animations"}
               options={animationList}
+              menuPlacement="top"
               value={currentField?.props?.animation || ""}
               onChange={(e) => {
                 onCustomizeElement(e, "animation", "select", forms);
@@ -40,6 +41,7 @@ const AnimationProps = ({ onCustomizeElement, currentField }) => {
             <Select
               isClearable
               placeholder={"Select seconds"}
+              menuPlacement="top"
               options={animationDelayOptions}
               value={currentField?.props?.animation_delay || ""}
               onChange={(e) => {

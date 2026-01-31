@@ -293,6 +293,7 @@ function AddMenuContent() {
                           placeholder={"Select page link"}
                           options={pagesList}
                           value={el?.menuLink || ""}
+                          menuPlacement="top"
                           getOptionLabel={(e) => e.page_name}
                           getOptionValue={(e) => e.page_route}
                           onChange={(data) => {

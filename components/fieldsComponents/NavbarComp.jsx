@@ -136,14 +136,14 @@ const NavbarComp = () => {
                   >
                     {el?.icon && (
                       <>
-                        <IconComponent icon={el?.icon} size={17} />
+                        <IconComponent icon={el?.icon} />
                         &nbsp;&nbsp;
                       </>
                     )}
                     <span>{el?.text}</span>
 
                     <div className="arrow-icon">
-                      <IoIosArrowDown size={20.5} />
+                      <IoIosArrowDown size={18} />
                     </div>
                   </a>
                 ) : (
@@ -161,7 +161,7 @@ const NavbarComp = () => {
                     {" "}
                     {el?.icon && (
                       <>
-                        <IconComponent icon={el?.icon} size={17} />
+                        <IconComponent icon={el?.icon} />
                         &nbsp;&nbsp;
                       </>
                     )}
