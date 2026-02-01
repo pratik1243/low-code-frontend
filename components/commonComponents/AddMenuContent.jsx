@@ -246,7 +246,7 @@ function AddMenuContent() {
           {menuList?.length == 0 ? (
             <tbody>
               <tr>
-                <td colSpan={3} className="text-center">
+                <td colSpan={4} className="text-center">
                   <div className="py-3">
                     <Image
                       src={emptyImg}
