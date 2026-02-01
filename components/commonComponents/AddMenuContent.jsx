@@ -145,6 +145,7 @@ function AddMenuContent() {
             {
               text: "",
               menuLink: "",
+              size: "",
               icon: "",
             },
           ],
@@ -169,6 +170,7 @@ function AddMenuContent() {
               text: "",
               menuLink: "",
               icon: "",
+              size: "",
               subMenus: [],
             },
           ],
@@ -236,7 +238,8 @@ function AddMenuContent() {
           <thead>
             <tr>
               <th>Menu Label</th>
-              <th>Menu Link</th>
+              <th>Icon Size</th>
+              <th>Page Link</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -287,10 +290,24 @@ function AddMenuContent() {
                       </div>
                     </td>
                     <td>
+                      <div className="option-input d-flex align-items-center m-2">
+                        <input
+                          type={"number"}
+                          className="customize-input size mb-0"
+                          placeholder="Enter size"
+                          max={40}                          
+                          value={el?.size || ""}
+                          onChange={(e) => {
+                            onMenuItemsChange(e.target.value, "size", i);
+                          }}
+                        />
+                      </div>
+                    </td>
+                    <td>
                       <div className="option-input m-2">
                         <Select
                           isClearable
-                          placeholder={"Select page link"}
+                          placeholder={"Select page"}
                           options={pagesList}
                           value={el?.menuLink || ""}
                           menuPlacement="top"

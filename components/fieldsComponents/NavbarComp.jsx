@@ -136,7 +136,7 @@ const NavbarComp = () => {
                   >
                     {el?.icon && (
                       <>
-                        <IconComponent icon={el?.icon} />
+                        <IconComponent size={el?.size} icon={el?.icon} />
                         &nbsp;&nbsp;
                       </>
                     )}
@@ -161,7 +161,7 @@ const NavbarComp = () => {
                     {" "}
                     {el?.icon && (
                       <>
-                        <IconComponent icon={el?.icon} />
+                        <IconComponent size={el?.size} icon={el?.icon} />
                         &nbsp;&nbsp;
                       </>
                     )}
