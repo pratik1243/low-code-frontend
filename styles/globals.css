@@ -1713,7 +1713,7 @@ hr {
   position: absolute;
   transition: ease-in-out 0.5s;
   border-radius: 4px;
-  width: 130px;
+  /* width: 130px; */
   top: 25px;
   z-index: 1600;
   right: 0px;
