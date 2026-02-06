@@ -1,11 +1,10 @@
 import React from 'react'
-import dynamic from "next/dynamic";
-const WebPage = dynamic(() => import("../../../../components/WebPage"));
+import nextDynamic from "next/dynamic";
+export const dynamic = "force-dynamic";
+const WebPage = nextDynamic(() => import("../../../../components/WebPage"));
 
 const PageRender = () => {
-  return (
-    <WebPage />
-  )
+  return <WebPage />;
 }
 
-export default PageRender
+export default PageRender;

@@ -71,7 +71,9 @@ const FormCreate = () => {
   const [menuIndex, setMenuIndex] = useState(null);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const token = useSelector((user) => user.auth.authDetails.token);
-  const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
+  const requestUserId = useSelector(
+    (user) => user.auth.authDetails.request_user_id
+  );
   const pageData = useSelector((user) => user.pageCreate.pageCreateDetails);
 
   function dataPayload(data) {
@@ -192,7 +194,9 @@ const FormCreate = () => {
         let data = response?.data?.responseData;
         for (let index = 0; index < data?.length; index++) {
           page_list.push({
-            page_route: data[index]?.page_route ? `/web-page/${data[index]?.page_route}` : null,
+            page_route: data[index]?.page_route
+              ? `/web-page/${data[index]?.page_route}`
+              : null,
             page_name: data[index]?.page_name,
             page_item: data[index]?.page_item,
             page_data: data[index]?.page_data?.screenSize,
@@ -263,18 +267,13 @@ const FormCreate = () => {
           setIsSubMenuOpen,
           setNavbarProps,
           setShowCurrentElement,
-          elementContainerRef
+          elementContainerRef,
         }}
       >
         <Row>
           <Col lg={12} md={12} sm={12} xs={12} className="mb-3">
             <Row className="align-items-center">
-              <Col
-                lg={4}
-                md={4}
-                sm={12}
-                xs={12}
-              >
+              <Col lg={4} md={4} sm={12} xs={12}>
                 <h4>{pageData?.page_name || data?.page_name}</h4>
               </Col>
               <Col lg={1} md={1} sm={12} xs={12}>
@@ -304,7 +303,9 @@ const FormCreate = () => {
                     className="web-settings-btn"
                     disabled={pageData?.page_item || data?.page_item}
                     onClick={() => {
-                      setOpenSettingModel(true);
+                      if (!pageData?.page_item || !data?.page_item) {
+                        setOpenSettingModel(true);
+                      }
                     }}
                   >
                     <IoSettingsOutline size={18} /> Settings
@@ -313,7 +314,11 @@ const FormCreate = () => {
                     role={"button"}
                     disabled={pageData?.page_item || data?.page_item}
                     className="web-settings-btn"
-                    href={`/web-page/${data?.page_route}`}
+                    href={
+                      !pageData?.page_item || !data?.page_item
+                        ? `/web-page/${data?.page_route}`
+                        : ""
+                    }
                     target={"_blank"}
                   >
                     <RiExternalLinkLine size={18} /> Preview
