@@ -6,9 +6,6 @@ export async function POST(request) {
   try {
     const authHeader = request.headers.get("authorization");
     const token = authHeader?.split(" ")?.[1];
-    if (!token) {
-      return Response.json({ message: "No token provided" }, { status: 401 });
-    }
     let response;
     const contentType = request.headers.get("content-type");
     if (contentType?.includes("multipart/form-data")) {       
@@ -25,7 +22,7 @@ export async function POST(request) {
       response = await axios.post(`${API_BASE_URL}/upload-image`, form, {
         headers: {
           ...form.getHeaders(),
-          Authorization: `Bearer ${token}`,
+          ...(token && { "Authorization": `Bearer ${token}` })
         },
       });
     } else {
@@ -35,7 +32,7 @@ export async function POST(request) {
       response = await axios.post(`${API_BASE_URL}/${endPointKey}`, payload, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            ...(token && { "Authorization": `Bearer ${token}` })
           },
         }
       );

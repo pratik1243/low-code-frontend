@@ -47,6 +47,7 @@ const FormCreate = () => {
   const [openSettingModel, setOpenSettingModel] = useState(false);
   const [showCurrentElement, setShowCurrentElement] = useState(false);
   const [openImageModel, setOpenImageModel] = useState(false);
+  const [openEmailSendBox, setOpenEmailSendBox] = useState(false);
   const [showIconBox, setShowIconBox] = useState(false);
   const [navbarProps, setNavbarProps] = useState({
     hidden: false,
@@ -70,9 +71,7 @@ const FormCreate = () => {
   const [menuIndex, setMenuIndex] = useState(null);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const token = useSelector((user) => user.auth.authDetails.token);
-  const requestUserId = useSelector(
-    (user) => user.auth.authDetails.request_user_id
-  );
+  const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
   const pageData = useSelector((user) => user.pageCreate.pageCreateDetails);
 
   function dataPayload(data) {
@@ -267,6 +266,8 @@ const FormCreate = () => {
           setNavbarProps,
           setShowCurrentElement,
           elementContainerRef,
+          openEmailSendBox, 
+          setOpenEmailSendBox
         }}
       >
         <Row>

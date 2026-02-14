@@ -1,5 +1,4 @@
 "use client";
-import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -10,11 +9,11 @@ import { setAuthDetails } from "../redux/slices/authSlice";
 import { Button, Col, Row } from "react-bootstrap";
 import { formAction, LoginSchema, snackProps } from "../utils/utilFunctions";
 import InputField from "./commonComponents/InputField";
-import { API_BASE_URL } from "../services/endpoints";
 import loginBg from "../public/login-bg-img.png";
 import { MdLockOutline } from "react-icons/md";
 import { FiMail } from "react-icons/fi";
 import { toast } from "react-toastify";
+import { commonPostApiFunction } from "../services/commonApiFunc";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -24,9 +23,11 @@ const Login = () => {
 
   const loginUser = async (data) => {
     try {
-      dispatch(setLoader(true));
-      const response = await axios.post(`${API_BASE_URL}/login`, data);
-      dispatch(setLoader(false));
+      const requestData = {
+        key: "cgdretl",
+        payload: data,
+      };
+      const response = await commonPostApiFunction(requestData);
       if (response.status == 200) {
         router.push("/page-list");
         dispatch(
@@ -36,7 +37,7 @@ const Login = () => {
             user_name: response?.data?.responseData?.user_name,
           })
         );
-        toast.success(response?.data?.message, snackProps);        
+        toast.success(response?.data?.message, snackProps);
       } else {
         dispatch(setLoader(false));
         toast.error(response?.data?.message, snackProps);

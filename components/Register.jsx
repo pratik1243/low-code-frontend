@@ -9,39 +9,39 @@ import {
 } from "../utils/utilFunctions";
 import { setLoader } from "../redux/slices/loaderSlice";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import { Button, Col, Row } from "react-bootstrap";
 import Link from "next/link";
 import Image from "next/image";
 import loginBg from "../public/login-bg-img.png";
 import InputField from "./commonComponents/InputField";
-import { API_BASE_URL } from "../services/endpoints";
 import { MdLockOutline } from "react-icons/md";
 import { FiMail } from "react-icons/fi";
 import { FaRegUserCircle } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { commonPostApiFunction } from "../services/commonApiFunc";
 
 const Register = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const [registerDetails, setRegisterDetails] = useState(
-    RegisterSchema.fields.values
-  );
+  const [registerDetails, setRegisterDetails] = useState(RegisterSchema.fields.values);
   const [errors, setErrors] = useState(RegisterSchema.fields);
 
   const registerUser = async (data) => {
     try {
       dispatch(setLoader(true));
       const requestData = {
-        ...data,
-        request_user_id: generateId(10),
+        key: "arqewtv",
+        payload: {
+          ...data,
+          request_user_id: generateId(10),
+        },
       };
-      const response = await axios.post(`${API_BASE_URL}/register`, requestData);
+      const response = await commonPostApiFunction(requestData);
       dispatch(setLoader(false));
       if (response.status == 200) {
         if (response?.data?.message == "User email and password already exists") {
           dispatch(setLoader(false));
-          toast.error(response?.data?.message, snackProps);
+          toast.error("User email and password already exists", snackProps);
         } else {
           router.push("/login");
           toast.success(response?.data?.message, snackProps);

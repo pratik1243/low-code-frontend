@@ -4,15 +4,22 @@ import Button from "react-bootstrap/Button";
 import { FormContext } from "../FormCreate";
 import { PageContext } from "../WebPage";
 import { useContext } from "react";
-import { addPixel, errorMessageFunc } from "../../utils/utilFunctions";
+import {
+  addPixel,
+  errorMessageFunc,
+  snackProps,
+} from "../../utils/utilFunctions";
 import IconComponent from "../commonComponents/IconComponent";
+import { toast } from "react-toastify";
+import { setLoader } from "../../redux/slices/loaderSlice";
+import { useDispatch } from "react-redux";
+import { commonPostApiFunction } from "../../services/commonApiFunc";
 
 const ButtonComp = ({ ele, path }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const isWebPage = path.includes("web-page");
-  const { forms, setForms, breakPoint } = useContext(
-    isWebPage ? PageContext : FormContext
-  );
+  const { forms, setForms, breakPoint } = useContext(isWebPage ? PageContext : FormContext);
   const fieldArray = ele?.props?.fields.map((el) => el?.value);
 
   const getFieldValue = (data) => {
@@ -23,6 +30,32 @@ const ButtonComp = ({ ele, path }) => {
       : data?.props?.value;
   };
 
+  const sendEmailNotification = async () => {
+    try {
+      dispatch(setLoader(true));
+      const requestData = {
+        key: "zsaqrtuo",
+        payload: {
+          from_email: `"${ele?.props?.emailSendProps?.title}" <${ele?.props?.emailSendProps?.sender_email}>`,
+          to_email: ele?.props?.emailSendProps?.receiver_email,
+          subject: ele?.props?.emailSendProps?.subject,
+          text: ele?.props?.emailSendProps?.content,
+        },
+      };
+      const response = await commonPostApiFunction(requestData);
+      dispatch(setLoader(false));
+      if (response.status == 200) {
+        toast.success(response?.data?.message, snackProps);
+      } else {
+        dispatch(setLoader(false));
+        toast.error(response?.data?.message, snackProps);
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      toast.error("Something Went Wrong!", snackProps);
+    }
+  };
+
   const events = () => {
     let isFieldsInvalid = false;
     const formData = {};
@@ -31,22 +64,14 @@ const ButtonComp = ({ ele, path }) => {
       const nestedForm = el?.content?.map((eles, id) => {
         if (fieldArray.includes(eles?.props?.name)) {
           formData[eles?.props?.name] = getFieldValue(eles);
-          if (
-            errorMessageFunc(
-              eles,
-              eles?.props?.checked || eles?.props?.value
-            ) !== ""
-          ) {
+          if (errorMessageFunc(eles, eles?.props?.checked || eles?.props?.value) !== "") {
             isFieldsInvalid = true;
           }
           return {
             ...eles,
             form: {
               ...eles?.form,
-              error_message: errorMessageFunc(
-                eles,
-                eles?.props?.checked || eles?.props?.value
-              ),
+              error_message: errorMessageFunc(eles, eles?.props?.checked || eles?.props?.value),
             },
           };
         }
@@ -58,19 +83,14 @@ const ButtonComp = ({ ele, path }) => {
       } else {
         if (fieldArray.includes(el?.props?.name)) {
           formData[el?.props?.name] = getFieldValue(el);
-          if (
-            errorMessageFunc(el, el?.props?.checked || el?.props?.value) !== ""
-          ) {
+          if (errorMessageFunc(el, el?.props?.checked || el?.props?.value) !== "") {
             isFieldsInvalid = true;
           }
           return {
             ...el,
             form: {
               ...el?.form,
-              error_message: errorMessageFunc(
-                el,
-                el?.props?.checked || el?.props?.value
-              ),
+              error_message: errorMessageFunc(el, el?.props?.checked || el?.props?.value),
             },
           };
         }
@@ -86,9 +106,10 @@ const ButtonComp = ({ ele, path }) => {
       setForms({ ...forms, [breakPoint]: validateForms });
     }
     if (!isFieldsInvalid) {
-      console.log("hjjhh0", formData);
+      sendEmailNotification();
     }
   };
+  
   return (
     <Button
       variant={"primary"}

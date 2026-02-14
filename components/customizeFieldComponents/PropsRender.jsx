@@ -28,11 +28,18 @@ import SliderProps from "./SliderProps";
 import SpacingProps from "./SpacingProps";
 import TextProps from "./TextProps";
 import ColorPicker from "react-best-gradient-color-picker";
+import EmailSendBox from "../commonComponents/EmailSendBox";
 
 const PropsRender = ({ open }) => {
-  const { forms, setForms, currentElement, breakPoint, containerIndex } =
-    useContext(FormContext);
-
+  const {
+    forms,
+    setForms,
+    currentElement,
+    breakPoint,
+    containerIndex,
+    openEmailSendBox,
+    setOpenEmailSendBox,
+  } = useContext(FormContext);
   const [gradientShow, setGradientShow] = useState(false);
 
   const onCustomizeElement = (
@@ -196,6 +203,11 @@ const PropsRender = ({ open }) => {
           goBack={() => {
             handleShow(false);
           }}
+        />
+      ) : openEmailSendBox ? (
+        <EmailSendBox
+          currentField={currentField}
+          onCustomizeElement={onCustomizeElement}
         />
       ) : (
         <>
@@ -503,14 +515,27 @@ const PropsRender = ({ open }) => {
                 )}
 
                 {["button", "icon"].includes(currentField?.type) && (
-                  <Col lg={6} md={6} sm={12} xs={12}>
+                  <Col lg={2} md={2} sm={12} xs={12}>
                     <Button
-                      className={`add-icon-btn mt-2`}
+                      className={`add-icon-btn mt-2 mb-3`}
                       onClick={() => {
                         handleShow1(true);
                       }}
                     >
                       Add Icon
+                    </Button>
+                  </Col>
+                )}
+
+                {currentField?.type == "button" && (
+                  <Col lg={6} md={6} sm={12} xs={12}>
+                    <Button
+                      className={`add-icon-btn mt-2  mb-3`}
+                      onClick={() => {
+                        setOpenEmailSendBox(true);
+                      }}
+                    >
+                      Set Email Notification
                     </Button>
                   </Col>
                 )}

@@ -37,14 +37,7 @@ const AddImages = () => {
     }
   };
 
-  const onCustomizeElement = (
-    e,
-    attribute,
-    type,
-    forms,
-    style = null,
-    optionIndex = null
-  ) => {
+  const onCustomizeElement = (e, attribute, type, forms, style = null, optionIndex = null) => {
     const value = {
       select: e || "",
       input: e?.target?.value,
@@ -61,14 +54,7 @@ const AddImages = () => {
     };
     setForms({
       ...forms,
-      [breakPoint]: nestedStructure(
-        customizeFieldObj,
-        forms,
-        currentElement,
-        updateforms,
-        "customizeField",
-        breakPoint
-      ),
+      [breakPoint]: nestedStructure(customizeFieldObj, forms, currentElement, updateforms, "customizeField", breakPoint),
     });
   };
 

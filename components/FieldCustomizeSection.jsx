@@ -1,6 +1,6 @@
 "use client";
 import React, { useContext, useState } from "react";
-import { Modal, Offcanvas } from "react-bootstrap";
+import { Offcanvas } from "react-bootstrap";
 import { FormContext } from "./FormCreate";
 import PropsRender from "./customizeFieldComponents/PropsRender";
 import AddImages from "./commonComponents/AddImages";

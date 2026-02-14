@@ -106,6 +106,13 @@ export const fieldsData = [
       style: {},
       animation: "",
       fields: [],
+      emailSendProps: {
+        receiver_email: "",
+        sender_email: "",
+        title: "",
+        subject: "",
+        content: "",
+      },
       animation_delay: "",
     },
   },
@@ -658,7 +665,7 @@ export const menuAnimationOptions = [
 export const menuAlignmenOptions = [
   { label: "Center", value: "Center" },
   { label: "Right", value: "Right" },
-  { label: "Left", value: "Left" }
+  { label: "Left", value: "Left" },
 ];
 
 export const fontWeightOptions = [

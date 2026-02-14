@@ -10,6 +10,7 @@ export const endPointsUrl = {
   arqewtv: "/register",
   aeqwxfrt: "/get-icons",
   nfraterm: "/get-images",
+  zsaqrtuo: "/send-email",
   qsdervbg: "/get-fonts"
 };
 

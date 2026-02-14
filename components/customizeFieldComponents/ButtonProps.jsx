@@ -5,8 +5,12 @@ import { FormContext } from "../FormCreate";
 import Select from "react-select";
 
 const ButtonProps = ({ onCustomizeElement, currentField }) => {
-  const { forms, pagesList, breakPoint, showCurrentElement } =
-    useContext(FormContext);
+  const {
+    forms,
+    pagesList,
+    breakPoint,
+    showCurrentElement    
+  } = useContext(FormContext);
 
   const getFields = (element) => {
     let fields = [];
@@ -178,7 +182,11 @@ const ButtonProps = ({ onCustomizeElement, currentField }) => {
       )}
 
       <Col lg={6} md={6} sm={12} xs={12}>
-        <div className={`customize-checkbox ${currentField?.props?.isLink ? "mt-4" : "mt-5"}`}>
+        <div
+          className={`customize-checkbox ${
+            currentField?.props?.isLink ? "mt-4" : "mt-5"
+          }`}
+        >
           <div className="d-flex">
             <input
               type="checkbox"
@@ -318,7 +326,7 @@ const ButtonProps = ({ onCustomizeElement, currentField }) => {
             />
           </div>
         </Col>
-      )}
+      )}      
     </>
   );
 };
