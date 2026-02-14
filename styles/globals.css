@@ -1755,6 +1755,10 @@ hr {
   font-size: 21px;
 }
 
+.nav-logo {
+  margin-right: 30px !important;
+}
+
 .icon-pl {
   padding-left: 11px;
 }

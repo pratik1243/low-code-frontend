@@ -84,7 +84,7 @@ const NavbarComp = () => {
       }}
     >
       {navbarProps?.logo?.logoUrl && (
-        <div>
+        <div className="nav-logo">
           <Image
             src={`${API_BASE_URL}/image/${navbarProps?.logo?.logoUrl}`}
             width={navbarProps?.logo?.width || 100}
