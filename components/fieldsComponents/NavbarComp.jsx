@@ -84,7 +84,7 @@ const NavbarComp = () => {
       }}
     >
       {navbarProps?.logo?.logoUrl && (
-        <div style={{ width: `${navbarProps?.logo?.columnWidth}%` }}>
+        <div>
           <Image
             src={`${API_BASE_URL}/image/${navbarProps?.logo?.logoUrl}`}
             width={navbarProps?.logo?.width || 100}
@@ -95,7 +95,19 @@ const NavbarComp = () => {
       )}
       <div
         className="d-flex align-items-center"
-        style={{ width: `${navbarProps?.menus?.columnWidth}%` }}
+        style={{
+          ...(navbarProps?.menus?.alignment?.value === "Center"
+            ? {
+                margin: "auto",
+              }
+            : navbarProps?.menus?.alignment?.value === "Left"
+            ? {
+                marginRight: "auto",
+              }
+            : {
+                marginLeft: "auto",
+              }),
+        }}
       >
         {navbarProps?.menus?.menuList?.length > 0 &&
           navbarProps?.menus?.menuList?.map((el, i) => {
@@ -172,8 +184,13 @@ const NavbarComp = () => {
                 {el?.subMenus?.length > 0 && (
                   <>
                     {menuIndex === i && renderSubMenu(el)}
-                    {!menuIndex && navbarProps?.menus?.menuDropdownAnimation?.value == "Collapse" && renderSubMenu(el)}
-                    {!menuIndex && !navbarProps?.menus?.menuDropdownAnimation?.value && renderSubMenu(el)}
+                    {!menuIndex &&
+                      navbarProps?.menus?.menuDropdownAnimation?.value ==
+                        "Collapse" &&
+                      renderSubMenu(el)}
+                    {!menuIndex &&
+                      !navbarProps?.menus?.menuDropdownAnimation?.value &&
+                      renderSubMenu(el)}
                   </>
                 )}
               </div>

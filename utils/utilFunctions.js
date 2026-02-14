@@ -655,6 +655,12 @@ export const menuAnimationOptions = [
   { label: "Collapse", value: "Collapse" },
 ];
 
+export const menuAlignmenOptions = [
+  { label: "Center", value: "Center" },
+  { label: "Right", value: "Right" },
+  { label: "Left", value: "Left" }
+];
+
 export const fontWeightOptions = [
   { label: "100", value: "100" },
   { label: "200", value: "200" },

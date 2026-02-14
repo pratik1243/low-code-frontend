@@ -53,14 +53,13 @@ const FormCreate = () => {
     navBackgroundColor: "",
     menuTemplate: "",
     logo: {
-      columnWidth: 50,
       width: "",
       height: "",
       logoUrl: "",
     },
     menus: {
       menuList: [],
-      columnWidth: 50,
+      alignment: "",
       menuColor: "",
       subMenuColor: "",
       menuDropdownColor: "",

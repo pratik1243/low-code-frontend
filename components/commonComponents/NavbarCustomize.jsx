@@ -15,12 +15,14 @@ import {
   menuTemplateList,
   menuAnimationOptions,
   snackProps,
+  menuAlignmenOptions,
 } from "../../utils/utilFunctions";
 import { toast } from "react-toastify";
 
 function NavbarCustomize() {
   const dispatch = useDispatch();
-  const { navbarProps, setNavbarProps, setNavSettings } = useContext(FormContext);
+  const { navbarProps, setNavbarProps, setNavSettings } =
+    useContext(FormContext);
   const token = useSelector((user) => user.auth.authDetails.token);
 
   const uploadImage = async (e) => {
@@ -40,7 +42,7 @@ function NavbarCustomize() {
         setNavbarProps({
           ...navbarProps,
           logo: { ...navbarProps.logo, logoUrl: response?.data?.id },
-        });       
+        });
         toast.success(response?.data?.message, snackProps);
       } else {
         toast.error(response?.data?.message, snackProps);
@@ -57,16 +59,16 @@ function NavbarCustomize() {
     });
   };
 
-  const setColumnWidth = (e) => {
-    const { name, value } = e.target;
-    setNavbarProps({
-      ...navbarProps,
-      [name]: {
-        ...navbarProps[name],
-        columnWidth: value,
-      },
-    });
-  };
+  // const setColumnWidth = (e) => {
+  //   const { name, value } = e.target;
+  //   setNavbarProps({
+  //     ...navbarProps,
+  //     [name]: {
+  //       ...navbarProps[name],
+  //       columnWidth: value,
+  //     },
+  //   });
+  // };
 
   const setLogoSize = (e) => {
     const { name, value } = e.target;
@@ -94,7 +96,7 @@ function NavbarCustomize() {
             <IoMdArrowBack size={18} /> &nbsp;&nbsp;Back
           </Button>
         </div>
-        <div className="mb-5 px-2">
+        <div className="mb-4 px-2">
           <label className="mb-2">Upload Logo</label>
           {navbarProps?.logo?.logoUrl ? (
             <div className="nav-logo-upload-sec">
@@ -137,7 +139,7 @@ function NavbarCustomize() {
           )}
           <hr className="mt-5" />
         </div>
-        <Container className="mb-4">
+        <Container className="mb-2">
           <Row>
             <Col lg={12} md={12} sm={12} xs={12}>
               <div className="customize-checkbox mb-4">
@@ -157,7 +159,7 @@ function NavbarCustomize() {
                 </div>
               </div>
             </Col>
-            <Col lg={6} md={6} sm={12} xs={12}>
+            {/* <Col lg={6} md={6} sm={12} xs={12}>
               <label className="mb-2">
                 Logo Column Width ({navbarProps?.logo?.columnWidth || ""}%)
               </label>
@@ -188,7 +190,7 @@ function NavbarCustomize() {
                   setColumnWidth(e);
                 }}
               />
-            </Col>
+            </Col> */}            
           </Row>
         </Container>
 
@@ -260,6 +262,27 @@ function NavbarCustomize() {
                       menus: {
                         ...navbarProps.menus,
                         menuDropdownAnimation: e,
+                      },
+                    });
+                  }}
+                />
+              </div>
+            </Col>
+
+            <Col lg={6} md={6} sm={12} xs={12}>
+              <div className="customize-prop-sec mt-4">
+                <label className="mb-2">Menus Alignment</label>
+                <Select
+                  isClearable
+                  placeholder={"Select alignment"}
+                  options={menuAlignmenOptions}
+                  value={navbarProps?.menus?.alignment || ""}
+                  onChange={(e) => {
+                    setNavbarProps({
+                      ...navbarProps,
+                      menus: {
+                        ...navbarProps.menus,
+                        alignment: e,
                       },
                     });
                   }}
