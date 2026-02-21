@@ -12,7 +12,8 @@ const FieldCustomizeSection = () => {
     showCurrentElement,
     setShowCurrentElement,
     openImageModel,
-    setOpenImageModel
+    setOpenImageModel,
+    openEmailSendBox,
   } = useContext(FormContext);
 
   const [show, setShow] = useState(false);
@@ -40,6 +41,8 @@ const FieldCustomizeSection = () => {
                   ? "Add Icons"
                   : openImageModel
                   ? "Add Images"
+                  : openEmailSendBox
+                  ? "Email Notifications"
                   : "Customize Element"
               }`
             : ""}

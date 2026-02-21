@@ -291,6 +291,76 @@ export const fieldsData = [
   },
 ];
 
+export const emailComponentData = [
+  {
+    label: "Heading",
+    type: "heading",
+    props: {
+      text: "",
+      color: "",
+      fontSize: "",
+      fontWeight: "",
+    },
+  },
+  {
+    label: "Paragraph",
+    type: "paragraph",
+    props: {
+      text: "",
+      color: "",
+      fontSize: "",
+      fontWeight: "",
+    },
+  },
+  {
+    label: "Button",
+    type: "button",
+    props: {
+      text: "",
+      color: "",
+      backgroundColor: "",
+      fontSize: "",
+      fontWeight: "",
+      url: "",
+    },
+  },
+  {
+    label: "Link",
+    type: "link",
+    props: {
+      text: "",
+      color: "",
+      fontSize: "",
+      fontWeight: "",
+      url: "",
+    },
+  }, 
+  {
+    label: "Footer",
+    type: "footer",
+    props: {
+      text: "",
+      color: "",
+      backgroundColor: "",
+    },
+  },
+  {
+    label: "Image",
+    type: "image",
+    props: {
+      imageUrl: "",
+      url: "",
+      height: "",
+      width: "",
+    },
+  },
+];
+
+export function emailStyles(data) {
+  const { text, url, imageUrl, ...styles } = data;
+  return styles;
+}
+
 export const snackProps = {
   position: "bottom-right",
   autoClose: 3000,

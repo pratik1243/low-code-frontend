@@ -3,10 +3,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { FormContext } from "../FormCreate";
 import { IoMdArrowBack } from "react-icons/io";
+import Select from "react-select";
 
 function EmailSendBox({ onCustomizeElement, currentField }) {
-
-  const { forms, setOpenEmailSendBox } = useContext(FormContext);
+  
+  const { forms, setOpenEmailSendBox, templateList } = useContext(FormContext);
   const [emailSendProps, setEmailSendProps] = useState({
     receiver_email: "",
     sender_email: "",
@@ -97,13 +98,20 @@ function EmailSendBox({ onCustomizeElement, currentField }) {
 
         <Col lg={12} md={12} sm={12} xs={12}>
           <div className="customize-prop-sec mt-2">
-            <label className="mb-2 fs-6">Content</label>
-            <textarea
+            <label className="mb-2 fs-6">Email Template</label>
+            <Select
+              placeholder={"Select template"}
+              isClearable
+              options={templateList}
+              getOptionLabel={(e) => e.template_name}
+              getOptionValue={(e) => e.htmlContent}
               value={emailSendProps?.content || ""}
-              name="content"
-              className="customize-input"
-              placeholder="Enter content"
-              onChange={onChange}
+              onChange={(data) => {
+                setEmailSendProps({
+                  ...emailSendProps,
+                  content: data,
+                });
+              }}
             />
           </div>
         </Col>

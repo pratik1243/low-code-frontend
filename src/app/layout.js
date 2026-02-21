@@ -6,9 +6,9 @@ import "../../styles/globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import { Providers } from "../../redux/provider/Providers";
-import { Nunito } from "next/font/google";
+import { Nunito_Sans } from "next/font/google";
 
-const nunito = Nunito({
+const nunito = Nunito_Sans({
   weight: "500",
   subsets: ["cyrillic"],
 });

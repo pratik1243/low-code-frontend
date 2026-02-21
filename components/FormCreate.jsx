@@ -43,6 +43,7 @@ const FormCreate = () => {
   const [containerIndex, setContainerIndex] = useState();
   const [breakPoint, setBreakPoint] = useState("lg");
   const [pagesList, setPagesList] = useState([]);
+  const [templateList, setTemplateList] = useState([]);
   const [fontModal, setFontModal] = useState(false);
   const [openSettingModel, setOpenSettingModel] = useState(false);
   const [showCurrentElement, setShowCurrentElement] = useState(false);
@@ -71,7 +72,9 @@ const FormCreate = () => {
   const [menuIndex, setMenuIndex] = useState(null);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const token = useSelector((user) => user.auth.authDetails.token);
-  const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
+  const requestUserId = useSelector(
+    (user) => user.auth.authDetails.request_user_id
+  );
   const pageData = useSelector((user) => user.pageCreate.pageCreateDetails);
 
   function dataPayload(data) {
@@ -211,6 +214,34 @@ const FormCreate = () => {
     }
   };
 
+  const fetchTemplateList = async () => {
+    try {
+      dispatch(setLoader(true));
+      const requestData = {
+        key: "uawriocb",
+        payload: { request_user_id: requestUserId },
+      };
+      const response = await commonPostApiFunction(requestData, token);
+      dispatch(setLoader(false));
+      if (response.status == 200) {
+        let template_list = [];
+        let data = response?.data?.responseData;
+        for (let index = 0; index < data?.length; index++) {
+          template_list.push({
+            template_name: data[index]?.template_name,
+            htmlContent: data[index]?.template_data?.htmlStr,
+          });
+        }
+        setTemplateList(template_list);
+      } else {
+        setTemplateList([]);
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      setTemplateList([]);
+    }
+  };
+
   useEffect(() => {
     if (params.id !== "create") {
       fetchPage();
@@ -218,6 +249,7 @@ const FormCreate = () => {
       dispatch(setLoader(false));
     }
     fetchPagesList();
+    fetchTemplateList();
   }, []);
 
   return (
@@ -230,6 +262,8 @@ const FormCreate = () => {
           height,
           setHeight,
           pagesList,
+          templateList,
+          setTemplateList,
           containerIndex,
           openSettingModel,
           setOpenSettingModel,
@@ -266,8 +300,8 @@ const FormCreate = () => {
           setNavbarProps,
           setShowCurrentElement,
           elementContainerRef,
-          openEmailSendBox, 
-          setOpenEmailSendBox
+          openEmailSendBox,
+          setOpenEmailSendBox,
         }}
       >
         <Row>

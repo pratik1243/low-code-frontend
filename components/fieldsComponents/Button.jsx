@@ -19,7 +19,9 @@ const ButtonComp = ({ ele, path }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const isWebPage = path.includes("web-page");
-  const { forms, setForms, breakPoint } = useContext(isWebPage ? PageContext : FormContext);
+  const { forms, setForms, breakPoint } = useContext(
+    isWebPage ? PageContext : FormContext
+  );
   const fieldArray = ele?.props?.fields.map((el) => el?.value);
 
   const getFieldValue = (data) => {
@@ -30,16 +32,22 @@ const ButtonComp = ({ ele, path }) => {
       : data?.props?.value;
   };
 
-  const sendEmailNotification = async () => {
+  const sendEmailNotification = async (
+    sender_email,
+    receiver_email,
+    subject,
+    title,
+    content
+  ) => {
     try {
       dispatch(setLoader(true));
       const requestData = {
         key: "zsaqrtuo",
         payload: {
-          from_email: `"${ele?.props?.emailSendProps?.title}" <${ele?.props?.emailSendProps?.sender_email}>`,
-          to_email: ele?.props?.emailSendProps?.receiver_email,
-          subject: ele?.props?.emailSendProps?.subject,
-          text: ele?.props?.emailSendProps?.content,
+          from_email: `"${title}" <${sender_email}>`,
+          to_email: receiver_email,
+          subject: subject,
+          text: content,
         },
       };
       const response = await commonPostApiFunction(requestData);
@@ -58,20 +66,29 @@ const ButtonComp = ({ ele, path }) => {
 
   const events = () => {
     let isFieldsInvalid = false;
+    let mailText = "";
     const formData = {};
 
     const validateForms = forms[breakPoint].map((el, i) => {
       const nestedForm = el?.content?.map((eles, id) => {
         if (fieldArray.includes(eles?.props?.name)) {
           formData[eles?.props?.name] = getFieldValue(eles);
-          if (errorMessageFunc(eles, eles?.props?.checked || eles?.props?.value) !== "") {
+          if (
+            errorMessageFunc(
+              eles,
+              eles?.props?.checked || eles?.props?.value
+            ) !== ""
+          ) {
             isFieldsInvalid = true;
           }
           return {
             ...eles,
             form: {
               ...eles?.form,
-              error_message: errorMessageFunc(eles, eles?.props?.checked || eles?.props?.value),
+              error_message: errorMessageFunc(
+                eles,
+                eles?.props?.checked || eles?.props?.value
+              ),
             },
           };
         }
@@ -83,14 +100,19 @@ const ButtonComp = ({ ele, path }) => {
       } else {
         if (fieldArray.includes(el?.props?.name)) {
           formData[el?.props?.name] = getFieldValue(el);
-          if (errorMessageFunc(el, el?.props?.checked || el?.props?.value) !== "") {
+          if (
+            errorMessageFunc(el, el?.props?.checked || el?.props?.value) !== ""
+          ) {
             isFieldsInvalid = true;
           }
           return {
             ...el,
             form: {
               ...el?.form,
-              error_message: errorMessageFunc(el, el?.props?.checked || el?.props?.value),
+              error_message: errorMessageFunc(
+                el,
+                el?.props?.checked || el?.props?.value
+              ),
             },
           };
         }
@@ -106,10 +128,30 @@ const ButtonComp = ({ ele, path }) => {
       setForms({ ...forms, [breakPoint]: validateForms });
     }
     if (!isFieldsInvalid) {
-      sendEmailNotification();
+      if (
+        ele?.props?.emailSendProps?.sender_email &&
+        ele?.props?.emailSendProps?.receiver_email &&
+        ele?.props?.emailSendProps?.subject
+      ) {
+        const contentArr = ele?.props?.emailSendProps?.content?.htmlContent?.split("{{");
+        contentArr.map((el, i) => {
+          if (el?.includes("}}")) {
+            mailText += `${formData[el?.split("}}")[0]]} ${el?.split("}}")[1] || ""}`;
+          } else {
+            mailText += el;
+          }
+        });
+        sendEmailNotification(
+          ele?.props?.emailSendProps?.sender_email,
+          ele?.props?.emailSendProps?.receiver_email,
+          ele?.props?.emailSendProps?.subject,
+          ele?.props?.emailSendProps?.title,
+          mailText
+        );
+      }
     }
   };
-  
+
   return (
     <Button
       variant={"primary"}

@@ -7,11 +7,14 @@ import { setAuthDetails } from "../redux/slices/authSlice";
 import { setLoader } from "../redux/slices/loaderSlice";
 import { commonPostApiFunction } from "../services/commonApiFunc";
 import { generateId, snackProps } from "../utils/utilFunctions";
-import { MdDeleteOutline } from "react-icons/md";
+import { MdDeleteOutline, MdOutlineMailOutline } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
 import { IoIosAdd } from "react-icons/io";
 import { setPageCreateDetails } from "../redux/slices/pageCreateSlice";
 import { toast } from "react-toastify";
+import { CgWebsite } from "react-icons/cg";
+import { IoSearchSharp } from "react-icons/io5";
+
 
 const PageList = () => {
   const router = useRouter();
@@ -24,7 +27,8 @@ const PageList = () => {
     base_page_link: "",
     page_item: false,
   });
-
+  const [itemType, setItemType] = useState(0);
+  const [templateList, setTemplateList] = useState([]);
   const token = useSelector((user) => user.auth.authDetails.token);
   const requestUserId = useSelector(
     (user) => user.auth.authDetails?.request_user_id
@@ -43,20 +47,28 @@ const PageList = () => {
     try {
       dispatch(setLoader(true));
       const requestData = {
-        key: "kgasderq",
+        key: itemType ? "uawriocb" : "kgasderq",
         payload: { request_user_id: requestUserId },
       };
       const response = await commonPostApiFunction(requestData, token);
       dispatch(setLoader(false));
 
       if (response.status == 200) {
-        setPagesList(response.data.responseData);
+        if (itemType == 1) {
+          setTemplateList(response.data.responseData);
+        } else {
+          setPagesList(response.data.responseData);
+        }
         toast.success(response?.data?.message, snackProps);
       } else {
+        setTemplateList([]);
+        setPagesList([]);
         toast.error(response?.data?.message, snackProps);
       }
     } catch (error) {
       dispatch(setLoader(false));
+      setTemplateList([]);
+      setPagesList([]);
       toast.error("Something Went Wrong!", snackProps);
     }
   };
@@ -102,16 +114,16 @@ const PageList = () => {
 
   useEffect(() => {
     fetchPagesList();
-  }, []);
+  }, [itemType]);
 
   return (
     <div>
       <Container>
         <div className="low-nav-bar">
           <Row>
-            <Col lg={9} md={9} sm={12} xs={12}></Col>
-            <Col lg={3} md={3} sm={12} xs={12}>
-              <div className="d-flex align-items-center ">
+            <Col lg={6} md={6} sm={12} xs={12}></Col>
+            <Col lg={6} md={6} sm={12} xs={12}>
+              <div className="d-flex align-items-center justify-content-end">
                 <Button
                   variant={"primary"}
                   className={"mr-auto add-page-btn"}
@@ -120,6 +132,15 @@ const PageList = () => {
                   }}
                 >
                   <IoIosAdd size={23} /> &nbsp;Add Page
+                </Button>
+                <Button
+                  variant={"primary"}
+                  className={"mr-auto add-page-btn"}
+                  onClick={() => {
+                    router.push("/template/create");
+                  }}
+                >
+                  <IoIosAdd size={23} /> &nbsp;Email Template
                 </Button>
                 <Button
                   variant={"primary"}
@@ -143,34 +164,84 @@ const PageList = () => {
           </Row>
         </div>
         <div className="page-list-sec">
-          <div className="search-input-sec my-5">
-            <input type="text" placeholder="Search page here..." />
+          <div className="items-tab-sec d-flex align-items-center">
+            <button
+              className={itemType == 0 ? "active" : ""}
+              onClick={() => {
+                setItemType(0);
+              }}
+            >
+             <CgWebsite size={20} />&nbsp; Pages
+            </button>
+            <button
+              className={itemType == 1 ? "active" : ""}
+              onClick={() => {
+                setItemType(1);
+              }}
+            >
+              <MdOutlineMailOutline size={21} />&nbsp; Email Templates
+            </button>
           </div>
-          <Row>
-            {pagesList?.map((ele, i) => {
-              return (
-                <Col key={i} lg={4} md={4} sm={12} xs={12}>
-                  <div
-                    key={i}
-                    className="page-section-tab d-flex align-items-center justify-content-between"
-                    onClick={() => {
-                      router.push(`/page/${ele?.page_id}`);
-                    }}
-                  >
-                    {ele?.page_name}
-                    <div role="button" onClick={(e) => deletePage(e, ele?._id)}>
-                      <MdDeleteOutline size={24} color="red" />
+          <div className="search-input-sec mb-5">
+            <input type="text" placeholder={`Search ${itemType == 0 ? 'page' : 'template'} here...`} />
+            <IoSearchSharp size={22} />
+          </div>
+          
+          {itemType == 0 && (
+            <Row>
+              {pagesList?.map((ele, i) => {
+                return (
+                  <Col key={i} lg={4} md={4} sm={12} xs={12}>
+                    <div
+                      key={i}
+                      className="page-section-tab d-flex align-items-center justify-content-between"
+                      onClick={() => {
+                        router.push(`/page/${ele?.page_id}`);
+                      }}
+                    >
+                      {ele?.page_name}
+                      <div
+                        role="button"
+                        onClick={(e) => deletePage(e, ele?._id)}
+                      >
+                        <MdDeleteOutline size={24} color="red" />
+                      </div>
                     </div>
-                  </div>
-                </Col>
-              );
-            })}
-          </Row>
+                  </Col>
+                );
+              })}
+            </Row>
+          )}
+          {itemType == 1 && (
+            <Row>
+              {templateList?.map((ele, i) => {
+                return (
+                  <Col key={i} lg={4} md={4} sm={12} xs={12}>
+                    <div
+                      key={i}
+                      className="page-section-tab d-flex align-items-center justify-content-between"
+                      onClick={() => {
+                        router.push(`/template/${ele?.template_id}`);
+                      }}
+                    >
+                      {ele?.template_name}
+                      <div
+                        role="button"
+                        onClick={(e) => deletePage(e, ele?._id)}
+                      >
+                        <MdDeleteOutline size={24} color="red" />
+                      </div>
+                    </div>
+                  </Col>
+                );
+              })}
+            </Row>
+          )}
         </div>
       </Container>
       <Modal show={show} onHide={handleClose} size={"lg"}>
         <Modal.Header closeButton>
-          <Modal.Title>Create Page {formData.page_item && "Item"}</Modal.Title>
+          <Modal.Title className="fs-5">Create Page {formData.page_item && "Item"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="page-create-sec">
@@ -228,7 +299,7 @@ const PageList = () => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="outline-secondary" onClick={handleClose}>
+          <Button variant="outline-secondary page-cancel-btn" onClick={handleClose}>
             Cancel
           </Button>
           {formData.page_item ? (

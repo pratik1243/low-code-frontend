@@ -176,6 +176,7 @@ input {
   font-size: 15px;
 }
 
+.customize-email-template .customize-prop-sec,
 .field-customize-sec .customize-prop-sec {
   margin-bottom: 20px;
 }
@@ -184,9 +185,11 @@ input {
   padding: 4px 0px !important;
 }
 
+.customize-email-template .customize-prop-sec .customize-input,
 .field-customize-sec .customize-prop-sec .customize-input,
 .modal-dialog-customize .customize-input,
-.setting-box .customize-prop-sec .customize-input {
+.setting-box .customize-prop-sec .customize-input,
+.email-template-create-sec .template-name {
   background-color: var(--white-color);
   width: 100%;
   padding: 11px;
@@ -196,6 +199,7 @@ input {
   transition: ease-in-out 0.5s;
 }
 
+.customize-email-template .customize-prop-sec input[type="text"]:focus,
 .field-customize-sec .customize-prop-sec input[type="text"]:focus,
 .field-customize-sec .customize-prop-sec input[type="number"]:focus,
 .setting-box .customize-prop-sec input[type="text"]:focus,
@@ -516,22 +520,33 @@ input {
 .page-list-sec .page-section-tab {
   background-color: var(--white-color);
   border: 1px solid var(--grey-color);
-  border-radius: 4px;
-  padding: 18px;
-  font-size: 18px;
+  border-radius: 7px;
+  padding: 16px 18px;
+  font-size: 16px;
   cursor: pointer;
   margin-bottom: 25px;
   text-transform: capitalize;
   transition: all 0.5s;
 }
 
+.page-list-sec .search-input-sec {
+  position: relative;
+}
+
 .page-list-sec .search-input-sec input {
   background-color: var(--white-color);
   width: 100%;
   padding: 13px;
-  border-radius: 4px;
+  border-radius: 7px;
   outline: none;
   border: 1px solid var(--grey-color);
+}
+
+.page-list-sec .search-input-sec svg {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  color: #00b2aa;
 }
 
 .page-create-sec label {
@@ -1132,6 +1147,7 @@ hr {
   justify-content: space-around;
   border-radius: 7px;
   padding: 6px 16px !important;
+  font-size: 14px !important;
 }
 
 .login-sec .btn-primary {
@@ -1161,7 +1177,8 @@ hr {
 }
 
 .add-page-btn {
-  margin-right: 30px !important;
+  margin-right: 17px !important;
+  padding-left: 8px !important;
 }
 
 .page-create-btn {
@@ -1353,7 +1370,7 @@ hr {
   right: 0;
   left: 0;
   box-shadow: 0 0 5px 2px #80808042;
-  padding: 14px 17px;
+  padding: 14px 32px;
   background-color: var(--white-color);
   z-index: 1000;
 }
@@ -1364,6 +1381,7 @@ hr {
 .clear-background-btn {
   background-color: #00b2aa !important;
   border-color: #00b2aa !important;
+  font-size: 14px !important;
 }
 
 .go-back-btn {
@@ -2086,8 +2104,14 @@ hr {
   z-index: 1;
 }
 
-.element-input-field:not(.standard-input):has(.selected-country-code):has(input:focus) label,
-.element-input-field:not(.standard-input):has(.selected-country-code):has(input:valid) label {
+.element-input-field:not(.standard-input):has(.selected-country-code):has(
+    input:focus
+  )
+  label,
+.element-input-field:not(.standard-input):has(.selected-country-code):has(
+    input:valid
+  )
+  label {
   border-radius: 3px;
   height: 16px;
   padding: 0 2px !important;
@@ -2101,13 +2125,16 @@ hr {
   top: -14px !important;
 }
 
-.element-input-field:not(.float-label):not(.standard-input):has(input:focus) label,
-.element-input-field:not(.float-label):not(.standard-input):has(input:valid) label {
+.element-input-field:not(.float-label):not(.standard-input):has(input:focus)
+  label,
+.element-input-field:not(.float-label):not(.standard-input):has(input:valid)
+  label {
   height: auto !important;
   padding: 0px !important;
 }
 
-.element-input-field:not(.float-label):not(.standard-input) .selected-country-code {
+.element-input-field:not(.float-label):not(.standard-input)
+  .selected-country-code {
   top: 31px !important;
 }
 
@@ -2124,7 +2151,8 @@ hr {
   border-width: 1.8px !important;
 }
 
-.element-input-field:not(.standard-input):has(.is-border-color) .selected-country-code {
+.element-input-field:not(.standard-input):has(.is-border-color)
+  .selected-country-code {
   top: 1.5px !important;
   left: 1.5px !important;
   bottom: 1.5px !important;
@@ -2140,11 +2168,17 @@ hr {
   font-size: 13px;
 }
 
-.element-input-field:not(.standard-input):has(.selected-country-code.three-len-code) input {
+.element-input-field:not(.standard-input):has(
+    .selected-country-code.three-len-code
+  )
+  input {
   padding-left: 92px !important;
 }
 
-.element-input-field:not(.standard-input):has(.selected-country-code.one-len-code) input {
+.element-input-field:not(.standard-input):has(
+    .selected-country-code.one-len-code
+  )
+  input {
   padding-left: 75px !important;
 }
 
@@ -2160,12 +2194,18 @@ hr {
   padding-left: 78px !important;
 }
 
-.element-input-field:not(.standard-input):has(.selected-country-code.one-len-code) label,
+.element-input-field:not(.standard-input):has(
+    .selected-country-code.one-len-code
+  )
+  label,
 .element-input-field:has(.selected-country-code.three-len-code) label {
   left: 78px !important;
 }
 
-.element-input-field:not(.standard-input):has(.selected-country-code.three-len-code) label {
+.element-input-field:not(.standard-input):has(
+    .selected-country-code.three-len-code
+  )
+  label {
   left: 93px !important;
 }
 
@@ -2216,4 +2256,135 @@ hr {
 
 .setting-box:has(.menu-item-table) {
   width: 800px !important;
+}
+
+.email-content-layout table {
+  width: 100%;
+}
+
+.email-content-layout table tr td p,
+.email-content-layout table tr td h6 {
+  margin-bottom: 0 !important;
+}
+
+.email-content-layout table tr td a {
+  text-decoration: none !important;
+  color: #444141;
+}
+
+.email-content-layout table tr td {
+  padding: 10px;
+  background-color: var(--white-color);
+  border: 1px solid var(--grey-color);
+  box-sizing: border-box;
+  border-radius: 4px;
+  width: 100%;
+  cursor: pointer;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.email-content-layout table tr:last-child td {
+  margin-bottom: 0 !important;
+}
+
+.email-content-layout table tr td,
+.email-content-layout table tr td h6,
+.email-content-layout table tr td p,
+.email-content-layout table tr td span,
+.email-content-layout table tr td a {
+  background-color: #fff !important;
+  color: #000 !important;
+  font-weight: 400 !important;
+}
+
+.email-content-layout table tr.selected td,
+.email-content-layout table tr td.selected {
+  border: 1.6px solid #53c4f7 !important;
+}
+
+.email-content-layout table tr.selected2 td {
+  border: 1.6px solid rgb(247 165 83) !important;
+}
+
+.email-add-btn-sec,
+.customize-email-template,
+.email-content-layout {
+  background-color: #f8f8f8;
+  border: 1px solid var(--grey-color);
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.email-add-btn-sec .field-option {
+  border: 1px solid #cdcbcb;
+  padding: 9px 12px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  background-color: var(--white-color);
+  cursor: pointer;
+  font-size: 14px;
+  width: 100%;
+  color: #444141;
+  text-align: left;
+}
+
+.email-add-btn-sec .field-option:hover,
+.email-add-btn-sec .field-option:active {
+  border: 1px solid #cdcbcb !important;
+  background-color: var(--white-color) !important;
+  box-shadow: none !important;
+  color: #444141 !important;
+}
+
+.email-add-btn-sec .field-option:last-child {
+  margin-bottom: 0px !important;
+}
+
+.customize-email-template .customize-prop-sec .customize-input,
+.email-template-create-sec .template-name {
+  border-radius: 4px !important;
+  padding: 9px 11px !important;
+  transition: none !important;
+}
+
+.email-template-create-sec .publish-btn-sec button {
+  padding: 9px 14px !important;
+}
+
+.items-tab-sec {
+  margin-bottom: 35px;
+}
+
+.items-tab-sec button {
+  justify-content: space-around;
+  align-items: center;
+  background-color: var(--white-color);
+  border: 1px solid #00b2aa;
+  padding: 6px 14px;
+  font-size: 15px;
+  display: flex;
+  outline: none;
+  border-radius: 7px;
+  margin-right: 16px;
+  color: #00b2aa;
+}
+
+.items-tab-sec button.active {
+  background-color: #00b2aa;
+  color: var(--white-color);
+}
+
+.page-cancel-btn {
+  justify-content: space-around;
+  align-items: center;
+  border: 1px solid #00b2aa !important;
+  padding: 6px 16px !important;
+  font-size: 14px !important;
+  display: flex;
+  color: #00b2aa !important;
+}
+
+.page-cancel-btn:hover {
+  background-color: var(--white-color) !important;
 }

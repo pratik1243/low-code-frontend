@@ -11,7 +11,11 @@ export const endPointsUrl = {
   aeqwxfrt: "/get-icons",
   nfraterm: "/get-images",
   zsaqrtuo: "/send-email",
-  qsdervbg: "/get-fonts"
+  qsdervbg: "/get-fonts",
+  sgrdxery: "/create-template",
+  miqagonr: "/edit-template",
+  lopawqcj: "/template-data",
+  uawriocb: "/template-list",
 };
 
 export const API_BASE_URL = "https://low-code-backend.vercel.app/api";

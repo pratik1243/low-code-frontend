@@ -23,11 +23,13 @@ const Login = () => {
 
   const loginUser = async (data) => {
     try {
+      dispatch(setLoader(true));
       const requestData = {
         key: "cgdretl",
         payload: data,
       };
       const response = await commonPostApiFunction(requestData);
+      dispatch(setLoader(false));
       if (response.status == 200) {
         router.push("/page-list");
         dispatch(
