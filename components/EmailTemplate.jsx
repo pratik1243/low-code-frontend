@@ -32,7 +32,9 @@ const EmailTemplate = () => {
   const [currentField, setCurrentField] = useState();
   const [templateName, setTemplateName] = useState("");
   const token = useSelector((user) => user.auth.authDetails.token);
-  const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
+  const requestUserId = useSelector(
+    (user) => user.auth.authDetails.request_user_id
+  );
 
   const renderEmailComponents = (data) => {
     if (data.type == "footer") {
@@ -80,7 +82,7 @@ const EmailTemplate = () => {
     str += "<title>Email Template</title>";
     str += "</head>";
     str +=
-      '<body style="margin: 0; padding: 0; font-family: Arial, sans-serif">';
+      '<body style="margin: 0; padding: 0; background-color: #a9a1a1; font-family: Arial, sans-serif">';
     str += `${content?.outerHTML}`;
     str += "</body>";
     str += "</html>";
@@ -209,7 +211,13 @@ const EmailTemplate = () => {
         </Col>
         <Col lg={7} md={7} sm={12} xs={12}>
           <div className="email-content-layout">
-            <table ref={tableRef} width="100%" cellPadding="0" cellSpacing="0">
+            <table
+              ref={tableRef}
+              align="center"
+              width="80%"
+              cellPadding="0"
+              cellSpacing="0"
+            >
               <tbody>
                 {emailComponents?.map((ele, i) => {
                   return (
@@ -271,6 +279,9 @@ const EmailTemplate = () => {
                     </tr>
                   );
                 })}
+                <tr>
+                  <td style={{ height: "20px" }}></td>
+                </tr>
               </tbody>
             </table>
           </div>

@@ -2284,7 +2284,7 @@ hr {
   display: block;
 }
 
-.email-content-layout table tr:last-child td {
+.email-content-layout table tr:nth-last-child(2) td {
   margin-bottom: 0 !important;
 }
 
@@ -2296,6 +2296,10 @@ hr {
   background-color: #fff !important;
   color: #000 !important;
   font-weight: 400 !important;
+}
+
+.email-content-layout table tr:last-child {
+  display: none;
 }
 
 .email-content-layout table tr.selected td,

@@ -19,6 +19,7 @@ const AddContent = ({
 }) => {
   const { forms, setForms, currentElement, pagesList, breakPoint } = useContext(FormContext);
   const [optionValue, setOptionValue] = useState("");
+  const [isDeleted, isSetDeleted] = useState(false);
   const [pageItem, setPageItem] = useState("");
   const stepList = ["stepper", "slider", "card_box"];
   const stepList2 = ["stepper", "slider", "select", "card_box", "radio"];
@@ -131,13 +132,14 @@ const AddContent = ({
       return el;
     });
     setForms({ ...forms, [breakPoint]: updateForms });
+    isSetDeleted(!isDeleted);
   };
 
   const filterPageList = useMemo(() => {
     return pagesList?.filter((el) => {
       return el?.page_item === true && !pageOptions?.includes(el?.page_name);
     });
-  }, [pageItem]);
+  }, [pageItem, isDeleted]);
 
   return (
     <div className="customize-prop-sec p-4 modal-dialog-customize">
