@@ -98,13 +98,13 @@ const WebPage = () => {
 
   useEffect(() => {
     const link = document.createElement("link");
+    const body = document.getElementById('body-section');
     if (selectedFont) {
-      link.href = `https://fonts.googleapis.com/css2?family=${selectedFont?.replace(
-        / /g,
-        "+"
-      )}:wght@400&display=swap`;
       link.rel = "stylesheet";
-      document.body.style.backgroundColor = pageBackground;
+      link.href = `https://fonts.googleapis.com/css2?family=${selectedFont?.replace(/ /g, "+")}:wght@400&display=swap`;
+      if(body){
+        body.style.backgroundColor = pageBackground;
+      }
       document.head.appendChild(link);
     }
     return () => {
