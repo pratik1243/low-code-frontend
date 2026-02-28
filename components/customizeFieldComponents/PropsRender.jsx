@@ -541,25 +541,42 @@ const PropsRender = ({ open }) => {
                 )}
 
                 {currentField?.type == "container" && (
-                  <Col lg={6} md={6} sm={12} xs={12}>
-                    <div className="customize-prop-sec">
-                      <label>Container Template</label>
-                      <Select
-                        isClearable
-                        placeholder={"Select template"}
-                        options={containerOptions}
-                        value={currentField?.props?.containerTemplate || ""}
-                        onChange={(e) => {
-                          onCustomizeElement(
-                            e,
-                            "containerTemplate",
-                            "select",
-                            forms
-                          );
-                        }}
-                      />
-                    </div>
-                  </Col>
+                  <>
+                    <Col lg={6} md={6} sm={12} xs={12}>
+                      <div className="customize-prop-sec">
+                        <label>Container Template</label>
+                        <Select
+                          isClearable
+                          placeholder={"Select template"}
+                          options={containerOptions}
+                          value={currentField?.props?.containerTemplate || ""}
+                          onChange={(e) => {
+                            onCustomizeElement(
+                              e,
+                              "containerTemplate",
+                              "select",
+                              forms
+                            );
+                          }}
+                        />
+                      </div>
+                    </Col>
+
+                    <Col lg={6} md={6} sm={12} xs={12}>
+                      <div className="customize-prop-sec">
+                        <label className="mb-2">Scroll Id</label>
+                        <input
+                          type="text"
+                          className="customize-input"
+                          placeholder="Enter scroll id"
+                          value={currentField?.props?.scrollId || ""}
+                          onChange={(e) => {
+                            onCustomizeElement(e, "scrollId", "input", forms);
+                          }}
+                        />
+                      </div>
+                    </Col>
+                  </>
                 )}
 
                 {currentField?.type == "stepper" && (

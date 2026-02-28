@@ -145,6 +145,7 @@ function AddMenuContent() {
             {
               text: "",
               menuLink: "",
+              scrollId: "",
               size: "",
               icon: "",
             },
@@ -169,6 +170,7 @@ function AddMenuContent() {
             {
               text: "",
               menuLink: "",
+              scrollId: "",
               icon: "",
               size: "",
               subMenus: [],
@@ -239,6 +241,7 @@ function AddMenuContent() {
             <tr>
               <th>Menu Label</th>
               <th>Icon Size</th>
+              <th>Scroll Id</th>
               <th>Page Link</th>
               <th>Action</th>
             </tr>
@@ -299,6 +302,19 @@ function AddMenuContent() {
                           value={el?.size || ""}
                           onChange={(e) => {
                             onMenuItemsChange(e.target.value, "size", i);
+                          }}
+                        />
+                      </div>
+                    </td>
+                    <td>
+                      <div className="option-input d-flex align-items-center m-2">
+                        <input
+                          type={"text"}
+                          className="customize-input size mb-0"
+                          placeholder="Enter id"      
+                          value={el?.scrollId || ""}
+                          onChange={(e) => {
+                            onMenuItemsChange(e.target.value, "scrollId", i);
                           }}
                         />
                       </div>

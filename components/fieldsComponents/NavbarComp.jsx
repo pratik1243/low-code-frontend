@@ -13,6 +13,14 @@ const NavbarComp = () => {
   const { navbarProps } = useContext(PageContext);
   const [menuIndex, setMenuIndex] = useState(null);
 
+  const scrollContainer = (e, scrollId) => {
+    e.stopPropagation();
+    document.querySelector(`#${scrollId}`).scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  };
+
   const renderSubMenu = (el) => {
     return (
       <div
@@ -45,7 +53,13 @@ const NavbarComp = () => {
         >
           {el?.subMenus.map((ele, id) => {
             return (
-              <div key={id} className="menu-item">
+              <div
+                key={id}
+                className="menu-item"
+                onClick={(e) => {
+                  ele?.scrollId && scrollContainer(e, ele?.scrollId);
+                }}
+              >
                 <Link
                   href={
                     ele?.menuLink?.page_route ||
@@ -76,12 +90,16 @@ const NavbarComp = () => {
 
   return (
     <div
-      className="navbar-section"
+      className={`navbar-section`}
       style={{
         ...(navbarProps?.navBackgroundColor && {
           backgroundColor: navbarProps?.navBackgroundColor,
         }),
       }}
+      {...(navbarProps?.navbarAnimation?.value && {
+        "data-aos": navbarProps?.navbarAnimation?.value,
+        "data-aos-once": "false",
+      })}
     >
       {navbarProps?.logo?.logoUrl && (
         <div className="nav-logo">
@@ -136,6 +154,9 @@ const NavbarComp = () => {
                   ) {
                     setMenuIndex(null);
                   }
+                }}
+                onClick={(e) => {
+                  el?.scrollId && scrollContainer(e, el?.scrollId);
                 }}
               >
                 {el?.subMenus?.length > 0 ? (

@@ -65,6 +65,7 @@ const Container = ({ ele, path, index, currentStep = null }) => {
 
   return (
     <div
+      id={ele?.props?.scrollId || ""}
       className={`card-sec ${
         isWebPage
           ? `is-web-page ${
@@ -86,6 +87,9 @@ const Container = ({ ele, path, index, currentStep = null }) => {
         <h5 className="no-data">Select container to add elements here</h5>
       )}
       {ele?.content?.map((el, i) => {
+        if (isWebPage && el?.props?.hidden) {
+          return null;
+        }
         return (
           <div
             key={i}

@@ -134,6 +134,7 @@ export const fieldsData = [
     props: {
       hidden: false,
       width: 100,
+      scrollId: "",
       imageData: {
         url: "",
         filename: "",
@@ -730,6 +731,12 @@ export const menuAnimationOptions = [
   { label: "Fade Up", value: "fade-up" },
   { label: "Zoom In", value: "zoom-in" },
   { label: "Collapse", value: "Collapse" },
+];
+
+export const navAnimationOptions = [
+  { label: "Fade", value: "fade" },
+  { label: "Fade Down", value: "fade-down" },
+  { label: "Slide Down", value: "slide-down" }
 ];
 
 export const menuAlignmenOptions = [

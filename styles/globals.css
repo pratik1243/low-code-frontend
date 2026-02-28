@@ -639,6 +639,13 @@ input {
   box-shadow: -1px 1px 3px #8080804a;
 }
 
+.main-content-sec .element-column:hover .delete-element-btn:has(.single-action),
+.card-sec .element-column:hover .delete-element-btn2:has(.single-action) {
+  width: 29px;
+  transform: translateX(0px);
+  box-shadow: -1px 1px 3px #8080804a;
+}
+
 .w-65:hover .delete-element-btn {
   width: 87px !important;
 }
@@ -2255,7 +2262,7 @@ hr {
 }
 
 .setting-box:has(.menu-item-table) {
-  width: 800px !important;
+  width: 900px !important;
 }
 
 .email-content-layout table {

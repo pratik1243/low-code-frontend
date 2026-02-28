@@ -53,10 +53,9 @@ const WebPage = () => {
           hidden: response?.data?.responseData?.navbar_props?.hidden,
           logo: response?.data?.responseData?.navbar_props?.logo,
           menus: response?.data?.responseData?.navbar_props?.menus,
-          menuTemplate:
-            response?.data?.responseData?.navbar_props?.menuTemplate,
-          navBackgroundColor:
-            response?.data?.responseData?.navbar_props?.navBackgroundColor,
+          navbarAnimation: response?.data?.responseData?.navbar_props?.navbarAnimation,
+          menuTemplate: response?.data?.responseData?.navbar_props?.menuTemplate,
+          navBackgroundColor: response?.data?.responseData?.navbar_props?.navBackgroundColor,
         });
         setForms({
           ...forms,

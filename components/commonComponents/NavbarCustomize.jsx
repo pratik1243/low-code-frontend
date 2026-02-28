@@ -16,6 +16,7 @@ import {
   menuAnimationOptions,
   snackProps,
   menuAlignmenOptions,
+  navAnimationOptions,
 } from "../../utils/utilFunctions";
 import { toast } from "react-toastify";
 
@@ -190,7 +191,7 @@ function NavbarCustomize() {
                   setColumnWidth(e);
                 }}
               />
-            </Col> */}            
+            </Col> */}
           </Row>
         </Container>
 
@@ -247,7 +248,6 @@ function NavbarCustomize() {
                 />
               </div>
             </Col>
-
             <Col lg={6} md={6} sm={12} xs={12}>
               <div className="customize-prop-sec mt-4">
                 <label className="mb-2">Menu Dropdown Animation</label>
@@ -268,7 +268,23 @@ function NavbarCustomize() {
                 />
               </div>
             </Col>
-
+            <Col lg={6} md={6} sm={12} xs={12}>
+              <div className="customize-prop-sec mt-4">
+                <label className="mb-2">Navbar Animation</label>
+                <Select
+                  isClearable
+                  placeholder={"Select animation"}
+                  options={navAnimationOptions}
+                  value={navbarProps?.navbarAnimation || ""}
+                  onChange={(e) => {
+                    setNavbarProps({
+                      ...navbarProps,
+                      navbarAnimation: e,
+                    });
+                  }}
+                />
+              </div>
+            </Col>
             <Col lg={6} md={6} sm={12} xs={12}>
               <div className="customize-prop-sec mt-4">
                 <label className="mb-2">Menus Alignment</label>

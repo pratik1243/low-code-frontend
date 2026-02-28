@@ -21,8 +21,14 @@ const CardBox = ({ ele, path, index }) => {
         >
           {ele?.props?.cards?.map((el, i) => {
             return (
-              <div key={i} className={`${ele?.props?.cards?.length == 1 ? 'd-flex' : ''}`}>
+              <div
+                key={i}
+                className={`${ele?.props?.cards?.length == 1 ? "d-flex" : ""}`}
+              >
                 {el?.content?.map((eles, id) => {
+                  if (eles?.props?.hidden) {
+                    return null;
+                  }
                   return (
                     <div
                       key={id}

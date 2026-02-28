@@ -53,6 +53,7 @@ const FormCreate = () => {
   const [navbarProps, setNavbarProps] = useState({
     hidden: false,
     navBackgroundColor: "",
+    navbarAnimation: "",
     menuTemplate: "",
     logo: {
       width: "",

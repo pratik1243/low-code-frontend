@@ -48,6 +48,9 @@ const SwiperComp = ({ ele, path }) => {
             return (
               <SwiperSlide key={i}>
                 {el?.content?.map((eles, id) => {
+                  if (eles?.props?.hidden) {
+                    return null;
+                  }
                   return (
                     <div
                       key={id}
