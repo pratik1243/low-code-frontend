@@ -31,15 +31,19 @@ const Login = () => {
       const response = await commonPostApiFunction(requestData);
       dispatch(setLoader(false));
       if (response.status == 200) {
-        router.push("/page-list");
-        dispatch(
-          setAuthDetails({
-            token: response?.data?.responseData?.token,
-            request_user_id: response?.data?.responseData?.request_user_id,
-            user_name: response?.data?.responseData?.user_name,
-          })
-        );
-        toast.success(response?.data?.message, snackProps);
+        if (response?.data?.message == "Something Went Wrong!") {
+          toast.error(response?.data?.message, snackProps);
+        } else {
+          router.push("/page-list");
+          dispatch(
+            setAuthDetails({
+              token: response?.data?.responseData?.token,
+              request_user_id: response?.data?.responseData?.request_user_id,
+              user_name: response?.data?.responseData?.user_name,
+            })
+          );
+          toast.success(response?.data?.message, snackProps);
+        }
       } else {
         dispatch(setLoader(false));
         toast.error(response?.data?.message, snackProps);
