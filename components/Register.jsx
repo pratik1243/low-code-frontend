@@ -23,7 +23,9 @@ import { commonPostApiFunction } from "../services/commonApiFunc";
 const Register = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const [registerDetails, setRegisterDetails] = useState(RegisterSchema.fields.values);
+  const [registerDetails, setRegisterDetails] = useState(
+    RegisterSchema.fields.values
+  );
   const [errors, setErrors] = useState(RegisterSchema.fields);
 
   const registerUser = async (data) => {
@@ -40,8 +42,9 @@ const Register = () => {
       dispatch(setLoader(false));
       if (response.status == 200) {
         if (response?.data?.message == "User email and password already exists") {
-          dispatch(setLoader(false));
           toast.error("User email and password already exists", snackProps);
+        } else if (response?.data?.message == "Something Went Wrong!") {
+          toast.error(response?.data?.message, snackProps);
         } else {
           router.push("/login");
           toast.success(response?.data?.message, snackProps);
