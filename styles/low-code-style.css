@@ -1486,6 +1486,10 @@ hr {
   grid-gap: 30px;
 }
 
+.card-main-section .d-flex {
+  flex-wrap: wrap;
+}
+
 /* .field-sec-customize-modal .modal-body {
   height: 460px !important;
   overflow-y: auto;
