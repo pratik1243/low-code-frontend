@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
-import { fieldsData, generateId } from "../utils/utilFunctions";
 import { FormContext } from "./FormCreate";
+import { fieldsData } from "../utils/customizeOptions";
+import { generateId } from "../utils/customizePropFunctions";
 
 const FieldSection = () => {
   const { forms, setForms, containerId, breakPoint, elementContainerRef } = useContext(FormContext);

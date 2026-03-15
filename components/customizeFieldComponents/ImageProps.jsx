@@ -8,7 +8,7 @@ import { FormContext } from "../FormCreate";
 import { LuFileImage } from "react-icons/lu";
 import { IoCloseSharp } from "react-icons/io5";
 import Select from "react-select";
-import { alignmentOptions, snackProps } from "../../utils/utilFunctions";
+import { alignmentOptions, snackProps } from "../../utils/customizeOptions";
 import { API_BASE_URL } from "../../services/endpoints";
 import { toast } from "react-toastify";
 

@@ -15,10 +15,14 @@ const NavbarComp = () => {
 
   const scrollContainer = (e, scrollId) => {
     e.stopPropagation();
-    document.querySelector(`#${scrollId}`).scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
+    const offset = 100;
+    const element = document.querySelector(`#${scrollId}`);
+    if (element) {
+      window.scrollTo({
+        top: element.getBoundingClientRect().top + window.scrollY - offset,
+        behavior: "smooth",
+      });
+    }
   };
 
   const renderSubMenu = (el) => {

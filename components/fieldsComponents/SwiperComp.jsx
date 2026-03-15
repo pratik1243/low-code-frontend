@@ -1,10 +1,12 @@
 "use client";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay, Pagination } from "swiper/modules";
-import { addPixel, alignment, textAlign } from "../../utils/utilFunctions";
+//import { addPixel, alignment, textAlign } from "../../utils/customizePropFunctions";
 import RenderField from "./RenderField";
 import { useEffect } from "react";
 import GraidentLayer from "../commonComponents/GraidentLayer";
+import { addPixel } from "../../utils/customizePropFunctions";
+import { textAlign, alignment } from "../../utils/customizeOptions";
 
 const SwiperComp = ({ ele, path }) => {
   const isWebPage = path.includes("web-page");

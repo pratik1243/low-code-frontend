@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { API_BASE_URL } from "../../services/endpoints";
-import { countryCallingCodes } from "../../utils/utilFunctions";
+import { countryCallingCodes } from "../../utils/customizeOptions";
 
 function CountryCodeBox({ countryCodeOpen, setCountryCodeOpen }) {
   const boxRef = useRef(null);

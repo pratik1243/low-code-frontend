@@ -7,13 +7,14 @@ import { useRouter } from "next/navigation";
 import { setLoader } from "../redux/slices/loaderSlice";
 import { setAuthDetails } from "../redux/slices/authSlice";
 import { Button, Col, Row } from "react-bootstrap";
-import { formAction, LoginSchema, snackProps } from "../utils/utilFunctions";
 import InputField from "./commonComponents/InputField";
 import loginBg from "../public/login-bg-img.png";
 import { MdLockOutline } from "react-icons/md";
 import { FiMail } from "react-icons/fi";
 import { toast } from "react-toastify";
 import { commonPostApiFunction } from "../services/commonApiFunc";
+import { snackProps } from "../utils/customizeOptions";
+import { formAction, LoginSchema } from "../utils/authFormSchemas";
 
 const Login = () => {
   const dispatch = useDispatch();

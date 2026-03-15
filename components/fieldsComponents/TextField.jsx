@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { addPixel, updateNestedForms } from "../../utils/utilFunctions";
+import { addPixel, updateNestedForms } from "../../utils/customizePropFunctions";
 import { FormContext } from "../FormCreate";
 import { PageContext } from "../WebPage";
 import CountryCodeBox from "../commonComponents/CountryCodeBox";

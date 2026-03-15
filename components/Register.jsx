@@ -1,12 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  formAction,
-  generateId,
-  RegisterSchema,
-  snackProps,
-} from "../utils/utilFunctions";
 import { setLoader } from "../redux/slices/loaderSlice";
 import { useRouter } from "next/navigation";
 import { Button, Col, Row } from "react-bootstrap";
@@ -19,6 +13,9 @@ import { FiMail } from "react-icons/fi";
 import { FaRegUserCircle } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { commonPostApiFunction } from "../services/commonApiFunc";
+import { formAction, RegisterSchema } from "../utils/authFormSchemas";
+import { generateId } from "../utils/customizePropFunctions";
+import { snackProps } from "../utils/customizeOptions";
 
 const Register = () => {
   const dispatch = useDispatch();

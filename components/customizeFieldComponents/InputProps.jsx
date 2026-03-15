@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Button, Col, Row } from "react-bootstrap";
-import { validations } from "../../utils/utilFunctions";
+import { validations } from "../../utils/customizeOptions";
 import { FormContext } from "../FormCreate";
 import Select from "react-select";
 

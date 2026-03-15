@@ -5,7 +5,7 @@ import { Col, Row } from "react-bootstrap";
 import {
   animationDelayOptions,
   animationOptions,
-} from "../../utils/utilFunctions";
+} from "../../utils/customizeOptions";
 import { FormContext } from "../FormCreate";
 
 const AnimationProps = ({ onCustomizeElement, currentField }) => {

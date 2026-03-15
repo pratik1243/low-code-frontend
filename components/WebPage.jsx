@@ -4,12 +4,13 @@ import React, { createContext, useEffect, useState } from "react";
 import { useParams, usePathname } from "next/navigation";
 import { commonPostApiFunction } from "../services/commonApiFunc";
 import RenderField from "./fieldsComponents/RenderField";
-import { addPixel, alignment, textAlign } from "../utils/utilFunctions";
 import LayoutComp from "./commonComponents/LayoutComp";
 import { setLoader } from "../redux/slices/loaderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import NavbarComp from "./fieldsComponents/NavbarComp";
 import GraidentLayer from "./commonComponents/GraidentLayer";
+import { addPixel } from "../utils/customizePropFunctions";
+import { alignment, textAlign } from "../utils/customizeOptions";
 
 export const PageContext = createContext();
 
@@ -139,7 +140,7 @@ const WebPage = () => {
                   return null;
                 }
                 return (
-                  <div
+                  <div                    
                     key={index}
                     className={`position-relative ${
                       !ele?.props?.fullWidth ? "d-flex" : ""

@@ -4,16 +4,13 @@ import Button from "react-bootstrap/Button";
 import { FormContext } from "../FormCreate";
 import { PageContext } from "../WebPage";
 import { useContext } from "react";
-import {
-  addPixel,
-  errorMessageFunc,
-  snackProps,
-} from "../../utils/utilFunctions";
 import IconComponent from "../commonComponents/IconComponent";
 import { toast } from "react-toastify";
 import { setLoader } from "../../redux/slices/loaderSlice";
 import { useDispatch } from "react-redux";
 import { commonPostApiFunction } from "../../services/commonApiFunc";
+import { addPixel, errorMessageFunc } from "../../utils/customizePropFunctions";
+import { snackProps } from "../../utils/customizeOptions";
 
 const ButtonComp = ({ ele, path }) => {
   const router = useRouter();

@@ -5,11 +5,11 @@ import React, { useContext, useMemo, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { FormContext } from "../FormCreate";
 import { LuExternalLink } from "react-icons/lu";
-import { addContentProps, nestedStructure } from "../../utils/utilFunctions";
 import { IoMdArrowBack } from "react-icons/io";
 import { MdDeleteOutline } from "react-icons/md";
 import Image from "next/image";
 import emptyImg from "../../public/empty-box.png";
+import { addContentProps, nestedStructure } from "../../utils/customizePropFunctions";
 
 const AddContent = ({
   currentField,

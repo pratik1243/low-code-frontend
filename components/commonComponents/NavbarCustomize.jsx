@@ -11,14 +11,15 @@ import Image from "next/image";
 import { IoMdArrowBack, IoMdClose } from "react-icons/io";
 import AddMenuContent from "./AddMenuContent";
 import Select from "react-select";
-import {
-  menuTemplateList,
-  menuAnimationOptions,
-  snackProps,
-  menuAlignmenOptions,
-  navAnimationOptions,
-} from "../../utils/utilFunctions";
+// import {
+//   menuTemplateList,
+//   menuAnimationOptions,
+//   snackProps,
+//   menuAlignmenOptions,
+//   navAnimationOptions,
+// } from "../../utils/customizePropFunctions";
 import { toast } from "react-toastify";
+import { menuTemplateList, menuAlignmenOptions, snackProps, menuAnimationOptions, navAnimationOptions } from "../../utils/customizeOptions";
 
 function NavbarCustomize() {
   const dispatch = useDispatch();

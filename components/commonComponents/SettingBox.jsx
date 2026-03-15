@@ -4,7 +4,7 @@ import { Button, Col, Container, Offcanvas, Row } from "react-bootstrap";
 import { FormContext } from "../FormCreate";
 import FontFamilyBox from "./FontFamilyBox";
 import NavbarCustomize from "./NavbarCustomize";
-import { fieldVariantOptions, scrollAnimationOtions } from "../../utils/utilFunctions";
+import { fieldVariantOptions, scrollAnimationOtions } from "../../utils/customizeOptions";
 
 function SettingBox() {
   const {

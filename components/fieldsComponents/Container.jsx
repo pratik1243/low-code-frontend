@@ -1,14 +1,10 @@
 import React, { useContext, useState } from "react";
-import {
-  addPixel,
-  alignment,
-  textAlign,
-  containerClasses,
-} from "../../utils/utilFunctions";
 import { FormContext } from "../FormCreate";
 import { PageContext } from "../WebPage";
 import RenderField from "./RenderField";
 import ElementActions from "../commonComponents/ElementActions";
+import { addPixel } from "../../utils/customizePropFunctions";
+import { containerClasses, textAlign, alignment } from "../../utils/customizeOptions";
 
 const Container = ({ ele, path, index, currentStep = null }) => {
   const isWebPage = path.includes("web-page");
@@ -64,8 +60,7 @@ const Container = ({ ele, path, index, currentStep = null }) => {
   };
 
   return (
-    <div
-      id={ele?.props?.scrollId || ""}
+    <div      
       className={`card-sec ${
         isWebPage
           ? `is-web-page ${

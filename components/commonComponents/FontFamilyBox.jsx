@@ -4,12 +4,12 @@ import { useSelector } from "react-redux";
 import { FormContext } from "../FormCreate";
 import { useState } from "react";
 import { MdOutlineClear } from "react-icons/md";
-import { debounce } from "../../utils/utilFunctions";
 import { Col, Row, Spinner, Button } from "react-bootstrap";
 import { commonPostApiFunction } from "../../services/commonApiFunc";
 import { IoMdArrowBack } from "react-icons/io";
 import Image from "next/image";
 import emptyImg from "../../public/empty-box.png";
+import { debounce } from "../../utils/customizePropFunctions";
 
 const FontFamilyBox = () => {
   const { setSelectedFont, setFontModal } = useContext(FormContext);

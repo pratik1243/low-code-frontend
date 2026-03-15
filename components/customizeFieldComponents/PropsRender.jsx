@@ -12,9 +12,7 @@ import Select from "react-select";
 import {
   alignmentOptions,
   containerOptions,
-  nestedStructure,
-  updateforms,
-} from "../../utils/utilFunctions";
+} from "../../utils/customizeOptions";
 import { RiErrorWarningLine } from "react-icons/ri";
 import AddContent from "../commonComponents/AddContent";
 import IconBox from "../commonComponents/IconBox";
@@ -29,6 +27,10 @@ import SpacingProps from "./SpacingProps";
 import TextProps from "./TextProps";
 import ColorPicker from "react-best-gradient-color-picker";
 import EmailSendBox from "../commonComponents/EmailSendBox";
+import {
+  updateforms,
+  nestedStructure,
+} from "../../utils/customizePropFunctions";
 
 const PropsRender = ({ open }) => {
   const {

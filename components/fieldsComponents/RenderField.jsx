@@ -113,20 +113,24 @@ const RenderField = ({
 
   return (
     <div
+      id={ele?.props?.scrollId || ""}
       className={`column-sec`}
-      {...(ele?.props?.animation?.value &&
-        path.includes("web-page") && {
-          "data-aos": ele?.props?.animation?.value,
-        })}
-      {...(ele?.props?.animation_delay?.value &&
-        path.includes("web-page") && {
-          "data-aos-delay": ele?.props?.animation_delay?.value,
-        })}
       style={{
         ...(ele?.type !== "image" && { width: `${ele?.props?.width}%` }),
       }}
     >
-      {getFields()}
+      <div
+        {...(ele?.props?.animation?.value &&
+          path.includes("web-page") && {
+            "data-aos": ele?.props?.animation?.value,
+          })}
+        {...(ele?.props?.animation_delay?.value &&
+          path.includes("web-page") && {
+            "data-aos-delay": ele?.props?.animation_delay?.value,
+          })}
+      >
+        {getFields()}
+      </div>
     </div>
   );
 };

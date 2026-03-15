@@ -12,7 +12,7 @@ import ElementActions from "./commonComponents/ElementActions";
 import emptyImg from "../public/empty-box.png";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import Image from "next/image";
-import { generateId } from "../utils/utilFunctions";
+import { generateId } from "../utils/customizePropFunctions";
 
 const FormTemplate = () => {
   const {

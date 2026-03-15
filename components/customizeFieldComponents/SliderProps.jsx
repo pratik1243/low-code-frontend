@@ -4,7 +4,7 @@ import Select from "react-select";
 import {
   autoplayDelayOptions,
   sliderPerViewOptions,
-} from "../../utils/utilFunctions";
+} from "../../utils/customizeOptions";
 import { FormContext } from "../FormCreate";
 
 const SliderProps = ({ onCustomizeElement, currentField }) => {

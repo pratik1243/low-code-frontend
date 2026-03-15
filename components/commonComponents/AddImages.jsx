@@ -5,10 +5,11 @@ import { Button, Spinner } from "react-bootstrap";
 import { IoMdArrowBack } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { API_BASE_URL } from "../../services/endpoints";
-import { nestedStructure, snackProps, updateforms } from "../../utils/utilFunctions";
+import { nestedStructure, updateforms } from "../../utils/customizePropFunctions";
 import { FormContext } from "../FormCreate";
 import emptyImg from "../../public/empty-box.png";
 import { toast } from "react-toastify";
+import { snackProps } from "../../utils/customizeOptions";
 
 const AddImages = () => {
   const token = useSelector((user) => user.auth.authDetails.token);

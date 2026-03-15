@@ -1,5 +1,5 @@
 import React from "react";
-import { addPixel } from "../../utils/utilFunctions";
+import { addPixel } from "../../utils/customizePropFunctions";
 
 const Paragraph = ({ ele, path }) => {
   return (

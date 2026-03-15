@@ -5,14 +5,10 @@ import Footer from "./mailerComponents/Footer";
 import Heading from "./mailerComponents/Heading";
 import Paragraph from "./mailerComponents/Paragraph";
 import Link from "./mailerComponents/Link";
-import Image from "./mailerComponents/Image";
+import ImageComp from "./mailerComponents/Image";
 import ButtonComp from "./mailerComponents/Button";
-import {
-  emailComponentData,
-  emailStyles,
-  generateId,
-  snackProps,
-} from "../utils/utilFunctions";
+import { emailComponentData, snackProps } from "../utils/customizeOptions";
+import { emailStyles, generateId } from "../utils/customizePropFunctions";
 import CustomizeField from "./mailerComponents/CustomizeField";
 import { commonPostApiFunction } from "../services/commonApiFunc";
 import { useParams, useRouter } from "next/navigation";
@@ -20,6 +16,8 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoader } from "../redux/slices/loaderSlice";
 import { IoMdArrowBack } from "react-icons/io";
+import emptyImg from "../public/empty-box.png";
+import Image from "next/image";
 
 const EmailTemplate = () => {
   const dispatch = useDispatch();
@@ -46,7 +44,7 @@ const EmailTemplate = () => {
     } else if (data.type == "link") {
       return <Link data={data} />;
     } else if (data.type == "image") {
-      return <Image data={data} />;
+      return <ImageComp data={data} />;
     } else if (data.type == "button") {
       return <ButtonComp data={data} />;
     } else {
@@ -211,79 +209,93 @@ const EmailTemplate = () => {
         </Col>
         <Col lg={7} md={7} sm={12} xs={12}>
           <div className="email-content-layout">
-            <table
-              ref={tableRef}
-              align="center"
-              width="80%"
-              cellPadding="0"
-              cellSpacing="0"
-            >
-              <tbody>
-                {emailComponents?.map((ele, i) => {
-                  return (
-                    <tr
-                      key={i}
-                      onClick={() => {
-                        if (ele?.type == "container") {
-                          setContainerId(i);
-                        }
-                        setCurrentField(ele);
-                      }}
-                      className={`${
-                        containerId === i
-                          ? "selected2"
-                          : currentField?.id === ele?.id
-                          ? "selected"
-                          : ""
-                      }`}
-                    >
-                      {ele?.type === "container" ? (
-                        <td>
-                          <table>
-                            <tbody>
-                              {ele?.props?.content?.length == 0 ? (
-                                <tr>
-                                  <td>Container</td>
-                                </tr>
-                              ) : (
-                                <tr>
-                                  {ele?.props?.content?.map((el, id) => {
-                                    return (
-                                      <td
-                                        key={id}
-                                        className={`${
-                                          currentField?.id === el?.id
-                                            ? "selected"
-                                            : ""
-                                        }`}
-                                        style={{ ...emailStyles(el?.props) }}
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          setCurrentField(el);
-                                        }}
-                                      >
-                                        {renderEmailComponents(el)}
-                                      </td>
-                                    );
-                                  })}
-                                </tr>
-                              )}
-                            </tbody>
-                          </table>
-                        </td>
-                      ) : (
-                        <td style={{ ...emailStyles(ele?.props) }}>
-                          {renderEmailComponents(ele)}
-                        </td>
-                      )}
-                    </tr>
-                  );
-                })}
-                <tr>
-                  <td style={{ height: "20px" }}></td>
-                </tr>
-              </tbody>
-            </table>
+            {emailComponents?.length == 0 ? (
+              <div className="pt-4 pb-2 text-center">
+                <Image
+                  src={emptyImg}
+                  height={130}
+                  width={130}
+                  alt="menu-empty"
+                />
+                <div className="no-menus-txt fs-5 text-dark">
+                  Click on elements to add...
+                </div>
+              </div>
+            ) : (
+              <table
+                ref={tableRef}
+                align="center"
+                width="80%"
+                cellPadding="0"
+                cellSpacing="0"
+              >
+                <tbody>
+                  {emailComponents?.map((ele, i) => {
+                    return (
+                      <tr
+                        key={i}
+                        onClick={() => {
+                          if (ele?.type == "container") {
+                            setContainerId(i);
+                          }
+                          setCurrentField(ele);
+                        }}
+                        className={`${
+                          containerId === i
+                            ? "selected2"
+                            : currentField?.id === ele?.id
+                            ? "selected"
+                            : ""
+                        }`}
+                      >
+                        {ele?.type === "container" ? (
+                          <td>
+                            <table>
+                              <tbody>
+                                {ele?.props?.content?.length == 0 ? (
+                                  <tr>
+                                    <td>Container</td>
+                                  </tr>
+                                ) : (
+                                  <tr>
+                                    {ele?.props?.content?.map((el, id) => {
+                                      return (
+                                        <td
+                                          key={id}
+                                          className={`${
+                                            currentField?.id === el?.id
+                                              ? "selected"
+                                              : ""
+                                          }`}
+                                          style={{ ...emailStyles(el?.props) }}
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            setCurrentField(el);
+                                          }}
+                                        >
+                                          {renderEmailComponents(el)}
+                                        </td>
+                                      );
+                                    })}
+                                  </tr>
+                                )}
+                              </tbody>
+                            </table>
+                          </td>
+                        ) : (
+                          <td style={{ ...emailStyles(ele?.props) }}>
+                            {renderEmailComponents(ele)}
+                          </td>
+                        )}
+                      </tr>
+                    );
+                  })}
+                  <tr>
+                    <td style={{ height: "20px" }}></td>
+                  </tr>
+                </tbody>
+              </table>
+            )}
           </div>
         </Col>
         <Col lg={2} md={2} sm={12} xs={12}>

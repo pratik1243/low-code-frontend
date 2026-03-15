@@ -1,5 +1,5 @@
 import React from "react";
-import { emailStyles } from "../../utils/utilFunctions";
+import { emailStyles } from "../../utils/customizePropFunctions";
 
 const ButtonComp = ({ data }) => {
   return (

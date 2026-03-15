@@ -1,7 +1,8 @@
 import React from "react";
-import { addPixel, alignment, textAlign } from "../../utils/utilFunctions";
 import GraidentLayer from "../commonComponents/GraidentLayer";
 import RenderField from "./RenderField";
+import { addPixel } from "../../utils/customizePropFunctions";
+import { alignment, textAlign } from "../../utils/customizeOptions";
 
 const CardBox = ({ ele, path, index }) => {
   const isWebPage = path.includes("web-page");

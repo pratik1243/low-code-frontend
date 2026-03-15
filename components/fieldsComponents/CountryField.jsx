@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { PageContext } from "../WebPage";
 import { FormContext } from "../FormCreate";
-import { addPixel, updateNestedForms } from "../../utils/utilFunctions";
+import { addPixel, updateNestedForms } from "../../utils/customizePropFunctions";
 import { useSelector } from "react-redux";
 import { IoIosClose } from "react-icons/io";
 import { API_BASE_URL } from "../../services/endpoints";

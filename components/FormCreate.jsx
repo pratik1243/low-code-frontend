@@ -10,13 +10,13 @@ import FormTemplate from "./FormTemplate";
 import { IoSaveOutline } from "react-icons/io5";
 import { setLoader } from "../redux/slices/loaderSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { responsiveScreenSizes, snackProps } from "../utils/utilFunctions";
 import { IoSettingsOutline } from "react-icons/io5";
 import Select from "react-select";
 import SettingBox from "./commonComponents/SettingBox";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { setPageCreateDetails } from "../redux/slices/pageCreateSlice";
 import { toast } from "react-toastify";
+import { responsiveScreenSizes, snackProps } from "../utils/customizeOptions";
 
 export const FormContext = createContext();
 

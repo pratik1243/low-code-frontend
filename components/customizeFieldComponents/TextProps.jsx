@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { FormContext } from "../FormCreate";
 import Select from "react-select";
-import { fontWeightOptions, headingVariantOptions } from "../../utils/utilFunctions";
+import { fontWeightOptions, headingVariantOptions } from "../../utils/customizeOptions";
 import { Button, Col, Row } from "react-bootstrap";
 
 const TextProps = ({ onCustomizeElement, currentField }) => {

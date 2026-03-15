@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAuthDetails } from "../redux/slices/authSlice";
 import { setLoader } from "../redux/slices/loaderSlice";
 import { commonPostApiFunction } from "../services/commonApiFunc";
-import { generateId, snackProps } from "../utils/utilFunctions";
 import { MdDeleteOutline, MdOutlineMailOutline } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
 import { IoIosAdd } from "react-icons/io";
@@ -14,6 +13,8 @@ import { setPageCreateDetails } from "../redux/slices/pageCreateSlice";
 import { toast } from "react-toastify";
 import { CgWebsite } from "react-icons/cg";
 import { IoSearchSharp } from "react-icons/io5";
+import { generateId } from "../utils/customizePropFunctions";
+import { snackProps } from "../utils/customizeOptions";
 
 
 const PageList = () => {

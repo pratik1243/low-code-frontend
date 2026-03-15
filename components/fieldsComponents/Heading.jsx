@@ -1,5 +1,5 @@
 import React from "react";
-import { addPixel } from "../../utils/utilFunctions";
+import { addPixel } from "../../utils/customizePropFunctions";
 
 const Heading = ({ ele, path }) => {
   const renderHeading = (text, variant) => {

@@ -1,15 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import {
-  addPixel,
-  alignment,
-  containerClasses,
-  errorMessageFunc,
-  textAlign,
-} from "../../utils/utilFunctions";
 import { FormContext } from "../FormCreate";
 import { PageContext } from "../WebPage";
 import RenderField from "./RenderField";
+import { addPixel, errorMessageFunc } from "../../utils/customizePropFunctions";
+import { alignment, containerClasses, textAlign } from "../../utils/customizeOptions";
 
 const Stepper = ({ ele, path }) => {
   const isWebPage = path.includes("web-page");

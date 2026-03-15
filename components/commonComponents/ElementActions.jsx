@@ -4,8 +4,8 @@ import { MdDeleteOutline, MdContentCopy, MdContentPaste } from "react-icons/md";
 //import { IoSettingsOutline } from "react-icons/io5";
 import { TbSettings } from "react-icons/tb";
 import { HiOutlineDocumentDuplicate } from "react-icons/hi";
-import { copyItems, generateId, pasteItems } from "../../utils/utilFunctions";
 import { FormContext } from "../FormCreate";
+import { copyItems, generateId, pasteItems } from "../../utils/customizePropFunctions";
 
 const ElementActions = ({ data, deleteFunction, containerIndex = null }) => {
   const {
