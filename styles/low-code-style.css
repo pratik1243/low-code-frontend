@@ -2413,6 +2413,7 @@ hr {
   z-index: 1700;
   padding-top: 18px;
   transition: all 0.5s;
+  box-shadow: 0 0 5px 2px #80808042;
 }
 
 .mobile-menu-sec .logo {
