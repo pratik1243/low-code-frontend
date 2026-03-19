@@ -19,12 +19,11 @@ import Select from "react-select";
 //   navAnimationOptions,
 // } from "../../utils/customizePropFunctions";
 import { toast } from "react-toastify";
-import { menuTemplateList, menuAlignmenOptions, snackProps, menuAnimationOptions, navAnimationOptions } from "../../utils/customizeOptions";
+import { menuTemplateList, menuAlignmenOptions, snackProps, menuAnimationOptions, navAnimationOptions, drawerAlignmenOptions } from "../../utils/customizeOptions";
 
 function NavbarCustomize() {
   const dispatch = useDispatch();
-  const { navbarProps, setNavbarProps, setNavSettings } =
-    useContext(FormContext);
+  const { navbarProps, setNavbarProps, setNavSettings } = useContext(FormContext);
   const token = useSelector((user) => user.auth.authDetails.token);
 
   const uploadImage = async (e) => {
@@ -306,6 +305,26 @@ function NavbarCustomize() {
                 />
               </div>
             </Col>
+            <Col lg={6} md={6} sm={12} xs={12}>
+              <div className="customize-prop-sec mt-4">
+                <label className="mb-2">Side Drawer Alignment (Mobile)</label>
+                <Select
+                  isClearable
+                  placeholder={"Select alignment"}
+                  options={drawerAlignmenOptions}
+                  value={navbarProps?.menus?.sideDrawerPosition || ""}
+                  onChange={(e) => {
+                    setNavbarProps({
+                      ...navbarProps,
+                      menus: {
+                        ...navbarProps.menus,
+                        sideDrawerPosition: e,
+                      },
+                    });
+                  }}
+                />
+              </div>
+            </Col>
           </Row>
           <hr className="mt-5" />
         </Container>
@@ -457,6 +476,126 @@ function NavbarCustomize() {
                         menus: {
                           ...navbarProps.menus,
                           menuDropdownColor: "",
+                        },
+                      });
+                    }}
+                  >
+                    Clear
+                  </Button>
+                </Col>
+              </Row>
+            </Col>
+            <Col lg={6} md={6}>
+              <Row className="mt-4">
+                <Col lg={9} md={9}>
+                  <label className="mb-2">Side Drawer Color (Mobile)</label>
+                  <input
+                    type="color"
+                    id="color-picker2"
+                    className="w-100"
+                    value={navbarProps?.menus?.sideDrawerColor || ""}
+                    onChange={(e) => {
+                      setNavbarProps({
+                        ...navbarProps,
+                        menus: {
+                          ...navbarProps.menus,
+                          sideDrawerColor: e.target.value,
+                        },
+                      });
+                    }}
+                  />
+                </Col>
+                <Col lg={3} md={3}>
+                  <Button
+                    variant={"primary"}
+                    size="sm"
+                    className="clear-background-btn"
+                    onClick={() => {
+                      setNavbarProps({
+                        ...navbarProps,
+                        menus: {
+                          ...navbarProps.menus,
+                          sideDrawerColor: "",
+                        },
+                      });
+                    }}
+                  >
+                    Clear
+                  </Button>
+                </Col>
+              </Row>
+            </Col>
+            <Col lg={6} md={6}>
+              <Row className="mt-4">
+                <Col lg={9} md={9}>
+                  <label className="mb-2">Hamburger Button Color (Mobile)</label>
+                  <input
+                    type="color"
+                    id="color-picker2"
+                    className="w-100"
+                    value={navbarProps?.menus?.hamBurgerButtonColor || ""}
+                    onChange={(e) => {
+                      setNavbarProps({
+                        ...navbarProps,
+                        menus: {
+                          ...navbarProps.menus,
+                          hamBurgerButtonColor: e.target.value,
+                        },
+                      });
+                    }}
+                  />
+                </Col>
+                <Col lg={3} md={3}>
+                  <Button
+                    variant={"primary"}
+                    size="sm"
+                    className="clear-background-btn"
+                    onClick={() => {
+                      setNavbarProps({
+                        ...navbarProps,
+                        menus: {
+                          ...navbarProps.menus,
+                          hamBurgerButtonColor: "",
+                        },
+                      });
+                    }}
+                  >
+                    Clear
+                  </Button>
+                </Col>
+              </Row>
+            </Col>
+            <Col lg={6} md={6}>
+              <Row className="mt-4">
+                <Col lg={9} md={9}>
+                  <label className="mb-2">Close Button Color (Mobile)</label>
+                  <input
+                    type="color"
+                    id="color-picker2"
+                    className="w-100"
+                    value={navbarProps?.menus?.closeButtonColor || ""}
+                    onChange={(e) => {
+                      setNavbarProps({
+                        ...navbarProps,
+                        menus: {
+                          ...navbarProps.menus,
+                          closeButtonColor: e.target.value,
+                        },
+                      });
+                    }}
+                  />
+                </Col>
+                <Col lg={3} md={3}>
+                  <Button
+                    variant={"primary"}
+                    size="sm"
+                    className="clear-background-btn"
+                    onClick={() => {
+                      setNavbarProps({
+                        ...navbarProps,
+                        menus: {
+                          ...navbarProps.menus,
+                          closeButtonColor: "",
                         },
                       });
                     }}

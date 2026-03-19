@@ -66,6 +66,10 @@ const FormCreate = () => {
       menuColor: "",
       subMenuColor: "",
       menuDropdownColor: "",
+      sideDrawerColor: "",
+      hamBurgerButtonColor: "",
+      closeButtonColor: "",
+      sideDrawerPosition: "left",
       menuDropdownAnimation: "",
     },
   });

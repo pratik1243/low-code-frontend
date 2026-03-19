@@ -740,6 +740,11 @@ export const menuAlignmenOptions = [
   { label: "Left", value: "Left" },
 ];
 
+export const drawerAlignmenOptions = [
+  { label: "Right", value: "Right" },
+  { label: "Left", value: "Left" },
+];
+
 export const fontWeightOptions = [
   { label: "100", value: "100" },
   { label: "200", value: "200" },
