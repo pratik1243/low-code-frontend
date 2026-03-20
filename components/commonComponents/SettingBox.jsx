@@ -4,7 +4,11 @@ import { Button, Col, Container, Offcanvas, Row } from "react-bootstrap";
 import { FormContext } from "../FormCreate";
 import FontFamilyBox from "./FontFamilyBox";
 import NavbarCustomize from "./NavbarCustomize";
-import { fieldVariantOptions, scrollAnimationOtions } from "../../utils/customizeOptions";
+import {
+  fieldVariantOptions,
+  scrollAnimationOtions,
+} from "../../utils/customizeOptions";
+import AddImages from "./AddImages";
 
 function SettingBox() {
   const {
@@ -23,7 +27,9 @@ function SettingBox() {
     setScrollAnimationType,
     setPageBackground,
     scrollAnimationType,
-    pageBackground
+    pageBackground,
+    openImageModel,
+    setOpenImageModel,
   } = useContext(FormContext);
 
   const fields = ["input", "select", "country"];
@@ -82,6 +88,9 @@ function SettingBox() {
       show={openSettingModel}
       className="setting-box"
       onHide={() => {
+        setFontModal(false);
+        setNavSettings(false);
+        setOpenImageModel(false);
         setOpenSettingModel(false);
       }}
     >
@@ -89,7 +98,9 @@ function SettingBox() {
         <Offcanvas.Title>Page Settings</Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body className="p-0">
-        {fontModal ? (
+        {openImageModel ? (
+          <AddImages isNavSetting />
+        ) : fontModal ? (
           <FontFamilyBox />
         ) : navSettings ? (
           <NavbarCustomize />

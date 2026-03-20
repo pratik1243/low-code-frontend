@@ -1,57 +1,21 @@
 import React from "react";
 import { useContext } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import { FiUpload } from "react-icons/fi";
-import { useDispatch, useSelector } from "react-redux";
-import { setLoader } from "../../redux/slices/loaderSlice";
-import { commonPostApiFunction } from "../../services/commonApiFunc";
 import { FormContext } from "../FormCreate";
-import { API_BASE_URL } from "../../services/endpoints";
-import Image from "next/image";
-import { IoMdArrowBack, IoMdClose } from "react-icons/io";
+import { IoMdArrowBack } from "react-icons/io";
 import AddMenuContent from "./AddMenuContent";
 import Select from "react-select";
-// import {
-//   menuTemplateList,
-//   menuAnimationOptions,
-//   snackProps,
-//   menuAlignmenOptions,
-//   navAnimationOptions,
-// } from "../../utils/customizePropFunctions";
-import { toast } from "react-toastify";
-import { menuTemplateList, menuAlignmenOptions, snackProps, menuAnimationOptions, navAnimationOptions, drawerAlignmenOptions } from "../../utils/customizeOptions";
+import {
+  menuTemplateList,
+  menuAlignmenOptions,
+  menuAnimationOptions,
+  navAnimationOptions,
+  drawerAlignmenOptions,
+} from "../../utils/customizeOptions";
+import UploadImageComp from "./UploadImageComp";
 
 function NavbarCustomize() {
-  const dispatch = useDispatch();
   const { navbarProps, setNavbarProps, setNavSettings } = useContext(FormContext);
-  const token = useSelector((user) => user.auth.authDetails.token);
-
-  const uploadImage = async (e) => {
-    try {
-      e.preventDefault();
-      dispatch(setLoader(true));
-      const file = e.target.files[0];
-      const formData = new FormData();
-      formData.append("image", file);
-      const requestData = {
-        key: "mfgtrwo",
-        payload: formData,
-      };
-      const response = await commonPostApiFunction(requestData, token);
-      dispatch(setLoader(false));
-      if (response.status == 200) {
-        setNavbarProps({
-          ...navbarProps,
-          logo: { ...navbarProps.logo, logoUrl: response?.data?.id },
-        });
-        toast.success(response?.data?.message, snackProps);
-      } else {
-        toast.error(response?.data?.message, snackProps);
-      }
-    } catch (error) {
-      toast.error("Something Went Wrong!", snackProps);
-    }
-  };
 
   const removeNavLogo = () => {
     setNavbarProps({
@@ -59,17 +23,6 @@ function NavbarCustomize() {
       logo: { ...navbarProps.logo, logoUrl: "" },
     });
   };
-
-  // const setColumnWidth = (e) => {
-  //   const { name, value } = e.target;
-  //   setNavbarProps({
-  //     ...navbarProps,
-  //     [name]: {
-  //       ...navbarProps[name],
-  //       columnWidth: value,
-  //     },
-  //   });
-  // };
 
   const setLogoSize = (e) => {
     const { name, value } = e.target;
@@ -98,46 +51,19 @@ function NavbarCustomize() {
           </Button>
         </div>
         <div className="mb-4 px-2">
-          <label className="mb-2">Upload Logo</label>
-          {navbarProps?.logo?.logoUrl ? (
-            <div className="nav-logo-upload-sec">
-              <Image
-                src={`${API_BASE_URL}/image/${navbarProps?.logo?.logoUrl}`}
-                height={40}
-                width={100}
-                alt={`image-nav`}
-                quality={90}
-              />
-              <div
-                role={"button"}
-                className="remove-btn"
-                onClick={removeNavLogo}
-              >
-                <IoMdClose />
-              </div>
-            </div>
-          ) : (
-            <div className="upload-image-btn mb-2">
-              <div className="text-center">
-                <input
-                  type="file"
-                  id="upload-image"
-                  accept="image/*"
-                  onChange={(e) => uploadImage(e)}
-                  onDragOver={(e) => {
-                    e.preventDefault();
-                  }}
-                  onDrop={(e) => uploadImage(e)}
-                />
-                <div className="mb-2">
-                  <FiUpload size={21} />
-                </div>
-                Click or <span className="click-text">Drag & Drop Image</span>{" "}
-                to upload (jpg, png and jpeg)
-              </div>
-              <label htmlFor="upload-image"></label>
-            </div>
-          )}
+          <UploadImageComp
+            preview={true}
+            label="Upload Logo"
+            uploadedState={navbarProps?.logo?.logoUrl}
+            removeUploadedFile={removeNavLogo}
+            onFileUpload={(e, imageData) => {
+              setNavbarProps({
+                ...navbarProps,
+                logo: { ...navbarProps.logo, logoUrl: imageData?.url },
+              });
+            }}
+          />
+
           <hr className="mt-5" />
         </div>
         <Container className="mb-2">
@@ -160,38 +86,6 @@ function NavbarCustomize() {
                 </div>
               </div>
             </Col>
-            {/* <Col lg={6} md={6} sm={12} xs={12}>
-              <label className="mb-2">
-                Logo Column Width ({navbarProps?.logo?.columnWidth || ""}%)
-              </label>
-              <input
-                type="range"
-                value={navbarProps?.logo?.columnWidth || ""}
-                min={0}
-                max={100}
-                name="logo"
-                className="w-100"
-                onChange={(e) => {
-                  setColumnWidth(e);
-                }}
-              />
-            </Col>
-            <Col lg={6} md={6} sm={12} xs={12}>
-              <label className="mb-2">
-                Menus Column Width ({navbarProps?.menus?.columnWidth || ""}%)
-              </label>
-              <input
-                type="range"
-                value={navbarProps?.menus?.columnWidth || ""}
-                min={0}
-                max={100}
-                name="menus"
-                className="w-100"
-                onChange={(e) => {
-                  setColumnWidth(e);
-                }}
-              />
-            </Col> */}
           </Row>
         </Container>
 
@@ -528,7 +422,9 @@ function NavbarCustomize() {
             <Col lg={6} md={6}>
               <Row className="mt-4">
                 <Col lg={9} md={9}>
-                  <label className="mb-2">Hamburger Button Color (Mobile)</label>
+                  <label className="mb-2">
+                    Hamburger Button Color (Mobile)
+                  </label>
                   <input
                     type="color"
                     id="color-picker2"

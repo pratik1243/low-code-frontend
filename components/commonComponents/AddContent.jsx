@@ -135,7 +135,7 @@ const AddContent = ({
     isSetDeleted(!isDeleted);
   };
 
-  const filterPageList = useMemo(() => {
+  const filterPageItemList = useMemo(() => {
     return pagesList?.filter((el) => {
       return el?.page_item === true && !pageOptions?.includes(el?.page_name);
     });
@@ -180,7 +180,7 @@ const AddContent = ({
             <Select
               isClearable
               placeholder={"Select page item"}
-              options={filterPageList}
+              options={filterPageItemList}
               getOptionLabel={(e) => e.page_name}
               getOptionValue={(e) => e.page_data}
               value={pageItem || ""}

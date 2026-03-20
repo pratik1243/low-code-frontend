@@ -37,11 +37,8 @@ const ButtonProps = ({ onCustomizeElement, currentField }) => {
     return fields;
   };
 
-  const fieldOptions = useMemo(
-    () => getFields(forms[breakPoint]),
-    [showCurrentElement]
-  );
-  const filterPageItemList = pagesList?.filter((el) => el?.page_item === false);
+  const fieldOptions = useMemo(() => getFields(forms[breakPoint]), [showCurrentElement]);
+  const filterPageLinkList = pagesList?.filter((el) => el?.page_route);
 
   return (
     <>
@@ -285,7 +282,7 @@ const ButtonProps = ({ onCustomizeElement, currentField }) => {
           <Select
             isClearable
             placeholder={"Select page"}
-            options={filterPageItemList}
+            options={filterPageLinkList}
             getOptionLabel={(e) => e.page_name}
             getOptionValue={(e) => e.page_route}
             value={currentField?.props?.redirectUrl || ""}

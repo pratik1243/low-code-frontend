@@ -5,15 +5,26 @@ import { Button, Spinner } from "react-bootstrap";
 import { IoMdArrowBack } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { API_BASE_URL } from "../../services/endpoints";
-import { nestedStructure, updateforms } from "../../utils/customizePropFunctions";
+import {
+  nestedStructure,
+  updateforms,
+} from "../../utils/customizePropFunctions";
 import { FormContext } from "../FormCreate";
 import emptyImg from "../../public/empty-box.png";
 import { toast } from "react-toastify";
 import { snackProps } from "../../utils/customizeOptions";
 
-const AddImages = () => {
+const AddImages = ({ isNavSetting = null }) => {
   const token = useSelector((user) => user.auth.authDetails.token);
-  const { setOpenImageModel, forms, setForms, currentElement, breakPoint } = useContext(FormContext);
+  const {
+    setOpenImageModel,
+    forms,
+    setForms,
+    currentElement,
+    breakPoint,
+    navbarProps,
+    setNavbarProps,
+  } = useContext(FormContext);
   const [uploadedImages, setUploadImages] = useState([]);
   const [loader, setLoader] = useState(false);
   const contType = ["container", "card_box"].includes(currentElement?.type);
@@ -30,10 +41,10 @@ const AddImages = () => {
       setLoader(false);
       if (response.status == 200) {
         setUploadImages(response?.data?.images);
-      } else {        
+      } else {
         toast.success(response?.data?.message, snackProps);
       }
-    } catch (error) {      
+    } catch (error) {
       toast.error("Something Went Wrong!", snackProps);
     }
   };
@@ -55,7 +66,14 @@ const AddImages = () => {
     };
     setForms({
       ...forms,
-      [breakPoint]: nestedStructure(customizeFieldObj, forms, currentElement, updateforms, "customizeField", breakPoint),
+      [breakPoint]: nestedStructure(
+        customizeFieldObj,
+        forms,
+        currentElement,
+        updateforms,
+        "customizeField",
+        breakPoint
+      ),
     });
   };
 
@@ -66,7 +84,14 @@ const AddImages = () => {
       url: contType ? backgroundImage : image?._id,
       filename: image?.name,
     };
-    onCustomizeElement(imageData, "imageData", "image", forms);
+    if (isNavSetting) {
+      setNavbarProps({
+        ...navbarProps,
+        logo: { ...navbarProps.logo, logoUrl: imageData?.url },
+      });
+    } else {
+      onCustomizeElement(imageData, "imageData", "image", forms);
+    }
   };
 
   useEffect(() => {

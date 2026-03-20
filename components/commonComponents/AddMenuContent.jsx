@@ -215,6 +215,8 @@ function AddMenuContent() {
     setShowIconBox(false);
   };
 
+  const filterPageLinkList = pagesList?.filter((el) => el?.page_route);
+
   return (
     <div className="mb-5 mt-5 px-2 menu-customize-sec">
       <div className="d-flex mt-5 align-items-center justify-content-end">
@@ -324,7 +326,7 @@ function AddMenuContent() {
                         <Select
                           isClearable
                           placeholder={"Select page"}
-                          options={pagesList}
+                          options={filterPageLinkList}
                           value={el?.menuLink || ""}
                           menuPlacement="top"
                           getOptionLabel={(e) => e.page_name}

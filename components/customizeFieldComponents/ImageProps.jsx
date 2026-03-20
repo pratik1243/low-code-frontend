@@ -1,51 +1,13 @@
 import React, { useContext } from "react";
 import { Col, Row } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
-import { setLoader } from "../../redux/slices/loaderSlice";
-import { commonPostApiFunction } from "../../services/commonApiFunc";
-import { FiUpload } from "react-icons/fi";
 import { FormContext } from "../FormCreate";
-import { LuFileImage } from "react-icons/lu";
-import { IoCloseSharp } from "react-icons/io5";
 import Select from "react-select";
-import { alignmentOptions, snackProps } from "../../utils/customizeOptions";
-import { API_BASE_URL } from "../../services/endpoints";
-import { toast } from "react-toastify";
+import { alignmentOptions } from "../../utils/customizeOptions";
+import UploadImageComp from "../commonComponents/UploadImageComp";
 
 const ImageProps = ({ currentField, onCustomizeElement }) => {
-  const dispatch = useDispatch();
-  const { forms, setOpenImageModel } = useContext(FormContext);
-  const token = useSelector((user) => user.auth.authDetails.token);
+  const { forms } = useContext(FormContext);
   const contType = ["container", "card_box"].includes(currentField?.type);
-
-  const uploadImage = async (e) => {
-    try {
-      e.preventDefault();
-      dispatch(setLoader(true));
-      const file = e.target.files[0];
-      const formData = new FormData();
-      formData.append("image", file);
-      const requestData = {
-        key: "mfgtrwo",
-        payload: formData,
-      };
-      const response = await commonPostApiFunction(requestData, token);
-      dispatch(setLoader(false));
-      if (response.status == 200) {
-        const backgroundImage = `url('${API_BASE_URL}/image/${response?.data?.id}')`;
-        const imageData = {
-          url: contType ? backgroundImage : response?.data?.id,
-          filename: file?.name,
-        };
-        onCustomizeElement(imageData, "imageData", "image", forms);
-        toast.success(response?.data?.message, snackProps);
-      } else {
-        toast.error(response?.data?.message, snackProps);
-      }
-    } catch (error) {
-      toast.error("Something Went Wrong!", snackProps);
-    }
-  };
 
   const removeFileBg = () => {
     const imageData = {
@@ -66,56 +28,15 @@ const ImageProps = ({ currentField, onCustomizeElement }) => {
           currentField?.type == "container" ? "mt-1" : "mt-4"
         } mb-4`}
       >
-        <label className="mb-2">
-          Upload {currentField?.type !== "image" && "Background"} Image
-        </label>
-        {currentField?.props?.imageData?.filename ? (
-          <div className="uploaded-image">
-            <div>
-              <LuFileImage size={22} />
-              {currentField?.props?.imageData?.filename}
-            </div>
-            <IoCloseSharp
-              role="button"
-              size={25}
-              onClick={() => {
-                removeFileBg();
-              }}
-            />
-          </div>
-        ) : (
-          <div className="upload-image-btn mb-2">
-            <span
-              role="button"
-              className="select-image-btn"
-              onClick={(e) => {
-                setOpenImageModel(true);
-                e.stopPropagation();
-              }}
-            >
-              Image Gallery
-            </span>
-
-            <div className="text-center">
-              <input
-                type="file"
-                id="upload-image"
-                accept="image/*"
-                onChange={(e) => uploadImage(e)}
-                onDragOver={(e) => {
-                  e.preventDefault();
-                }}
-                onDrop={(e) => uploadImage(e)}
-              />
-              <div className="mb-2">
-                <FiUpload size={21} />
-              </div>
-              Click or <span className="click-text">Drag & Drop Image</span> to
-              upload (jpg, png and jpeg)
-            </div>
-            <label htmlFor="upload-image"></label>
-          </div>
-        )}
+        <UploadImageComp
+          contType={contType}
+          uploadedState={currentField?.props?.imageData?.filename}
+          label={`Upload ${currentField?.type !== "image" && "Background"} Image`}
+          removeUploadedFile={removeFileBg}
+          onFileUpload={(e, imageData) => {
+            onCustomizeElement(imageData, "imageData", "image", forms);
+          }}
+        />
       </Col>
       {currentField?.type == "image" && (
         <>

@@ -10,10 +10,10 @@ function GraidentLayer({ data }) {
         data?.props?.gradientColor?.startsWith("conic") ||
         data?.props?.gradientColor?.startsWith("repeating")
           ? {
-              backgroundImage: data?.props?.gradientColor,
+              backgroundImage: `${data?.props?.gradientColor}`,
             }
           : {
-              background: data?.props?.gradientColor,
+              background: `${data?.props?.gradientColor}`,
             }),
       }}
     ></div>
