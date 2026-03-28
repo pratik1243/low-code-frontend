@@ -4,7 +4,7 @@ import { fieldsData } from "../utils/customizeOptions";
 import { generateId } from "../utils/customizePropFunctions";
 
 const FieldSection = () => {
-  const { forms, setForms, containerId, breakPoint, elementContainerRef } = useContext(FormContext);
+  const { forms, setForms, containerId, breakPoint } = useContext(FormContext);
   const noContentTypes = ["stepper", "slider", "container", "card_box"];
 
   const onClickAddFields = (items) => {

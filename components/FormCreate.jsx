@@ -21,10 +21,9 @@ import { responsiveScreenSizes, snackProps } from "../utils/customizeOptions";
 export const FormContext = createContext();
 
 const FormCreate = () => {
+  const params = useParams();
   const router = useRouter();
   const dispatch = useDispatch();
-  const params = useParams();
-  const elementContainerRef = useRef(null);
   const [forms, setForms] = useState({
     lg: [],
     md: [],
@@ -302,7 +301,6 @@ const FormCreate = () => {
           setIsSubMenuOpen,
           setNavbarProps,
           setShowCurrentElement,
-          elementContainerRef,
           openEmailSendBox,
           setOpenEmailSendBox,
         }}

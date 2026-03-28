@@ -31,7 +31,9 @@ const ImageProps = ({ currentField, onCustomizeElement }) => {
         <UploadImageComp
           contType={contType}
           uploadedState={currentField?.props?.imageData?.filename}
-          label={`Upload ${currentField?.type !== "image" && "Background"} Image`}
+          label={`Upload ${
+            currentField?.type !== "image" && "Background"
+          } Image`}
           removeUploadedFile={removeFileBg}
           onFileUpload={(e, imageData) => {
             onCustomizeElement(imageData, "imageData", "image", forms);
@@ -126,21 +128,23 @@ const ImageProps = ({ currentField, onCustomizeElement }) => {
                 />
               </div>
             </Col>
-            <Col lg={6} md={6} sm={12} xs={12}>
-              <div className="customize-prop-sec">
-                <label>Width</label>
-                <input
-                  type="number"
-                  min={0}
-                  max={800}
-                  value={currentField?.props?.width || 100}
-                  className="customize-input"
-                  onChange={(e) => {
-                    onCustomizeElement(e, "width", "input", forms);
-                  }}
-                />
-              </div>
-            </Col>
+            {!currentField?.props?.fullWidth && (
+              <Col lg={6} md={6} sm={12} xs={12}>
+                <div className="customize-prop-sec">
+                  <label>Width</label>
+                  <input
+                    type="number"
+                    min={0}
+                    max={800}
+                    value={currentField?.props?.width || 100}
+                    className="customize-input"
+                    onChange={(e) => {
+                      onCustomizeElement(e, "width", "input", forms);
+                    }}
+                  />
+                </div>
+              </Col>
+            )}
           </Row>
         </Col>
       )}
