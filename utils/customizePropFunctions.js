@@ -1,3 +1,5 @@
+import { validationsRegex } from "./customizeOptions";
+
 export function generateId(length) {
   let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let result = "";
