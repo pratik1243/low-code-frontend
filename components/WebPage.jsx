@@ -64,9 +64,7 @@ const WebPage = () => {
         });
         Aos.init({
           duration: 1000,
-          once:
-            response?.data?.responseData?.scroll_animation_type?.value ===
-            "Once",
+          once: response?.data?.responseData?.scroll_animation_type?.value === "Once",
         });
       } else {
         setSelectedFont("Roboto");
@@ -91,29 +89,32 @@ const WebPage = () => {
   };
 
   useEffect(() => {
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
     const link = document.createElement("link");
     const body = document.getElementById('body-section');
-    if (selectedFont) {
+
+    if(pageBackground) {
+      body.style.backgroundColor = pageBackground;
+    }
+
+    if(selectedFont) {
       link.rel = "stylesheet";
       link.href = `https://fonts.googleapis.com/css2?family=${selectedFont?.replace(/ /g, "+")}:wght@400&display=swap`;
-      if(body){
-        body.style.backgroundColor = pageBackground;
-      }
-      document.head.appendChild(link);
+      document?.head.appendChild(link);
     }
+
+    handleResize();
+    window?.addEventListener("resize", handleResize);
+
     return () => {
-      document.head.removeChild(link);
-    };
-  }, [selectedFont]);
+      document?.head.appendChild(link);
+      window?.removeEventListener("resize", handleResize);
+    }
+  }, [pageBackground, selectedFont]);
 
   useEffect(() => {
-    fetchPage(breakPoint);
+    if (breakPoint) {
+      fetchPage(breakPoint);
+    }
   }, [breakPoint, path]);
 
   return (
@@ -140,7 +141,7 @@ const WebPage = () => {
                   return null;
                 }
                 return (
-                  <div                    
+                  <div
                     key={index}
                     className={`position-relative ${
                       !ele?.props?.fullWidth ? "d-flex" : ""
