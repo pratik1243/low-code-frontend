@@ -89,33 +89,32 @@ const WebPage = () => {
   };
 
   useEffect(() => {
-    const link = document.createElement("link");
-    const body = document.getElementById('body-section');
-
-    if(pageBackground) {
-      body.style.backgroundColor = pageBackground;
-    }
-
-    if(selectedFont) {
-      link.rel = "stylesheet";
-      link.href = `https://fonts.googleapis.com/css2?family=${selectedFont?.replace(/ /g, "+")}:wght@400&display=swap`;
-      document?.head.appendChild(link);
-    }
-
     handleResize();
     window?.addEventListener("resize", handleResize);
-
-    return () => {
-      document?.head.appendChild(link);
-      window?.removeEventListener("resize", handleResize);
-    }
-  }, [pageBackground, selectedFont]);
+    return ()=> window?.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     if (breakPoint) {
       fetchPage(breakPoint);
     }
   }, [breakPoint, path]);
+
+  useEffect(() => {
+    const link = document.createElement("link");
+    const body = document.getElementById('body-section');
+    if(pageBackground) {
+      body.style.backgroundColor = pageBackground;
+    }
+    if(selectedFont) {
+      link.rel = "stylesheet";
+      link.href = `https://fonts.googleapis.com/css2?family=${selectedFont?.replace(/ /g, "+")}:wght@400&display=swap`;
+      document?.head.appendChild(link);
+    }
+    return () => {
+      document?.head.removeChild(link);
+    }
+  }, [pageBackground, selectedFont]);
 
   return (
     <div>
