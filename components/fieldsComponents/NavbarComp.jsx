@@ -34,11 +34,13 @@ const NavbarComp = () => {
     return (
       <div
         className={`sub-menu-list ${
-          !mobileSize && navbarProps?.menus?.menuDropdownAnimation?.value == "Collapse"
+          !mobileSize &&
+          navbarProps?.menus?.menuDropdownAnimation?.value == "Collapse"
             ? "collapse-drop"
             : navbarProps?.menus?.menuDropdownAnimation &&
               navbarProps?.menus?.menuDropdownAnimation?.value !== "Collapse"
-            ? "anim-sub-menu-list" : ""
+            ? "anim-sub-menu-list"
+            : ""
         }`}
         style={{
           ...(navbarProps?.menuTemplate?.value === "Template 2" &&
@@ -46,7 +48,8 @@ const NavbarComp = () => {
               paddingTop: `${parseInt(navbarProps?.logo?.height / 2)}px`,
             }),
         }}
-        {...(navbarProps?.menus?.menuDropdownAnimation && !mobileSize &&
+        {...(navbarProps?.menus?.menuDropdownAnimation &&
+          !mobileSize &&
           navbarProps?.menus?.menuDropdownAnimation?.value !== "Collapse" && {
             "data-aos": navbarProps?.menus?.menuDropdownAnimation?.value,
             "data-aos-once": "false",
@@ -72,23 +75,47 @@ const NavbarComp = () => {
                   }
                 }}
               >
-                <Link
-                  href={ele?.menuLink?.page_route || `/web-page/${params?.slug?.join("/")}`}
-                  style={{
-                    ...(navbarProps?.menus?.subMenuColor && {
-                      color: navbarProps?.menus?.subMenuColor,
-                    }),
-                  }}
-                >
-                  {" "}
-                  {ele?.icon && (
-                    <>
-                      <IconComponent icon={ele?.icon} size={ele?.size} />
-                      &nbsp;&nbsp;
-                    </>
-                  )}
-                  {ele?.text}{" "}
-                </Link>
+                {ele?.menuLink?.page_route ? (
+                  <Link
+                    href={
+                      ele?.menuLink?.page_route ||
+                      `/web-page/${params?.slug?.join("/")}`
+                    }
+                    style={{
+                      ...(navbarProps?.menus?.subMenuColor && {
+                        color: navbarProps?.menus?.subMenuColor,
+                      }),
+                    }}
+                  >
+                    {" "}
+                    {ele?.icon && (
+                      <>
+                        <IconComponent icon={ele?.icon} size={ele?.size} />
+                        &nbsp;&nbsp;
+                      </>
+                    )}
+                    {ele?.text}{" "}
+                  </Link>
+                ) : (
+                  <div
+                    className="d-flex align-items-center cursor-pointer"
+                    style={{
+                      cursor: "pointer",
+                      ...(navbarProps?.menus?.menuColor && {
+                        color: navbarProps?.menus?.menuColor,
+                      }),
+                    }}
+                  >
+                    {" "}
+                    {ele?.icon && (
+                      <>
+                        <IconComponent size={ele?.size} icon={ele?.icon} />
+                        &nbsp;&nbsp;
+                      </>
+                    )}
+                    {ele?.text}
+                  </div>
+                )}
               </div>
             );
           })}
@@ -108,7 +135,11 @@ const NavbarComp = () => {
   };
 
   const hoverMenuIndex = (value) => {
-    if (!mobileSize && navbarProps?.menus?.menuDropdownAnimation && navbarProps?.menus?.menuDropdownAnimation?.value !== "Collapse") {
+    if (
+      !mobileSize &&
+      navbarProps?.menus?.menuDropdownAnimation &&
+      navbarProps?.menus?.menuDropdownAnimation?.value !== "Collapse"
+    ) {
       setMenuIndex(value);
     }
   };
@@ -130,7 +161,12 @@ const NavbarComp = () => {
             return (
               <div
                 key={i}
-                className={`menu-item ${!mobileSize && navbarProps?.menuTemplate?.value === "Template 2" ? "template-2" : ""}`}
+                className={`menu-item ${
+                  !mobileSize &&
+                  navbarProps?.menuTemplate?.value === "Template 2"
+                    ? "template-2"
+                    : ""
+                }`}
                 onMouseOver={() => {
                   hoverMenuIndex(i);
                 }}
@@ -161,9 +197,12 @@ const NavbarComp = () => {
                       <IoIosArrowDown size={18} />
                     </div>
                   </a>
-                ) : (
+                ) : el?.menuLink?.page_route ? (
                   <Link
-                    href={el?.menuLink?.page_route || `/web-page/${params?.slug?.join("/")}`}
+                    href={
+                      el?.menuLink?.page_route ||
+                      `/web-page/${params?.slug?.join("/")}`
+                    }
                     style={{
                       ...(navbarProps?.menus?.menuColor && {
                         color: navbarProps?.menus?.menuColor,
@@ -179,6 +218,25 @@ const NavbarComp = () => {
                     )}
                     {el?.text}
                   </Link>
+                ) : (
+                  <div
+                    className="d-flex align-items-center cursor-pointer"
+                    style={{
+                      cursor: "pointer",
+                      ...(navbarProps?.menus?.menuColor && {
+                        color: navbarProps?.menus?.menuColor,
+                      }),
+                    }}
+                  >
+                    {" "}
+                    {el?.icon && (
+                      <>
+                        <IconComponent size={el?.size} icon={el?.icon} />
+                        &nbsp;&nbsp;
+                      </>
+                    )}
+                    {el?.text}
+                  </div>
                 )}
 
                 {el?.subMenus?.length > 0 && (
@@ -190,8 +248,13 @@ const NavbarComp = () => {
                     ) : (
                       <>
                         {menuIndex === i && renderSubMenu(el)}
-                        {!menuIndex && !navbarProps?.menus?.menuDropdownAnimation?.value && renderSubMenu(el)}
-                        {!menuIndex && navbarProps?.menus?.menuDropdownAnimation?.value == "Collapse" && renderSubMenu(el)}
+                        {!menuIndex &&
+                          !navbarProps?.menus?.menuDropdownAnimation?.value &&
+                          renderSubMenu(el)}
+                        {!menuIndex &&
+                          navbarProps?.menus?.menuDropdownAnimation?.value ==
+                            "Collapse" &&
+                          renderSubMenu(el)}
                       </>
                     )}
                   </>
@@ -236,7 +299,10 @@ const NavbarComp = () => {
               setDrawerOpen(!drawerOpen);
             }}
           >
-            <MdOutlineMenuOpen color={navbarProps?.menus?.hamBurgerButtonColor || "black"} size={31} />
+            <MdOutlineMenuOpen
+              color={navbarProps?.menus?.hamBurgerButtonColor || "black"}
+              size={31}
+            />
           </div>
         )}
       </div>
@@ -245,7 +311,8 @@ const NavbarComp = () => {
         <div
           className={`mobile-menu-sec ${drawerOpen ? "open" : ""} ${
             navbarProps?.menus?.sideDrawerPosition?.value == "Left"
-              ? "left-position" : "right-position"
+              ? "left-position"
+              : "right-position"
           }`}
           style={{
             ...(navbarProps?.menus?.sideDrawerColor && {
@@ -267,7 +334,10 @@ const NavbarComp = () => {
                 setDrawerOpen(!drawerOpen);
               }}
             >
-              <IoMdClose size={24} color={navbarProps?.menus?.closeButtonColor || "black"} />
+              <IoMdClose
+                size={24}
+                color={navbarProps?.menus?.closeButtonColor || "black"}
+              />
             </div>
           </div>
           {renderMenus()}
