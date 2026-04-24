@@ -100,7 +100,6 @@ const NavbarComp = () => {
                   <div
                     className="d-flex align-items-center cursor-pointer"
                     style={{
-                      cursor: "pointer",
                       ...(navbarProps?.menus?.menuColor && {
                         color: navbarProps?.menus?.menuColor,
                       }),
@@ -221,8 +220,7 @@ const NavbarComp = () => {
                 ) : (
                   <div
                     className="d-flex align-items-center cursor-pointer"
-                    style={{
-                      cursor: "pointer",
+                    style={{                      
                       ...(navbarProps?.menus?.menuColor && {
                         color: navbarProps?.menus?.menuColor,
                       }),
