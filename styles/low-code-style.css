@@ -1766,7 +1766,8 @@ hr {
 }
 
 .navbar-section .sub-menu-list .menu-item {
-  padding: 4px 5px;
+  /* padding: 4px 5px; */
+  padding: 6px 11px;
 }
 
 .nav-logo-upload-sec {
