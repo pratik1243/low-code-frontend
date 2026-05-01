@@ -14,7 +14,7 @@ import emptyImg from "../../public/empty-box.png";
 import { toast } from "react-toastify";
 import { snackProps } from "../../utils/customizeOptions";
 
-const AddImages = ({ isNavSetting = null }) => {
+const AddImages = ({ isNavSetting = null, isEmailTemplate = null }) => {
   const token = useSelector((user) => user.auth.authDetails.token);
   const {
     setOpenImageModel,
@@ -24,7 +24,7 @@ const AddImages = ({ isNavSetting = null }) => {
     breakPoint,
     navbarProps,
     setNavbarProps,
-  } = useContext(FormContext);
+  } = useContext(FormContext) || {};
   const [uploadedImages, setUploadImages] = useState([]);
   const [loader, setLoader] = useState(false);
   const contType = ["container", "card_box"].includes(currentElement?.type);
@@ -49,7 +49,14 @@ const AddImages = ({ isNavSetting = null }) => {
     }
   };
 
-  const onCustomizeElement = (e, attribute, type, forms, style = null, optionIndex = null) => {
+  const onCustomizeElement = (
+    e,
+    attribute,
+    type,
+    forms,
+    style = null,
+    optionIndex = null
+  ) => {
     const value = {
       select: e || "",
       input: e?.target?.value,
@@ -78,7 +85,9 @@ const AddImages = ({ isNavSetting = null }) => {
   };
 
   const selectCurrentImage = (image) => {
-    setOpenImageModel(false);
+    if (!isEmailTemplate) {
+      setOpenImageModel(false);
+    }
     const backgroundImage = `url('${API_BASE_URL}/image/${image?._id}')`;
     const imageData = {
       url: contType ? backgroundImage : image?._id,
@@ -89,6 +98,8 @@ const AddImages = ({ isNavSetting = null }) => {
         ...navbarProps,
         logo: { ...navbarProps.logo, logoUrl: imageData?.url },
       });
+    } else if (isEmailTemplate) {
+      isEmailTemplate(imageData?.url);
     } else {
       onCustomizeElement(imageData, "imageData", "image", forms);
     }
@@ -103,18 +114,21 @@ const AddImages = ({ isNavSetting = null }) => {
 
   return (
     <div className="image-customize-sec">
-      <div className="mb-4 mt-4 px-4">
-        <Button
-          variant={"primary"}
-          className="go-back-btn"
-          onClick={() => {
-            setOpenImageModel(false);
-            setUploadImages([]);
-          }}
-        >
-          <IoMdArrowBack size={18} /> &nbsp;&nbsp;Back
-        </Button>
-      </div>
+      {!isEmailTemplate && (
+        <div className="mb-4 mt-4 px-4">
+          <Button
+            variant={"primary"}
+            className="go-back-btn"
+            onClick={() => {
+              setOpenImageModel(false);
+              setUploadImages([]);
+            }}
+          >
+            <IoMdArrowBack size={18} /> &nbsp;&nbsp;Back
+          </Button>
+        </div>
+      )}
+
       {loader ? (
         <div className="text-center my-5 pt-3">
           <Spinner animation="border" variant="primary" />

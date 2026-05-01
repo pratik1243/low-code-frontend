@@ -610,6 +610,7 @@ export const emailComponentData = [
     props: {
       imageUrl: "",
       url: "",
+      fullWidth: true,
       height: "",
       width: "",
     },

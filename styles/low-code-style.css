@@ -176,6 +176,10 @@ input {
   font-size: 15px;
 }
 
+.customize-email-template .customize-prop-sec input[type="color"] {
+  padding: 3px !important;
+}
+
 .customize-email-template .customize-prop-sec,
 .field-customize-sec .customize-prop-sec {
   margin-bottom: 20px;
@@ -619,6 +623,14 @@ input {
 .publish-btn-sec a svg {
   margin-right: 7px;
 }
+
+.publish-btn-sec button span {
+  height: 18px;
+  width: 18px;
+  display: grid;
+  place-items: center;
+  margin-right: 7px;
+} 
 
 .loader-sec {
   position: fixed;
@@ -1431,6 +1443,11 @@ hr {
   margin-left: 20px;
 }
 
+.uploaded-images-sec .image-select-sec img {
+  border: 1px solid #d8d4d4;
+  border-radius: 6px;
+}
+
 .upload-image-btn {
   background-color: var(--white-color);
   border: 1px dashed #00b2aa;
@@ -1490,11 +1507,6 @@ hr {
   flex-wrap: wrap;
 }
 
-/* .field-sec-customize-modal .modal-body {
-  height: 460px !important;
-  overflow-y: auto;
-} */
-
 .select-image-btn {
   position: absolute;
   right: 0;
@@ -1517,6 +1529,13 @@ hr {
   font-size: 13px !important;
   line-height: 18px !important;
   padding: 10px 11px !important;
+}
+
+.tooltip[id="email-text-tooltip"] .tooltip-inner {
+  text-align: left !important;
+  font-size: 13px !important;
+  padding: 10px 11px !important;
+  max-width: 395px !important;
 }
 
 .no-option {
@@ -2116,14 +2135,8 @@ hr {
   z-index: 1;
 }
 
-.element-input-field:not(.standard-input):has(.selected-country-code):has(
-    input:focus
-  )
-  label,
-.element-input-field:not(.standard-input):has(.selected-country-code):has(
-    input:valid
-  )
-  label {
+.element-input-field:not(.standard-input):has(.selected-country-code):has(input:focus) label,
+.element-input-field:not(.standard-input):has(.selected-country-code):has(input:valid) label {
   border-radius: 3px;
   height: 16px;
   padding: 0 2px !important;
@@ -2137,16 +2150,13 @@ hr {
   top: -14px !important;
 }
 
-.element-input-field:not(.float-label):not(.standard-input):has(input:focus)
-  label,
-.element-input-field:not(.float-label):not(.standard-input):has(input:valid)
-  label {
+.element-input-field:not(.float-label):not(.standard-input):has(input:focus) label,
+.element-input-field:not(.float-label):not(.standard-input):has(input:valid) label {
   height: auto !important;
   padding: 0px !important;
 }
 
-.element-input-field:not(.float-label):not(.standard-input)
-  .selected-country-code {
+.element-input-field:not(.float-label):not(.standard-input) .selected-country-code {
   top: 31px !important;
 }
 
@@ -2163,8 +2173,7 @@ hr {
   border-width: 1.8px !important;
 }
 
-.element-input-field:not(.standard-input):has(.is-border-color)
-  .selected-country-code {
+.element-input-field:not(.standard-input):has(.is-border-color) .selected-country-code {
   top: 1.5px !important;
   left: 1.5px !important;
   bottom: 1.5px !important;
@@ -2180,17 +2189,11 @@ hr {
   font-size: 13px;
 }
 
-.element-input-field:not(.standard-input):has(
-    .selected-country-code.three-len-code
-  )
-  input {
+.element-input-field:not(.standard-input):has(.selected-country-code.three-len-code) input {
   padding-left: 92px !important;
 }
 
-.element-input-field:not(.standard-input):has(
-    .selected-country-code.one-len-code
-  )
-  input {
+.element-input-field:not(.standard-input):has(.selected-country-code.one-len-code) input {
   padding-left: 75px !important;
 }
 
@@ -2206,18 +2209,12 @@ hr {
   padding-left: 78px !important;
 }
 
-.element-input-field:not(.standard-input):has(
-    .selected-country-code.one-len-code
-  )
-  label,
+.element-input-field:not(.standard-input):has(.selected-country-code.one-len-code) label,
 .element-input-field:has(.selected-country-code.three-len-code) label {
   left: 78px !important;
 }
 
-.element-input-field:not(.standard-input):has(
-    .selected-country-code.three-len-code
-  )
-  label {
+.element-input-field:not(.standard-input):has(.selected-country-code.three-len-code) label {
   left: 93px !important;
 }
 
@@ -2272,6 +2269,12 @@ hr {
 
 .email-content-layout table {
   width: 100%;
+  background-color: #f8f8f8 !important;
+}
+
+.email-content-layout table img {
+  height: 110px !important;
+  width: 110px !important;
 }
 
 .email-content-layout table tr td p,
@@ -2284,6 +2287,10 @@ hr {
   color: #444141;
 }
 
+.email-content-layout table tr td img {
+  cursor: grab;
+}
+
 .email-content-layout table tr td {
   padding: 10px;
   background-color: var(--white-color);
@@ -2291,9 +2298,10 @@ hr {
   box-sizing: border-box;
   border-radius: 4px;
   width: 100%;
-  cursor: pointer;
+  cursor: grab;
   margin-bottom: 20px;
   display: block;
+  position: relative;
 }
 
 .email-content-layout table tr:nth-last-child(2) td {
@@ -2308,6 +2316,7 @@ hr {
   background-color: #fff !important;
   color: #000 !important;
   font-weight: 400 !important;
+  font-size: 16px !important;
 }
 
 .email-content-layout table tr:last-child {
@@ -2321,6 +2330,17 @@ hr {
 
 .email-content-layout table tr.selected2 td {
   border: 1.6px solid rgb(247 165 83) !important;
+}
+
+.email-content-layout .email-delete-btn {
+  width: fit-content;
+  padding: 3.5px;
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  box-shadow: -1px 1px 3px #8080804a;
+  background: white;
+  border-bottom-left-radius: 4px;
 }
 
 .email-add-btn-sec,
@@ -2480,6 +2500,28 @@ hr {
   cursor: pointer;
   white-space: nowrap;
   font-size: 15px;
+}
+
+.offcanvas-body:has(.email-temp-images) {
+  overflow: hidden !important;
+  background-color: #f8f8f8 !important;
+  border-top: 1px solid var(--grey-color);
+}
+
+.offcanvas:has(.email-temp-images) {
+  width: 700px !important;
+}
+
+.email-temp-images {
+  height: 100%;
+  overflow-y: auto;
+  padding-top: 10px;
+  padding-bottom: 160px !important;
+  border-top: 1px solid #d8d4d4;
+}
+
+.customize-email-template .customize-prop-sec label span {
+  text-transform: capitalize;
 }
 
 @media (max-width: 768px) {

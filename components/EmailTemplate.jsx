@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-import { Button, Col, Row } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Button, Col, Modal, Row } from "react-bootstrap";
 import Footer from "./mailerComponents/Footer";
 import Heading from "./mailerComponents/Heading";
 import Paragraph from "./mailerComponents/Paragraph";
@@ -18,17 +18,21 @@ import { setLoader } from "../redux/slices/loaderSlice";
 import { IoMdArrowBack } from "react-icons/io";
 import emptyImg from "../public/empty-box.png";
 import Image from "next/image";
+import { RiExternalLinkLine } from "react-icons/ri";
+import { IoSaveOutline } from "react-icons/io5";
+import { MdDeleteOutline } from "react-icons/md";
 
 const EmailTemplate = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const params = useParams();
-  const tableRef = useRef();
   const [id, setId] = useState();
   const [emailComponents, setEmailComponents] = useState([]);
-  const [containerId, setContainerId] = useState();
+  const [deleteId, setDeleteId] = useState();
   const [currentField, setCurrentField] = useState();
   const [templateName, setTemplateName] = useState("");
+  const [templatePreview, setTemplatePreview] = useState(false);
+  const [templateBackground, setTemplateBackground] = useState("");
   const token = useSelector((user) => user.auth.authDetails.token);
   const requestUserId = useSelector(
     (user) => user.auth.authDetails.request_user_id
@@ -52,24 +56,27 @@ const EmailTemplate = () => {
     }
   };
 
+  const onDropItem = (e, dropIndex) => {
+    e.stopPropagation();
+    const filterContentList = [...emailComponents];
+    const dragIndex = JSON.parse(e?.dataTransfer?.getData("email-temp-item"));
+    const draggedItem = filterContentList[dragIndex];
+    filterContentList?.splice(dragIndex, 1);
+    filterContentList?.splice(dropIndex, 0, draggedItem);
+    setEmailComponents(filterContentList);
+  };
+
+  const onDragStart = (e, i) => {
+    e.dataTransfer.setData("email-temp-item", i);
+  };
+
+  const onDragOver = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+  };
+
   const addFields = (data) => {
-    const updateFields = emailComponents?.map((ele, i) => {
-      if (i == containerId && currentField?.type == "container") {
-        return {
-          ...ele,
-          props: {
-            ...ele.props,
-            content: [...ele.props.content, { id: generateId(4), ...data }],
-          },
-        };
-      }
-      return ele;
-    });
-    setEmailComponents(
-      currentField?.type == "container"
-        ? updateFields
-        : [...emailComponents, { id: generateId(4), ...data }]
-    );
+    setEmailComponents([...emailComponents, { id: generateId(4), ...data }]);
   };
 
   const emailStr = (content) => {
@@ -80,24 +87,26 @@ const EmailTemplate = () => {
     str += "<title>Email Template</title>";
     str += "</head>";
     str +=
-      '<body style="margin: 0; padding: 0; background-color: #a9a1a1; font-family: Arial, sans-serif">';
+      '<body style="margin: 0; padding: 0; background-color: #d2cece; font-family: Arial, sans-serif">';
     str += `${content?.outerHTML}`;
     str += "</body>";
     str += "</html>";
     return str;
   };
 
-  function dataPayload() {
+  const dataPayload = (tempId) => {
+    const email_template = document.querySelector("#email-template");
     return {
-      template_id: `${generateId(4)}`,
+      template_id: tempId ? tempId : `${generateId(4)}`,
       template_name: templateName,
       template_data: {
         data: emailComponents,
-        htmlStr: emailStr(tableRef?.current),
+        template_background: templateBackground,
+        htmlStr: email_template ? emailStr(email_template) : "",
       },
       request_user_id: requestUserId,
     };
-  }
+  };
 
   const saveTemplate = async (isEdit) => {
     try {
@@ -105,7 +114,7 @@ const EmailTemplate = () => {
         key: isEdit ? "miqagonr" : "sgrdxery",
         payload: {
           ...(isEdit
-            ? { id: id, datas: { ...dataPayload() } }
+            ? { id: id, datas: { ...dataPayload(params.id) } }
             : { ...dataPayload() }),
         },
       };
@@ -138,8 +147,11 @@ const EmailTemplate = () => {
       if (response.status == 200) {
         const templateData = response?.data?.responseData;
         setId(templateData?._id);
-        setTemplateName(templateData?.template_name);
+        setTemplateName(templateData?.template_name || "");
         setEmailComponents(templateData?.template_data?.data || []);
+        setTemplateBackground(
+          templateData?.template_data?.template_background || ""
+        );
       } else {
         setEmailComponents([]);
         dispatch(setLoader(false));
@@ -148,6 +160,68 @@ const EmailTemplate = () => {
       setEmailComponents([]);
       dispatch(setLoader(false));
     }
+  };
+
+  const deleteItem = (id) => {
+    const emailTempData = emailComponents.filter((el) => el.id !== id);
+    setEmailComponents(emailTempData);
+    setCurrentField();
+  };
+
+  const renderTemplate = (width) => {
+    return (
+      <table
+        id="email-template"
+        align="center"
+        width={width}
+        background={templateBackground}
+        style={{ background: templateBackground || "" }}
+        cellPadding="10"
+        cellSpacing="0"
+      >
+        <tbody>
+          {emailComponents?.map((ele, i) => {
+            return (
+              <tr
+                key={i}
+                draggable
+                onDragOver={(e) => onDragOver(e)}
+                onDragStart={(e) => onDragStart(e, i)}
+                onDrop={(e) => onDropItem(e, i)}
+                onClick={() => setCurrentData(ele, i)}
+                className={`${currentField?.id === ele?.id ? "selected" : ""}`}
+                onMouseOver={() => {
+                  setDeleteId(i);
+                }}
+                onMouseOut={() => {
+                  setDeleteId();
+                }}
+              >
+                <td style={{ ...emailStyles(ele?.props) }}>
+                  {renderEmailComponents(ele)}
+                  {deleteId == i && (
+                    <div
+                      role="button"
+                      className="email-delete-btn"
+                      onClick={() => deleteItem(ele?.id)}
+                    >
+                      <MdDeleteOutline size={21} color="red" />
+                    </div>
+                  )}
+                </td>
+              </tr>
+            );
+          })}
+          <tr>
+            <td style={{ height: "30px" }}></td>
+          </tr>
+        </tbody>
+      </table>
+    );
+  };
+
+  const setCurrentData = (ele, i) => {
+    setCurrentField(ele);
   };
 
   useEffect(() => {
@@ -161,7 +235,7 @@ const EmailTemplate = () => {
   return (
     <div className="email-template-create-sec p-4">
       <Row>
-        <Col lg={1} md={1} sm={12} xs={12}>
+        <Col lg={2} md={2} sm={12} xs={12}>
           <div className="publish-btn-sec">
             <button
               className="w-100"
@@ -169,20 +243,38 @@ const EmailTemplate = () => {
                 router.push("/page-list");
               }}
             >
-              <IoMdArrowBack size={17} /> Back
+              <span>
+                <IoMdArrowBack size={18} />
+              </span>{" "}
+              Go Back
             </button>
           </div>
         </Col>
-        <Col lg={9} md={9} sm={12} xs={12}>
+        <Col lg={6} md={6} sm={12} xs={12}>
           <input
             type="text"
             className="template-name mb-4"
-            value={templateName}
+            value={templateName || ""}
             placeholder="Enter Template Name"
             onChange={(e) => {
               setTemplateName(e.target.value);
             }}
           />
+        </Col>
+        <Col lg={2} md={2} sm={12} xs={12}>
+          <div className="publish-btn-sec">
+            <button
+              className="w-100"
+              onClick={() => {
+                setTemplatePreview(true);
+              }}
+            >
+              <span>
+                <RiExternalLinkLine size={18} />
+              </span>{" "}
+              Preview
+            </button>
+          </div>
         </Col>
         <Col lg={2} md={2} sm={12} xs={12}>
           <div className="publish-btn-sec">
@@ -195,18 +287,25 @@ const EmailTemplate = () => {
                 }
               }}
             >
+              <span>
+                {" "}
+                <IoSaveOutline size={17} />{" "}
+              </span>{" "}
               Publish Template
             </button>
           </div>
         </Col>
+
         <Col lg={3} md={3} sm={12} xs={12}>
           <CustomizeField
-            containerId={containerId}
             currentField={currentField}
             emailComponents={emailComponents}
             setEmailComponents={setEmailComponents}
-          />{" "}
+            templateBackground={templateBackground}
+            setTemplateBackground={setTemplateBackground}
+          />
         </Col>
+
         <Col lg={7} md={7} sm={12} xs={12}>
           <div className="email-content-layout">
             {emailComponents?.length == 0 ? (
@@ -222,79 +321,7 @@ const EmailTemplate = () => {
                 </div>
               </div>
             ) : (
-              <table
-                ref={tableRef}
-                align="center"
-                width="80%"
-                cellPadding="0"
-                cellSpacing="0"
-              >
-                <tbody>
-                  {emailComponents?.map((ele, i) => {
-                    return (
-                      <tr
-                        key={i}
-                        onClick={() => {
-                          if (ele?.type == "container") {
-                            setContainerId(i);
-                          }
-                          setCurrentField(ele);
-                        }}
-                        className={`${
-                          containerId === i
-                            ? "selected2"
-                            : currentField?.id === ele?.id
-                            ? "selected"
-                            : ""
-                        }`}
-                      >
-                        {ele?.type === "container" ? (
-                          <td>
-                            <table>
-                              <tbody>
-                                {ele?.props?.content?.length == 0 ? (
-                                  <tr>
-                                    <td>Container</td>
-                                  </tr>
-                                ) : (
-                                  <tr>
-                                    {ele?.props?.content?.map((el, id) => {
-                                      return (
-                                        <td
-                                          key={id}
-                                          className={`${
-                                            currentField?.id === el?.id
-                                              ? "selected"
-                                              : ""
-                                          }`}
-                                          style={{ ...emailStyles(el?.props) }}
-                                          onClick={(e) => {
-                                            e.stopPropagation();
-                                            setCurrentField(el);
-                                          }}
-                                        >
-                                          {renderEmailComponents(el)}
-                                        </td>
-                                      );
-                                    })}
-                                  </tr>
-                                )}
-                              </tbody>
-                            </table>
-                          </td>
-                        ) : (
-                          <td style={{ ...emailStyles(ele?.props) }}>
-                            {renderEmailComponents(ele)}
-                          </td>
-                        )}
-                      </tr>
-                    );
-                  })}
-                  <tr>
-                    <td style={{ height: "20px" }}></td>
-                  </tr>
-                </tbody>
-              </table>
+              renderTemplate("80%")
             )}
           </div>
         </Col>
@@ -314,6 +341,22 @@ const EmailTemplate = () => {
           </div>
         </Col>
       </Row>
+
+      <Modal
+        size="lg"
+        show={templatePreview}
+        className="menu-icon-box"
+        onHide={() => {
+          setTemplatePreview(false);
+        }}
+      >
+        <Modal.Header closeButton>
+          <h5>Template Preview</h5>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="p-3">{renderTemplate("100%")}</div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

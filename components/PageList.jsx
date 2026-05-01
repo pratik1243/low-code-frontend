@@ -91,12 +91,12 @@ const PageList = () => {
     }
   };
 
-  const deletePage = async (e, delete_id) => {
+  const deletePage = async (e, delete_id, delete_key) => {
     e.stopPropagation();
     try {
       dispatch(setLoader(true));
       const requestData = {
-        key: "qwesdrt",
+        key: delete_key,
         payload: { id: delete_id },
       };
       const response = await commonPostApiFunction(requestData, token);
@@ -203,7 +203,7 @@ const PageList = () => {
                       {ele?.page_name}
                       <div
                         role="button"
-                        onClick={(e) => deletePage(e, ele?._id)}
+                        onClick={(e) => deletePage(e, ele?._id, "qwesdrt")}
                       >
                         <MdDeleteOutline size={24} color="red" />
                       </div>
@@ -228,7 +228,7 @@ const PageList = () => {
                       {ele?.template_name}
                       <div
                         role="button"
-                        onClick={(e) => deletePage(e, ele?._id)}
+                        onClick={(e) => deletePage(e, ele?._id, "jfeqdrov")}
                       >
                         <MdDeleteOutline size={24} color="red" />
                       </div>

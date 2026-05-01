@@ -3,9 +3,9 @@ import { emailStyles } from "../../utils/customizePropFunctions";
 
 const Paragraph = ({ data }) => {
   return (
-    <p style={{ ...emailStyles(data?.props) }}>
+    <span style={{ ...emailStyles(data?.props) }}>
       {data?.props?.text || "Paragraph"}
-    </p>
+    </span>
   );
 };
 

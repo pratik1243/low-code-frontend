@@ -13,6 +13,7 @@ import Image from "next/image";
 
 const UploadImageComp = ({
   label,
+  isEmailTemplate = null,
   preview = null,
   contType = null,
   uploadedState,
@@ -20,7 +21,7 @@ const UploadImageComp = ({
   removeUploadedFile,
 }) => {
   const dispatch = useDispatch();
-  const { setOpenImageModel } = useContext(FormContext);
+  const { setOpenImageModel } = useContext(FormContext) || {};
   const token = useSelector((user) => user.auth.authDetails.token);
 
   const uploadImage = async (e) => {
@@ -64,7 +65,7 @@ const UploadImageComp = ({
                 width={70}
                 alt={`image-nav`}
                 quality={90}
-              />              
+              />
             </div>
           ) : (
             <div>
@@ -77,16 +78,18 @@ const UploadImageComp = ({
         </div>
       ) : (
         <div className="upload-image-btn mb-2">
-          <span
-            role="button"
-            className="select-image-btn"
-            onClick={(e) => {
-              setOpenImageModel(true);
-              e.stopPropagation();
-            }}
-          >
-            Image Gallery
-          </span>
+          {!isEmailTemplate && (
+            <span
+              role="button"
+              className="select-image-btn"
+              onClick={(e) => {
+                setOpenImageModel(true);
+                e.stopPropagation();
+              }}
+            >
+              Image Gallery
+            </span>
+          )}
 
           <div className="text-center">
             <input

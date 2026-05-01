@@ -16,6 +16,7 @@ export const endPointsUrl = {
   miqagonr: "/edit-template",
   lopawqcj: "/template-data",
   uawriocb: "/template-list",
+  jfeqdrov: "/delete-template",
 };
 
 export const API_BASE_URL = "https://low-code-backend.vercel.app/api";

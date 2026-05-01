@@ -3,9 +3,9 @@ import { emailStyles } from "../../utils/customizePropFunctions";
 
 const Heading = ({ data }) => {
   return (
-    <h6 style={{ ...emailStyles(data?.props) }}>
+    <span style={{ ...emailStyles(data?.props) }}>
       {data?.props?.text || "Heading"}
-    </h6>
+    </span>
   );
 };
 

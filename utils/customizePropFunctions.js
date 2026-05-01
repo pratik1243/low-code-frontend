@@ -11,7 +11,11 @@ export function generateId(length) {
 
 export function emailStyles(data) {
   const { text, url, imageUrl, ...styles } = data;
-  return styles;
+  let inlineStyles = {};
+  for (const key in styles) {
+    inlineStyles[key] = ["fontSize"].includes(key) ? `${styles[key]}px` : styles[key];
+  }  
+  return inlineStyles;
 }
 
 export function errorMessageFunc(el, value) {

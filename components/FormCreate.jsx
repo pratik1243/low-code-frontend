@@ -319,7 +319,11 @@ const FormCreate = () => {
                       router.push("/page-list");
                     }}
                   >
-                    <IoMdArrowBack size={17} /> Back
+                    <span>
+                      {" "}
+                      <IoMdArrowBack size={18} />{" "}
+                    </span>{" "}
+                    Back
                   </button>
                 </div>
               </Col>
@@ -343,7 +347,11 @@ const FormCreate = () => {
                       }
                     }}
                   >
-                    <IoSettingsOutline size={18} /> Settings
+                    <span>
+                      {" "}
+                      <IoSettingsOutline size={18} />{" "}
+                    </span>{" "}
+                    Settings
                   </button>
                   <a
                     role={"button"}
@@ -369,7 +377,11 @@ const FormCreate = () => {
                       savePage(params.id !== "create");
                     }}
                   >
-                    <IoSaveOutline size={17} /> Publish Changes
+                    <span>
+                      {" "}
+                      <IoSaveOutline size={17} />{" "}
+                    </span>{" "}
+                    Publish Changes
                   </button>
                 </div>
               </Col>
