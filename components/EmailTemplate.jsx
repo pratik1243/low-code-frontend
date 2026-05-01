@@ -168,7 +168,7 @@ const EmailTemplate = () => {
     setCurrentField();
   };
 
-  const renderTemplate = (width) => {
+  const renderTemplate = (width, no_delete = null) => {
     return (
       <table
         id="email-template"
@@ -199,7 +199,7 @@ const EmailTemplate = () => {
               >
                 <td style={{ ...emailStyles(ele?.props) }}>
                   {renderEmailComponents(ele)}
-                  {deleteId == i && (
+                  {deleteId == i && !no_delete && (
                     <div
                       role="button"
                       className="email-delete-btn"
@@ -354,7 +354,7 @@ const EmailTemplate = () => {
           <h5>Template Preview</h5>
         </Modal.Header>
         <Modal.Body>
-          <div className="p-3">{renderTemplate("100%")}</div>
+          <div className="p-3">{renderTemplate("100%", true)}</div>
         </Modal.Body>
       </Modal>
     </div>
