@@ -1494,7 +1494,7 @@ hr {
 .background-image-props {
   background-repeat: no-repeat !important;
   background-position: center !important;
-  background-size: cover;
+  background-size: 100% 100%;
 }
 
 .card-main-section {
