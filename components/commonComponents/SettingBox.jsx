@@ -46,10 +46,7 @@ function SettingBox() {
                 ? { standard: true, floatLabel: false }
                 : value === "Outlined"
                 ? { floatLabel: true, standard: false }
-                : {
-                    standard: false,
-                    floatLabel: false,
-                  }),
+                : {}),
             },
           };
         }
@@ -66,10 +63,7 @@ function SettingBox() {
               ? { standard: true, floatLabel: false }
               : value === "Outlined"
               ? { floatLabel: true, standard: false }
-              : {
-                  standard: false,
-                  floatLabel: false,
-                }),
+              : {}),
           },
         };
       } else {
