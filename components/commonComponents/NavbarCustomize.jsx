@@ -97,7 +97,7 @@ function NavbarCustomize() {
                 <input
                   type="number"
                   min={0}
-                  max={50}
+                  max={80}
                   name="height"
                   placeholder="Enter height"
                   value={navbarProps?.logo?.height || ""}

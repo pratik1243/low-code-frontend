@@ -45,7 +45,7 @@ const NavbarComp = () => {
         style={{
           ...(navbarProps?.menuTemplate?.value === "Template 2" &&
             !mobileSize && {
-              paddingTop: `${parseInt(navbarProps?.logo?.height / 2)}px`,
+              paddingTop: `${parseInt((navbarProps?.logo?.height || 30) / 2)}px`,
             }),
         }}
         {...(navbarProps?.menus?.menuDropdownAnimation &&

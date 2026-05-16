@@ -327,6 +327,7 @@ function AddMenuContent() {
                           isClearable
                           placeholder={"Select page"}
                           options={filterPageLinkList}
+                          isDisabled={el?.subMenus?.length > 0 ? true : false}
                           value={el?.menuLink || ""}
                           menuPlacement="top"
                           getOptionLabel={(e) => e.page_name}
