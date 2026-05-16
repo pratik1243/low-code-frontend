@@ -70,12 +70,7 @@ const ButtonComp = ({ ele, path }) => {
       const nestedForm = el?.content?.map((eles, id) => {
         if (fieldArray.includes(eles?.props?.name)) {
           formData[eles?.props?.name] = getFieldValue(eles);
-          if (
-            errorMessageFunc(
-              eles,
-              eles?.props?.checked || eles?.props?.value
-            ) !== ""
-          ) {
+          if (errorMessageFunc(eles, eles?.props?.checked || eles?.props?.value) !== "") {
             isFieldsInvalid = true;
           }
           return {
@@ -97,9 +92,7 @@ const ButtonComp = ({ ele, path }) => {
       } else {
         if (fieldArray.includes(el?.props?.name)) {
           formData[el?.props?.name] = getFieldValue(el);
-          if (
-            errorMessageFunc(el, el?.props?.checked || el?.props?.value) !== ""
-          ) {
+          if (errorMessageFunc(el, el?.props?.checked || el?.props?.value) !== "") {
             isFieldsInvalid = true;
           }
           return {

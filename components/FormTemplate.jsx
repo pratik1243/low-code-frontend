@@ -22,7 +22,7 @@ const FormTemplate = () => {
     setCurrentElement,
     setContainerId,
     setHeight,
-    breakPoint    
+    breakPoint,
   } = useContext(FormContext);
 
   const pathname = usePathname();
@@ -81,10 +81,10 @@ const FormTemplate = () => {
     copyItems();
   };
 
-  const filterContainerItems = (jsonData) => {
+  const filterContainerItems = (jsonData, type2 = null) => {
     const filterJsonData = jsonData?.map((ele) => {
       const { isContainer, ...newData } = ele;
-      return { ...newData };
+      return type2 ? { ...ele, id: generateId(4) } : { ...newData };
     });
     return filterJsonData;
   };
@@ -95,11 +95,18 @@ const FormTemplate = () => {
       try {
         const jsonData = JSON.parse(data);
         const { isContainer, ...newJsonData } = jsonData;
+        const newJsonFilterData = {
+          ...newJsonData,
+          content: filterContainerItems(newJsonData.content, true),
+        };
         setForms({
           ...forms,
           [breakPoint]: Array.isArray(jsonData)
             ? [...forms[breakPoint], ...filterContainerItems(jsonData)]
-            : [...forms[breakPoint], { ...newJsonData, id: generateId(4) }],
+            : [
+                ...forms[breakPoint],
+                { ...newJsonFilterData, id: generateId(4) },
+              ],
         });
       } catch (err) {
         setForms({ ...forms, [breakPoint]: [] });
