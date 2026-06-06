@@ -45,7 +45,9 @@ const NavbarComp = () => {
         style={{
           ...(navbarProps?.menuTemplate?.value === "Template 2" &&
             !mobileSize && {
-              paddingTop: `${parseInt((navbarProps?.logo?.height || 30) / 2)}px`,
+              paddingTop: `${parseInt(
+                (navbarProps?.logo?.height || 30) / 2
+              )}px`,
             }),
         }}
         {...(navbarProps?.menus?.menuDropdownAnimation &&
@@ -220,7 +222,7 @@ const NavbarComp = () => {
                 ) : (
                   <div
                     className="d-flex align-items-center cursor-pointer"
-                    style={{                      
+                    style={{
                       ...(navbarProps?.menus?.menuColor && {
                         color: navbarProps?.menus?.menuColor,
                       }),
@@ -319,12 +321,14 @@ const NavbarComp = () => {
           }}
         >
           <div className="logo">
-            <Image
-              src={`${API_BASE_URL}/image/${navbarProps?.logo?.logoUrl}`}
-              width={navbarProps?.logo?.width || 100}
-              height={navbarProps?.logo?.height || 40}
-              alt="nav-logo"
-            />
+            {navbarProps?.logo?.logoUrl && (
+              <Image
+                src={`${API_BASE_URL}/image/${navbarProps?.logo?.logoUrl}`}
+                width={navbarProps?.logo?.width || 100}
+                height={navbarProps?.logo?.height || 40}
+                alt="nav-logo"
+              />
+            )}
 
             <div
               role="button"

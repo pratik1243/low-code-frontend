@@ -276,7 +276,7 @@ const PropsRender = ({ open }) => {
 
             <div className="mb-3">
               <Row>
-                {!["input", "select", "country"].includes(
+                {!["input", "select", "country", "button"].includes(
                   currentField?.type
                 ) && (
                   <Col lg={6} md={6} sm={12} xs={12}>
@@ -324,14 +324,14 @@ const PropsRender = ({ open }) => {
                     </Row>
                   </Col>
                 )}
-                {currentField?.type == "container" && (
+                {["container", "slider", "card_box"].includes(currentField?.type) && (
                   <>
                     <Col lg={6} md={6} sm={12} xs={12}>
                       <div className="customize-prop-sec">
                         <Row>
                           <Col lg={9} md={9}>
                             <label className="mb-2">
-                              Container Background Color
+                              {currentField?.type?.split("_").join(" ")} Background Color
                             </label>
                             <input
                               type="color"
@@ -542,7 +542,7 @@ const PropsRender = ({ open }) => {
                   </Col>
                 )}
 
-                {currentField?.type == "container" && (
+                {["container", "slider", "card_box"].includes(currentField?.type) && (
                   <>
                     <Col lg={6} md={6} sm={12} xs={12}>
                       <div className="customize-prop-sec">

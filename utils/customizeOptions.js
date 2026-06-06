@@ -428,6 +428,8 @@ export const fieldsData = [
       hidden: false,
       width: 100,
       slides: [],
+      scrollId: "",
+      containerTemplate: "",
       spaceBetweenSlides: 10,
       paginationInside: false,
       slidesPerView: 1,
@@ -525,6 +527,8 @@ export const fieldsData = [
       align: "",
       width: 100,
       style: {},
+      scrollId: "",
+      containerTemplate: "",
       imageData: {
         url: "",
         filename: "",

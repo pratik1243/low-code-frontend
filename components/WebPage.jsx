@@ -121,7 +121,7 @@ const WebPage = () => {
   const getClassNames = (ele) => {
     return `
       position-relative
-      ${!ele?.props?.fullWidth ? "d-flex" : ""}
+      ${!ele?.props?.fullWidth ? "d-flex" : ""} ${ele?.type === "button" ? "button-no-bg-props" : ""}
       ${
         ele?.type === "card_box" || ele?.props?.imageData
           ? "background-image-props"

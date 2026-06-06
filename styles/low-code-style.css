@@ -1497,6 +1497,11 @@ hr {
   background-size: 100% 100%;
 }
 
+.button-no-bg-props {
+  background: none !important;
+  background-color: transparent !important;
+}
+
 .card-main-section {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
@@ -1581,6 +1586,16 @@ hr {
 
 .column-sec {
   position: relative;
+}
+
+.position-relative:has(.aos-init) {
+  overflow: hidden;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.position-relative:has(.aos-init):has(.dropdown-box.open) {
+  overflow: unset !important;
 }
 
 .column-sec.aos-init.aos-animate,
@@ -2481,8 +2496,13 @@ hr {
 
 .mobile-menu-sec .menu-item {
   width: 100%;
-  padding: 12px 31px;
+  /* padding: 12px 31px; */
 }
+
+.mobile-menu-sec .menu-item:hover {
+  background-color: #8080801c;
+}
+
 
 .mobile-menu-sec .d-flex {
   flex-direction: column;
@@ -2493,14 +2513,24 @@ hr {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 12px 24px;
 }
 
 .mobile-menu-sec .sub-menu-list {
-  margin-top: 22px;
+  padding: 11px 0px;
+  background-color: var(--white-color);
 }
 
 .mobile-menu-sec .sub-menu-list .menu-item {
-  padding-left: 18px !important;
+  padding: 12px 12px 12px 38px !important;
+}
+
+.mobile-menu-sec .sub-menu-list .menu-item:hover {
+  background-color: #80808013;
+}
+
+.mobile-menu-sec .sub-menu-list .menu-item .cursor-pointer {
+  align-items: flex-start !important;
 }
 
 .cursor-pointer {
@@ -2530,6 +2560,8 @@ hr {
 .customize-email-template .customize-prop-sec label span {
   text-transform: capitalize;
 }
+
+
 
 @media (max-width: 768px) {
   .navbar-section {

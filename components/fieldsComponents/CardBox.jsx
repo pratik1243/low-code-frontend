@@ -2,7 +2,7 @@ import React from "react";
 import GraidentLayer from "../commonComponents/GraidentLayer";
 import RenderField from "./RenderField";
 import { addPixel } from "../../utils/customizePropFunctions";
-import { alignment, textAlign } from "../../utils/customizeOptions";
+import { alignment, containerClasses, textAlign } from "../../utils/customizeOptions";
 
 const CardBox = ({ ele, path, index }) => {
   const isWebPage = path.includes("web-page");
@@ -13,8 +13,9 @@ const CardBox = ({ ele, path, index }) => {
         <div>Card Box</div>
       ) : (
         <div
-          className="card-main-section"
+          className={`card-main-section ${containerClasses[ele?.props?.containerTemplate?.value] || ""}`}
           style={{
+            backgroundColor: ele?.props?.containerBackground,
             gridTemplateColumns: `repeat(${parseInt(
               ele?.props?.style?.gridTemplateColumns
             )}, 1fr)`,

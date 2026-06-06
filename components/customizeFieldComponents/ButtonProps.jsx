@@ -74,7 +74,7 @@ const ButtonProps = ({ onCustomizeElement, currentField }) => {
         <>
           {" "}
           <Col lg={6} md={6} sm={12} xs={12}>
-            <Row className="mt-4">
+            <Row>
               <Col lg={9} md={9}>
                 <label className="mb-2">Border Color</label>
                 <input
@@ -180,9 +180,7 @@ const ButtonProps = ({ onCustomizeElement, currentField }) => {
 
       <Col lg={6} md={6} sm={12} xs={12}>
         <div
-          className={`customize-checkbox ${
-            currentField?.props?.isLink ? "mt-4" : "mt-5"
-          }`}
+          className={`customize-checkbox`}
         >
           <div className="d-flex">
             <input
@@ -200,7 +198,7 @@ const ButtonProps = ({ onCustomizeElement, currentField }) => {
         </div>
       </Col>
       <Col lg={12} md={12} sm={12} xs={12}>
-        <Row className="mt-2">
+        <Row className={currentField?.props?.isLink ? "mt-4" : "mt-2"}>
           <Col lg={3} md={3} sm={12} xs={12}>
             <div className="d-flex align-items-center">
               <input
