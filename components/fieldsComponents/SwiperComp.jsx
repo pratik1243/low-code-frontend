@@ -64,7 +64,11 @@ const SwiperComp = ({ ele, path }) => {
                           : eles?.props?.hidden
                           ? "hidden"
                           : ""
-                      } ${textAlign[eles?.props?.align?.value] || ""} d-flex`}
+                      } ${
+                        ["heading", "paragraph", "icon"].includes(eles?.type)
+                          ? textAlign[eles?.props?.align?.value] || ""
+                          : ""
+                      } d-flex`}
                       style={{
                         ...(eles?.column_width && {
                           width: `${eles?.column_width}%`,

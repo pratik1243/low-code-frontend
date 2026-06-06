@@ -2,7 +2,11 @@ import React from "react";
 import GraidentLayer from "../commonComponents/GraidentLayer";
 import RenderField from "./RenderField";
 import { addPixel } from "../../utils/customizePropFunctions";
-import { alignment, containerClasses, textAlign } from "../../utils/customizeOptions";
+import {
+  alignment,
+  containerClasses,
+  textAlign,
+} from "../../utils/customizeOptions";
 
 const CardBox = ({ ele, path, index }) => {
   const isWebPage = path.includes("web-page");
@@ -13,7 +17,9 @@ const CardBox = ({ ele, path, index }) => {
         <div>Card Box</div>
       ) : (
         <div
-          className={`card-main-section ${containerClasses[ele?.props?.containerTemplate?.value] || ""}`}
+          className={`card-main-section ${
+            containerClasses[ele?.props?.containerTemplate?.value] || ""
+          }`}
           style={{
             backgroundColor: ele?.props?.containerBackground,
             gridTemplateColumns: `repeat(${parseInt(
@@ -45,7 +51,11 @@ const CardBox = ({ ele, path, index }) => {
                       } ${
                         eles?.props?.imageData ? "background-image-props" : ""
                       } 
-                      ${textAlign[eles?.props?.align?.value] || ""} d-flex`}
+                      ${
+                        ["heading", "paragraph", "icon"].includes(eles?.type)
+                          ? textAlign[eles?.props?.align?.value] || ""
+                          : ""
+                      } d-flex`}
                       style={{
                         ...(eles?.column_width && {
                           width: `${eles?.column_width}%`,
