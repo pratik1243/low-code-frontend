@@ -2253,10 +2253,10 @@ hr {
   display: inline;
 }
 
-.element-column .column-sec:has(.link-button) {
+/* .element-column .column-sec:has(.link-button) {
   width: fit-content !important;
   display: inline !important;
-}
+} */
 
 .gradient-layer {
   position: absolute;
