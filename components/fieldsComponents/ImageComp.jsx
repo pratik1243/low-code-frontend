@@ -8,6 +8,10 @@ const ImageComp = ({ ele, path, index }) => {
     <div
       className={`position-relative ${
         !path.includes("web-page") ? "img-border" : ""
+      } ${
+        ele?.props?.fullWidth && path.includes("web-page")
+          ? "img-full-width"
+          : ""
       }`}
       style={{
         ...(path.includes("web-page") &&
@@ -26,9 +30,10 @@ const ImageComp = ({ ele, path, index }) => {
               layout="fill"
               objectPosition="center"
               style={{
-                ...(ele?.props?.style?.borderRadius && path.includes("web-page") && {
-                  borderRadius: `${ele?.props?.style?.borderRadius}px`,
-                }),
+                ...(ele?.props?.style?.borderRadius &&
+                  path.includes("web-page") && {
+                    borderRadius: `${ele?.props?.style?.borderRadius}px`,
+                  }),
               }}
             />
           ) : (
@@ -39,9 +44,10 @@ const ImageComp = ({ ele, path, index }) => {
               alt={`image-${index}`}
               quality={90}
               style={{
-                ...(ele?.props?.style?.borderRadius && path.includes("web-page") && {
-                  borderRadius: `${ele?.props?.style?.borderRadius}px`,
-                }),
+                ...(ele?.props?.style?.borderRadius &&
+                  path.includes("web-page") && {
+                    borderRadius: `${ele?.props?.style?.borderRadius}px`,
+                  }),
               }}
             />
           )}

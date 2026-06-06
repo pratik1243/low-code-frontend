@@ -1588,6 +1588,10 @@ hr {
   position: relative;
 }
 
+.img-full-width img {
+  position: unset !important;
+}
+
 .position-relative:has(.aos-init) {
   overflow: hidden;
   padding-bottom: 10px;
