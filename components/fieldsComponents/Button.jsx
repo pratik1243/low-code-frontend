@@ -70,7 +70,12 @@ const ButtonComp = ({ ele, path }) => {
       const nestedForm = el?.content?.map((eles, id) => {
         if (fieldArray.includes(eles?.props?.name)) {
           formData[eles?.props?.name] = getFieldValue(eles);
-          if (errorMessageFunc(eles, eles?.props?.checked || eles?.props?.value) !== "") {
+          if (
+            errorMessageFunc(
+              eles,
+              eles?.props?.checked || eles?.props?.value
+            ) !== ""
+          ) {
             isFieldsInvalid = true;
           }
           return {
@@ -92,7 +97,9 @@ const ButtonComp = ({ ele, path }) => {
       } else {
         if (fieldArray.includes(el?.props?.name)) {
           formData[el?.props?.name] = getFieldValue(el);
-          if (errorMessageFunc(el, el?.props?.checked || el?.props?.value) !== "") {
+          if (
+            errorMessageFunc(el, el?.props?.checked || el?.props?.value) !== ""
+          ) {
             isFieldsInvalid = true;
           }
           return {
@@ -123,10 +130,13 @@ const ButtonComp = ({ ele, path }) => {
         ele?.props?.emailSendProps?.receiver_email &&
         ele?.props?.emailSendProps?.subject
       ) {
-        const contentArr = ele?.props?.emailSendProps?.content?.htmlContent?.split("{{");
+        const contentArr =
+          ele?.props?.emailSendProps?.content?.htmlContent?.split("{{");
         contentArr.map((el, i) => {
           if (el?.includes("}}")) {
-            mailText += `${formData[el?.split("}}")[0]]} ${el?.split("}}")[1] || ""}`;
+            mailText += `${formData[el?.split("}}")[0]]} ${
+              el?.split("}}")[1] || ""
+            }`;
           } else {
             mailText += el;
           }
@@ -154,12 +164,17 @@ const ButtonComp = ({ ele, path }) => {
       }`}
     >
       {ele?.props?.iconPosition == "start" && ele?.props?.iconName && (
-        <IconComponent icon={ele?.props?.iconName} size={20} />
+        <>
+          &nbsp;
+          <IconComponent icon={ele?.props?.iconName} size={20} />
+        </>
       )}{" "}
-      &nbsp;{ele?.props?.text || "Button"}
-      {ele?.props?.iconPosition == "end" && <>&nbsp;</>}
+      {ele?.props?.text || "Button"}
       {ele?.props?.iconPosition == "end" && ele?.props?.iconName && (
-        <IconComponent icon={ele?.props?.iconName} size={20} />
+        <>
+          &nbsp;
+          <IconComponent icon={ele?.props?.iconName} size={20} />
+        </>
       )}
     </Button>
   );
