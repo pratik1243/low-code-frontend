@@ -221,7 +221,7 @@ const NavbarComp = () => {
                   </Link>
                 ) : (
                   <div
-                    className="d-flex align-items-center cursor-pointer"
+                    className="d-flex align-items-center scroll-link cursor-pointer"
                     style={{
                       ...(navbarProps?.menus?.menuColor && {
                         color: navbarProps?.menus?.menuColor,

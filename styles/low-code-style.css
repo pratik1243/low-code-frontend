@@ -2500,7 +2500,15 @@ hr {
 
 .mobile-menu-sec .menu-item {
   width: 100%;
-  /* padding: 12px 31px; */
+}
+
+.mobile-menu-sec .menu-item:has(.scroll-link),
+.mobile-menu-sec .menu-item a[href] {
+  padding: 10px 15px 10px 38px !important;
+}
+
+.mobile-menu-sec .menu-item .scroll-link {
+  align-items: flex-start !important;
 }
 
 .mobile-menu-sec .menu-item:hover {
