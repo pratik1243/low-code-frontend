@@ -102,8 +102,8 @@ const NavbarComp = () => {
                   <div
                     className="d-flex align-items-center cursor-pointer"
                     style={{
-                      ...(navbarProps?.menus?.menuColor && {
-                        color: navbarProps?.menus?.menuColor,
+                      ...(navbarProps?.menus?.subMenuColor && {
+                        color: navbarProps?.menus?.subMenuColor,
                       }),
                     }}
                   >
