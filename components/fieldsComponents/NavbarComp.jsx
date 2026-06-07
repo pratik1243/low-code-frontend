@@ -15,6 +15,7 @@ const NavbarComp = () => {
   const params = useParams();
   const { navbarProps, breakPoint } = useContext(PageContext);
   const [menuIndex, setMenuIndex] = useState(null);
+  const [menuHoverId, setMenuHoverId] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const mobileSize = ["xs", "sm"].includes(breakPoint);
 
@@ -75,6 +76,15 @@ const NavbarComp = () => {
                   if (ele?.scrollId) {
                     scrollContainer(e, ele?.scrollId);
                   }
+                }}
+                onMouseOver={() => {
+                  setMenuHoverId(id);
+                }}
+                style={{
+                  ...(menuHoverId === id &&
+                    navbarProps?.menus?.subMenuColor && {
+                      backgroundColor: `color-mix(in srgb, ${navbarProps?.menus?.subMenuColor} 8%, white)`,
+                    }),
                 }}
               >
                 {ele?.menuLink?.page_route ? (
