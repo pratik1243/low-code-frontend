@@ -80,6 +80,9 @@ const NavbarComp = () => {
                 onMouseOver={() => {
                   setMenuHoverId(id);
                 }}
+                onMouseOut={() => {
+                  setMenuHoverId(null);
+                }}
                 style={{
                   ...(menuHoverId === id &&
                     navbarProps?.menus?.subMenuColor && {
