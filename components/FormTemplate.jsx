@@ -192,7 +192,7 @@ const FormTemplate = () => {
                   containerId === ele?.id ? "selected-card" : ""
                 }                  
                ${ele?.props?.hidden ? "hidden" : ""} ${
-                  ["stepper", "slider", "card_box"].includes(ele?.type)
+                  ele?.type === "container"
                     ? "w-65"
                     : ""
                 }`}
@@ -203,8 +203,21 @@ const FormTemplate = () => {
                 onDragStart={(e) => onDragStart(e, index)}
                 onDrop={(e) => onDropItem(e, index)}
               >
+                {!pathname.includes("web-page") && ele?.type == "container" && (
+                  <div
+                    className={`d-flex w-100 drag-indicator ${
+                      ele?.column_width < 40 ? "mb-2" : "mb-3 justify-content-center"
+                    }`}
+                  >
+                    <MdOutlineDragIndicator />
+                  </div>
+                )}
                 {ele.type == "container" && (
-                  <div className="d-flex align-items-center select-container-sec">
+                  <div
+                    className={`d-flex align-items-center select-container-sec ${
+                      ele?.column_width < 40 ? "sm-select-container-sec" : ""
+                    }`}
+                  >
                     <input
                       type="checkbox"
                       checked={containerId === ele?.id ? true : false}
@@ -216,11 +229,6 @@ const FormTemplate = () => {
                     <label htmlFor={`select-container-${ele?.id}`}>
                       Select Container {index + 1}
                     </label>
-                  </div>
-                )}
-                {!pathname.includes("web-page") && ele?.type == "container" && (
-                  <div className="d-flex justify-content-center w-100 drag-indicator mb-3">
-                    <MdOutlineDragIndicator />
                   </div>
                 )}
                 <div

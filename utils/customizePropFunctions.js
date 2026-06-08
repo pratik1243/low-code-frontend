@@ -13,8 +13,10 @@ export function emailStyles(data) {
   const { text, url, imageUrl, ...styles } = data;
   let inlineStyles = {};
   for (const key in styles) {
-    inlineStyles[key] = ["fontSize"].includes(key) ? `${styles[key]}px` : styles[key];
-  }  
+    inlineStyles[key] = ["fontSize"].includes(key)
+      ? `${styles[key]}px`
+      : styles[key];
+  }
   return inlineStyles;
 }
 
@@ -278,6 +280,9 @@ export function pasteItems(e, ele, forms, setForms, breakPoint) {
   navigator.clipboard.readText().then((data) => {
     try {
       const json = JSON.parse(data);
+      if (["card_box", "slider", "container"].includes(json?.type)) {
+        return;
+      }
       const { id, ...newJsonData } = json;
       const jsonObj = { ...newJsonData, id: generateId(4), isContainer: true };
       const updateData = forms[breakPoint]?.map((el, i) => {

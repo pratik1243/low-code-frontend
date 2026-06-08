@@ -5,7 +5,11 @@ import { MdDeleteOutline, MdContentCopy, MdContentPaste } from "react-icons/md";
 import { TbSettings } from "react-icons/tb";
 import { HiOutlineDocumentDuplicate } from "react-icons/hi";
 import { FormContext } from "../FormCreate";
-import { copyItems, generateId, pasteItems } from "../../utils/customizePropFunctions";
+import {
+  copyItems,
+  generateId,
+  pasteItems,
+} from "../../utils/customizePropFunctions";
 
 const ElementActions = ({ data, deleteFunction, containerIndex = null }) => {
   const {
@@ -52,14 +56,15 @@ const ElementActions = ({ data, deleteFunction, containerIndex = null }) => {
 
     setForms({
       ...forms,
-      [breakPoint]: containerIndex == undefined
-        ? [...forms[breakPoint], { ...dataObj, id: generateId(4) }]
-        : updatedForms,
+      [breakPoint]:
+        containerIndex == undefined
+          ? [...forms[breakPoint], { ...dataObj, id: generateId(4) }]
+          : updatedForms,
     });
   };
 
   return (
-    <div className="d-flex align-items-center inner-btn-sec">
+    <div className={`d-flex align-items-center inner-btn-sec`}>
       <div
         role="button"
         onClick={(e) => {
@@ -76,7 +81,7 @@ const ElementActions = ({ data, deleteFunction, containerIndex = null }) => {
           <TbSettings size={21} />
         </OverlayTrigger>
       </div>
-      {data?.type == "container" ? (
+      {data?.type == "container" && (
         <div
           role="button"
           onClick={(e) => {
@@ -90,16 +95,16 @@ const ElementActions = ({ data, deleteFunction, containerIndex = null }) => {
             <MdContentPaste size={18} />
           </OverlayTrigger>
         </div>
-      ) : (
-        <div role="button" onClick={onDuplicateFields}>
-          <OverlayTrigger
-            placement="top"
-            overlay={(props) => renderTooltip("Duplicate", props)}
-          >
-            <HiOutlineDocumentDuplicate size={19.5} />
-          </OverlayTrigger>
-        </div>
       )}
+      <div role="button" onClick={onDuplicateFields}>
+        <OverlayTrigger
+          placement="top"
+          overlay={(props) => renderTooltip("Duplicate", props)}
+        >
+          <HiOutlineDocumentDuplicate size={19.5} />
+        </OverlayTrigger>
+      </div>
+
       <div role="button" onClick={deleteFunction}>
         <OverlayTrigger
           placement="top"
@@ -108,16 +113,14 @@ const ElementActions = ({ data, deleteFunction, containerIndex = null }) => {
           <MdDeleteOutline size={21} />
         </OverlayTrigger>
       </div>
-      {!["stepper", "slider", "card_box"].includes(data?.type) && (
-        <div role="button" onClick={copyFunction}>
-          <OverlayTrigger
-            placement="top"
-            overlay={(props) => renderTooltip(copyText, props)}
-          >
-            <MdContentCopy size={18} />
-          </OverlayTrigger>
-        </div>
-      )}
+      <div role="button" onClick={copyFunction}>
+        <OverlayTrigger
+          placement="top"
+          overlay={(props) => renderTooltip(copyText, props)}
+        >
+          <MdContentCopy size={18} />
+        </OverlayTrigger>
+      </div>
     </div>
   );
 };
