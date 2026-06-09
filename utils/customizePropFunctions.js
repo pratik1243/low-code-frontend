@@ -280,7 +280,7 @@ export function pasteItems(e, ele, forms, setForms, breakPoint) {
   navigator.clipboard.readText().then((data) => {
     try {
       const json = JSON.parse(data);
-      if (["card_box", "slider", "container"].includes(json?.type)) {
+      if (["card_box", "slider"].includes(json?.type)) {
         return;
       }
       const { id, ...newJsonData } = json;

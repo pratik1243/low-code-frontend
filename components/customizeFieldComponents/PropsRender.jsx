@@ -493,7 +493,7 @@ const PropsRender = ({ open }) => {
                   <Col lg={6} md={6} sm={12} xs={12}>
                     <div className="customize-prop-sec">
                       <label className="d-flex align-items-center">
-                        {currentField?.type.split("_").join(" ")}{" "}
+                        {currentField?.type?.split("_").join(" ")}{" "}
                         Alignment&nbsp;&nbsp;{" "}
                         <OverlayTrigger
                           placement="right"
@@ -546,7 +546,7 @@ const PropsRender = ({ open }) => {
                   <>
                     <Col lg={6} md={6} sm={12} xs={12}>
                       <div className="customize-prop-sec">
-                        <label>Container Template</label>
+                        <label>{currentField?.type.split("_").join(" ")} Template</label>
                         <Select
                           isClearable
                           placeholder={"Select template"}

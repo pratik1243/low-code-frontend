@@ -11,8 +11,8 @@ const SliderProps = ({ onCustomizeElement, currentField }) => {
   const { forms } = useContext(FormContext);
   return (
     <>
-      <div className="customize-checkbox mt-4">
-        <Row>
+      <div className="customize-checkbox mt-4 mb-4">
+        <Row className="mt-2 mb-1">
           {currentField?.props?.slides.length >
             currentField?.props?.slidesPerView?.value && (
             <Col lg={3} md={3} sm={12} xs={12}>
