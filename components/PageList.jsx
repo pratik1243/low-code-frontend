@@ -6,16 +6,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAuthDetails } from "../redux/slices/authSlice";
 import { setLoader } from "../redux/slices/loaderSlice";
 import { commonPostApiFunction } from "../services/commonApiFunc";
-import { MdDeleteOutline, MdOutlineMailOutline } from "react-icons/md";
+import { MdDeleteOutline } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
 import { IoIosAdd } from "react-icons/io";
 import { setPageCreateDetails } from "../redux/slices/pageCreateSlice";
 import { toast } from "react-toastify";
-import { CgWebsite } from "react-icons/cg";
 import { IoSearchSharp } from "react-icons/io5";
 import { generateId } from "../utils/customizePropFunctions";
-import { snackProps } from "../utils/customizeOptions";
-
+import { itemTypeOptions, snackProps } from "../utils/customizeOptions";
+import Select from "react-select";
 
 const PageList = () => {
   const router = useRouter();
@@ -28,12 +27,10 @@ const PageList = () => {
     base_page_link: "",
     page_item: false,
   });
-  const [itemType, setItemType] = useState(0);
+  const [itemType, setItemType] = useState("pages");
   const [templateList, setTemplateList] = useState([]);
   const token = useSelector((user) => user.auth.authDetails.token);
-  const requestUserId = useSelector(
-    (user) => user.auth.authDetails?.request_user_id
-  );
+  const requestUserId = useSelector((user) => user.auth.authDetails?.request_user_id);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -48,14 +45,14 @@ const PageList = () => {
     try {
       dispatch(setLoader(true));
       const requestData = {
-        key: itemType ? "uawriocb" : "kgasderq",
+        key: itemType == "email-templates" ? "uawriocb" : "kgasderq",
         payload: { request_user_id: requestUserId },
       };
       const response = await commonPostApiFunction(requestData, token);
       dispatch(setLoader(false));
 
       if (response.status == 200) {
-        if (itemType == 1) {
+        if (itemType == "email-templates") {
           setTemplateList(response.data.responseData);
         } else {
           setPagesList(response.data.responseData);
@@ -165,30 +162,36 @@ const PageList = () => {
           </Row>
         </div>
         <div className="page-list-sec">
-          <div className="items-tab-sec d-flex align-items-center">
-            <button
-              className={itemType == 0 ? "active" : ""}
-              onClick={() => {
-                setItemType(0);
-              }}
-            >
-             <CgWebsite size={20} />&nbsp; Pages
-            </button>
-            <button
-              className={itemType == 1 ? "active" : ""}
-              onClick={() => {
-                setItemType(1);
-              }}
-            >
-              <MdOutlineMailOutline size={21} />&nbsp; Email Templates
-            </button>
+          <div className="fixed-filter-sec">
+            <div className="items-tab-sec">
+              <Select
+                isClearable
+                placeholder={"Select item type"}
+                options={itemTypeOptions}
+                styles={{
+                  control: (provided, state) => ({
+                    ...provided,
+                    height: "42px",
+                    borderRadius: "7px",
+                  })
+                }}
+                onChange={(data) => {
+                  setItemType(data?.value || "pages");
+                }}
+              />
+            </div>
+            <div className="search-input-sec">
+              <input
+                type="text"
+                placeholder={`Search ${
+                  itemType == "pages" ? "page" : "template"
+                } here...`}
+              />
+              <IoSearchSharp size={20} />
+            </div>
           </div>
-          <div className="search-input-sec mb-5">
-            <input type="text" placeholder={`Search ${itemType == 0 ? 'page' : 'template'} here...`} />
-            <IoSearchSharp size={22} />
-          </div>
-          
-          {itemType == 0 && (
+
+          {itemType == "pages" && (
             <Row>
               {pagesList?.map((ele, i) => {
                 return (
@@ -213,7 +216,7 @@ const PageList = () => {
               })}
             </Row>
           )}
-          {itemType == 1 && (
+          {itemType == "email-templates" && (
             <Row>
               {templateList?.map((ele, i) => {
                 return (
@@ -242,7 +245,9 @@ const PageList = () => {
       </Container>
       <Modal show={show} onHide={handleClose} size={"lg"}>
         <Modal.Header closeButton>
-          <Modal.Title className="fs-5">Create Page {formData.page_item && "Item"}</Modal.Title>
+          <Modal.Title className="fs-5">
+            Create Page {formData.page_item && "Item"}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="page-create-sec">
@@ -300,7 +305,10 @@ const PageList = () => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="outline-secondary page-cancel-btn" onClick={handleClose}>
+          <Button
+            variant="outline-secondary page-cancel-btn"
+            onClick={handleClose}
+          >
             Cancel
           </Button>
           {formData.page_item ? (

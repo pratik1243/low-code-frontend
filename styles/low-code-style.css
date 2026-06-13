@@ -507,8 +507,21 @@ input {
   display: block;
 }
 
+.fixed-filter-sec {
+  display: grid;
+  grid-template-columns: 0.7fr 3fr;
+  gap: 20px;
+  background-color: #fff;
+  padding: 16px 18px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 66px;
+  border-bottom: 1px solid #dad9d9;
+}
+
 .page-list-sec {
-  margin-top: 110px !important;
+  margin-top: 177px !important;
 }
 
 .page-list-sec .page-section-tab {
@@ -527,20 +540,25 @@ input {
   position: relative;
 }
 
+.items-tab-sec .css-19bb58m {
+  margin: 4px !important;
+}
+
 .page-list-sec .search-input-sec input {
   background-color: var(--white-color);
   width: 100%;
-  padding: 13px;
+  padding: 9px 14px;
   border-radius: 7px;
   outline: none;
   border: 1px solid var(--grey-color);
+  font-size: 15px;
 }
 
 .page-list-sec .search-input-sec svg {
   position: absolute;
-  top: 15px;
-  right: 15px;
   color: #00b2aa;
+  right: 12px;
+  top: 11px;
 }
 
 .page-create-sec label {
@@ -1368,7 +1386,7 @@ hr {
   top: 0;
   right: 0;
   left: 0;
-  box-shadow: 0 0 5px 2px #80808042;
+  box-shadow: 0 0 4px 1px #80808042;
   padding: 14px 32px;
   background-color: var(--white-color);
   z-index: 1000;
@@ -2389,29 +2407,6 @@ hr {
 
 .email-template-create-sec .publish-btn-sec button {
   padding: 9px 14px !important;
-}
-
-.items-tab-sec {
-  margin-bottom: 35px;
-}
-
-.items-tab-sec button {
-  justify-content: space-around;
-  align-items: center;
-  background-color: var(--white-color);
-  border: 1px solid #00b2aa;
-  padding: 6px 14px;
-  font-size: 15px;
-  display: flex;
-  outline: none;
-  border-radius: 7px;
-  margin-right: 16px;
-  color: #00b2aa;
-}
-
-.items-tab-sec button.active {
-  background-color: #00b2aa;
-  color: var(--white-color);
 }
 
 .page-cancel-btn {
