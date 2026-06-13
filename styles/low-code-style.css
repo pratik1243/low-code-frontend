@@ -521,19 +521,22 @@ input {
 }
 
 .page-list-sec {
-  margin-top: 177px !important;
+  margin-top: 170px !important;
+  padding-left: 25px;
+  padding-right: 25px;
 }
 
 .page-list-sec .page-section-tab {
   background-color: var(--white-color);
   border: 1px solid var(--grey-color);
   border-radius: 7px;
-  padding: 16px 18px;
-  font-size: 16px;
+  padding: 14px 18px;
+  font-size: 15px;
   cursor: pointer;
   margin-bottom: 25px;
   text-transform: capitalize;
   transition: all 0.5s;
+  font-weight: 500;
 }
 
 .page-list-sec .search-input-sec {
@@ -2543,6 +2546,26 @@ hr {
 
 .customize-email-template .customize-prop-sec label span {
   text-transform: capitalize;
+}
+
+.no-data-found-sec {
+  text-align: center;
+  border: 1px solid #e3dfdf;
+  border-radius: 12px;
+  padding: 35px 0px;
+  background: #fff;
+}
+
+.no-data-found-sec h5 {
+  font-size: 24px;
+  margin-top: 16px;
+  color: #524f4f;
+}
+
+.no-data-found-sec p {
+  color: #a7a6a6;
+  margin-bottom: 0px;
+  font-size: 15px;
 }
 
 @media (max-width: 768px) {

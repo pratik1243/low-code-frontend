@@ -1,7 +1,8 @@
 "use client";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Modal, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthDetails } from "../redux/slices/authSlice";
 import { setLoader } from "../redux/slices/loaderSlice";
@@ -9,12 +10,12 @@ import { commonPostApiFunction } from "../services/commonApiFunc";
 import { MdDeleteOutline } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
 import { IoIosAdd } from "react-icons/io";
-import { setPageCreateDetails } from "../redux/slices/pageCreateSlice";
 import { toast } from "react-toastify";
 import { IoSearchSharp } from "react-icons/io5";
-import { generateId } from "../utils/customizePropFunctions";
 import { itemTypeOptions, snackProps } from "../utils/customizeOptions";
 import Select from "react-select";
+import emptyImg from "../public/empty-box.png";
+import AddPageSec from "./AddPageSec";
 
 const PageList = () => {
   const router = useRouter();
@@ -32,13 +33,8 @@ const PageList = () => {
   const token = useSelector((user) => user.auth.authDetails.token);
   const requestUserId = useSelector((user) => user.auth.authDetails?.request_user_id);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  const onPageCreate = () => {
-    const data = { ...formData, page_id: `${generateId(4)}` };
-    dispatch(setPageCreateDetails(data));
-    router.push("/page/create");
+  const handleShow = () => {
+    setShow(true);
   };
 
   const fetchPagesList = async () => {
@@ -71,23 +67,6 @@ const PageList = () => {
     }
   };
 
-  const formChange = (e) => {
-    const { name, value } = e.target;
-    if (name == "page_item") {
-      setFormData({
-        ...formData,
-        page_item: e.target.checked,
-        page_link: "",
-        base_page_link: "",
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    }
-  };
-
   const deletePage = async (e, delete_id, delete_key) => {
     e.stopPropagation();
     try {
@@ -116,7 +95,7 @@ const PageList = () => {
 
   return (
     <div>
-      <Container>
+      <Container fluid>
         <div className="low-nav-bar">
           <Row>
             <Col lg={6} md={6} sm={12} xs={12}></Col>
@@ -173,7 +152,7 @@ const PageList = () => {
                     ...provided,
                     height: "42px",
                     borderRadius: "7px",
-                  })
+                  }),
                 }}
                 onChange={(data) => {
                   setItemType(data?.value || "pages");
@@ -191,152 +170,102 @@ const PageList = () => {
             </div>
           </div>
 
+          <div className="mb-4">
+            <h5>
+              {itemType == "pages" ? "Pages & Page Items" : "Email Templates"}
+            </h5>
+          </div>
+
           {itemType == "pages" && (
             <Row>
-              {pagesList?.map((ele, i) => {
-                return (
-                  <Col key={i} lg={4} md={4} sm={12} xs={12}>
-                    <div
-                      key={i}
-                      className="page-section-tab d-flex align-items-center justify-content-between"
-                      onClick={() => {
-                        router.push(`/page/${ele?.page_id}`);
-                      }}
-                    >
-                      {ele?.page_name}
+              {pagesList?.length == 0 && (
+                <Col lg={12}>
+                  <div className="no-data-found-sec">
+                    <Image
+                      src={emptyImg}
+                      height={150}
+                      width={150}
+                      alt="no-data"
+                    />
+                    <h5>No Pages Found!</h5>
+                    <p>Please click on above add button to create pages</p>
+                  </div>
+                </Col>
+              )}
+
+              {pagesList?.length > 0 &&
+                pagesList?.map((ele, i) => {
+                  return (
+                    <Col key={i} lg={4} md={4} sm={12} xs={12}>
                       <div
-                        role="button"
-                        onClick={(e) => deletePage(e, ele?._id, "qwesdrt")}
+                        key={i}
+                        className="page-section-tab d-flex align-items-center justify-content-between"
+                        onClick={() => {
+                          router.push(`/page/${ele?.page_id}`);
+                        }}
                       >
-                        <MdDeleteOutline size={24} color="red" />
+                        {ele?.page_name}
+                        <div
+                          role="button"
+                          onClick={(e) => deletePage(e, ele?._id, "qwesdrt")}
+                        >
+                          <MdDeleteOutline size={24} color="red" />
+                        </div>
                       </div>
-                    </div>
-                  </Col>
-                );
-              })}
+                    </Col>
+                  );
+                })}
             </Row>
           )}
           {itemType == "email-templates" && (
             <Row>
-              {templateList?.map((ele, i) => {
-                return (
-                  <Col key={i} lg={4} md={4} sm={12} xs={12}>
-                    <div
-                      key={i}
-                      className="page-section-tab d-flex align-items-center justify-content-between"
-                      onClick={() => {
-                        router.push(`/template/${ele?.template_id}`);
-                      }}
-                    >
-                      {ele?.template_name}
+              {templateList?.length == 0 && (
+                <Col lg={12}>
+                  <div className="no-data-found-sec">
+                    <Image
+                      src={emptyImg}
+                      height={130}
+                      width={130}
+                      alt="no-data"
+                    />
+                    <h5>No Templates Found!</h5>
+                    <p>Please click on above add button to create templates</p>
+                  </div>
+                </Col>
+              )}
+
+              {templateList?.length > 0 &&
+                templateList?.map((ele, i) => {
+                  return (
+                    <Col key={i} lg={4} md={4} sm={12} xs={12}>
                       <div
-                        role="button"
-                        onClick={(e) => deletePage(e, ele?._id, "jfeqdrov")}
+                        key={i}
+                        className="page-section-tab d-flex align-items-center justify-content-between"
+                        onClick={() => {
+                          router.push(`/template/${ele?.template_id}`);
+                        }}
                       >
-                        <MdDeleteOutline size={24} color="red" />
+                        {ele?.template_name}
+                        <div
+                          role="button"
+                          onClick={(e) => deletePage(e, ele?._id, "jfeqdrov")}
+                        >
+                          <MdDeleteOutline size={24} color="red" />
+                        </div>
                       </div>
-                    </div>
-                  </Col>
-                );
-              })}
+                    </Col>
+                  );
+                })}
             </Row>
           )}
         </div>
       </Container>
-      <Modal show={show} onHide={handleClose} size={"lg"}>
-        <Modal.Header closeButton>
-          <Modal.Title className="fs-5">
-            Create Page {formData.page_item && "Item"}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="page-create-sec">
-            <div>
-              <label>
-                Page Name <span className="text-danger">*</span>
-              </label>
-              <input
-                type="text"
-                name="page_name"
-                placeholder="Enter page name"
-                onChange={(e) => formChange(e)}
-              />
-            </div>
-            {!formData.page_item && (
-              <>
-                <div className="mt-4">
-                  <label>
-                    Base Page Route <span className="text-danger">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="base_page_link"
-                    placeholder="Enter base route"
-                    onChange={(e) => formChange(e)}
-                  />
-                </div>
-                <div className="mt-4">
-                  <label>
-                    Page Route <span className="text-danger">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="page_link"
-                    placeholder="Enter page route"
-                    onChange={(e) => formChange(e)}
-                  />
-                </div>
-              </>
-            )}
-
-            <div className="mt-4">
-              <div className="d-flex check-box">
-                <input
-                  type="checkbox"
-                  id="is-page-item"
-                  name="page_item"
-                  onChange={(e) => formChange(e)}
-                />
-                <label htmlFor="is-page-item" className="mb-0">
-                  Create as page item
-                </label>
-              </div>
-            </div>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant="outline-secondary page-cancel-btn"
-            onClick={handleClose}
-          >
-            Cancel
-          </Button>
-          {formData.page_item ? (
-            <Button
-              variant="primary"
-              className="page-create-btn"
-              onClick={onPageCreate}
-              disabled={!formData.page_name}
-            >
-              Create Page Item
-            </Button>
-          ) : (
-            <Button
-              variant="primary"
-              className="page-create-btn"
-              disabled={
-                formData.page_name &&
-                (formData.base_page_link || formData.page_link)
-                  ? false
-                  : true
-              }
-              onClick={onPageCreate}
-            >
-              Create Page
-            </Button>
-          )}
-        </Modal.Footer>
-      </Modal>
+      <AddPageSec
+        formData={formData}
+        setFormData={setFormData}
+        show={show}
+        setShow={setShow}
+      />
     </div>
   );
 };
