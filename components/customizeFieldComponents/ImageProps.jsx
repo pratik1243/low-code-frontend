@@ -32,7 +32,7 @@ const ImageProps = ({ currentField, onCustomizeElement }) => {
           contType={contType}
           uploadedState={currentField?.props?.imageData?.filename}
           label={`Upload ${
-            currentField?.type !== "image" && "Background"
+            currentField?.type !== "image" ? "Background" : ""
           } Image`}
           removeUploadedFile={removeFileBg}
           onFileUpload={(e, imageData) => {
