@@ -355,7 +355,7 @@ const FormCreate = () => {
                   </button>
                   <a
                     role={"button"}
-                    disabled={forms[breakPoint]?.length == 0 && (pageData?.page_item || data?.page_item)}
+                    disabled={forms[breakPoint]?.length == 0 || pageData?.page_item || data?.page_item}
                     className="web-settings-btn"
                     href={
                       !pageData?.page_item || !data?.page_item
