@@ -16,6 +16,8 @@ import { itemTypeOptions, snackProps } from "../utils/customizeOptions";
 import Select from "react-select";
 import emptyImg from "../public/empty-box.png";
 import AddPageSec from "./AddPageSec";
+import { TbReload } from "react-icons/tb";
+
 
 const PageList = () => {
   const router = useRouter();
@@ -28,21 +30,29 @@ const PageList = () => {
     base_page_link: "",
     page_item: false,
   });
+  const [searchValue, setSearchValue] = useState("");
   const [itemType, setItemType] = useState("pages");
   const [templateList, setTemplateList] = useState([]);
   const token = useSelector((user) => user.auth.authDetails.token);
-  const requestUserId = useSelector((user) => user.auth.authDetails?.request_user_id);
+  const requestUserId = useSelector(
+    (user) => user.auth.authDetails?.request_user_id
+  );
 
   const handleShow = () => {
     setShow(true);
   };
 
-  const fetchPagesList = async () => {
+  const fetchPagesList = async (dataType = null) => {
     try {
       dispatch(setLoader(true));
       const requestData = {
         key: itemType == "email-templates" ? "uawriocb" : "kgasderq",
-        payload: { request_user_id: requestUserId },
+        payload: {
+          request_user_id: requestUserId,
+          ...(dataType && {
+            [dataType]: searchValue,
+          }),
+        },
       };
       const response = await commonPostApiFunction(requestData, token);
       dispatch(setLoader(false));
@@ -156,18 +166,41 @@ const PageList = () => {
                 }}
                 onChange={(data) => {
                   setItemType(data?.value || "pages");
+                  setSearchValue("");
                 }}
               />
             </div>
             <div className="search-input-sec">
               <input
                 type="text"
+                value={searchValue}
                 placeholder={`Search ${
                   itemType == "pages" ? "page" : "template"
                 } here...`}
+                onChange={(e) => {
+                  setSearchValue(e.target.value);
+                }}
               />
-              <IoSearchSharp size={20} />
+              <IoSearchSharp
+                role="button"
+                size={20}
+                onClick={() => {
+                  fetchPagesList(
+                    itemType == "pages" ? "page_name" : "template_name"
+                  );
+                }}
+              />
             </div>
+            <Button
+              variant={"primary"}
+              className={"mr-auto clear-btn justify-content-center"}
+              onClick={() => {
+                setSearchValue("");
+                fetchPagesList();
+              }}
+            >
+              <TbReload size={18} /> &nbsp;&nbsp;Clear
+            </Button>
           </div>
 
           <div className="mb-4">

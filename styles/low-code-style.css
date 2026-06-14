@@ -509,7 +509,7 @@ input {
 
 .fixed-filter-sec {
   display: grid;
-  grid-template-columns: 0.7fr 3fr;
+  grid-template-columns: 0.9fr 3fr 0.4fr;
   gap: 20px;
   background-color: #fff;
   padding: 16px 18px;
@@ -614,11 +614,11 @@ input {
   pointer-events: none;
 }
 
+.fixed-filter-sec .clear-btn,
 .publish-btn-sec button,
 .publish-btn-sec a {
   background-color: var(--white-color);
-  /* width: 100%; */
-  padding: 8px 14px;
+  padding: 7px 14px;
   border-radius: 4px;
   outline: none;
   border: 1px solid #00b2aa;
@@ -628,6 +628,16 @@ input {
   color: #00b2aa;
   text-transform: capitalize;
   font-size: 15px;
+}
+
+.fixed-filter-sec .clear-btn {
+  height: 41px;
+  border-radius: 7px !important;
+}
+
+.fixed-filter-sec .clear-btn:hover {
+  background-color: var(--white-color);
+  color: #00b2aa;
 }
 
 .publish-btn-sec button svg,
@@ -828,7 +838,6 @@ hr {
   background-color: #223cc5;
   z-index: -1;
   width: 0%;
-  /* transition: all 0.1s; */
 }
 
 .current-line {
@@ -977,7 +986,6 @@ hr {
 
 .customize-content-table thead {
   position: sticky;
-  /* z-index: 100; */
   top: -1px;
 }
 
@@ -1610,10 +1618,6 @@ hr {
   z-index: 1;
 }
 
-/* .web-div .swiper .column-sec {
-  width: 100%;
-} */
-
 .web-div .swiper,
 .web-div .swiper .swiper-wrapper {
   padding: 0px !important;
@@ -1681,7 +1685,6 @@ hr {
 }
 
 .image-full-width-check {
-  /* margin-top: 54px; */
   margin-left: 5px;
 }
 
@@ -1893,7 +1896,6 @@ hr {
   display: block;
   position: relative;
   padding-left: 29px;
-  /* margin-bottom: 12px; */
   cursor: pointer;
   font-size: 15px;
   -webkit-user-select: none;
