@@ -42,7 +42,7 @@ const FieldSection = () => {
   return (
     <div className="field-option-sec">
       {FilterFieldsData?.map((ele, index) => {
-        if(isPageItem && ele?.type == "card_box"){
+        if(isPageItem && ["card_box", "slider"].includes(ele?.type)){
           return null;
         }
         return (
