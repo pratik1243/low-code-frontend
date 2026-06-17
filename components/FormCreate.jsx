@@ -76,7 +76,9 @@ const FormCreate = () => {
   const [menuIndex, setMenuIndex] = useState(null);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const token = useSelector((user) => user.auth.authDetails.token);
-  const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
+  const requestUserId = useSelector(
+    (user) => user.auth.authDetails.request_user_id
+  );
   const pageData = useSelector((user) => user.pageCreate.pageCreateDetails);
 
   function dataPayload(data) {
@@ -254,6 +256,9 @@ const FormCreate = () => {
     fetchTemplateList();
   }, []);
 
+  const isPageItem = pageData?.page_item || data?.page_item;
+  const notPageItem = !pageData?.page_item || !data?.page_item;
+
   return (
     <div className="mx-4 mt-4 element-create-sec">
       <FormContext
@@ -303,6 +308,7 @@ const FormCreate = () => {
           setShowCurrentElement,
           openEmailSendBox,
           setOpenEmailSendBox,
+          isPageItem,
         }}
       >
         <Row>
@@ -331,7 +337,7 @@ const FormCreate = () => {
                 <div className="publish-btn-sec d-flex align-items-center">
                   <Select
                     isClearable
-                    isDisabled={pageData?.page_item || data?.page_item}
+                    isDisabled={isPageItem}
                     placeholder={"Select Screen Size"}
                     options={responsiveScreenSizes}
                     onChange={(data) => {
@@ -340,9 +346,9 @@ const FormCreate = () => {
                   />
                   <button
                     className="web-settings-btn"
-                    disabled={pageData?.page_item || data?.page_item}
+                    disabled={isPageItem}
                     onClick={() => {
-                      if (!pageData?.page_item || !data?.page_item) {
+                      if (notPageItem) {
                         setOpenSettingModel(true);
                       }
                     }}
@@ -355,13 +361,9 @@ const FormCreate = () => {
                   </button>
                   <a
                     role={"button"}
-                    disabled={forms[breakPoint]?.length == 0 || (pageData?.page_item || data?.page_item)}
+                    disabled={forms[breakPoint]?.length == 0 || isPageItem}
                     className="web-settings-btn"
-                    href={
-                      !pageData?.page_item || !data?.page_item
-                        ? `/web-page/${data?.page_route}`
-                        : ""
-                    }
+                    href={notPageItem ? `/web-page/${data?.page_route}` : ""}
                     target={"_blank"}
                   >
                     <RiExternalLinkLine size={18} /> Preview

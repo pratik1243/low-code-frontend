@@ -4,7 +4,7 @@ import { fieldsData } from "../utils/customizeOptions";
 import { generateId } from "../utils/customizePropFunctions";
 
 const FieldSection = () => {
-  const { forms, setForms, containerId, breakPoint } = useContext(FormContext);
+  const { forms, setForms, containerId, breakPoint, isPageItem } = useContext(FormContext);
   const noContentTypes = ["stepper", "slider", "container", "card_box"];
 
   const onClickAddFields = (items) => {
@@ -42,6 +42,9 @@ const FieldSection = () => {
   return (
     <div className="field-option-sec">
       {FilterFieldsData?.map((ele, index) => {
+        if(isPageItem && ele?.type == "card_box"){
+          return null;
+        }
         return (
           <div
             key={index}
