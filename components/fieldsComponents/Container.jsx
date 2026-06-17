@@ -4,9 +4,13 @@ import { PageContext } from "../WebPage";
 import RenderField from "./RenderField";
 import ElementActions from "../commonComponents/ElementActions";
 import { addPixel } from "../../utils/customizePropFunctions";
-import { containerClasses, textAlign, alignment } from "../../utils/customizeOptions";
+import {
+  containerClasses,
+  textAlign,
+  alignment,
+} from "../../utils/customizeOptions";
 
-const Container = ({ ele, path, index, currentStep = null }) => {
+const Container = ({ ele, path, index = null, outerIndex = null }) => {
   const isWebPage = path.includes("web-page");
   const { forms, setForms, setCurrentElement, breakPoint } = useContext(
     isWebPage ? PageContext : FormContext
@@ -60,7 +64,7 @@ const Container = ({ ele, path, index, currentStep = null }) => {
   };
 
   return (
-    <div      
+    <div
       className={`card-sec ${
         isWebPage
           ? `is-web-page ${
@@ -132,6 +136,7 @@ const Container = ({ ele, path, index, currentStep = null }) => {
                 <div className="delete-element-btn2">
                   <ElementActions
                     data={el}
+                    elementIndex={i}
                     containerIndex={index}
                     deleteFunction={(e) => deleteNestedItem(e, el.id, index)}
                   />
@@ -141,7 +146,7 @@ const Container = ({ ele, path, index, currentStep = null }) => {
               <RenderField
                 ele={el}
                 index={i}
-                currentStep={currentStep}
+                outerIndex={outerIndex}
                 containerBackground={ele?.props?.containerBackground}
               />
             )}

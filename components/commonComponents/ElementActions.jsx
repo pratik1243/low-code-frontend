@@ -11,7 +11,12 @@ import {
   pasteItems,
 } from "../../utils/customizePropFunctions";
 
-const ElementActions = ({ data, deleteFunction, containerIndex = null }) => {
+const ElementActions = ({
+  data,
+  deleteFunction,
+  elementIndex = null,
+  containerIndex = null,
+}) => {
   const {
     forms,
     setForms,
@@ -41,25 +46,26 @@ const ElementActions = ({ data, deleteFunction, containerIndex = null }) => {
   const onDuplicateFields = () => {
     const { id, ...dataObj } = data;
 
-    const updatedForms = forms[breakPoint].map((el, i) => {
-      if (containerIndex == i) {
-        return {
-          ...el,
-          content: [
-            ...el?.content,
-            { ...dataObj, id: generateId(4), isContainer: true },
-          ],
-        };
-      }
-      return el;
-    });
+    const newDataObj1 = {
+      ...dataObj,
+      id: generateId(4),
+    };
+
+    const newDataObj2 = {
+      ...dataObj,
+      id: generateId(4),
+      isContainer: true,
+    };
+
+    const updatedForms = [...forms[breakPoint]];
+    updatedForms[containerIndex]?.content?.splice(elementIndex + 1, 0, newDataObj2);
+
+    const ElementData = [...forms[breakPoint]];
+    ElementData?.splice(elementIndex + 1, 0, newDataObj1);
 
     setForms({
       ...forms,
-      [breakPoint]:
-        containerIndex == undefined
-          ? [...forms[breakPoint], { ...dataObj, id: generateId(4) }]
-          : updatedForms,
+      [breakPoint]: containerIndex == undefined ? ElementData : updatedForms,
     });
   };
 

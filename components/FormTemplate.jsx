@@ -242,6 +242,7 @@ const FormTemplate = () => {
                 <div className={`delete-element-btn`}>
                   <ElementActions
                     data={ele}
+                    elementIndex={index}
                     deleteFunction={(e) => deleteItem(e, ele?.id)}
                   />
                 </div>
