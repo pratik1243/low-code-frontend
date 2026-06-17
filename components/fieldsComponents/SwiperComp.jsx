@@ -8,13 +8,13 @@ import GraidentLayer from "../commonComponents/GraidentLayer";
 import { addPixel } from "../../utils/customizePropFunctions";
 import { textAlign, alignment } from "../../utils/customizeOptions";
 
-const SwiperComp = ({ ele, path }) => {
+const SwiperComp = ({ ele, path, index }) => {
   const isWebPage = path.includes("web-page");
   useEffect(() => {
     const interval = setInterval(() => {
       document
         .querySelectorAll(".swiper-pagination-bullet")
-        .forEach((bullet, index) => {
+        .forEach((bullet, i) => {
           bullet.style.background = ele?.props?.style?.color;
           if (bullet.classList.contains("swiper-pagination-bullet-active")) {
             bullet.style.opacity = "1";
@@ -30,7 +30,7 @@ const SwiperComp = ({ ele, path }) => {
   return (
     <>
       {!isWebPage ? (
-        <div>Slider</div>
+        <div>Slider {index}</div>
       ) : (
         <Swiper
           modules={[Navigation, Autoplay, Pagination]}

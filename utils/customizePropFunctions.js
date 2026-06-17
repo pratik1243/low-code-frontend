@@ -42,7 +42,11 @@ export function errorMessageFunc(el, value) {
 export function addPixel(styles, el) {
   let obj = {};
   for (const key in styles) {
-    if (["padding", "fontSize", "borderRadius"].includes(key)) {
+    if (
+      key.includes("padding") ||
+      key.includes("fontSize") ||
+      key.includes("borderRadius")
+    ) {
       obj[key] = `${styles[key]}px`;
     } else {
       obj[key] = styles[key]?.value ? styles[key]?.value : styles[key];

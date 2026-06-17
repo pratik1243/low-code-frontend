@@ -14,7 +14,7 @@ const CardBox = ({ ele, path, index }) => {
   return (
     <>
       {!isWebPage ? (
-        <div>Card Box</div>
+        <div>Card Box {index}</div>
       ) : (
         <div
           className={`card-main-section ${
