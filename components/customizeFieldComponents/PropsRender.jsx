@@ -216,7 +216,7 @@ const PropsRender = ({ open }) => {
           <label className="fw-bold">Set Width</label>
           <div className="width-customize-sec mb-4 mt-3">
             <Row>
-              <Col lg={6} md={6} sm={12} xs={12}>
+              {/* <Col lg={6} md={6} sm={12} xs={12}>
                 <label>Column Width ({currentField?.column_width}%)</label>
                 <input
                   type="range"
@@ -227,7 +227,7 @@ const PropsRender = ({ open }) => {
                     onCustomizeElement(e, "column_width", "input", forms);
                   }}
                 />
-              </Col>
+              </Col> */}
 
               {!["divider", "image", "icon"].includes(currentField?.type) && (
                 <Col lg={6} md={6} sm={12} xs={12}>
@@ -239,6 +239,7 @@ const PropsRender = ({ open }) => {
                     type={"range"}
                     min={0}
                     max={100}
+                    className="mb-4"
                     value={currentField?.props?.width || ""}
                     onChange={(e) => {
                       onCustomizeElement(e, "width", "input", forms);
@@ -247,9 +248,9 @@ const PropsRender = ({ open }) => {
                 </Col>
               )}
             </Row>
-          </div>
 
-          <hr />
+            <hr />
+          </div>
 
           <div className="mt-4">
             <label className="mb-3 fw-bold">
@@ -324,14 +325,17 @@ const PropsRender = ({ open }) => {
                     </Row>
                   </Col>
                 )}
-                {["container", "slider", "card_box"].includes(currentField?.type) && (
+                {["container", "slider", "card_box"].includes(
+                  currentField?.type
+                ) && (
                   <>
                     <Col lg={6} md={6} sm={12} xs={12}>
                       <div className="customize-prop-sec">
                         <Row>
                           <Col lg={9} md={9}>
                             <label className="mb-2">
-                              {currentField?.type?.split("_").join(" ")} Background Color
+                              {currentField?.type?.split("_").join(" ")}{" "}
+                              Background Color
                             </label>
                             <input
                               type="color"
@@ -542,11 +546,15 @@ const PropsRender = ({ open }) => {
                   </Col>
                 )}
 
-                {["container", "slider", "card_box"].includes(currentField?.type) && (
+                {["container", "slider", "card_box"].includes(
+                  currentField?.type
+                ) && (
                   <>
                     <Col lg={6} md={6} sm={12} xs={12}>
                       <div className="customize-prop-sec">
-                        <label>{currentField?.type.split("_").join(" ")} Template</label>
+                        <label>
+                          {currentField?.type.split("_").join(" ")} Template
+                        </label>
                         <Select
                           isClearable
                           placeholder={"Select template"}

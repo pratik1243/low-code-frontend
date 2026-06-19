@@ -271,6 +271,17 @@ export const countryCallingCodes = {
   ZW: 263,
 };
 
+export const resizeDirectionOptions = {
+  top: false,
+  right: true,
+  bottom: false,
+  left: false,
+  topRight: false,
+  bottomRight: false,
+  bottomLeft: false,
+  topLeft: false,
+};
+
 export const fieldsData = [
   {
     label_text: "Text Field",

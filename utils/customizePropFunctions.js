@@ -69,6 +69,40 @@ function options(el, value, attribute, optionIndex) {
   return values;
 }
 
+export function onResizeElement(
+  forms,
+  parentRef,
+  ref,
+  parentIndex,
+  childIndex = null
+) {
+  const percent = (ref.offsetWidth / parentRef.current.clientWidth) * 102;
+  const updateforms = forms?.map((el, i) => {
+    const updateContent = el?.content?.map((e, id) => {
+      if (childIndex == id) {
+        return {
+          ...e,
+          column_width: percent.toFixed(0) > 100 ? 100 : percent.toFixed(0),
+        };
+      }
+      return e;
+    });
+
+    if (i === parentIndex) {
+      if (childIndex !== null) {
+        return { ...el, content: updateContent };
+      } else {
+        return {
+          ...el,
+          column_width: percent.toFixed(0) > 100 ? 100 : percent.toFixed(0),
+        };
+      }
+    }
+    return el;
+  });
+  return updateforms;
+}
+
 export function nestedStructure(
   data,
   forms,

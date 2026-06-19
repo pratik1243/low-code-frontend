@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import RenderField from "./fieldsComponents/RenderField";
 import {
   MdContentCopy,
@@ -12,7 +12,9 @@ import ElementActions from "./commonComponents/ElementActions";
 import emptyImg from "../public/empty-box.png";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import Image from "next/image";
-import { generateId } from "../utils/customizePropFunctions";
+import { generateId, onResizeElement } from "../utils/customizePropFunctions";
+import { Resizable } from "re-resizable";
+import { resizeDirectionOptions } from "../utils/customizeOptions";
 
 const FormTemplate = () => {
   const {
@@ -23,9 +25,12 @@ const FormTemplate = () => {
     setContainerId,
     setHeight,
     breakPoint,
+    isResize,
+    setIsResize,
   } = useContext(FormContext);
 
   const pathname = usePathname();
+  const parentRef = useRef(null);
   const [copyText, setCopyText] = useState("Copy");
 
   const renderTooltip = (text, props) => (
@@ -52,6 +57,7 @@ const FormTemplate = () => {
   };
 
   const onDragStart = (e, index) => {
+    setIsResize(false);
     e.dataTransfer.setData("element_index", index);
   };
 
@@ -179,25 +185,40 @@ const FormTemplate = () => {
           </div>
         </div>
       )}
-      <div className="main-content-sec">
+
+      <div className="main-content-sec" ref={parentRef}>
         {forms[breakPoint]?.length > 0 &&
           forms[breakPoint]?.map((ele, index) => {
             return (
-              <div
+              <Resizable
                 key={index}
-                draggable
+                draggable={!isResize}
                 className={`position-relative ${
                   ele?.type !== "container" ? "no-container-element" : ""
                 } element-column column_${ele?.id} ${
                   containerId === ele?.id ? "selected-card" : ""
                 }                  
                ${ele?.props?.hidden ? "hidden" : ""} ${
-                  ele?.type === "container"
-                    ? "w-65"
-                    : ""
+                  ele?.type === "container" ? "w-65" : ""
                 }`}
-                style={{
-                  ...(ele?.column_width && { width: `${ele?.column_width}%` }),
+                enable={resizeDirectionOptions}
+                size={{ width: `${ele?.column_width}%` }}
+                onResize={(e, direction, ref) => {
+                  setForms({
+                    ...forms,
+                    [breakPoint]: onResizeElement(
+                      forms[breakPoint],
+                      parentRef,
+                      ref,
+                      index
+                    ),
+                  });
+                }}
+                onResizeStart={() => {
+                  setIsResize(true);
+                }}
+                onResizeStop={() => {
+                  setIsResize(false);
                 }}
                 onDragOver={(e) => onDragOver(e)}
                 onDragStart={(e) => onDragStart(e, index)}
@@ -206,7 +227,9 @@ const FormTemplate = () => {
                 {!pathname.includes("web-page") && ele?.type == "container" && (
                   <div
                     className={`d-flex w-100 drag-indicator ${
-                      ele?.column_width < 40 ? "mb-2" : "mb-3 justify-content-center"
+                      ele?.column_width < 40
+                        ? "mb-2"
+                        : "mb-3 justify-content-center"
                     }`}
                   >
                     <MdOutlineDragIndicator />
@@ -246,7 +269,7 @@ const FormTemplate = () => {
                     deleteFunction={(e) => deleteItem(e, ele?.id)}
                   />
                 </div>
-              </div>
+              </Resizable>
             );
           })}
       </div>

@@ -34,6 +34,7 @@ const FormCreate = () => {
   const [currentElement, setCurrentElement] = useState();
   const [itemDrag, setItemDrag] = useState(false);
   const [selectedFont, setSelectedFont] = useState();
+  const [isResize, setIsResize] = useState(false);
   const [height, setHeight] = useState(false);
   const [fieldType, setFieldType] = useState();
   const [scrollAnimationType, setScrollAnimationType] = useState();
@@ -309,6 +310,8 @@ const FormCreate = () => {
           openEmailSendBox,
           setOpenEmailSendBox,
           isPageItem,
+          isResize, 
+          setIsResize
         }}
       >
         <Row>

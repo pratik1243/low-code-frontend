@@ -1,20 +1,28 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { FormContext } from "../FormCreate";
 import { PageContext } from "../WebPage";
 import RenderField from "./RenderField";
 import ElementActions from "../commonComponents/ElementActions";
-import { addPixel } from "../../utils/customizePropFunctions";
+import { addPixel, onResizeElement } from "../../utils/customizePropFunctions";
 import {
   containerClasses,
   textAlign,
   alignment,
+  resizeDirectionOptions,
 } from "../../utils/customizeOptions";
+import { Resizable } from "re-resizable";
 
 const Container = ({ ele, path, index = null, outerIndex = null }) => {
   const isWebPage = path.includes("web-page");
-  const { forms, setForms, setCurrentElement, breakPoint } = useContext(
-    isWebPage ? PageContext : FormContext
-  );
+  const {
+    forms,
+    setForms,
+    setCurrentElement,
+    breakPoint,
+    isResize,
+    setIsResize,
+  } = useContext(isWebPage ? PageContext : FormContext);
+  const containerParentRef = useRef();
 
   const deleteNestedItem = (e, id, ind) => {
     e.stopPropagation();
@@ -54,6 +62,7 @@ const Container = ({ ele, path, index = null, outerIndex = null }) => {
 
   const onDragStart = (e, index, i) => {
     e.stopPropagation();
+    setIsResize(false);
     e.dataTransfer.setData("element_index1", index);
     e.dataTransfer.setData("container_index", i);
   };
@@ -65,6 +74,7 @@ const Container = ({ ele, path, index = null, outerIndex = null }) => {
 
   return (
     <div
+      ref={containerParentRef}
       className={`card-sec ${
         isWebPage
           ? `is-web-page ${
@@ -90,9 +100,9 @@ const Container = ({ ele, path, index = null, outerIndex = null }) => {
           return null;
         }
         return (
-          <div
+          <Resizable
             key={i}
-            draggable={!isWebPage}
+            draggable={!isResize}
             className={`position-relative element-column column_${el?.id} ${
               (isWebPage && alignment[el?.props?.align?.value]) || ""
             } ${
@@ -109,7 +119,6 @@ const Container = ({ ele, path, index = null, outerIndex = null }) => {
                 : ""
             } ${!el?.props?.fullWidth && isWebPage ? "d-flex" : ""}`}
             style={{
-              ...(el?.column_width && { width: `${el?.column_width}%` }),
               ...(el?.props?.style &&
                 isWebPage &&
                 addPixel(el?.props?.style, el)),
@@ -118,6 +127,27 @@ const Container = ({ ele, path, index = null, outerIndex = null }) => {
               ) && {
                 backgroundColor: "transparent !important",
               }),
+            }}
+            enable={resizeDirectionOptions}
+            size={{ width: `${el?.column_width}%` }}
+            onResize={(e, direction, ref) => {
+              e.stopPropagation();
+              setForms({
+                ...forms,
+                [breakPoint]: onResizeElement(
+                  forms[breakPoint],
+                  containerParentRef,
+                  ref,
+                  index,
+                  i
+                ),
+              });
+            }}
+            onResizeStart={(e) => {
+              setIsResize(true);
+            }}
+            onResizeStop={(e) => {
+              setIsResize(false);
             }}
             onDragOver={(e) => onDragOver(e)}
             onDragStart={(e) => onDragStart(e, i, index)}
@@ -150,7 +180,7 @@ const Container = ({ ele, path, index = null, outerIndex = null }) => {
                 containerBackground={ele?.props?.containerBackground}
               />
             )}
-          </div>
+          </Resizable>
         );
       })}
     </div>
