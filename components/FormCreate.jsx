@@ -257,7 +257,7 @@ const FormCreate = () => {
     fetchTemplateList();
   }, []);
 
-  const isPageItem = pageData?.page_item || data?.page_item;
+  const isPageItem = (pageData?.page_item || data?.page_item);
   const notPageItem = !pageData?.page_item || !data?.page_item;
 
   return (
