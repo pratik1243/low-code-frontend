@@ -136,7 +136,7 @@ const FormTemplate = () => {
     <div className={`main-div scrollable position-relative`}>
       <div className="d-flex align-items-center justify-content-between data-prop-sec">
         <div>
-          <p>Adjust column width to fit items in row</p>
+          <p>Resize element columns to fit items in row</p>
         </div>
         <div className="d-flex align-items-center">
           <div

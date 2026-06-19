@@ -102,7 +102,7 @@ const Container = ({ ele, path, index = null, outerIndex = null }) => {
         return (
           <Resizable
             key={i}
-            draggable={!isResize}
+            draggable={isWebPage ? false : !isResize}
             className={`position-relative element-column column_${el?.id} ${
               (isWebPage && alignment[el?.props?.align?.value]) || ""
             } ${
