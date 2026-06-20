@@ -32,6 +32,7 @@ const FormTemplate = () => {
   const pathname = usePathname();
   const parentRef = useRef(null);
   const [copyText, setCopyText] = useState("Copy");
+  const isWebPage = pathname?.includes("web-page");
 
   const renderTooltip = (text, props) => (
     <Tooltip id="button-tooltip" {...props}>
@@ -201,7 +202,10 @@ const FormTemplate = () => {
                ${ele?.props?.hidden ? "hidden" : ""} ${
                   ele?.type === "container" ? "w-65" : ""
                 }`}
-                enable={resizeDirectionOptions}
+                enable={{
+                  ...resizeDirectionOptions,
+                  ...(isWebPage && { right: false }),
+                }}
                 size={{ width: `${ele?.column_width}%` }}
                 onResize={(e, direction, ref) => {
                   setForms({
@@ -220,11 +224,11 @@ const FormTemplate = () => {
                 onResizeStop={() => {
                   setIsResize(false);
                 }}
-                onDragOver={(e) => onDragOver(e)}
-                onDragStart={(e) => onDragStart(e, index)}
-                onDrop={(e) => onDropItem(e, index)}
+                onDragOver={(e) => !isWebPage && onDragOver(e)}
+                onDragStart={(e) => !isWebPage && onDragStart(e, index)}
+                onDrop={(e) => !isWebPage && onDropItem(e, index)}
               >
-                {!pathname.includes("web-page") && ele?.type == "container" && (
+                {!isWebPage && ele?.type == "container" && (
                   <div
                     className={`d-flex w-100 drag-indicator ${
                       ele?.column_width < 40

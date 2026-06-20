@@ -119,16 +119,15 @@ const Container = ({ ele, path, index = null, outerIndex = null }) => {
                 : ""
             } ${!el?.props?.fullWidth && isWebPage ? "d-flex" : ""}`}
             style={{
-              ...(el?.props?.style &&
-                isWebPage &&
-                addPixel(el?.props?.style, el)),
-              ...(["button", "input", "select", "country"].includes(
-                el?.type
-              ) && {
+              ...(el?.props?.style && isWebPage && addPixel(el?.props?.style, el)),
+              ...(["button", "input", "select", "country"].includes(el?.type) && {
                 backgroundColor: "transparent !important",
               }),
             }}
-            enable={resizeDirectionOptions}
+            enable={{
+              ...resizeDirectionOptions,
+              ...(isWebPage && { right: false }),
+            }}
             size={{ width: `${el?.column_width}%` }}
             onResize={(e, direction, ref) => {
               e.stopPropagation();
@@ -149,9 +148,9 @@ const Container = ({ ele, path, index = null, outerIndex = null }) => {
             onResizeStop={(e) => {
               setIsResize(false);
             }}
-            onDragOver={(e) => onDragOver(e)}
-            onDragStart={(e) => onDragStart(e, i, index)}
-            onDrop={(e) => onDropItem(e, i, index)}
+            onDragOver={(e) => !isWebPage && onDragOver(e)}
+            onDragStart={(e) => !isWebPage && onDragStart(e, i, index)}
+            onDrop={(e) => !isWebPage && onDropItem(e, i, index)}
           >
             {!isWebPage ? (
               <>

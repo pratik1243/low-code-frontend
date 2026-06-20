@@ -77,9 +77,7 @@ const FormCreate = () => {
   const [menuIndex, setMenuIndex] = useState(null);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const token = useSelector((user) => user.auth.authDetails.token);
-  const requestUserId = useSelector(
-    (user) => user.auth.authDetails.request_user_id
-  );
+  const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
   const pageData = useSelector((user) => user.pageCreate.pageCreateDetails);
 
   function dataPayload(data) {

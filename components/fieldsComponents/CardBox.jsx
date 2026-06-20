@@ -10,11 +10,23 @@ import {
 
 const CardBox = ({ ele, path, index }) => {
   const isWebPage = path.includes("web-page");
-
   return (
     <>
       {!isWebPage ? (
-        <div>Card Box {index}</div>
+        <div>
+          Card Items{" "}
+          {ele?.props?.cards?.length > 0 && (
+            <div className="cards-chip-sec">
+              {ele?.props?.cards?.map((el, i) => {
+                return (
+                  <div key={i} className="card-chip">
+                    {el?.label}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
       ) : (
         <div
           className={`card-main-section ${

@@ -30,7 +30,20 @@ const SwiperComp = ({ ele, path, index }) => {
   return (
     <>
       {!isWebPage ? (
-        <div>Slider {index}</div>
+        <div>
+          Slider Items{" "}
+          {ele?.props?.slides?.length > 0 && (
+            <div className="cards-chip-sec">
+              {ele?.props?.slides?.map((el, i) => {
+                return (
+                  <div key={i} className="card-chip">
+                    {el?.label}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
       ) : (
         <Swiper
           modules={[Navigation, Autoplay, Pagination]}

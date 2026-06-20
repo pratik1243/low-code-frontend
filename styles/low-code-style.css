@@ -129,9 +129,7 @@ input {
 .field-customize-sec {
   padding: 20px;
   background-color: #f8f8f8;
-  /* border: 1px solid var(--grey-color); */
   border-radius: 4px;
-  /* height: 460px; */
   overflow-y: auto;
   position: relative;
   height: 100%;
@@ -141,6 +139,22 @@ input {
   max-height: 590px;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.cards-chip-sec {
+  margin-top: 8px;
+}
+
+.cards-chip-sec .card-chip {
+  color: #00b2aabd;
+  background: #00b2aa12;
+  border: 1px solid #00b2aabd;
+  border-radius: 20px;
+  place-items: center;
+  margin-right: 7px;
+  padding: 2px 8px;
+  font-size: 11.5px;
+  display: inline;
 }
 
 .main-content-sec.layer::after {
