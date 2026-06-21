@@ -142,7 +142,10 @@ input {
 }
 
 .cards-chip-sec {
-  margin-top: 8px;
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
 }
 
 .cards-chip-sec .card-chip {
@@ -151,7 +154,6 @@ input {
   border: 1px solid #00b2aabd;
   border-radius: 20px;
   place-items: center;
-  margin-right: 7px;
   padding: 2px 8px;
   font-size: 11.5px;
   display: inline;
