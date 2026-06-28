@@ -213,44 +213,46 @@ const PropsRender = ({ open }) => {
         />
       ) : (
         <>
-          <label className="fw-bold">Set Width</label>
-          <div className="width-customize-sec mb-4 mt-3">
-            <Row>
-              {/* <Col lg={6} md={6} sm={12} xs={12}>
-                <label>Column Width ({currentField?.column_width}%)</label>
-                <input
-                  type="range"
-                  value={currentField?.column_width || ""}
-                  min={0}
-                  max={100}
-                  onChange={(e) => {
-                    onCustomizeElement(e, "column_width", "input", forms);
-                  }}
-                />
-              </Col> */}
+          {!["divider", "image", "icon"].includes(currentField?.type) && (
+            <>
+              <label className="fw-bold">Set Width</label>
+              <div className="width-customize-sec mb-4 mt-3">
+                <Row>
+                  {/* <Col lg={6} md={6} sm={12} xs={12}>
+                    <label>Column Width ({currentField?.column_width}%)</label>
+                    <input
+                      type="range"
+                      value={currentField?.column_width || ""}
+                      min={0}
+                      max={100}
+                      onChange={(e) => {
+                        onCustomizeElement(e, "column_width", "input", forms);
+                      }}
+                    />
+                  </Col> */}
 
-              {!["divider", "image", "icon"].includes(currentField?.type) && (
-                <Col lg={6} md={6} sm={12} xs={12}>
-                  <label>
-                    {currentField?.type?.split("_").join(" ")} Width (
-                    {currentField?.props?.width}%)
-                  </label>
-                  <input
-                    type={"range"}
-                    min={0}
-                    max={100}
-                    className="mb-4"
-                    value={currentField?.props?.width || ""}
-                    onChange={(e) => {
-                      onCustomizeElement(e, "width", "input", forms);
-                    }}
-                  />
-                </Col>
-              )}
-            </Row>
+                  <Col lg={6} md={6} sm={12} xs={12}>
+                    <label>
+                      {currentField?.type?.split("_").join(" ")} Width (
+                      {currentField?.props?.width}%)
+                    </label>
+                    <input
+                      type={"range"}
+                      min={0}
+                      max={100}
+                      className="mb-4"
+                      value={currentField?.props?.width || ""}
+                      onChange={(e) => {
+                        onCustomizeElement(e, "width", "input", forms);
+                      }}
+                    />
+                  </Col>
+                </Row>
 
-            <hr />
-          </div>
+                <hr />
+              </div>
+            </>
+          )}
 
           <div className="mt-4">
             <label className="mb-3 fw-bold">
