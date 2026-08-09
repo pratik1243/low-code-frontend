@@ -9,6 +9,7 @@ import {
   scrollAnimationOtions,
 } from "../../utils/customizeOptions";
 import AddImages from "./AddImages";
+import { TbLayoutNavbarCollapse } from "react-icons/tb";
 
 function SettingBox() {
   const {
@@ -89,7 +90,15 @@ function SettingBox() {
       }}
     >
       <Offcanvas.Header closeButton>
-        <Offcanvas.Title>Page Settings</Offcanvas.Title>
+        <Offcanvas.Title>
+          {openImageModel
+            ? "Add Images"
+            : navSettings
+            ? "Navbar Customization"
+            : fontModal
+            ? "Font Customization"
+            : "Page Settings"}
+        </Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body className="p-0">
         {openImageModel ? (
@@ -177,7 +186,7 @@ function SettingBox() {
                       setNavSettings(true);
                     }}
                   >
-                    Navbar Customization
+                   <TbLayoutNavbarCollapse size={18} />&nbsp;Navbar Customization
                   </button>
                 </Col>
               </Row>
