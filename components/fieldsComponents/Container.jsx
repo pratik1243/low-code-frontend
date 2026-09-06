@@ -12,7 +12,14 @@ import {
 } from "../../utils/customizeOptions";
 import { Resizable } from "re-resizable";
 
-const Container = ({ ele, path, index = null, outerIndex = null }) => {
+const Container = ({
+  ele,
+  path,
+  index = null,
+  outerIndex = null,
+  cardInnerIndex = null,
+  mainIndex = null,
+}) => {
   const isWebPage = path.includes("web-page");
   const {
     forms,
@@ -109,8 +116,8 @@ const Container = ({ ele, path, index = null, outerIndex = null }) => {
               el?.props?.hidden && isWebPage
                 ? "hide"
                 : el?.props?.hidden
-                ? "hidden"
-                : ""
+                  ? "hidden"
+                  : ""
             } ${
               (isWebPage && el?.type == "heading") ||
               (isWebPage && el?.type == "paragraph") ||
@@ -119,8 +126,12 @@ const Container = ({ ele, path, index = null, outerIndex = null }) => {
                 : ""
             } ${!el?.props?.fullWidth && isWebPage ? "d-flex" : ""}`}
             style={{
-              ...(el?.props?.style && isWebPage && addPixel(el?.props?.style, el)),
-              ...(["button", "input", "select", "country"].includes(el?.type) && {
+              ...(el?.props?.style &&
+                isWebPage &&
+                addPixel(el?.props?.style, el)),
+              ...(["button", "input", "select", "country"].includes(
+                el?.type,
+              ) && {
                 backgroundColor: "transparent !important",
               }),
             }}
@@ -138,7 +149,7 @@ const Container = ({ ele, path, index = null, outerIndex = null }) => {
                   containerParentRef,
                   ref,
                   index,
-                  i
+                  i,
                 ),
               });
             }}
@@ -159,7 +170,12 @@ const Container = ({ ele, path, index = null, outerIndex = null }) => {
                     el?.type !== "container" && !isWebPage ? "field-render" : ""
                   }
                 >
-                  <RenderField ele={el} index={i} />
+                  <RenderField
+                    ele={el}
+                    index={i}
+                    mainIndex={mainIndex}
+                    cardInnerIndex={cardInnerIndex}
+                  />
                 </div>
 
                 <div className="delete-element-btn2">
@@ -176,6 +192,8 @@ const Container = ({ ele, path, index = null, outerIndex = null }) => {
                 ele={el}
                 index={i}
                 outerIndex={outerIndex}
+                cardInnerIndex={cardInnerIndex}
+                mainIndex={mainIndex}
                 containerBackground={ele?.props?.containerBackground}
               />
             )}
