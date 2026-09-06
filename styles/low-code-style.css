@@ -2508,6 +2508,9 @@ hr {
   background-color: #8080801c;
 }
 
+.column-sec:has(.img-full-width) {
+  width: 100% !important;
+}
 
 .mobile-menu-sec .d-flex {
   flex-direction: column;
