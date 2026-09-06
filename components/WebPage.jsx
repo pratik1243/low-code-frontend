@@ -31,50 +31,53 @@ const WebPage = () => {
   const [breakPoint, setBreakPoint] = useState("lg");
   const [pageBackground, setPageBackground] = useState("");
 
-  const fetchPage = useCallback(async (size = "lg") => {
-    try {
-      dispatch(setLoader(true));
-      const requestData = {
-        key: "hfgftrj",
-        ...(params?.slug?.join("/") && {
-          payload: {
-            page_route: params.slug.join("/"),
-            break_point: size,
-          },
-        }),
-      };
-      const response = await commonPostApiFunction(requestData, token);
-      if (response.status === 200) {
-        const data = response?.data?.responseData;
-        setSelectedFont(data?.font_family || "Roboto");
-        setPageBackground(data?.page_background);
-        setNavbarProps({
-          hidden: data?.navbar_props?.hidden,
-          logo: data?.navbar_props?.logo,
-          menus: data?.navbar_props?.menus,
-          navbarAnimation: data?.navbar_props?.navbarAnimation,
-          menuTemplate: data?.navbar_props?.menuTemplate,
-          navBackgroundColor: data?.navbar_props?.navBackgroundColor,
-        });
-        setForms((prev) => ({
-          ...prev,
-          [size]: data?.screenSize || [],
-        }));
-        Aos.init({
-          duration: 1000,
-          once: data?.scroll_animation_type?.value === "Once",
-        });
-      } else {
+  const fetchPage = useCallback(
+    async (size = "lg") => {
+      try {
+        dispatch(setLoader(true));
+        const requestData = {
+          key: "hfgftrj",
+          ...(params?.slug?.join("/") && {
+            payload: {
+              page_route: params.slug.join("/"),
+              break_point: size,
+            },
+          }),
+        };
+        const response = await commonPostApiFunction(requestData, token);
+        if (response.status === 200) {
+          const data = response?.data?.responseData;
+          setSelectedFont(data?.font_family || "Roboto");
+          setPageBackground(data?.page_background);
+          setNavbarProps({
+            hidden: data?.navbar_props?.hidden,
+            logo: data?.navbar_props?.logo,
+            menus: data?.navbar_props?.menus,
+            navbarAnimation: data?.navbar_props?.navbarAnimation,
+            menuTemplate: data?.navbar_props?.menuTemplate,
+            navBackgroundColor: data?.navbar_props?.navBackgroundColor,
+          });
+          setForms((prev) => ({
+            ...prev,
+            [size]: data?.screenSize || [],
+          }));
+          Aos.init({
+            duration: 1000,
+            once: data?.scroll_animation_type?.value === "Once",
+          });
+        } else {
+          setSelectedFont("Roboto");
+          setForms((prev) => ({ ...prev, [size]: [] }));
+        }
+      } catch (error) {
         setSelectedFont("Roboto");
         setForms((prev) => ({ ...prev, [size]: [] }));
+      } finally {
+        dispatch(setLoader(false));
       }
-    } catch (error) {
-      setSelectedFont("Roboto");
-      setForms((prev) => ({ ...prev, [size]: [] }));
-    } finally {
-      dispatch(setLoader(false));
-    }
-  }, [dispatch, params, token]);
+    },
+    [dispatch, params, token],
+  );
 
   const handleResize = useCallback(() => {
     const width = window.innerWidth;
@@ -128,11 +131,7 @@ const WebPage = () => {
           : ""
       }
       ${alignment[ele?.props?.align?.value] || ""}
-      ${
-        ["input", "select", "country"].includes(ele?.type)
-          ? "input-style"
-          : ""
-      }
+      ${["input", "select", "country"].includes(ele?.type) ? "input-style" : ""}
       ${
         ["heading", "paragraph", "icon"].includes(ele?.type)
           ? textAlign[ele?.props?.align?.value] || ""
@@ -172,17 +171,14 @@ const WebPage = () => {
                   ...(ele?.column_width && {
                     width: `${ele.column_width}%`,
                   }),
-                  ...(ele?.props?.style &&
-                    addPixel(ele?.props?.style, ele)),
+                  ...(ele?.props?.style && addPixel(ele?.props?.style, ele)),
                   ...(ele?.props?.imageData && {
                     backgroundImage: ele?.props?.imageData?.url,
                   }),
                 }}
               >
-                <RenderField ele={ele} index={index} />
-                {ele?.props?.gradientColor && (
-                  <GraidentLayer data={ele} />
-                )}
+                <RenderField ele={ele} index={index} mainIndex={index} />
+                {ele?.props?.gradientColor && <GraidentLayer data={ele} />}
               </div>
             );
           })}
