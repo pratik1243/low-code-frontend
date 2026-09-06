@@ -1,6 +1,9 @@
 "use client";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { addPixel, updateNestedForms } from "../../utils/customizePropFunctions";
+import {
+  addPixel,
+  updateNestedForms,
+} from "../../utils/customizePropFunctions";
 import { FormContext } from "../FormCreate";
 import { PageContext } from "../WebPage";
 import { IoIosClose } from "react-icons/io";
@@ -8,23 +11,28 @@ import { IoIosClose } from "react-icons/io";
 const SelectField = ({
   ele,
   path,
-  currentStep = null,
+  mainIndex = null,
   containerBackground = null,
 }) => {
   const isWebPage = path.includes("web-page");
   const boxRef = useRef(null);
-  const { forms, setForms, breakPoint } = useContext(isWebPage ? PageContext : FormContext);
+  const { forms, setForms, breakPoint } = useContext(
+    isWebPage ? PageContext : FormContext,
+  );
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
   const setValidations = (value) => {
     setValue(value);
-    setForms({...forms, [breakPoint]: updateNestedForms(forms, ele, value, currentStep, breakPoint) });
+    setForms({
+      ...forms,
+      [breakPoint]: updateNestedForms(forms, ele, value, mainIndex, breakPoint),
+    });
   };
 
   const filterOptions = ele?.props?.options.filter((el) =>
-    el.label.toLowerCase().includes(value.toLowerCase())
+    el.label.toLowerCase().includes(value.toLowerCase()),
   );
 
   useEffect(() => {
@@ -66,7 +74,7 @@ const SelectField = ({
           type="text"
           id={ele?.id}
           value={ele?.props?.value || ""}
-          className={`${ele?.name} ${ele?.props?.standard ? 'no-standard-border' : ''}`}
+          className={`${ele?.name} ${ele?.props?.standard ? "no-standard-border" : ""}`}
           placeholder={ele?.props?.placeholder || "Enter placeholder"}
           onChange={(e) => {
             setValidations(e.target.value);
@@ -91,7 +99,9 @@ const SelectField = ({
             style={{
               ...(isWebPage && {
                 backgroundColor: ele?.props?.style?.borderColor,
-                ...(ele?.props?.style?.borderColor && { height: "2px !important" }),
+                ...(ele?.props?.style?.borderColor && {
+                  height: "2px !important",
+                }),
               }),
             }}
           ></div>
