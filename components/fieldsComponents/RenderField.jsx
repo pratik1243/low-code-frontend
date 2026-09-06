@@ -12,7 +12,7 @@ import Container from "./Container";
 import ImageComp from "./ImageComp";
 import CountryField from "./CountryField";
 import Checkbox from "./Checkbox";
-import Stepper from "./Stepper";
+//import Stepper from "./Stepper";
 import IconWrapper from "./IconWrapper";
 import CardBox from "./CardBox";
 import RadioGroup from "./RadioGroup";
@@ -20,7 +20,8 @@ import RadioGroup from "./RadioGroup";
 const RenderField = ({
   ele,
   index,
-  currentStep = null,
+  mainIndex = null,
+  cardInnerIndex = null,
   containerBackground = null,
 }) => {
   const path = usePathname();
@@ -31,7 +32,7 @@ const RenderField = ({
         <TextField
           ele={ele}
           path={path}
-          currentStep={currentStep}
+          mainIndex={mainIndex}
           containerBackground={containerBackground}
         />
       );
@@ -40,14 +41,21 @@ const RenderField = ({
         <SelectField
           ele={ele}
           path={path}
-          currentStep={currentStep}
+          mainIndex={mainIndex}
           containerBackground={containerBackground}
         />
       );
     } else if (ele?.type == "paragraph") {
       return <Paragraph ele={ele} path={path} />;
     } else if (ele?.type == "button") {
-      return <ButtonComp ele={ele} path={path} />;
+      return (
+        <ButtonComp
+          ele={ele}
+          path={path}
+          cardInnerIndex={cardInnerIndex}
+          mainIndex={mainIndex}
+        />
+      );
     } else if (ele?.type == "divider") {
       return <Divider ele={ele} path={path} />;
     } else if (ele?.type == "heading") {
@@ -55,13 +63,14 @@ const RenderField = ({
     } else if (ele?.type == "image") {
       return <ImageComp ele={ele} path={path} index={index} />;
     } else if (ele?.type == "slider") {
-      return <SwiperComp ele={ele} path={path} currentStep={currentStep} />;
+      return <SwiperComp ele={ele} path={path} />;
     } else if (ele?.type == "checkbox") {
       return (
         <Checkbox
           ele={ele}
           path={path}
           index={index}
+          mainIndex={mainIndex}
           containerBackground={containerBackground}
         />
       );
@@ -71,29 +80,24 @@ const RenderField = ({
           ele={ele}
           path={path}
           index={index}
+          mainIndex={mainIndex}
           containerBackground={containerBackground}
         />
       );
     } else if (ele?.type == "icon") {
       return <IconWrapper ele={ele} path={path} />;
-    } else if (ele?.type == "stepper") {
-      return (
-        <Stepper
-          ele={ele}
-          path={path}
-          index={index}
-          currentStep={currentStep}
-        />
-      );
     } else if (ele?.type == "card_box") {
-      return <CardBox ele={ele} path={path} index={index} />;
+      return (
+        <CardBox ele={ele} path={path} index={index} mainIndex={mainIndex} />
+      );
     } else if (ele?.type == "container") {
       return (
         <Container
           ele={ele}
           path={path}
           index={index}
-          currentStep={currentStep}
+          mainIndex={mainIndex}
+          cardInnerIndex={cardInnerIndex}
         />
       );
     } else if (ele?.type == "country") {
@@ -102,7 +106,7 @@ const RenderField = ({
           ele={ele}
           path={path}
           index={index}
-          currentStep={currentStep}
+          mainIndex={mainIndex}
           containerBackground={containerBackground}
         />
       );
