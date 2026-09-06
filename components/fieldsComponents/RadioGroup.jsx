@@ -7,7 +7,7 @@ function RadioGroup({
   ele,
   path,
   index = null,
-  currentStep = null,
+  mainIndex = null,
   containerBackground = null,
 }) {
   const isWebPage = path.includes("web-page");
@@ -23,7 +23,7 @@ function RadioGroup({
         forms,
         ele,
         value,
-        currentStep,
+        mainIndex,
         breakPoint
       ),
     });
@@ -71,8 +71,8 @@ function RadioGroup({
                   <div className="inner-radio-sec">
                     <input
                       type="radio"
-                      id={`${el?.value}-${index}`}
-                      name={ele?.props?.name || `radio-${index}`}
+                      id={`${el?.value}-${mainIndex}-${index}`}
+                      name={ele?.props?.name || `radio-${mainIndex}-${index}`}
                       style={{
                         ...(isWebPage && {
                           ...(ele?.props?.checkBoxColor &&
@@ -93,7 +93,7 @@ function RadioGroup({
                       }}
                     ></div>
                   </div>
-                  <label htmlFor={`${el?.value}-${index}`}>{el?.label}</label>
+                  <label htmlFor={`${el?.value}-${mainIndex}-${index}`}>{el?.label}</label>
                 </div>
               );
             })}
