@@ -10,7 +10,7 @@ import { API_BASE_URL } from "../../services/endpoints";
 const CountryField = ({
   ele,
   path,
-  currentStep = null,
+  mainIndex = null,
   containerBackground = null,
 }) => {
   const isWebPage = path.includes("web-page");
@@ -48,7 +48,7 @@ const CountryField = ({
         forms,
         ele,
         value,
-        currentStep,
+        mainIndex,
         breakPoint
       ),
     });
