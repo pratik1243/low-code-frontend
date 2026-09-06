@@ -8,7 +8,7 @@ import {
   textAlign,
 } from "../../utils/customizeOptions";
 
-const CardBox = ({ ele, path, index }) => {
+const CardBox = ({ ele, path, index, mainIndex = null }) => {
   const isWebPage = path.includes("web-page");
   return (
     <>
@@ -35,7 +35,7 @@ const CardBox = ({ ele, path, index }) => {
           style={{
             backgroundColor: ele?.props?.containerBackground,
             gridTemplateColumns: `repeat(${parseInt(
-              ele?.props?.style?.gridTemplateColumns
+              ele?.props?.style?.gridTemplateColumns,
             )}, 1fr)`,
           }}
         >
@@ -58,8 +58,8 @@ const CardBox = ({ ele, path, index }) => {
                         eles?.props?.hidden
                           ? "hide"
                           : eles?.props?.hidden
-                          ? "hidden"
-                          : ""
+                            ? "hidden"
+                            : ""
                       } ${
                         eles?.props?.imageData ? "background-image-props" : ""
                       } 
@@ -80,7 +80,12 @@ const CardBox = ({ ele, path, index }) => {
                       }}
                     >
                       {" "}
-                      <RenderField ele={eles} index={id} />{" "}
+                      <RenderField
+                        ele={eles}
+                        index={id}
+                        cardInnerIndex={i}
+                        mainIndex={mainIndex}
+                      />{" "}
                       {eles?.props?.gradientColor && (
                         <GraidentLayer data={eles} />
                       )}
