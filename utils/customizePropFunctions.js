@@ -74,7 +74,7 @@ export function onResizeElement(
   parentRef,
   ref,
   parentIndex,
-  childIndex = null
+  childIndex = null,
 ) {
   const percent = (ref.offsetWidth / parentRef.current.clientWidth) * 102;
   const updateforms = forms?.map((el, i) => {
@@ -109,7 +109,7 @@ export function nestedStructure(
   currentElement,
   property,
   properType,
-  breakPoint
+  breakPoint,
 ) {
   const updateForms = forms[breakPoint]?.map((el, i) => {
     const nestedForm = el?.content?.map((ele, id) => {
@@ -127,7 +127,7 @@ export function nestedStructure(
                   data?.attribute,
                   data?.value[data?.type],
                   data?.optionIndex,
-                  data?.style
+                  data?.style,
                 ),
               }),
         };
@@ -150,7 +150,7 @@ export function nestedStructure(
                 data?.attribute,
                 data?.value[data?.type],
                 data?.optionIndex,
-                data?.style
+                data?.style,
               ),
             }),
       };
@@ -223,48 +223,70 @@ export function updateforms(e, el, attribute, value, optionIndex, style) {
   };
 }
 
+export function updateNestedContentForms(el, ele, value) {
+  const nestedForm = el?.content?.map((eles, id) => {
+    if (eles.id === ele.id) {
+      return {
+        ...eles,
+        props: {
+          ...eles?.props,
+          ...(typeof value == "boolean"
+            ? { checked: value }
+            : { value: value }),
+        },
+        form: {
+          ...eles?.form,
+          error_message: errorMessageFunc(eles, value),
+        },
+      };
+    } else {
+      return eles;
+    }
+  });
+  return nestedForm;
+}
+
 export function updateNestedForms(
   forms,
   ele,
   value,
-  currentStep = null,
-  breakPoint
+  mainIndex = null,
+  breakPoint,
 ) {
   const updateForms = forms[breakPoint]?.map((el, i) => {
-    const nestedForm = el?.content?.map((eles, id) => {
-      if (eles.id === ele.id) {
-        return {
-          ...eles,
-          props: {
-            ...eles?.props,
-            ...(typeof value == "boolean"
-              ? { checked: value }
-              : { value: value }),
-          },
-          form: {
-            ...eles?.form,
-            error_message: errorMessageFunc(eles, value),
-          },
-        };
-      } else {
-        return eles;
+    const cardContentForm = el?.props?.cards?.map((data, id) => {
+      const updatedForm = data?.content?.map((datas, ind) => {
+        if (datas?.content) {
+          return {
+            ...datas,
+            content: updateNestedContentForms(datas, ele, value),
+          };
+        } else {
+          return {
+            ...datas,
+            props: {
+              ...datas?.props,
+              ...(typeof value == "boolean"
+                ? { checked: value }
+                : { value: value }),
+            },
+            form: {
+              ...datas?.form,
+              error_message: errorMessageFunc(datas, value),
+            },
+          };
+        }
+      });
+      if (i === mainIndex) {
+        return { ...data, content: updatedForm };
       }
+      return data;
     });
 
-    const stepContent = el?.props?.stepContent?.map((el, id) => {
-      if (id === currentStep) {
-        return {
-          ...el,
-          content: updateNestedForms(el?.content, ele, value),
-        };
-      }
-      return el;
-    });
-
-    if (el.type === "stepper" && currentStep !== null) {
-      return { ...el, props: { ...el.props, stepContent: stepContent } };
-    } else if (ele?.isContainer) {
-      return { ...el, content: nestedForm };
+    if (el.type === "container" && ele?.isContainer) {
+      return { ...el, content: updateNestedContentForms(el, ele, value) };
+    } else if (el.type === "card_box" && ele?.isContainer) {
+      return { ...el, props: { ...el.props, cards: cardContentForm } };
     } else if (el.id === ele.id) {
       return {
         ...el,
@@ -327,8 +349,8 @@ export function pasteItems(e, ele, forms, setForms, breakPoint) {
               newJsonData.type == "container"
                 ? [...el?.content, ...containerData(newJsonData?.content)]
                 : newJsonData.length > 1
-                ? [...el?.content, ...containerData(newJsonData)]
-                : [...el?.content, jsonObj],
+                  ? [...el?.content, ...containerData(newJsonData)]
+                  : [...el?.content, jsonObj],
           };
         }
         return el;
