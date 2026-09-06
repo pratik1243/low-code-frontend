@@ -8,7 +8,7 @@ import CountryCodeBox from "../commonComponents/CountryCodeBox";
 const TextField = ({
   ele,
   path,
-  currentStep = null,
+  mainIndex = null,
   containerBackground = null,
 }) => {
   const isWebPage = path.includes("web-page");
@@ -25,7 +25,7 @@ const TextField = ({
         forms,
         ele,
         e.target.value,
-        currentStep,
+        mainIndex,
         breakPoint
       ),
     });
