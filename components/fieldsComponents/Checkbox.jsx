@@ -9,7 +9,7 @@ const Checkbox = ({
   path,
   index,
   containerBackground = null,
-  currentStep = null,
+  mainIndex = null,
 }) => {
   const isWebPage = path.includes("web-page");
   const { forms, setForms, breakPoint } = useContext(
@@ -23,7 +23,7 @@ const Checkbox = ({
         forms,
         ele,
         value,
-        currentStep,
+        mainIndex,
         breakPoint
       ),
     });
