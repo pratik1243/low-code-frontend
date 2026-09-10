@@ -15,6 +15,7 @@ import Image from "next/image";
 import { generateId, onResizeElement } from "../utils/customizePropFunctions";
 import { Resizable } from "re-resizable";
 import { resizeDirectionOptions } from "../utils/customizeOptions";
+import { IoChevronForward } from "react-icons/io5";
 
 const FormTemplate = () => {
   const {
@@ -272,6 +273,10 @@ const FormTemplate = () => {
                     elementIndex={index}
                     deleteFunction={(e) => deleteItem(e, ele?.id)}
                   />
+                </div>
+
+                <div className="resize-icon">
+                  <IoChevronForward />
                 </div>
               </Resizable>
             );

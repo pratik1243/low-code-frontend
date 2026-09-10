@@ -11,6 +11,7 @@ import {
   resizeDirectionOptions,
 } from "../../utils/customizeOptions";
 import { Resizable } from "re-resizable";
+import { IoChevronForward } from "react-icons/io5";
 
 const Container = ({
   ele,
@@ -116,8 +117,8 @@ const Container = ({
               el?.props?.hidden && isWebPage
                 ? "hide"
                 : el?.props?.hidden
-                  ? "hidden"
-                  : ""
+                ? "hidden"
+                : ""
             } ${
               (isWebPage && el?.type == "heading") ||
               (isWebPage && el?.type == "paragraph") ||
@@ -130,7 +131,7 @@ const Container = ({
                 isWebPage &&
                 addPixel(el?.props?.style, el)),
               ...(["button", "input", "select", "country"].includes(
-                el?.type,
+                el?.type
               ) && {
                 backgroundColor: "transparent !important",
               }),
@@ -149,7 +150,7 @@ const Container = ({
                   containerParentRef,
                   ref,
                   index,
-                  i,
+                  i
                 ),
               });
             }}
@@ -197,6 +198,9 @@ const Container = ({
                 containerBackground={ele?.props?.containerBackground}
               />
             )}
+            <div className="resize-icon">
+              <IoChevronForward />
+            </div>
           </Resizable>
         );
       })}

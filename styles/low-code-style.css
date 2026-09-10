@@ -108,6 +108,19 @@ input {
   overflow: hidden;
 }
 
+.resize-icon {
+  bottom: -5px;
+  right: -3px;
+  font-size: 14px;
+  color: #b9b4b4;
+  position: absolute;
+  transform: rotate(45deg);
+}
+
+.web-div .resize-icon {
+  display: none;
+}
+
 .main-content-sec .element-column.selected {
   border-color: #53c4f7;
   border-width: 1.6px !important;
