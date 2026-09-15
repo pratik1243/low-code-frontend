@@ -57,11 +57,16 @@ const ElementActions = ({
       isContainer: true,
     };
 
+    const newContainerData = newDataObj1?.content?.map((el, i) => {
+      return { ...el, id: generateId(4) };
+    });    
+    
+    const newDataObj = { ...newDataObj1, content: newContainerData };
     const updatedForms = [...forms[breakPoint]];
     updatedForms[containerIndex]?.content?.splice(elementIndex + 1, 0, newDataObj2);
 
     const ElementData = [...forms[breakPoint]];
-    ElementData?.splice(elementIndex + 1, 0, newDataObj1);
+    ElementData?.splice(elementIndex + 1, 0, newDataObj);
 
     setForms({
       ...forms,
