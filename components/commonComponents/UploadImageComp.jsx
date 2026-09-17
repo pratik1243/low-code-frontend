@@ -30,7 +30,7 @@ const UploadImageComp = ({
       dispatch(setLoader(true));
       const file = e.target.files[0];
       const formData = new FormData();
-      formData.append("image", file);
+      formData.append("file", file);
       const requestData = {
         key: "mfgtrwo",
         payload: formData,
@@ -38,7 +38,7 @@ const UploadImageComp = ({
       const response = await commonPostApiFunction(requestData, token);
       dispatch(setLoader(false));
       if (response.status == 200) {
-        const backgroundImage = `url('${API_BASE_URL}/image/${response?.data?.id}')`;
+        const backgroundImage = `url('${API_BASE_URL}/file/${response?.data?.id}')`;
         const imageData = {
           url: contType ? backgroundImage : response?.data?.id,
           filename: file?.name,
@@ -60,7 +60,7 @@ const UploadImageComp = ({
           {preview ? (
             <div>
               <Image
-                src={`${API_BASE_URL}/image/${uploadedState}`}
+                src={`${API_BASE_URL}/file/${uploadedState}`}
                 height={30}
                 width={70}
                 alt={`image-nav`}

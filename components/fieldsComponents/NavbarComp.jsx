@@ -296,7 +296,7 @@ const NavbarComp = () => {
         {navbarProps?.logo?.logoUrl && (
           <div className="nav-logo">
             <Image
-              src={`${API_BASE_URL}/image/${navbarProps?.logo?.logoUrl}`}
+              src={`${API_BASE_URL}/file/${navbarProps?.logo?.logoUrl}`}
               width={navbarProps?.logo?.width || 100}
               height={navbarProps?.logo?.height || 40}
               alt="nav-logo"
@@ -336,7 +336,7 @@ const NavbarComp = () => {
           <div className="logo">
             {navbarProps?.logo?.logoUrl && (
               <Image
-                src={`${API_BASE_URL}/image/${navbarProps?.logo?.logoUrl}`}
+                src={`${API_BASE_URL}/file/${navbarProps?.logo?.logoUrl}`}
                 width={navbarProps?.logo?.width || 100}
                 height={navbarProps?.logo?.height || 40}
                 alt="nav-logo"

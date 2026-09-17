@@ -88,7 +88,7 @@ const AddImages = ({ isNavSetting = null, isEmailTemplate = null }) => {
     if (!isEmailTemplate) {
       setOpenImageModel(false);
     }
-    const backgroundImage = `url('${API_BASE_URL}/image/${image?._id}')`;
+    const backgroundImage = `url('${API_BASE_URL}/file/${image?._id}')`;
     const imageData = {
       url: contType ? backgroundImage : image?._id,
       filename: image?.name,
@@ -146,7 +146,7 @@ const AddImages = ({ isNavSetting = null, isEmailTemplate = null }) => {
                 }}
               >
                 <Image
-                  src={`${API_BASE_URL}/image/${el._id}`}
+                  src={`${API_BASE_URL}/file/${el._id}`}
                   height={50}
                   width={50}
                   alt={`uploaded-image-${i}`}

@@ -25,7 +25,7 @@ const ImageComp = ({ ele, path, index }) => {
         <>
           {ele?.props?.fullWidth && path.includes("web-page") ? (
             <Image
-              src={`${API_BASE_URL}/image/${ele?.props?.imageData?.url}`}
+              src={`${API_BASE_URL}/file/${ele?.props?.imageData?.url}`}
               alt={`image-${index}`}
               layout="fill"
               objectPosition="center"
@@ -38,7 +38,7 @@ const ImageComp = ({ ele, path, index }) => {
             />
           ) : (
             <Image
-              src={`${API_BASE_URL}/image/${ele?.props?.imageData?.url}`}
+              src={`${API_BASE_URL}/file/${ele?.props?.imageData?.url}`}
               height={path.includes("web-page") ? ele?.props?.height : 100}
               width={path.includes("web-page") ? ele?.props?.width : 100}
               alt={`image-${index}`}

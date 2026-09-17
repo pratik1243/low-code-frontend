@@ -5,7 +5,7 @@ const Image = ({ data }) => {
   return data?.props?.imageUrl ? (
     <a href={data?.props?.url || "#"}>
       <img
-        src={`${API_BASE_URL}/image/${data?.props?.imageUrl}`}
+        src={`${API_BASE_URL}/file/${data?.props?.imageUrl}`}
         height={data?.props?.height}
         width={data?.props?.fullWidth ? "100%" : data?.props?.width}
       />
