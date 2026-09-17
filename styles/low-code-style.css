@@ -680,7 +680,7 @@ input {
   display: grid;
   place-items: center;
   margin-right: 7px;
-} 
+}
 
 .loader-sec {
   position: fixed;
@@ -1786,7 +1786,7 @@ hr {
 }
 
 .navbar-section .menu-item .sub-menu-list a {
-  font-size: 15px;  
+  font-size: 15px;
 }
 
 .navbar-section .menu-item .sub-menu-list .menu-item {
@@ -1813,7 +1813,7 @@ hr {
 }
 
 .navbar-section .menu-item .sub-menu-list .menu-item:hover {
-  background-color: #8080801c;  
+  background-color: #8080801c;
 }
 
 .navbar-section .menu-item .sub-menu-list .inner-sub-menu {
@@ -2195,8 +2195,14 @@ hr {
   z-index: 1;
 }
 
-.element-input-field:not(.standard-input):has(.selected-country-code):has(input:focus) label,
-.element-input-field:not(.standard-input):has(.selected-country-code):has(input:valid) label {
+.element-input-field:not(.standard-input):has(.selected-country-code):has(
+    input:focus
+  )
+  label,
+.element-input-field:not(.standard-input):has(.selected-country-code):has(
+    input:valid
+  )
+  label {
   border-radius: 3px;
   height: 16px;
   padding: 0 2px !important;
@@ -2210,13 +2216,16 @@ hr {
   top: -14px !important;
 }
 
-.element-input-field:not(.float-label):not(.standard-input):has(input:focus) label,
-.element-input-field:not(.float-label):not(.standard-input):has(input:valid) label {
+.element-input-field:not(.float-label):not(.standard-input):has(input:focus)
+  label,
+.element-input-field:not(.float-label):not(.standard-input):has(input:valid)
+  label {
   height: auto !important;
   padding: 0px !important;
 }
 
-.element-input-field:not(.float-label):not(.standard-input) .selected-country-code {
+.element-input-field:not(.float-label):not(.standard-input)
+  .selected-country-code {
   top: 31px !important;
 }
 
@@ -2233,7 +2242,8 @@ hr {
   border-width: 1.8px !important;
 }
 
-.element-input-field:not(.standard-input):has(.is-border-color) .selected-country-code {
+.element-input-field:not(.standard-input):has(.is-border-color)
+  .selected-country-code {
   top: 1.5px !important;
   left: 1.5px !important;
   bottom: 1.5px !important;
@@ -2249,11 +2259,17 @@ hr {
   font-size: 13px;
 }
 
-.element-input-field:not(.standard-input):has(.selected-country-code.three-len-code) input {
+.element-input-field:not(.standard-input):has(
+    .selected-country-code.three-len-code
+  )
+  input {
   padding-left: 92px !important;
 }
 
-.element-input-field:not(.standard-input):has(.selected-country-code.one-len-code) input {
+.element-input-field:not(.standard-input):has(
+    .selected-country-code.one-len-code
+  )
+  input {
   padding-left: 75px !important;
 }
 
@@ -2269,12 +2285,18 @@ hr {
   padding-left: 78px !important;
 }
 
-.element-input-field:not(.standard-input):has(.selected-country-code.one-len-code) label,
+.element-input-field:not(.standard-input):has(
+    .selected-country-code.one-len-code
+  )
+  label,
 .element-input-field:has(.selected-country-code.three-len-code) label {
   left: 78px !important;
 }
 
-.element-input-field:not(.standard-input):has(.selected-country-code.three-len-code) label {
+.element-input-field:not(.standard-input):has(
+    .selected-country-code.three-len-code
+  )
+  label {
   left: 93px !important;
 }
 
@@ -2600,6 +2622,84 @@ hr {
   color: #a7a6a6;
   margin-bottom: 0px;
   font-size: 15px;
+}
+
+.main-content-sec .element-column .column-sec .icon-div {
+  display: grid;
+  place-content: center;
+}
+
+.main-content-sec .element-column .delete-element-btn:has(.action-dropdown:hover),
+.card-sec .element-column .delete-element-btn2:has(.action-dropdown:hover) {
+  width: 23px !important;
+  padding: 2.5px 3px;
+  transform: unset !important;
+  box-shadow: -1px 1px 3px #8080804a;
+  overflow: unset;
+}
+
+.main-content-sec .element-column:hover .delete-element-btn:has(.action-dropdown),
+.card-sec .element-column:hover .delete-element-btn2:has(.action-dropdown) {
+  width: 23px !important;
+  padding: 2.5px 3px;
+  transition: unset !important;
+}
+
+.main-content-sec .element-column:has(.action-dropdown:hover) {
+  overflow: unset;
+}
+
+.action-dropdown .action-dropdown-box {
+  width: 107px;
+  position: absolute;
+  height: 0px;
+  overflow: hidden;
+  /* transition: all 0.3s; */
+  background-color: white;
+  z-index: 1;
+  border: 1px solid white;
+  border-radius: 5px;
+  top: 30px;
+  right: 96px;
+}
+
+.action-dropdown:hover .action-dropdown-box::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 20px;
+  display: block;
+  position: absolute;
+  top: -10px;
+  right: -12px;
+}
+
+.action-dropdown:hover .action-dropdown-box {
+  height: 121px !important;
+  box-shadow: -1px 1px 3px #8080804a;
+  border-color: var(--grey-color);
+  overflow: unset;
+}
+
+.action-dropdown:hover .action-dropdown-box:has(.paste-icon) {
+  height: 149px !important;
+}
+
+.action-dropdown .action-dropdown-box div[role="button"] {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  padding: 4px 6px;
+  transition: all 0.4s;
+}
+
+.action-dropdown .action-dropdown-box div[role="button"]:hover {
+  background-color: #8080801a;
+}
+
+.delete-element-btn .action-dropdown svg,
+.delete-element-btn2 .action-dropdown svg {
+  margin-right: 4px;
 }
 
 @media (max-width: 768px) {
