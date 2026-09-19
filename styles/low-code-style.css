@@ -2196,14 +2196,8 @@ hr {
   z-index: 1;
 }
 
-.element-input-field:not(.standard-input):has(.selected-country-code):has(
-    input:focus
-  )
-  label,
-.element-input-field:not(.standard-input):has(.selected-country-code):has(
-    input:valid
-  )
-  label {
+.element-input-field:not(.standard-input):has(.selected-country-code):has(input:focus) label,
+.element-input-field:not(.standard-input):has(.selected-country-code):has(input:valid) label {
   border-radius: 3px;
   height: 16px;
   padding: 0 2px !important;
@@ -2217,16 +2211,13 @@ hr {
   top: -14px !important;
 }
 
-.element-input-field:not(.float-label):not(.standard-input):has(input:focus)
-  label,
-.element-input-field:not(.float-label):not(.standard-input):has(input:valid)
-  label {
+.element-input-field:not(.float-label):not(.standard-input):has(input:focus) label,
+.element-input-field:not(.float-label):not(.standard-input):has(input:valid) label {
   height: auto !important;
   padding: 0px !important;
 }
 
-.element-input-field:not(.float-label):not(.standard-input)
-  .selected-country-code {
+.element-input-field:not(.float-label):not(.standard-input) .selected-country-code {
   top: 31px !important;
 }
 
@@ -2243,8 +2234,7 @@ hr {
   border-width: 1.8px !important;
 }
 
-.element-input-field:not(.standard-input):has(.is-border-color)
-  .selected-country-code {
+.element-input-field:not(.standard-input):has(.is-border-color) .selected-country-code {
   top: 1.5px !important;
   left: 1.5px !important;
   bottom: 1.5px !important;
@@ -2260,17 +2250,11 @@ hr {
   font-size: 13px;
 }
 
-.element-input-field:not(.standard-input):has(
-    .selected-country-code.three-len-code
-  )
-  input {
+.element-input-field:not(.standard-input):has(.selected-country-code.three-len-code) input {
   padding-left: 92px !important;
 }
 
-.element-input-field:not(.standard-input):has(
-    .selected-country-code.one-len-code
-  )
-  input {
+.element-input-field:not(.standard-input):has(.selected-country-code.one-len-code) input {
   padding-left: 75px !important;
 }
 
@@ -2286,18 +2270,12 @@ hr {
   padding-left: 78px !important;
 }
 
-.element-input-field:not(.standard-input):has(
-    .selected-country-code.one-len-code
-  )
-  label,
+.element-input-field:not(.standard-input):has(.selected-country-code.one-len-code) label,
 .element-input-field:has(.selected-country-code.three-len-code) label {
   left: 78px !important;
 }
 
-.element-input-field:not(.standard-input):has(
-    .selected-country-code.three-len-code
-  )
-  label {
+.element-input-field:not(.standard-input):has(.selected-country-code.three-len-code) label {
   left: 93px !important;
 }
 
@@ -2676,13 +2654,13 @@ hr {
 
 .action-dropdown:hover .action-dropdown-box::after {
   content: "";
-  display: block;
-  width: 60px;
-  height: 20px;
+  width: 52px;
+  height: 34px;
   display: block;
   position: absolute;
-  top: -10px;
-  right: -12px;
+  top: -21px;
+  right: -21px;
+  z-index: 0;
 }
 
 .action-dropdown:hover .action-dropdown-box {
