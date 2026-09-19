@@ -25,6 +25,7 @@ body:has(.main-content-sec) h5,
 body:has(.main-content-sec) h6,
 body:has(.main-content-sec) p {
   margin-bottom: 0 !important;
+  word-break: break-all;
 }
 
 body:has(.main-content-sec) .element-input-field input {

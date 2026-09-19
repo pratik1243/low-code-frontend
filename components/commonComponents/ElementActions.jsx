@@ -78,10 +78,10 @@ const ElementActions = ({
   return (
     <div
       className={`d-flex align-items-center inner-btn-sec ${
-        data?.column_width < 40 ? `action-dropdown` : ""
+        data?.column_width < 44 ? `action-dropdown` : ""
       }`}
     >
-      {data?.column_width < 40 ? (
+      {data?.column_width < 44 ? (
         <div role="button" className="action-dropdown-btn">
           <HiDotsVertical size={17} />
 
