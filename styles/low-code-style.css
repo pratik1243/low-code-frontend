@@ -2639,33 +2639,39 @@ hr {
   overflow: unset;
 }
 
-.main-content-sec .element-column:hover .delete-element-btn:has(.action-dropdown),
-.card-sec .element-column:hover .delete-element-btn2:has(.action-dropdown) {
+.main-content-sec .element-column .delete-element-btn:has(.action-dropdown),
+.card-sec .element-column .delete-element-btn2:has(.action-dropdown) {
   width: 23px !important;
   padding: 2.5px 3px;
   transition: unset !important;
+  transform: unset !important;
+  display: none;
+}
+
+.main-content-sec .element-column:hover .delete-element-btn:has(.action-dropdown),
+.card-sec .element-column:hover .delete-element-btn2:has(.action-dropdown) {
+  display: block !important;
+}
+
+.delete-element-btn .inner-btn-sec.action-dropdown,
+.delete-element-btn2 .inner-btn-sec.action-dropdown {
+  width: fit-content !important;
 }
 
 .main-content-sec .element-column:has(.action-dropdown:hover) {
   overflow: unset;
 }
 
-.main-content-sec .element-column:has(.action-dropdown):active {
-  overflow: hidden !important;
-}
-
 .action-dropdown .action-dropdown-box {
   width: 107px;
   position: absolute;
-  height: 0px;
-  overflow: hidden;
-  /* transition: all 0.3s; */
+  display: none;
   background-color: white;
   z-index: 1;
   border: 1px solid white;
   border-radius: 5px;
-  top: 30px;
-  right: 96px;
+  top: 27px;
+  right: 17px;
 }
 
 .action-dropdown:hover .action-dropdown-box::after {
@@ -2680,14 +2686,10 @@ hr {
 }
 
 .action-dropdown:hover .action-dropdown-box {
-  height: 121px !important;
+  display: block;
   box-shadow: -1px 1px 3px #8080804a;
   border-color: var(--grey-color);
   overflow: unset;
-}
-
-.action-dropdown:hover .action-dropdown-box:has(.paste-icon) {
-  height: 149px !important;
 }
 
 .action-dropdown .action-dropdown-box div[role="button"] {
@@ -2702,9 +2704,13 @@ hr {
   background-color: #8080801a;
 }
 
+.action-dropdown .action-dropdown-box svg {
+  margin-right: 4px !important;
+}
+
 .delete-element-btn .action-dropdown svg,
 .delete-element-btn2 .action-dropdown svg {
-  margin-right: 4px;
+  margin-right: 0px;
 }
 
 @media (max-width: 768px) {
