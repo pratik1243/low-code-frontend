@@ -2650,6 +2650,10 @@ hr {
   overflow: unset;
 }
 
+.main-content-sec .element-column:has(.action-dropdown):active {
+  overflow: hidden !important;
+}
+
 .action-dropdown .action-dropdown-box {
   width: 107px;
   position: absolute;
