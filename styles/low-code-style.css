@@ -2670,6 +2670,16 @@ hr {
   overflow: unset;
 }
 
+.action-dropdown:hover .action-dropdown-box.left::after {
+  left: 0;
+  right: unset;
+}
+
+.action-dropdown .action-dropdown-box.left {
+  left: -3px;
+  top: 29px;
+}
+
 .action-dropdown .action-dropdown-box div[role="button"] {
   display: flex;
   align-items: center;

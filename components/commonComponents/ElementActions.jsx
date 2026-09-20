@@ -28,6 +28,7 @@ const ElementActions = ({
   } = useContext(FormContext);
 
   const [copyText, setCopyText] = useState("Copy Item");
+  const [actionPosition, setActionPosition] = useState(false);
 
   const renderTooltip = (text, props) => (
     <Tooltip id="button-tooltip" {...props}>
@@ -80,12 +81,20 @@ const ElementActions = ({
       className={`d-flex align-items-center inner-btn-sec ${
         data?.column_width < 44 ? `action-dropdown` : ""
       }`}
+      onMouseOver={(e) => {
+        const threshold = 120;
+        if (e.clientX <= threshold) {
+          setActionPosition(true);
+        }
+      }}
     >
       {data?.column_width < 44 ? (
         <div role="button" className="action-dropdown-btn">
           <HiDotsVertical size={17} />
 
-          <div className="action-dropdown-box">
+          <div
+            className={`action-dropdown-box ${actionPosition ? "left" : ""}`}
+          >
             <div
               role="button"
               onClick={(e) => {
