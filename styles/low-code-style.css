@@ -132,8 +132,26 @@ input {
   border-color: rgb(247 165 83) !important;
 }
 
-.main-content-sec .element-column.hidden {
-  opacity: 0.5;
+.main-content-sec .element-column.hidden,
+.main-content-sec .element-column.hidden svg {
+  /* opacity: 0.5; */
+  color: #8080809e !important;
+}
+
+.main-content-sec .element-column.hidden .delete-element-btn2 svg,
+.main-content-sec .element-column.hidden .action-dropdown svg,
+.main-content-sec .element-column.hidden .action-dropdown {
+  color: #333030 !important;
+}
+
+.main-content-sec .element-column.hidden img {
+  opacity: 0.3;
+}
+
+.main-content-sec .element-column.hidden .cards-chip-sec .card-chip {
+  color: #8080809e !important;
+  border-color: #8080809e !important;
+  background: #80808017 !important;
 }
 
 .element-create-sec {
