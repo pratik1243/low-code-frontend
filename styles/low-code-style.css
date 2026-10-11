@@ -139,7 +139,8 @@ input {
   color: #8080809e !important;
 }
 
-.main-content-sec .element-column.hidden svg,
+.main-content-sec .element-column.hidden .delete-element-btn svg,
+.main-content-sec .element-column.hidden .delete-element-btn2 svg,
 .main-content-sec .element-column.hidden .action-dropdown svg,
 .main-content-sec .element-column.hidden .action-dropdown {
   color: #333030 !important;
