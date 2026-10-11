@@ -2678,7 +2678,7 @@ hr {
   position: absolute;
   top: -21px;
   right: -21px;
-  z-index: 0;
+  z-index: -1;
 }
 
 .action-dropdown:hover .action-dropdown-box {
@@ -2691,6 +2691,7 @@ hr {
 .action-dropdown:hover .action-dropdown-box.left::after {
   left: 0;
   right: unset;
+  z-index: -1;
 }
 
 .action-dropdown .action-dropdown-box.left {
