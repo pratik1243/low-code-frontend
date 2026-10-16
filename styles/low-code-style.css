@@ -2796,6 +2796,10 @@ hr {
   font-weight: 500;
 }
 
+.preview-tab-sec {
+  margin-left: -85px;
+}
+
 .preview-tab-sec .btn.active {
   background-color: #00b2aa;
   color: #fff;
