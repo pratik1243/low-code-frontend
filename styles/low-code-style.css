@@ -2218,8 +2218,14 @@ hr {
   z-index: 1;
 }
 
-.element-input-field:not(.standard-input):has(.selected-country-code):has(input:focus) label,
-.element-input-field:not(.standard-input):has(.selected-country-code):has(input:valid) label {
+.element-input-field:not(.standard-input):has(.selected-country-code):has(
+    input:focus
+  )
+  label,
+.element-input-field:not(.standard-input):has(.selected-country-code):has(
+    input:valid
+  )
+  label {
   border-radius: 3px;
   height: 16px;
   padding: 0 2px !important;
@@ -2233,13 +2239,16 @@ hr {
   top: -14px !important;
 }
 
-.element-input-field:not(.float-label):not(.standard-input):has(input:focus) label,
-.element-input-field:not(.float-label):not(.standard-input):has(input:valid) label {
+.element-input-field:not(.float-label):not(.standard-input):has(input:focus)
+  label,
+.element-input-field:not(.float-label):not(.standard-input):has(input:valid)
+  label {
   height: auto !important;
   padding: 0px !important;
 }
 
-.element-input-field:not(.float-label):not(.standard-input) .selected-country-code {
+.element-input-field:not(.float-label):not(.standard-input)
+  .selected-country-code {
   top: 31px !important;
 }
 
@@ -2256,7 +2265,8 @@ hr {
   border-width: 1.8px !important;
 }
 
-.element-input-field:not(.standard-input):has(.is-border-color) .selected-country-code {
+.element-input-field:not(.standard-input):has(.is-border-color)
+  .selected-country-code {
   top: 1.5px !important;
   left: 1.5px !important;
   bottom: 1.5px !important;
@@ -2272,11 +2282,17 @@ hr {
   font-size: 13px;
 }
 
-.element-input-field:not(.standard-input):has(.selected-country-code.three-len-code) input {
+.element-input-field:not(.standard-input):has(
+    .selected-country-code.three-len-code
+  )
+  input {
   padding-left: 92px !important;
 }
 
-.element-input-field:not(.standard-input):has(.selected-country-code.one-len-code) input {
+.element-input-field:not(.standard-input):has(
+    .selected-country-code.one-len-code
+  )
+  input {
   padding-left: 75px !important;
 }
 
@@ -2292,12 +2308,18 @@ hr {
   padding-left: 78px !important;
 }
 
-.element-input-field:not(.standard-input):has(.selected-country-code.one-len-code) label,
+.element-input-field:not(.standard-input):has(
+    .selected-country-code.one-len-code
+  )
+  label,
 .element-input-field:has(.selected-country-code.three-len-code) label {
   left: 78px !important;
 }
 
-.element-input-field:not(.standard-input):has(.selected-country-code.three-len-code) label {
+.element-input-field:not(.standard-input):has(
+    .selected-country-code.three-len-code
+  )
+  label {
   left: 93px !important;
 }
 
@@ -2630,7 +2652,9 @@ hr {
   place-content: center;
 }
 
-.main-content-sec .element-column .delete-element-btn:has(.action-dropdown:hover),
+.main-content-sec
+  .element-column
+  .delete-element-btn:has(.action-dropdown:hover),
 .card-sec .element-column .delete-element-btn2:has(.action-dropdown:hover) {
   width: 23px !important;
   padding: 2.5px 3px;
@@ -2648,7 +2672,9 @@ hr {
   display: none;
 }
 
-.main-content-sec .element-column:hover .delete-element-btn:has(.action-dropdown),
+.main-content-sec
+  .element-column:hover
+  .delete-element-btn:has(.action-dropdown),
 .card-sec .element-column:hover .delete-element-btn2:has(.action-dropdown) {
   display: block !important;
 }
@@ -2722,6 +2748,57 @@ hr {
 .delete-element-btn .action-dropdown svg,
 .delete-element-btn2 .action-dropdown svg {
   margin-right: 0px;
+}
+
+.preview-modal-section .modal-body {
+  overflow: hidden !important;
+}
+
+.preview-modal-section .modal-body iframe {
+  border-radius: 5px;
+  border: 1px solid #cdcbcbab;
+  margin: auto;
+  display: block;
+}
+
+.preview-modal-section .modal-header {
+  justify-content: space-between !important;
+}
+
+.preview-modal-section .modal-header .btn-close {
+  margin-left: unset !important;
+  box-shadow: none !important;
+  margin-right: 1px;
+}
+
+.preview-modal-section .copy-link {
+  cursor: pointer;
+  color: #27cb27;
+  background-color: #15800015;
+  border: 1.5px solid #27cb27;
+  border-radius: 15px;
+  align-items: center;
+  padding: 1.6px 10px;
+  font-size: 13px;
+  display: flex;
+  font-weight: 500;
+  margin-left: 1px;
+}
+
+.preview-tab-sec .btn,
+.preview-tab-sec .btn:active {
+  font-size: 13px;
+  border-radius: 8px;
+  padding: 7px 16px;
+  border-color: #00b2aa;
+  color: #00b2aa;
+  margin-right: 14px;
+  font-weight: 500;
+}
+
+.preview-tab-sec .btn.active {
+  background-color: #00b2aa;
+  color: #fff;
 }
 
 @media (max-width: 768px) {

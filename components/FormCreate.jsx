@@ -13,10 +13,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { IoSettingsOutline } from "react-icons/io5";
 import Select from "react-select";
 import SettingBox from "./commonComponents/SettingBox";
-import { RiExternalLinkLine } from "react-icons/ri";
 import { setPageCreateDetails } from "../redux/slices/pageCreateSlice";
 import { toast } from "react-toastify";
 import { responsiveScreenSizes, snackProps } from "../utils/customizeOptions";
+import { LuEye } from "react-icons/lu";
+import PreviewContent from "./commonComponents/PreviewContent";
 
 export const FormContext = createContext();
 
@@ -50,6 +51,8 @@ const FormCreate = () => {
   const [openImageModel, setOpenImageModel] = useState(false);
   const [openEmailSendBox, setOpenEmailSendBox] = useState(false);
   const [showIconBox, setShowIconBox] = useState(false);
+  const [openPreview, setOpenPreview] = useState(false);
+  const [previewType, setPreviewType] = useState("web");
   const [navbarProps, setNavbarProps] = useState({
     hidden: false,
     navBackgroundColor: "",
@@ -77,7 +80,9 @@ const FormCreate = () => {
   const [menuIndex, setMenuIndex] = useState(null);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const token = useSelector((user) => user.auth.authDetails.token);
-  const requestUserId = useSelector((user) => user.auth.authDetails.request_user_id);
+  const requestUserId = useSelector(
+    (user) => user.auth.authDetails.request_user_id
+  );
   const pageData = useSelector((user) => user.pageCreate.pageCreateDetails);
 
   function dataPayload(data) {
@@ -255,8 +260,9 @@ const FormCreate = () => {
     fetchTemplateList();
   }, []);
 
-  const isPageItem = (pageData?.page_item || data?.page_item);
+  const isPageItem = pageData?.page_item || data?.page_item;
   const notPageItem = !pageData?.page_item || !data?.page_item;
+  const publishedLink = `https://low-code-frontend-pi.vercel.app/web-page/${data?.page_route}`;
 
   return (
     <div className="mx-4 mt-4 element-create-sec">
@@ -308,8 +314,13 @@ const FormCreate = () => {
           openEmailSendBox,
           setOpenEmailSendBox,
           isPageItem,
-          isResize, 
-          setIsResize
+          isResize,
+          setIsResize,
+          previewType,
+          openPreview,
+          setPreviewType,
+          setOpenPreview,
+          publishedLink,
         }}
       >
         <Row>
@@ -360,15 +371,13 @@ const FormCreate = () => {
                     </span>{" "}
                     Settings
                   </button>
-                  <a
-                    role={"button"}
-                    disabled={forms[breakPoint]?.length == 0 || isPageItem}
+                  <button
                     className="web-settings-btn"
-                    href={notPageItem ? `/web-page/${data?.page_route}` : ""}
-                    target={"_blank"}
+                    onClick={() => setOpenPreview(true)}
+                    disabled={forms[breakPoint]?.length == 0 || isPageItem}
                   >
-                    <RiExternalLinkLine size={18} /> Preview
-                  </a>
+                    <LuEye size={18} /> Preview
+                  </button>
                 </div>
               </Col>
 
@@ -401,6 +410,7 @@ const FormCreate = () => {
 
         <FieldCustomizeSection />
         <SettingBox />
+        <PreviewContent />
       </FormContext>
     </div>
   );
