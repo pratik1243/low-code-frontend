@@ -14,8 +14,9 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import Image from "next/image";
 import { generateId, onResizeElement } from "../utils/customizePropFunctions";
 import { Resizable } from "re-resizable";
-import { resizeDirectionOptions } from "../utils/customizeOptions";
+import { resizeDirectionOptions, snackProps } from "../utils/customizeOptions";
 import { IoChevronForward } from "react-icons/io5";
+import { toast } from "react-toastify";
 
 const FormTemplate = () => {
   const {
@@ -117,7 +118,15 @@ const FormTemplate = () => {
               ],
         });
       } catch (err) {
-        setForms({ ...forms, [breakPoint]: [] });
+        //setForms({ ...forms, [breakPoint]: [] });
+        toast.error("Copied item is not valid JSON, Please try again!", {
+          style: {
+            width: "450px",
+            minHeight: "70px",
+          },
+          ...snackProps,
+          position: "top-right",
+        });
       }
     });
   };

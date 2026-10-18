@@ -1,4 +1,5 @@
-import { validationsRegex } from "./customizeOptions";
+import { toast } from "react-toastify";
+import { snackProps, validationsRegex } from "./customizeOptions";
 
 export function generateId(length) {
   let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -74,7 +75,7 @@ export function onResizeElement(
   parentRef,
   ref,
   parentIndex,
-  childIndex = null,
+  childIndex = null
 ) {
   const percent = (ref.offsetWidth / parentRef.current.clientWidth) * 102;
   const updateforms = forms?.map((el, i) => {
@@ -109,7 +110,7 @@ export function nestedStructure(
   currentElement,
   property,
   properType,
-  breakPoint,
+  breakPoint
 ) {
   const updateForms = forms[breakPoint]?.map((el, i) => {
     const nestedForm = el?.content?.map((ele, id) => {
@@ -127,7 +128,7 @@ export function nestedStructure(
                   data?.attribute,
                   data?.value[data?.type],
                   data?.optionIndex,
-                  data?.style,
+                  data?.style
                 ),
               }),
         };
@@ -150,7 +151,7 @@ export function nestedStructure(
                 data?.attribute,
                 data?.value[data?.type],
                 data?.optionIndex,
-                data?.style,
+                data?.style
               ),
             }),
       };
@@ -251,7 +252,7 @@ export function updateNestedForms(
   ele,
   value,
   mainIndex = null,
-  breakPoint,
+  breakPoint
 ) {
   const updateForms = forms[breakPoint]?.map((el, i) => {
     const cardContentForm = el?.props?.cards?.map((data, id) => {
@@ -349,15 +350,22 @@ export function pasteItems(e, ele, forms, setForms, breakPoint) {
               newJsonData.type == "container"
                 ? [...el?.content, ...containerData(newJsonData?.content)]
                 : newJsonData.length > 1
-                  ? [...el?.content, ...containerData(newJsonData)]
-                  : [...el?.content, jsonObj],
+                ? [...el?.content, ...containerData(newJsonData)]
+                : [...el?.content, jsonObj],
           };
         }
         return el;
       });
       setForms({ ...forms, [breakPoint]: updateData });
     } catch (err) {
-      setForms({ ...forms, [breakPoint]: [] });
+      toast.error("Copied item is not valid JSON, Please try again!", {
+        style: {
+          width: "450px",
+          minHeight: "70px",
+        },
+        ...snackProps,
+        position: "top-right",
+      });
     }
   });
 }
