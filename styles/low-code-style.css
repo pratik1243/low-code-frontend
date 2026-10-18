@@ -171,6 +171,10 @@ input {
   height: 100%;
 }
 
+.offcanvas-body:has(.image-customize-sec) {
+  background-color: #f8f8f8;
+}
+
 .main-div.scrollable {
   max-height: 590px;
   overflow-y: auto;
