@@ -2763,6 +2763,8 @@ hr {
 
 .preview-modal-section .modal-header {
   justify-content: space-between !important;
+  padding-bottom: 13px;
+  padding-top: 9px;
 }
 
 .preview-modal-section .modal-header .btn-close {
@@ -2794,6 +2796,10 @@ hr {
   color: #00b2aa;
   margin-right: 14px;
   font-weight: 500;
+}
+
+.preview-tab-sec {
+  margin-left: -85px;
 }
 
 .preview-tab-sec .btn.active {
